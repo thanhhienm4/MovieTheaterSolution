@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿
 using Microsoft.AspNetCore.Identity;
+using MovieTheater.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,8 @@ namespace MovieTheater.Data.Entities
         public DateTime Dob { get; set; }
 
         public int RoleId { get; set; }
+
+        public Status Status { get; set; }
 
     }
 }
