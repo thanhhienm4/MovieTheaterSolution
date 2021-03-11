@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheater.Admin", "MovieTheater.Admin\MovieTheater.Admin.csproj", "{441C22E5-888A-40C7-845C-86017C6759C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Admin", "MovieTheater.Admin\MovieTheater.Admin.csproj", "{441C22E5-888A-40C7-845C-86017C6759C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheater.Data", "MovieTheater.Data\MovieTheater.Data.csproj", "{EB2AFBD4-8899-4FD9-B27D-64609921F26C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Data", "MovieTheater.Data\MovieTheater.Data.csproj", "{EB2AFBD4-8899-4FD9-B27D-64609921F26C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

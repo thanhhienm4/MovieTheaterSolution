@@ -7,6 +7,7 @@ namespace MovieTheater.Data.Entities
     public class Ticket
     {
         public int Id { get; set; }
+        public int Price { get; set; }
 
         public int SeatId { get; set; }
         public Seat Seat { get; set; }

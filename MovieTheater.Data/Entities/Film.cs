@@ -10,9 +10,6 @@ namespace MovieTheater.Data.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime PublishDate { get; set; }
-        public string Director { get; set; }
-        public string Actor { get; set; }
-        public string Producer { get; set; }
         public int Length { get; set; }
 
         public int BanId { get; set; }

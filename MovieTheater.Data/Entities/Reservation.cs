@@ -22,7 +22,7 @@ namespace MovieTheater.Data.Entities
         public int? EmployeeId { get; set; }
         public AppUser Employee { get; set; }
 
-        public List<Ticket> tickets { get; set; }
+        public List<Ticket> Tickets { get; set; }
 
     }
 }
