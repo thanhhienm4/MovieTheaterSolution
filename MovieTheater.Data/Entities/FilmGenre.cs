@@ -4,11 +4,12 @@ using System.Text;
 
 namespace MovieTheater.Data.Entities
 {
-    public class KindOfFilm
+    public class FilmGenre
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public List<Film> Films { get; set; }
+        public List<FilmInGenre> FilmInGenres { get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.EFConfig;
 using MovieTheater.Data.EFConfigurations;
 using MovieTheater.Data.Entities;
@@ -18,10 +19,10 @@ namespace MovieTheater.Data.EF
         public DbSet<Screening> Screenings { get; set; }
         public DbSet<Film> Films { get; set; }
         public DbSet<Format> Formats { get; set; }
-        public DbSet<KindOfFilm> KindOfFilms { get; set; }
+        public DbSet<FilmGenre> FilmGenre { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<ReservationType> ReservationTypes { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<AppRole> Roles { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Joining> Joinings { get; set; }
@@ -29,6 +30,7 @@ namespace MovieTheater.Data.EF
         public DbSet<People> Peoples { get; set; }
         public DbSet<Position> Positions { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<FilmInGenre> FilmInGenres { get; set; }
 
         public MovieTheaterDBContext (DbContextOptions<MovieTheaterDBContext> options) : base(options) { } 
 
@@ -39,16 +41,25 @@ namespace MovieTheater.Data.EF
             modelBuilder.ApplyConfiguration(new BanConfiguration());
             modelBuilder.ApplyConfiguration(new FormatConfiguration());
             modelBuilder.ApplyConfiguration(new JoiningConfiguration());
-            modelBuilder.ApplyConfiguration(new KindOfFilmConfiguration());
+            modelBuilder.ApplyConfiguration(new FilmGenreConfiguration());
             modelBuilder.ApplyConfiguration(new KindOfSeatConfiguration());
             modelBuilder.ApplyConfiguration(new PeopleConfiguaration());
             modelBuilder.ApplyConfiguration(new ReservationConfiguration());
             modelBuilder.ApplyConfiguration(new ReservationTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
             modelBuilder.ApplyConfiguration(new RoomConfiguration());
             modelBuilder.ApplyConfiguration(new ScreeningConfiguration());
             modelBuilder.ApplyConfiguration(new SeatConfiguration());
             modelBuilder.ApplyConfiguration(new TicketConfiguration());
+            modelBuilder.ApplyConfiguration(new FilmInGenreConfiguration());
+            modelBuilder.ApplyConfiguration(new FilmConfiguration());
+            modelBuilder.ApplyConfiguration(new FilmInGenreConfiguration());
+            
+
+
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace MovieTheater.Data.Entities
         public int RoomId { get; set; }
         public Room Room { get; set; }
 
-        public List<Ticket> tickets { get; set; }
+        public List<Ticket> Tickets { get; set; }
 
     }
 }

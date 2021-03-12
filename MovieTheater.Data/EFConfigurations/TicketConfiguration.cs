@@ -14,9 +14,12 @@ namespace MovieTheater.Data.EFConfigurations
         public void Configure(EntityTypeBuilder<Ticket> builder)
         {
             builder.ToTable("Tickets");
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Price).HasDefaultValue(0);
-            
+
+            //builder.HasOne(x => x.Reservation).WithMany(x => x.Tickets).HasForeignKey(x => x.ReservationId);
+            //builder.HasOne(x => x.Seat).WithMany(x => x.Tickets).HasForeignKey(x => x.SeatId);
         }
     }
 }

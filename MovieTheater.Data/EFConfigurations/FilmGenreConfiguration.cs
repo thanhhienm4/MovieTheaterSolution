@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Data.EFConfigurations
 {
-    public class SeatConfiguration : IEntityTypeConfiguration<Seat>
+    public class FilmGenreConfiguration : IEntityTypeConfiguration<FilmGenre>
     {
-        public void Configure(EntityTypeBuilder<Seat> builder)
+        public void Configure(EntityTypeBuilder<FilmGenre> builder)
         {
-            builder.ToTable("Seats");
+            builder.ToTable("FilmGenres");
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).UseIdentityColumn();
+            builder.Property(x => x.Name).IsRequired();
 
-            builder.HasOne(x => x.KindOfSeat).WithMany(x => x.Seats).HasForeignKey(x => x.KindOfSeatId);
-            builder.HasOne(x => x.Room).WithMany(x => x.Seats).HasForeignKey(x => x.RoomId);
+            
         }
     }
 }

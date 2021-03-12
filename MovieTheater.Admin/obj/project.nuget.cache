@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "RN1966SCw/50Pb85hsV8JrdcG1+Qcrz11R4PPGF6ndaYKfasuP8mbhCEUKoTczL5WG7rvj4y8SCju34SB5JnRw==",
+  "dgSpecHash": "6NfhXgsTc7Mbr+Jex9jFXV51EXSv0J0jmKkTr6pf6umS53aUweZ4fd+fyU5RwvmKaEIaZ2TZ2HKoEYpXsjoRbQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Admin\\MovieTheater.Admin.csproj",
   "expectedPackageFiles": [
@@ -23,7 +23,6 @@
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\5.0.0\\microsoft.extensions.configuration.fileextensions.5.0.0.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.extensions.configuration.json\\5.0.0\\microsoft.extensions.configuration.json.5.0.0.nupkg.sha512",
-    "C:\\Users\\thanh\\.nuget\\packages\\microsoft.extensions.configuration.usersecrets\\5.0.0\\microsoft.extensions.configuration.usersecrets.5.0.0.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.1\\microsoft.extensions.dependencyinjection.5.0.1.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\5.0.0\\microsoft.extensions.fileproviders.abstractions.5.0.0.nupkg.sha512",

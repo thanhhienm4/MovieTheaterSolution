@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace MovieTheater.Data.Entities
 {
-    public class Role
+    public class AppRole : IdentityRole<Guid>
     {
-        public int Id { get; set; }
-        public int Name { get; set; }
-
-        public List<AppUser> Users { get; set; }
-
+        public string Description { get; set; }
     }
 }

@@ -19,6 +19,9 @@ namespace MovieTheater.Data.EFConfig
             builder.Property(x => x.LastName).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Dob).IsRequired();
             builder.Property(x => x.Status).HasDefaultValue(Status.Active);
+
+            
+
         }
     }
 }

@@ -19,5 +19,8 @@ namespace MovieTheater.Data.Entities
 
         public Status Status { get; set; }
 
+        public List<Reservation> ReservationsEmployee { get; set; }
+        public List<Reservation> ReservationsUser { get; set; }
+
     }
 }

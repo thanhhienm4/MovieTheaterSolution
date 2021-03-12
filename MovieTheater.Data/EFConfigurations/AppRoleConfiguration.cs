@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Data.EFConfigurations
 {
-    class RoleConfiguration : IEntityTypeConfiguration<Role>
+    public class AppRoleConfiguration : IEntityTypeConfiguration<AppRole>
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
+        public void Configure(EntityTypeBuilder<AppRole> builder)
         {
-            builder.ToTable("Roles");
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Name).IsRequired();
+            builder.ToTable("AppRoles");
+            builder.Property(x => x.Description).IsRequired();
         }
     }
 }

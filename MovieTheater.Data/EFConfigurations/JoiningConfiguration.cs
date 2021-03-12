@@ -16,6 +16,10 @@ namespace MovieTheater.Data.EFConfigurations
             builder.ToTable("Joinings");
             builder.HasKey(x => new { x.FilmId, x.PeppleId, x.PositionId });
 
+            builder.HasOne(x => x.Film).WithMany(x => x.Joinings).HasForeignKey(x => x.FilmId);
+            builder.HasOne(x => x.People).WithMany(x => x.Joinings).HasForeignKey(x => x.PeppleId);
+            builder.HasOne(x => x.Position).WithMany(x => x.Joinings).HasForeignKey(x => x.PositionId);
+
         }
     }
 }
