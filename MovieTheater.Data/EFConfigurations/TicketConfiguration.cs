@@ -9,17 +9,18 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Data.EFConfigurations
 {
-    public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
+    class TicketConfiguration : IEntityTypeConfiguration<Ticket>
     {
+      
         public void Configure(EntityTypeBuilder<Ticket> builder)
         {
             builder.ToTable("Tickets");
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).UseIdentityColumn();
+            builder.HasKey(x => new {x.ReservationId,x.SeatId});         
             builder.Property(x => x.Price).HasDefaultValue(0);
 
-            //builder.HasOne(x => x.Reservation).WithMany(x => x.Tickets).HasForeignKey(x => x.ReservationId);
-            //builder.HasOne(x => x.Seat).WithMany(x => x.Tickets).HasForeignKey(x => x.SeatId);
+            builder.HasOne(x => x.Reservation).WithMany(x => x.Tickets).HasForeignKey(x => x.ReservationId);
+            builder.HasOne(x => x.Seat).WithMany(x => x.Tickets).HasForeignKey(x => x.SeatId).OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

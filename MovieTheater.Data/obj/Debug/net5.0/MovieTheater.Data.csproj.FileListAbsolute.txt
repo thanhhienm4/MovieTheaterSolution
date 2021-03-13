@@ -1,6 +1,4 @@
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\bin\Debug\net5.0\MovieTheater.Data.deps.json
-C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\bin\Debug\net5.0\MovieTheater.Data.runtimeconfig.json
-C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\bin\Debug\net5.0\MovieTheater.Data.runtimeconfig.dev.json
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\bin\Debug\net5.0\MovieTheater.Data.dll
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\bin\Debug\net5.0\ref\MovieTheater.Data.dll
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\bin\Debug\net5.0\MovieTheater.Data.pdb
@@ -12,4 +10,6 @@ C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\obj\Debug\net5.
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\obj\Debug\net5.0\MovieTheater.Data.dll
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\obj\Debug\net5.0\ref\MovieTheater.Data.dll
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\obj\Debug\net5.0\MovieTheater.Data.pdb
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\bin\Debug\net5.0\MovieTheater.Data.runtimeconfig.json
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\bin\Debug\net5.0\MovieTheater.Data.runtimeconfig.dev.json
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Data\obj\Debug\net5.0\MovieTheater.Data.genruntimeconfig.cache
