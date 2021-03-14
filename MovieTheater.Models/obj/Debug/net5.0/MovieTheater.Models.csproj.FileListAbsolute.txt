@@ -1,0 +1,12 @@
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\bin\Debug\net5.0\MovieTheater.Models.deps.json
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\bin\Debug\net5.0\MovieTheater.Models.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\bin\Debug\net5.0\ref\MovieTheater.Models.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\bin\Debug\net5.0\MovieTheater.Models.pdb
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\obj\Debug\net5.0\MovieTheater.Models.csprojAssemblyReference.cache
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\obj\Debug\net5.0\MovieTheater.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\obj\Debug\net5.0\MovieTheater.Models.AssemblyInfoInputs.cache
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\obj\Debug\net5.0\MovieTheater.Models.AssemblyInfo.cs
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\obj\Debug\net5.0\MovieTheater.Models.csproj.CoreCompileInputs.cache
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\obj\Debug\net5.0\MovieTheater.Models.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\obj\Debug\net5.0\ref\MovieTheater.Models.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Models\obj\Debug\net5.0\MovieTheater.Models.pdb

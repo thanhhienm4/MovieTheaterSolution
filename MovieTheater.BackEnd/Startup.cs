@@ -1,20 +1,18 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Movietheater.Application;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd
 {
@@ -30,10 +28,15 @@ namespace MovieTheater.BackEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // For Identity  
+            services.AddTransient<UserApi, UserApi>();
+
+            // For Identity
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<MovieTheaterDBContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddDbContext<MovieTheaterDBContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("MovieTheaterDBContext")));
 
             // Add JWT Authenticate
             services.AddAuthentication(options =>
@@ -43,7 +46,7 @@ namespace MovieTheater.BackEnd
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
 
-            // Adding Jwt Bearer  
+            // Adding Jwt Bearer
             .AddJwtBearer(options =>
             {
                 options.SaveToken = true;

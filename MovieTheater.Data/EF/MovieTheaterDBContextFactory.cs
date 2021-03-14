@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.IO;
 
 namespace MovieTheater.Data.EF
 {
@@ -22,7 +21,5 @@ namespace MovieTheater.Data.EF
 
             return new MovieTheaterDBContext(optionsBuilder.Options);
         }
-
-
     }
 }

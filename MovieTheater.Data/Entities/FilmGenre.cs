@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MovieTheater.Data.Entities
 {
@@ -10,6 +8,5 @@ namespace MovieTheater.Data.Entities
         public string Name { get; set; }
 
         public List<FilmInGenre> FilmInGenres { get; set; }
-
     }
 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace MovieTheater.BackEnd.Models
 {
     public class ErrorViewModel

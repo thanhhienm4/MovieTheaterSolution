@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MovieTheater.Data.Entities
+﻿namespace MovieTheater.Data.Entities
 {
     public class Ticket
     {
@@ -12,6 +8,5 @@ namespace MovieTheater.Data.Entities
 
         public Seat Seat { get; set; }
         public int SeatId { get; set; }
-
     }
 }

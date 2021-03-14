@@ -1,0 +1,17 @@
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\bin\Debug\net5.0\MovieTheater.Data.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\bin\Debug\net5.0\MovieTheater.Models.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\bin\Debug\net5.0\MovieTheater.Data.pdb
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\obj\Debug\net5.0\Movietheater.Application.csprojAssemblyReference.cache
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\obj\Debug\net5.0\Movietheater.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\obj\Debug\net5.0\Movietheater.Application.AssemblyInfoInputs.cache
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\obj\Debug\net5.0\Movietheater.Application.AssemblyInfo.cs
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\bin\Debug\net5.0\Movietheater.Application.deps.json
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\bin\Debug\net5.0\Movietheater.Application.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\bin\Debug\net5.0\ref\Movietheater.Application.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\bin\Debug\net5.0\Movietheater.Application.pdb
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\bin\Debug\net5.0\MovieTheater.Models.pdb
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\obj\Debug\net5.0\Movietheater.Application.csproj.CoreCompileInputs.cache
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\obj\Debug\net5.0\Movietheater.Application.csproj.CopyComplete
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\obj\Debug\net5.0\Movietheater.Application.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\obj\Debug\net5.0\ref\Movietheater.Application.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\Movietheater.Application\obj\Debug\net5.0\Movietheater.Application.pdb

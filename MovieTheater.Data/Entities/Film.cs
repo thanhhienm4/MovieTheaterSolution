@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MovieTheater.Data.Entities
 {
@@ -18,10 +17,5 @@ namespace MovieTheater.Data.Entities
         public List<FilmInGenre> FilmInGenres { get; set; }
         public List<Screening> Screenings { get; set; }
         public List<Joining> Joinings { get; set; }
-
-
-
-
-
     }
 }

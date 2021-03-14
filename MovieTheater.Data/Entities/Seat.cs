@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MovieTheater.Data.Entities
 {
@@ -17,6 +15,5 @@ namespace MovieTheater.Data.Entities
         public Room Room { get; set; }
 
         public List<Ticket> Tickets { get; set; }
-
     }
 }

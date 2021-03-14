@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MovieTheater.Data
+﻿namespace MovieTheater.Data
 {
     public class Class1
     {
