@@ -148,6 +148,16 @@ namespace MovieTheater.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AppRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d17bf7ed-1ad3-4fe0-85f6-de0e9ea5b335"),
+                            ConcurrencyStamp = "095eedc8-973d-43a4-8f18-39ac38e4820b",
+                            Description = "Administrator role",
+                            Name = "Admin",
+                            NormalizedName = "Administrator"
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.AppUser", b =>
@@ -235,6 +245,31 @@ namespace MovieTheater.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AppUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a45f70b1-45e5-4343-a7f7-c980662db905"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "",
+                            Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "Mistake4@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Hien",
+                            LastName = "Nguyen Thanh",
+                            LockoutEnabled = false,
+                            LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            NormalizedEmail = "Mistakem4@gmail.com",
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPGcnoa91jr9snbugqpYkLl9BCrzKYeJuwxdUENMp6ex3XJrvA57p3NVET31nq5D1A==",
+                            PhoneNumber = "0912413908",
+                            PhoneNumberConfirmed = true,
+                            RoleId = 0,
+                            SecurityStamp = "",
+                            Status = 0,
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Ban", b =>

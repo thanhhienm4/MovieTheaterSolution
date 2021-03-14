@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "K9EsBtp8TD6t23044jCiLCFG0y7Xh8MMjDB4Ru8w3VGCCmsK/8KbGOaKNakppbqi6K9M++yihQEA+mP2jpIWMA==",
+  "dgSpecHash": "M35A/fKRGJ7fnE8OYWf/FAc/3uR4T5GJjBp9A6rSwEByAl1A7Tw7FtLvoGSd579uHFJNOscke7+NeLGzFuPcSw==",
   "success": true,
   "projectFilePath": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Admin\\MovieTheater.Admin.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\thanh\\.nuget\\packages\\braintree\\5.4.0\\braintree.5.4.0.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.4\\microsoft.aspnetcore.cryptography.internal.5.0.4.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\5.0.4\\microsoft.aspnetcore.cryptography.keyderivation.5.0.4.nupkg.sha512",
@@ -110,7 +111,9 @@
     "C:\\Users\\thanh\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\thanh\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\thanh\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\thanh\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
+    "C:\\Users\\thanh\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }
