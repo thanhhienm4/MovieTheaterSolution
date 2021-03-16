@@ -1,0 +1,15 @@
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\bin\Debug\net5.0\MovieTheater.Api.deps.json
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\bin\Debug\net5.0\MovieTheater.Api.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\bin\Debug\net5.0\ref\MovieTheater.Api.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\bin\Debug\net5.0\MovieTheater.Api.pdb
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\bin\Debug\net5.0\MovieTheater.Models.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\bin\Debug\net5.0\MovieTheater.Models.pdb
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\obj\Debug\net5.0\MovieTheater.Api.csprojAssemblyReference.cache
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\obj\Debug\net5.0\MovieTheater.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\obj\Debug\net5.0\MovieTheater.Api.AssemblyInfoInputs.cache
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\obj\Debug\net5.0\MovieTheater.Api.AssemblyInfo.cs
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\obj\Debug\net5.0\MovieTheater.Api.csproj.CoreCompileInputs.cache
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\obj\Debug\net5.0\MovieTheater.Api.csproj.CopyComplete
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\obj\Debug\net5.0\MovieTheater.Api.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\obj\Debug\net5.0\ref\MovieTheater.Api.dll
+C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.Service\obj\Debug\net5.0\MovieTheater.Api.pdb

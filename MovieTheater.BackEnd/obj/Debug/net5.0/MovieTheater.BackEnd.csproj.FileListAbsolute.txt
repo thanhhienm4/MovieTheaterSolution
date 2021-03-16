@@ -328,7 +328,6 @@ C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.BackEnd\obj\Debug\ne
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.BackEnd\obj\Debug\net5.0\MovieTheater.BackEnd.AssemblyInfoInputs.cache
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.BackEnd\obj\Debug\net5.0\MovieTheater.BackEnd.AssemblyInfo.cs
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.BackEnd\obj\Debug\net5.0\MovieTheater.BackEnd.csproj.CoreCompileInputs.cache
-C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.BackEnd\obj\Debug\net5.0\MovieTheater.BackEnd.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.BackEnd\obj\Debug\net5.0\MovieTheater.BackEnd.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.BackEnd\obj\Debug\net5.0\MovieTheater.BackEnd.RazorAssemblyInfo.cache
 C:\Users\thanh\Source\Repos\MovieTheater.Admin\MovieTheater.BackEnd\obj\Debug\net5.0\MovieTheater.BackEnd.RazorAssemblyInfo.cs

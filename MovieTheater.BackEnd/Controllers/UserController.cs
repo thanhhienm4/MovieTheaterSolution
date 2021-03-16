@@ -12,9 +12,9 @@ namespace MovieTheater.BackEnd.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserApi _userApi;
+        private readonly UserService _userApi;
 
-        public UserController(UserApi userApi)
+        public UserController(UserService userApi)
         {
             _userApi = userApi;
         }

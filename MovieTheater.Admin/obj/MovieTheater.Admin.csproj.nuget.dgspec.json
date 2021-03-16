@@ -30,6 +30,12 @@
             "projectReferences": {
               "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Data\\MovieTheater.Data.csproj": {
                 "projectPath": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Data\\MovieTheater.Data.csproj"
+              },
+              "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Models\\MovieTheater.Models.csproj": {
+                "projectPath": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Models\\MovieTheater.Models.csproj"
+              },
+              "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Service\\MovieTheater.Api.csproj": {
+                "projectPath": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Service\\MovieTheater.Api.csproj"
               }
             }
           }
@@ -44,11 +50,27 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.AspNetCore.CookiePolicy": {
+              "target": "Package",
+              "version": "[2.2.8, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.AspNetCore.Mvc.TagHelpers": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.4, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[5.0.2, )"
             }
           },
           "imports": [
@@ -148,6 +170,152 @@
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
               "version": "[5.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Models\\MovieTheater.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Models\\MovieTheater.Models.csproj",
+        "projectName": "MovieTheater.Models",
+        "projectPath": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Models\\MovieTheater.Models.csproj",
+        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Models\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Service\\MovieTheater.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Service\\MovieTheater.Api.csproj",
+        "projectName": "MovieTheater.Api",
+        "projectPath": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Service\\MovieTheater.Api.csproj",
+        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Service\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Models\\MovieTheater.Models.csproj": {
+                "projectPath": "C:\\Users\\thanh\\Source\\Repos\\MovieTheater.Admin\\MovieTheater.Models\\MovieTheater.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Http.Extensions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Session": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Http": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[6.9.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.9.0, )"
             }
           },
           "imports": [

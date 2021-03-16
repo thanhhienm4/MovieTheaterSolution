@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{577B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movietheater.Application", "Movietheater.Application\Movietheater.Application.csproj", "{882D9B85-3328-44FE-920C-3737E0AF2B5F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheater.Api", "MovieTheater.Service\MovieTheater.Api.csproj", "{1C316358-54D3-4AC9-9E9B-CFC39B6B5144}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{882D9B85-3328-44FE-920C-3737E0AF2B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{882D9B85-3328-44FE-920C-3737E0AF2B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{882D9B85-3328-44FE-920C-3737E0AF2B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C316358-54D3-4AC9-9E9B-CFC39B6B5144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C316358-54D3-4AC9-9E9B-CFC39B6B5144}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C316358-54D3-4AC9-9E9B-CFC39B6B5144}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C316358-54D3-4AC9-9E9B-CFC39B6B5144}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{2FD88ED1-9A34-4AB9-BF46-773C5456F4BF} = {24FD7F3C-DAA1-46E1-95BC-CA3DF7A6A9C1}
 		{577B0A47-3586-4236-938E-916DF7FA977F} = {FA4992E0-7DC6-4B64-8FA3-E7FEE5427FB9}
 		{882D9B85-3328-44FE-920C-3737E0AF2B5F} = {577B0A47-3586-4236-938E-916DF7FA977F}
+		{1C316358-54D3-4AC9-9E9B-CFC39B6B5144} = {FA4992E0-7DC6-4B64-8FA3-E7FEE5427FB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {305D4BA3-6A74-4522-BD1A-C1315F9551EC}
