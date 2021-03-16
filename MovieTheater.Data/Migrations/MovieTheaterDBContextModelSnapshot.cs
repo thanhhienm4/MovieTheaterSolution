@@ -148,6 +148,16 @@ namespace MovieTheater.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AppRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c5fdb35b-ebf6-42a7-b9ac-ffc1959709f3"),
+                            ConcurrencyStamp = "b2366e6b-438b-4c48-b57c-30e2a03f636d",
+                            Description = "Administrator role",
+                            Name = "Admin",
+                            NormalizedName = "Administrator"
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.AppUser", b =>
@@ -235,6 +245,31 @@ namespace MovieTheater.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AppUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("836e023f-0834-44af-9657-e123f70f08a4"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "",
+                            Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "Mistake4@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Hien",
+                            LastName = "Nguyen Thanh",
+                            LockoutEnabled = false,
+                            LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            NormalizedEmail = "Mistakem4@gmail.com",
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAECfcr57q7lMjbSSNbOuC3/QEsbuJKqcf4zUdu4Zq0I1A/jMKT80eCqTAQkXjUkXciQ==",
+                            PhoneNumber = "0912413908",
+                            PhoneNumberConfirmed = true,
+                            RoleId = 0,
+                            SecurityStamp = "",
+                            Status = 0,
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Ban", b =>
@@ -429,22 +464,15 @@ namespace MovieTheater.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
                     b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Paid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
                     b.Property<int>("ReservationTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ScreeningId")
                         .HasColumnType("int");
 
                     b.Property<Guid?>("UserId")
@@ -455,8 +483,6 @@ namespace MovieTheater.Data.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("ReservationTypeId");
-
-                    b.HasIndex("ScreeningId");
 
                     b.HasIndex("UserId");
 
@@ -564,7 +590,7 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Ticket", b =>
                 {
-                    b.Property<int>("ReservationId")
+                    b.Property<int>("ScreeningId")
                         .HasColumnType("int");
 
                     b.Property<int>("SeatId")
@@ -575,7 +601,12 @@ namespace MovieTheater.Data.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.HasKey("ReservationId", "SeatId");
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ScreeningId", "SeatId");
+
+                    b.HasIndex("ReservationId");
 
                     b.HasIndex("SeatId");
 
@@ -702,12 +733,6 @@ namespace MovieTheater.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MovieTheater.Data.Entities.Screening", "Screening")
-                        .WithMany("Reservations")
-                        .HasForeignKey("ScreeningId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MovieTheater.Data.Entities.AppUser", "User")
                         .WithMany("ReservationsUser")
                         .HasForeignKey("UserId");
@@ -715,8 +740,6 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("ReservationType");
-
-                    b.Navigation("Screening");
 
                     b.Navigation("User");
                 });
@@ -772,9 +795,13 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Ticket", b =>
                 {
-                    b.HasOne("MovieTheater.Data.Entities.Reservation", "Reservation")
+                    b.HasOne("MovieTheater.Data.Entities.Reservation", null)
                         .WithMany("Tickets")
-                        .HasForeignKey("ReservationId")
+                        .HasForeignKey("ReservationId");
+
+                    b.HasOne("MovieTheater.Data.Entities.Screening", "Screening")
+                        .WithMany("Tickets")
+                        .HasForeignKey("ScreeningId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -784,7 +811,7 @@ namespace MovieTheater.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Reservation");
+                    b.Navigation("Screening");
 
                     b.Navigation("Seat");
                 });
@@ -849,7 +876,7 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Screening", b =>
                 {
-                    b.Navigation("Reservations");
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Seat", b =>

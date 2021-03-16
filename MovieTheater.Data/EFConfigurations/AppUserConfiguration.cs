@@ -2,11 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieTheater.Data.Entities;
 using MovieTheater.Data.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieTheater.Data.EFConfig
 {
@@ -19,9 +14,6 @@ namespace MovieTheater.Data.EFConfig
             builder.Property(x => x.LastName).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Dob).IsRequired();
             builder.Property(x => x.Status).HasDefaultValue(Status.Active);
-
-
-
         }
     }
 }

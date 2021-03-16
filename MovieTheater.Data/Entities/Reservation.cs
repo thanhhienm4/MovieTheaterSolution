@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MovieTheater.Data.Entities
 {
@@ -16,13 +15,10 @@ namespace MovieTheater.Data.Entities
         public Guid? UserId { get; set; }
         public AppUser User { get; set; }
 
-        public int ScreeningId { get; set; }
-        public Screening Screening { get; set; }
 
         public Guid? EmployeeId { get; set; }
         public AppUser Employee { get; set; }
 
         public List<Ticket> Tickets { get; set; }
-
     }
 }

@@ -1,9 +1,7 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using MovieTheater.Data.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MovieTheater.Data.Entities
 {
@@ -21,6 +19,5 @@ namespace MovieTheater.Data.Entities
 
         public List<Reservation> ReservationsEmployee { get; set; }
         public List<Reservation> ReservationsUser { get; set; }
-
     }
 }

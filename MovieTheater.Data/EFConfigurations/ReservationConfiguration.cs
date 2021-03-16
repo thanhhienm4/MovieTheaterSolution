@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieTheater.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieTheater.Data.EFConfigurations
 {
@@ -15,13 +10,13 @@ namespace MovieTheater.Data.EFConfigurations
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
-            builder.Property(x => x.Paid).HasDefaultValue(false);
-            builder.Property(x => x.Active).HasDefaultValue(true);
+            builder.Property(x => x.Paid).IsRequired();
+            builder.Property(x => x.Active).IsRequired();
+          
 
             builder.HasOne(x => x.Employee).WithMany(x => x.ReservationsEmployee).HasForeignKey(x => x.EmployeeId);
             builder.HasOne(x => x.User).WithMany(x => x.ReservationsUser).HasForeignKey(x => x.UserId);
-            builder.HasOne(x => x.Screening).WithMany(x => x.Reservations).HasForeignKey(x => x.ScreeningId);
-
+           
         }
     }
 }

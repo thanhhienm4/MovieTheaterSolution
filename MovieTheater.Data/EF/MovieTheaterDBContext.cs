@@ -4,17 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.EFConfig;
 using MovieTheater.Data.EFConfigurations;
 using MovieTheater.Data.Entities;
+using MovieTheater.Data.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieTheater.Data.EF
 {
     public class MovieTheaterDBContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
-
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Ban> Bans { get; set; }
         public DbSet<Screening> Screenings { get; set; }
@@ -33,8 +29,9 @@ namespace MovieTheater.Data.EF
         public DbSet<Room> Rooms { get; set; }
         public DbSet<FilmInGenre> FilmInGenres { get; set; }
 
-        public MovieTheaterDBContext(DbContextOptions<MovieTheaterDBContext> options) : base(options) { }
-
+        public MovieTheaterDBContext(DbContextOptions<MovieTheaterDBContext> options) : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,12 +53,11 @@ namespace MovieTheater.Data.EF
             modelBuilder.ApplyConfiguration(new FilmInGenreConfiguration());
             modelBuilder.ApplyConfiguration(new FilmConfiguration());
 
-
-
-
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
             modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
+
+            modelBuilder.Seed();
         }
     }
 }

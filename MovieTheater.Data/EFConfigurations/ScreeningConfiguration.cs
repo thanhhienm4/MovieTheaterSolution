@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieTheater.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieTheater.Data.EFConfigurations
 {
@@ -21,8 +16,6 @@ namespace MovieTheater.Data.EFConfigurations
 
             builder.HasOne(x => x.Film).WithMany(x => x.Screenings).HasForeignKey(x => x.FilmId);
             builder.HasOne(x => x.Room).WithMany(x => x.Screenings).HasForeignKey(x => x.RoomId);
-
-
         }
     }
 }
