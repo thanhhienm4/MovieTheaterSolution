@@ -4,11 +4,11 @@ using MovieTheater.Data.Entities;
 
 namespace MovieTheater.Data.EFConfigurations
 {
-    public class FormatConfiguration : IEntityTypeConfiguration<Format>
+    public class RoomFormatConfiguration : IEntityTypeConfiguration<RoomFormat>
     {
-        public void Configure(EntityTypeBuilder<Format> builder)
+        public void Configure(EntityTypeBuilder<RoomFormat> builder)
         {
-            builder.ToTable("Formats");
+            builder.ToTable("RoomFormats");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Name).IsRequired();

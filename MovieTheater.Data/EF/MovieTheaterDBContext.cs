@@ -15,7 +15,7 @@ namespace MovieTheater.Data.EF
         public DbSet<Ban> Bans { get; set; }
         public DbSet<Screening> Screenings { get; set; }
         public DbSet<Film> Films { get; set; }
-        public DbSet<Format> Formats { get; set; }
+        public DbSet<RoomFormat> RoomFormats { get; set; }
         public DbSet<FilmGenre> FilmGenre { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<ReservationType> ReservationTypes { get; set; }
@@ -38,7 +38,7 @@ namespace MovieTheater.Data.EF
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new BanConfiguration());
-            modelBuilder.ApplyConfiguration(new FormatConfiguration());
+            modelBuilder.ApplyConfiguration(new RoomFormatConfiguration());
             modelBuilder.ApplyConfiguration(new JoiningConfiguration());
             modelBuilder.ApplyConfiguration(new FilmGenreConfiguration());
             modelBuilder.ApplyConfiguration(new KindOfSeatConfiguration());

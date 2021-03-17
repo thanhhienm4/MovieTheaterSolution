@@ -20,10 +20,18 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ApiResult<string>> LoginAsync(LoginRequest request)
+        public async Task<ApiResult<string>> LoginAsync([FromBody] LoginRequest request)
         {
             var result = await _userApi.LoginAsync(request);
             return result;
         }
+
+        [HttpPost("Create")]
+        public async Task<ApiResultLite> CreateAsync ([FromBody] UserCreateVMD model)
+        {
+            var result = await _userApi.CreateAsync(model);
+            return result;
+        }
+
     }
 }

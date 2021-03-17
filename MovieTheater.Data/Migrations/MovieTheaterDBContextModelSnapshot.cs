@@ -152,8 +152,8 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c5fdb35b-ebf6-42a7-b9ac-ffc1959709f3"),
-                            ConcurrencyStamp = "b2366e6b-438b-4c48-b57c-30e2a03f636d",
+                            Id = new Guid("f357660a-9a84-4acb-8386-ff8cb211d746"),
+                            ConcurrencyStamp = "625afc3d-e2a3-42d8-89b3-120bc014402b",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -249,7 +249,7 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("836e023f-0834-44af-9657-e123f70f08a4"),
+                            Id = new Guid("03aeb1ff-1fe6-4fb0-b005-8c831db8dfe3"),
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -261,7 +261,7 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAECfcr57q7lMjbSSNbOuC3/QEsbuJKqcf4zUdu4Zq0I1A/jMKT80eCqTAQkXjUkXciQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEERS+U9fM02dgPmUiNM4fa3qQADt2IEjpO/SalcSxnLJeTHlONwqkiVekVv5Shjg3A==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             RoleId = 0,
@@ -352,27 +352,6 @@ namespace MovieTheater.Data.Migrations
                     b.HasIndex("FilmGenreId");
 
                     b.ToTable("FilmInGenres");
-                });
-
-            modelBuilder.Entity("MovieTheater.Data.Entities.Format", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Formats");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Joining", b =>
@@ -526,6 +505,27 @@ namespace MovieTheater.Data.Migrations
                     b.HasIndex("FormatId");
 
                     b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.RoomFormat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoomFormats");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Screening", b =>
@@ -746,7 +746,7 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Room", b =>
                 {
-                    b.HasOne("MovieTheater.Data.Entities.Format", "Format")
+                    b.HasOne("MovieTheater.Data.Entities.RoomFormat", "Format")
                         .WithMany("Rooms")
                         .HasForeignKey("FormatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -842,11 +842,6 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("FilmInGenres");
                 });
 
-            modelBuilder.Entity("MovieTheater.Data.Entities.Format", b =>
-                {
-                    b.Navigation("Rooms");
-                });
-
             modelBuilder.Entity("MovieTheater.Data.Entities.KindOfSeat", b =>
                 {
                     b.Navigation("Seats");
@@ -872,6 +867,11 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("Screenings");
 
                     b.Navigation("Seats");
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.RoomFormat", b =>
+                {
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Screening", b =>

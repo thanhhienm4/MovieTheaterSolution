@@ -13,7 +13,6 @@ namespace MovieTheater.Data.Entities
 
         public DateTime Dob { get; set; }
 
-        public int RoleId { get; set; }
 
         public Status Status { get; set; }
 

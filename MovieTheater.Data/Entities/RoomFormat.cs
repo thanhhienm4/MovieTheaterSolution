@@ -2,7 +2,7 @@
 
 namespace MovieTheater.Data.Entities
 {
-    public class Format
+    public class RoomFormat
     {
         public int Id { get; set; }
         public string Name { get; set; }
