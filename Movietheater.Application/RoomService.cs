@@ -47,7 +47,7 @@ namespace Movietheater.Application
             {
                 room.Name = model.Name;
                 room.FormatId = model.FormatId;
-                _context.Update(room);
+                _context.Rooms.Update(room);
                 await _context.SaveChangesAsync();
 
                 return new ApiSuccessResultLite("Cập nhật thành công");

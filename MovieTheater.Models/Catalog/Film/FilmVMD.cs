@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MovieTheater.Data.Entities
+namespace MovieTheater.Models.Catalog.Film
 {
-    public class Film
+    public  class FilmVMD
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime PublishDate { get; set; }
         public int Length { get; set; }
         public string TrailerURL { get; set; }
-
         public int BanId { get; set; }
-        public Ban Ban { get; set; }
-
-        public List<FilmInGenre> FilmInGenres { get; set; }
-        public List<Screening> Screenings { get; set; }
-        public List<Joining> Joinings { get; set; }
     }
 }

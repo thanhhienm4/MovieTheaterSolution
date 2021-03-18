@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
+using MovieTheater.Data.Enums;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.User;
 using System;
@@ -21,14 +23,16 @@ namespace Movietheater.Application
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly RoleManager<AppRole> _roleManager;
 
         public UserService(MovieTheaterDBContext context, UserManager<AppUser> userManager
-            , SignInManager<AppUser> signInManager, IConfiguration configuration)
+            , SignInManager<AppUser> signInManager, IConfiguration configuration,RoleManager<AppRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _roleManager = roleManager;
         }
         public async Task<ApiResult<string>> LoginAsync(LoginRequest request)
         {
@@ -112,7 +116,78 @@ namespace Movietheater.Application
             return new ApiErrorResultLite("Tạo mới thất bại");
 
         }
+        public async Task<ApiResultLite> UpdateAsync(UserUpdateVMD model)
+        {
+            if (await _userManager.Users.AnyAsync(x => x.Email == model.Email && x.Id != model.Id))
+            {
+                return new ApiErrorResultLite("Emai đã tồn tại");
+            }
 
+            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+
+            user.Dob = model.Dob;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Status = model.Status;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return new ApiSuccessResultLite();
+            }
+            else
+                return new ApiErrorResultLite("Cập nhật không thành công");
+        }
+        public async Task<ApiResultLite> DeleteAsync(Guid Id)
+        {
+            var user =await  _userManager.FindByIdAsync(Id.ToString());
+            if (user == null)
+                return new ApiErrorResultLite("Không tìm thấy người dùng");
+            else
+            {
+                if(_userManager.GetRolesAsync(user)==null && 
+                    _context.Reservations.Where(x => x.EmployeeId ==Id)==null)
+                {
+                    var reservations = _context.Reservations.Where(x => x.UserId == Id);
+                    foreach(var reservation in reservations)
+                    {
+                        reservation.UserId = null;
+                    }
+                    _context.SaveChanges();
+                    await _userManager.DeleteAsync(user);
+                    
+                }else
+                {
+                    user.Status = Status.InActive;
+                }
+                return new  ApiSuccessResultLite();
+            }
+        }
+        public async Task<ApiResultLite> ChangePasswordAsync(ChangePWRequest request)
+        {
+           
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            if (user == null)
+            {
+                //Check confirm password
+                return new ApiErrorResultLite("Tên đăng nhập không tồn tại");
+            }
+            else
+            {
+                var result = await _signInManager.CheckPasswordSignInAsync(user, request.OldPassword, false);
+                if (result.Succeeded == false)
+                    return new ApiErrorResultLite("Mật khẩu không chính xác");
+                {
+                    await _userManager.RemovePasswordAsync(user);
+                    await _userManager.AddPasswordAsync(user, request.NewPassword);
+                    return new ApiSuccessResultLite("Đổi password thành công");
+                }
+
+            }
+           
+        }
         private bool CheckRoles(List<Guid> roles)
         {
             var listRole = _context.Roles.Select(x => x.Id).ToList();
@@ -140,6 +215,7 @@ namespace Movietheater.Application
             }
             return false;
         }
+
 
        
     }

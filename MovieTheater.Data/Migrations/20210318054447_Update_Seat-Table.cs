@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieTheater.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Update_SeatTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,6 @@ namespace MovieTheater.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Dob = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -58,7 +57,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,17 +78,17 @@ namespace MovieTheater.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Formats",
+                name: "KindOfScreenings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Surcharge = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Formats", x => x.Id);
+                    table.PrimaryKey("PK_KindOfScreenings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,7 +97,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surcharge = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -145,6 +144,20 @@ namespace MovieTheater.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ReservationTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoomFormats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomFormats", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -263,6 +276,7 @@ namespace MovieTheater.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PublishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Length = table.Column<int>(type: "int", nullable: false),
+                    TrailerURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BanId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -272,6 +286,41 @@ namespace MovieTheater.Data.Migrations
                         name: "FK_Films_Bans_BanId",
                         column: x => x.BanId,
                         principalTable: "Bans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Paid = table.Column<bool>(type: "bit", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    ReservationTypeId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservations_AppUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_ReservationTypes_ReservationTypeId",
+                        column: x => x.ReservationTypeId,
+                        principalTable: "ReservationTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -289,9 +338,9 @@ namespace MovieTheater.Data.Migrations
                 {
                     table.PrimaryKey("PK_Rooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rooms_Formats_FormatId",
+                        name: "FK_Rooms_RoomFormats_FormatId",
                         column: x => x.FormatId,
-                        principalTable: "Formats",
+                        principalTable: "RoomFormats",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -360,7 +409,8 @@ namespace MovieTheater.Data.Migrations
                     TimeStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Surcharge = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     FilmId = table.Column<int>(type: "int", nullable: false),
-                    RoomId = table.Column<int>(type: "int", nullable: false)
+                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    KindOfScreeningId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -369,6 +419,12 @@ namespace MovieTheater.Data.Migrations
                         name: "FK_Screenings_Films_FilmId",
                         column: x => x.FilmId,
                         principalTable: "Films",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Screenings_KindOfScreenings_KindOfScreeningId",
+                        column: x => x.KindOfScreeningId,
+                        principalTable: "KindOfScreenings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -385,7 +441,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Row = table.Column<int>(type: "int", nullable: false),
+                    Row = table.Column<string>(type: "varchar(1)", nullable: false),
                     Number = table.Column<int>(type: "int", nullable: false),
                     KindOfSeatId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false)
@@ -393,6 +449,7 @@ namespace MovieTheater.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Seats", x => x.Id);
+                    table.UniqueConstraint("AK_Seats_Row_Number_RoomId", x => new { x.Row, x.Number, x.RoomId });
                     table.ForeignKey(
                         name: "FK_Seats_KindOfSeats_KindOfSeatId",
                         column: x => x.KindOfSeatId,
@@ -408,62 +465,27 @@ namespace MovieTheater.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reservations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Paid = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    ReservationTypeId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ScreeningId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reservations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Reservations_AppUsers_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reservations_AppUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reservations_ReservationTypes_ReservationTypeId",
-                        column: x => x.ReservationTypeId,
-                        principalTable: "ReservationTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reservations_Screenings_ScreeningId",
-                        column: x => x.ScreeningId,
-                        principalTable: "Screenings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Tickets",
                 columns: table => new
                 {
-                    ReservationId = table.Column<int>(type: "int", nullable: false),
+                    ScreeningId = table.Column<int>(type: "int", nullable: false),
                     SeatId = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
+                    Price = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    ReservationId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tickets", x => new { x.ReservationId, x.SeatId });
+                    table.PrimaryKey("PK_Tickets", x => new { x.ScreeningId, x.SeatId });
                     table.ForeignKey(
                         name: "FK_Tickets_Reservations_ReservationId",
                         column: x => x.ReservationId,
                         principalTable: "Reservations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Screenings_ScreeningId",
+                        column: x => x.ScreeningId,
+                        principalTable: "Screenings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -472,6 +494,60 @@ namespace MovieTheater.Data.Migrations
                         principalTable: "Seats",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "AppRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
+                values: new object[] { new Guid("d95b91ce-63a6-4be1-9b59-5bd52d110287"), "0a3384d9-e032-41a3-8180-3eb9ba439357", "Administrator role", "Admin", "Administrator" });
+
+            migrationBuilder.InsertData(
+                table: "AppUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("22eae46b-540d-4836-a5d2-bbba8f3a3b09"), 0, "", new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mistake4@gmail.com", true, "Hien", "Nguyen Thanh", false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEBeeVgiccHzf8CKMWukO7mi6K5+hZN3xvYM32yRtrP89vslvZiNwp+hU68JhsP9Z2Q==", "0912413908", true, "", false, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Bans",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "18+" });
+
+            migrationBuilder.InsertData(
+                table: "FilmGenres",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Hành động" });
+
+            migrationBuilder.InsertData(
+                table: "KindOfScreenings",
+                columns: new[] { "Id", "Name", "Surcharge" },
+                values: new object[] { 1, "Chiếu sớm", 20000 });
+
+            migrationBuilder.InsertData(
+                table: "KindOfSeats",
+                columns: new[] { "Id", "Name", "Surcharge" },
+                values: new object[] { 1, "Thường", 0 });
+
+            migrationBuilder.InsertData(
+                table: "Peoples",
+                columns: new[] { "Id", "DOB", "Description", "Name" },
+                values: new object[] { 1, new DateTime(1962, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "homas Cruise Mapother IV là một nam diễn viên và nhà sản xuất người Mỹ. Anh bắt đầu sự nghiệp của mình ở tuổi 19 với bộ phim Endless Love, trước khi nhận được sự chú ý từ công chúng với vai diễn Trung úy Pete \"Maverick\" Mitchell trong Top Gun", "Tom Cruise" });
+
+            migrationBuilder.InsertData(
+                table: "RoomFormats",
+                columns: new[] { "Id", "Name", "Price" },
+                values: new object[,]
+                {
+                    { 1, "3D", 80000 },
+                    { 2, "2D", 60000 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Films",
+                columns: new[] { "Id", "BanId", "Description", "Length", "Name", "PublishDate", "TrailerURL" },
+                values: new object[] { 1, 1, "Xác ướp(tên gốc tiếng Anh: The Mummy) là một bộ phim điện ảnh phiêu lưu - hành động của Mỹ năm 2017[9][10] do Alex Kurtzman đạo diễn và David Koepp, Christopher McQuarrie cùng Dylan Kussman thực hiện phần kịch bản, dựa trên cốt truyện gốc của Kurtzman, Jon Spaihts và Jenny Lumet.", 0, "The Mummy", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null });
+
+            migrationBuilder.InsertData(
+                table: "Rooms",
+                columns: new[] { "Id", "FormatId", "Name" },
+                values: new object[] { 1, 1, "1" });
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -538,11 +614,6 @@ namespace MovieTheater.Data.Migrations
                 column: "ReservationTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_ScreeningId",
-                table: "Reservations",
-                column: "ScreeningId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_UserId",
                 table: "Reservations",
                 column: "UserId");
@@ -558,6 +629,11 @@ namespace MovieTheater.Data.Migrations
                 column: "FilmId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Screenings_KindOfScreeningId",
+                table: "Screenings",
+                column: "KindOfScreeningId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Screenings_RoomId",
                 table: "Screenings",
                 column: "RoomId");
@@ -571,6 +647,11 @@ namespace MovieTheater.Data.Migrations
                 name: "IX_Seats_RoomId",
                 table: "Seats",
                 column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_ReservationId",
+                table: "Tickets",
+                column: "ReservationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_SeatId",
@@ -620,6 +701,9 @@ namespace MovieTheater.Data.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
+                name: "Screenings");
+
+            migrationBuilder.DropTable(
                 name: "Seats");
 
             migrationBuilder.DropTable(
@@ -629,13 +713,13 @@ namespace MovieTheater.Data.Migrations
                 name: "ReservationTypes");
 
             migrationBuilder.DropTable(
-                name: "Screenings");
+                name: "Films");
+
+            migrationBuilder.DropTable(
+                name: "KindOfScreenings");
 
             migrationBuilder.DropTable(
                 name: "KindOfSeats");
-
-            migrationBuilder.DropTable(
-                name: "Films");
 
             migrationBuilder.DropTable(
                 name: "Rooms");
@@ -644,7 +728,7 @@ namespace MovieTheater.Data.Migrations
                 name: "Bans");
 
             migrationBuilder.DropTable(
-                name: "Formats");
+                name: "RoomFormats");
         }
     }
 }

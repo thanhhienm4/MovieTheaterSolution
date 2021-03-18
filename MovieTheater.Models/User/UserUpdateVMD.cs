@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieTheater.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.User
 {
-    public class UserVMD
+    public class UserUpdateVMD
     {
         public Guid Id { get; set; }
 
@@ -22,5 +23,6 @@ namespace MovieTheater.Models.User
 
         public String Password { get; set; }
 
+        public Status Status { get; set; }
     }
 }

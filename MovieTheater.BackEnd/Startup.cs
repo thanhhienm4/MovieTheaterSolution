@@ -31,7 +31,11 @@ namespace MovieTheater.BackEnd
             services.AddTransient<UserService, UserService>();
 
             // For Identity
-            services.AddIdentity<AppUser, AppRole>()
+            services.AddIdentity<AppUser, AppRole>(
+                option =>
+                {
+                    option.Password.RequireNonAlphanumeric = false;
+                })
                 .AddEntityFrameworkStores<MovieTheaterDBContext>()
                 .AddDefaultTokenProviders();
 
