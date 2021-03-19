@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.User
 {
-    public class UserCreateVMD
+    public class UserCreateRequest
     {
         public string UserName { get; set; }
 

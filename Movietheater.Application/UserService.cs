@@ -6,6 +6,8 @@ using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Data.Enums;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
+using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
 using System.Collections.Generic;
@@ -45,15 +47,18 @@ namespace Movietheater.Application
                 return new ApiErrorResult<string>("Mật khẩu không chính xác");
 
             var roles = await _userManager.GetRolesAsync(user);
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name,user.UserName),
                 new Claim(ClaimTypes.GivenName,user.FirstName),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role,string.Join(";",roles))
+                new Claim(ClaimTypes.Email, user.Email),              
 
             };
+            foreach(var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -87,18 +92,18 @@ namespace Movietheater.Application
             return new ApiSuccessResult<string>(token);
         }
 
-        public async Task<ApiResultLite> CreateAsync(UserCreateVMD model)
+        public async Task<ApiResultLite> CreateAsync(UserCreateRequest model)
         {
             if (await _userManager.FindByEmailAsync(model.Email) != null)
                 return new ApiErrorResultLite("Email đã tồn tại");
             if (await _userManager.FindByNameAsync(model.UserName) != null)
                 return new ApiErrorResultLite("UserName đã tồn tại");
 
-            var uid = Guid.NewGuid();
-            while (await _userManager.FindByIdAsync(uid.ToString()) != null)
-            {
-                uid = Guid.NewGuid();
-            }
+            //var uid = Guid.NewGuid();
+            //while (await _userManager.FindByIdAsync(uid.ToString()) != null)
+            //{
+            //    uid = Guid.NewGuid();
+            //}
 
             AppUser user = new AppUser()
             {
@@ -116,7 +121,7 @@ namespace Movietheater.Application
             return new ApiErrorResultLite("Tạo mới thất bại");
 
         }
-        public async Task<ApiResultLite> UpdateAsync(UserUpdateVMD model)
+        public async Task<ApiResultLite> UpdateAsync(UserUpdateRequest model)
         {
             if (await _userManager.Users.AnyAsync(x => x.Email == model.Email && x.Id != model.Id))
             {
@@ -179,6 +184,7 @@ namespace Movietheater.Application
                 var result = await _signInManager.CheckPasswordSignInAsync(user, request.OldPassword, false);
                 if (result.Succeeded == false)
                     return new ApiErrorResultLite("Mật khẩu không chính xác");
+                else
                 {
                     await _userManager.RemovePasswordAsync(user);
                     await _userManager.AddPasswordAsync(user, request.NewPassword);
@@ -188,27 +194,106 @@ namespace Movietheater.Application
             }
            
         }
-        private bool CheckRoles(List<Guid> roles)
+        public async Task<ApiResultLite> RoleAssign( RoleAssignRequest request)
         {
-            var listRole = _context.Roles.Select(x => x.Id).ToList();
-            if(roles!=null)
+            var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResultLite("Tài khoản không tồn tại");
+            }
+
+            // check role available 
+            List<string> roles = request.Roles.Select(x => x.Id).ToList();
+            if(!CheckRoles(roles))
+            {
+                return new ApiErrorResultLite("Yêu cầu không hợp lệ");
+            }
+
+            var removedRoles = request.Roles.Where(x => x.Selected == false).Select(x => x.Name).ToList();
+            foreach (var roleName in removedRoles)
+            {
+                if (await _userManager.IsInRoleAsync(user, roleName) == true)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, roleName);
+                }
+            }
+
+            var addedRoles = request.Roles.Where(x => x.Selected).Select(x => x.Name).ToList();
+            foreach (var roleName in addedRoles)
+            {
+                if (await _userManager.IsInRoleAsync(user, roleName) == false)
+                {
+                    if(!(await _userManager.AddToRoleAsync(user, roleName)).Succeeded)
+                    {
+                        return new ApiErrorResultLite("Xảy ra lỗi");
+                    }
+                }
+            }
+
+            return new ApiSuccessResultLite();
+        }
+        public ApiResult<PageResult<UserVMD>> GetUserPaging(UserPagingRequest request)
+        {
+            var query = from uir in _context.AppUserRoles
+                        where request.RoleId == uir.RoleId.ToString()
+                        join u in _context.AppUsers on uir.UserId equals u.Id
+                        select u;
+
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+            {
+                query = query.Where(x => x.UserName.Contains(request.Keyword)
+                                      || x.PhoneNumber.Contains(request.Keyword)
+                                      || x.FirstName.Contains(request.Keyword)
+                                      || x.LastName.Contains(request.Keyword)
+                                      || x.Email.Contains(request.Keyword)
+                                      || x.Dob.ToString().Contains(request.Keyword));
+            }
+
+            int totalRow = query.Count();
+            var item = query.OrderBy(x => x.UserName).Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageIndex).Select(x => new UserVMD()
+                {
+                    Id = x.Id,
+                    Dob = x.Dob,
+                    Email = x.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    PhoneNumber = x.PhoneNumber
+                }).ToList();
+
+            var pageResult = new PageResult<UserVMD>()
+            {
+                Item = item,
+                TotalRecord = totalRow,
+                PageIndex = request.PageIndex
+            };
+
+            return new ApiSuccessResult<PageResult<UserVMD>>(pageResult);
+
+        }
+        private bool CheckRoles(List<string> roles)
+        {
+            var listRole = _roleManager.Roles.Select(x => x.Id.ToString()).ToList();
+
+            if (roles != null)
             {
                 if (listRole == null)
                     return false;
-                foreach(var role in roles)
-                { 
-                    if(!CheckRole(role,listRole))
+                foreach (var role in roles)
+                {
+                    if (!CheckRole(role, listRole))
                     {
                         return false;
                     }
                 }
-                
+
             }
             return true;
         }
-        private bool CheckRole(Guid role, List<Guid> roles)
+        private bool CheckRole(string role, List<string> roles)
         {
-            for(int i=0;i<= 0;i++)
+            for (int i = 0; i <= 0; i++)
             {
                 if (role == roles[i])
                     return true;
@@ -217,6 +302,7 @@ namespace Movietheater.Application
         }
 
 
-       
+
+
     }
 }

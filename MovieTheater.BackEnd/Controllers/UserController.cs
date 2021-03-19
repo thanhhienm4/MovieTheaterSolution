@@ -2,6 +2,7 @@
 using Movietheater.Application;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.User;
+using System;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -27,11 +28,31 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync ([FromBody] UserCreateVMD model)
+        public async Task<ApiResultLite> CreateAsync ([FromBody] UserCreateRequest request)
         {
-            var result = await _userApi.CreateAsync(model);
+            var result = await _userApi.CreateAsync(request);
             return result;
         }
 
+        [HttpPost("Delete")]
+        public async Task<ApiResultLite> DeleteAsync(Guid id)
+        {
+            var result = await _userApi.DeleteAsync(id);
+            return result;
+        }
+
+        [HttpPost("Update")]
+        public async Task<ApiResultLite> UpdateAsync([FromBody] UserUpdateRequest request)
+        {
+            var result = await _userApi.UpdateAsync(request);
+            return result;
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<ApiResultLite> ChangePasswordAsync([FromBody] ChangePWRequest request)
+        {
+            var result = await _userApi.ChangePasswordAsync(request);
+            return result;
+        }
     }
 }

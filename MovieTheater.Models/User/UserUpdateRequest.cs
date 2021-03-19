@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.User
 {
-    public class UserUpdateVMD
+    public class UserUpdateRequest
     {
         public Guid Id { get; set; }
 

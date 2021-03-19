@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieTheater.Models.Infra.Room
+namespace MovieTheater.Models.Common
 {
-    public class RoomVMD
+    public class SelectedItem
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
-        public int FormatId { get; set; }
+        public bool Selected { get; set; }
     }
 }

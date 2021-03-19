@@ -29,6 +29,7 @@ namespace MovieTheater.Data.EF
         public DbSet<Room> Rooms { get; set; }
         public DbSet<FilmInGenre> FilmInGenres { get; set; }
         public DbSet<KindOfScreening> KindOfScreenings { get; set; }
+        public DbSet<IdentityUserRole<Guid>> AppUserRoles { get; set; }
 
         public MovieTheaterDBContext(DbContextOptions<MovieTheaterDBContext> options) : base(options)
         {
@@ -57,7 +58,7 @@ namespace MovieTheater.Data.EF
 
 
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
-            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
+            //modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
 
             modelBuilder.Seed();

@@ -29,7 +29,7 @@ namespace MovieTheater.BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<UserService, UserService>();
-
+            services.AddTransient<RoleService, RoleService>();
             // For Identity
             services.AddIdentity<AppUser, AppRole>(
                 option =>
@@ -123,7 +123,7 @@ namespace MovieTheater.BackEnd
             });
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

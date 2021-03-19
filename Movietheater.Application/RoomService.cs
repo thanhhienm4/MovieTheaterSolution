@@ -20,7 +20,7 @@ namespace Movietheater.Application
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync (RoomCreateVMD model)
+        public async Task<ApiResultLite> CreateAsync (RoomCreateRequest model)
         {
             var room = new Room()
             {
@@ -36,7 +36,7 @@ namespace Movietheater.Application
             return new ApiSuccessResultLite("Thêm thành công");
 
         }
-        public async Task<ApiResultLite> UpdateAsync(RoomVMD model)
+        public async Task<ApiResultLite> UpdateAsync(RoomUpdateRequest model)
         {
             Room room = await _context.Rooms.FindAsync(model.Id);
             if (room == null)
