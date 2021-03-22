@@ -232,17 +232,26 @@ namespace Movietheater.Application
 
             return new ApiSuccessResultLite();
         }
-        public ApiResult<PageResult<UserVMD>> GetUserPaging(UserPagingRequest request)
+        public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
-            var query = from uir in _context.AppUserRoles
-                        where request.RoleId == uir.RoleId.ToString()
-                        join u in _context.AppUsers on uir.UserId equals u.Id
-                        select u;
+            var query = _context.AppUserRoles.Select(x => x);
 
+            if (!string.IsNullOrWhiteSpace(request.RoleId))
+                query = query.Where(x => x.RoleId.ToString() == request.RoleId);
 
-            if (!string.IsNullOrEmpty(request.Keyword))
+            var users = query.Join(_context.AppUsers,
+                                ur => ur.UserId,
+                                u => u.Id,
+                                (ur, u) => u);
+
+            if (request.Status != null)
             {
-                query = query.Where(x => x.UserName.Contains(request.Keyword)
+                users = users.Where(x => x.Status == request.Status);
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Keyword))
+            {
+                users = users.Where(x => x.UserName.Contains(request.Keyword)
                                       || x.PhoneNumber.Contains(request.Keyword)
                                       || x.FirstName.Contains(request.Keyword)
                                       || x.LastName.Contains(request.Keyword)
@@ -250,8 +259,8 @@ namespace Movietheater.Application
                                       || x.Dob.ToString().Contains(request.Keyword));
             }
 
-            int totalRow = query.Count();
-            var item = query.OrderBy(x => x.UserName).Skip((request.PageIndex - 1) * request.PageSize)
+            int totalRow = await users.CountAsync();
+            var item = users.OrderBy(x => x.UserName).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageIndex).Select(x => new UserVMD()
                 {
                     Id = x.Id,
@@ -259,14 +268,18 @@ namespace Movietheater.Application
                     Email = x.Email,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
-                    PhoneNumber = x.PhoneNumber
+                    PhoneNumber = x.PhoneNumber,
+                    UserName = x.UserName,
+                    Status = x.Status
                 }).ToList();
 
             var pageResult = new PageResult<UserVMD>()
             {
-                Item = item,
+               
                 TotalRecord = totalRow,
-                PageIndex = request.PageIndex
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Item = item,
             };
 
             return new ApiSuccessResult<PageResult<UserVMD>>(pageResult);

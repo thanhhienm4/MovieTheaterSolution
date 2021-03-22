@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieTheater.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,10 @@ namespace MovieTheater.Models.User
         public String Email { get; set; }
 
         public String PhoneNumber { get; set; }
+
+        public string UserName { get; set;}
+
+        public Status Status { get; set; }
 
     }
 }

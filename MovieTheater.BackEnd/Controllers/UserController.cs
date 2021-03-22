@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.User;
 using System;
 using System.Threading.Tasks;
@@ -52,6 +53,12 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResultLite> ChangePasswordAsync([FromBody] ChangePWRequest request)
         {
             var result = await _userApi.ChangePasswordAsync(request);
+            return result;
+        }
+        [HttpPost("GetUserPaging")]
+        public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
+        {
+            var result = await _userApi.GetUserPagingAsync(request);
             return result;
         }
     }

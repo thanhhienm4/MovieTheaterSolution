@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.User;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,11 @@ namespace MovieTheater.Api
         {
             return await PostAsync<ApiResult<string>>("/api/User/Login", request);
         }
+        public async Task<ApiResult<PageResult<UserVMD>>> GetUserPaging(UserPagingRequest request)
+        {
+            return await PostAsync<ApiResult<PageResult<UserVMD>>>("/api/User/GetUserPaging", request);
+        }
+
        
     }
 }
