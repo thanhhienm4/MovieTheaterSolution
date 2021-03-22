@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
+    //hello
     public class BaseController : Controller
     {
         public override void OnActionExecuting(ActionExecutingContext context)
