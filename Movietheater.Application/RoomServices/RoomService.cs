@@ -11,7 +11,7 @@ using MovieTheater.Data.Entities;
 namespace Movietheater.Application.RoomServices
 {
 
-    public class RoomService
+    public class RoomService :IRoomService
     {
         private readonly MovieTheaterDBContext _context;
 

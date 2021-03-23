@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.Catalog.Reservation
 {
-    class TicketCreateRequest
+    public class TicketCreateRequest
     {
+        public int Price { get; set; }
+        public int ScreeningId { get; set; }
+        public int SeatId { get; set; }
     }
 }

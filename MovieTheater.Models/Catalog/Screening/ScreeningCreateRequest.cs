@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.Catalog.Screening
 {
-    class ScreeningCreateRequest
+    public class ScreeningCreateRequest
     {
+        public DateTime TimeStart { get; set; }
+        public int Surcharge { get; set; }
+
+        public int FilmId { get; set; }
+
+        public int RoomId { get; set; }
+
+
+        public int KindOfScreeningId { get; set; }
     }
 }

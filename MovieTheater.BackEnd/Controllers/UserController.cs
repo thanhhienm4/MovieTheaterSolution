@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Movietheater.Application.UserService;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.User;
@@ -14,9 +14,9 @@ namespace MovieTheater.BackEnd.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserService _userApi;
+        private readonly IUserService _userApi;
 
-        public UserController(UserService userApi)
+        public UserController(IUserService userApi)
         {
             _userApi = userApi;
         }

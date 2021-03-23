@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.Catalog.Film
 {
-    class PeopleCreateRequesr
+    public class PeopleCreateRequest
     {
+        public DateTime DOB { get; set; }
+        public string Description { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.Catalog.Film
 {
-    class FilmGenreUpdateRequest
+    public class FilmGenreUpdateRequest
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

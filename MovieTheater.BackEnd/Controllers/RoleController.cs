@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Movietheater.Application.UserService.UserServices;
+using Movietheater.Application.UserServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
 using System;
@@ -15,8 +16,8 @@ namespace MovieTheater.BackEnd.Controllers
     [ApiController]
     public class RoleController : Controller
     {
-        private readonly RoleService _roleService;
-        public RoleController(RoleService roleService)
+        private readonly IRoleService _roleService;
+        public RoleController(IRoleService roleService)
         {
             _roleService = roleService;
         }

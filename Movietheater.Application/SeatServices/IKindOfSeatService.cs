@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Movietheater.Application.SeatServices
 {
-    interface IKindOfSeatService
+    public interface IKindOfSeatService
     {
         Task<ApiResultLite> CreateAsync(KindOfSeatCreateRequest request);
         Task<ApiResultLite> UpdateAsync(KindOfSeatUpdateRequest request);
