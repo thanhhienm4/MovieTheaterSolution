@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application
+namespace Movietheater.Application.UserService.UserServices
 {
     public class RoleService
     {
@@ -25,9 +25,9 @@ namespace Movietheater.Application
                 Description = model.Description
             };
             IdentityResult result = await _roleManager.CreateAsync(role);
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
-                return  new ApiSuccessResultLite("Tạo mới thành công");
+                return new ApiSuccessResultLite("Tạo mới thành công");
             }
             else
             {
@@ -37,10 +37,10 @@ namespace Movietheater.Application
         public async Task<ApiResultLite> Delete(Guid id)
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());
-            if(role != null)
+            if (role != null)
             {
                 IdentityResult result = await _roleManager.DeleteAsync(role);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     return new ApiSuccessResultLite("Cập nhật thành công");
                 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Movietheater.Application;
+using Movietheater.Application.UserService.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
 using System;

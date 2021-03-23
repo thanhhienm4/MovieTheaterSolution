@@ -1,16 +1,14 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieTheater.Models.Infra.Room.Format
+namespace MovieTheater.Models.Catalog.Film
 {
-    public class RoomFormatCreateRequest
+    public class BanUpdateRequest
     {
-        
+        public int Id { get; set; }
         public string Name { get; set; }
-        public int Price { get; set; }
     }
 }

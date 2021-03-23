@@ -1,17 +1,17 @@
 ﻿using MovieTheater.Data.EF;
-using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Infra.Room;
+using MovieTheater.Models.Infra.RoomModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MovieTheater.Data.Entities;
 
-namespace Movietheater.Application
+namespace Movietheater.Application.RoomServices
 {
 
-    public  class RoomService
+    public class RoomService
     {
         private readonly MovieTheaterDBContext _context;
 
@@ -20,7 +20,7 @@ namespace Movietheater.Application
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync (RoomCreateRequest model)
+        public async Task<ApiResultLite> CreateAsync(RoomCreateRequest model)
         {
             var room = new Room()
             {
@@ -28,8 +28,8 @@ namespace Movietheater.Application
                 FormatId = model.FormatId
             };
 
-            await _context.AddAsync(room);
-            if((await _context.SaveChangesAsync()) == 0)
+            await _context.Rooms.AddAsync(room);
+            if (await _context.SaveChangesAsync() == 0)
             {
                 return new ApiErrorResultLite("Không thể thêm phòng");
             }
@@ -57,7 +57,7 @@ namespace Movietheater.Application
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
             Room room = await _context.Rooms.FindAsync(id);
-            if(room == null)
+            if (room == null)
             {
                 return new ApiErrorResultLite("Không tìm thấy phòng");
             }

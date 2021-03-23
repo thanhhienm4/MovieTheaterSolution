@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieTheater.Models.Infra.Room.Format
+namespace MovieTheater.Models.Infra.RoomModels
 {
-    public class RoomFormatUpdateRequest
+    public class RoomUpdateRequest
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Price { get; set; }
+        public int FormatId { get; set; }
     }
 }

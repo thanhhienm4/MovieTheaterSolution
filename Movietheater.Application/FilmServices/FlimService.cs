@@ -8,14 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application
+namespace Movietheater.Application.FilmServices
 {
-    public class FlimService
+    public class FlimService :IFilmService
     {
         private readonly MovieTheaterDBContext _context;
         public FlimService(MovieTheaterDBContext context)
         {
-            _context =  context;
+            _context = context;
         }
 
 
@@ -32,7 +32,7 @@ namespace Movietheater.Application
             };
 
             await _context.AddAsync(room);
-            if ((await _context.SaveChangesAsync()) == 0)
+            if (await _context.SaveChangesAsync() == 0)
             {
                 return new ApiErrorResultLite("Không thể thêm phòng");
             }
@@ -75,5 +75,10 @@ namespace Movietheater.Application
                 return new ApiSuccessResultLite("Xóa thành công");
             }
         }
+
+        //
+        
+
+
     }
 }

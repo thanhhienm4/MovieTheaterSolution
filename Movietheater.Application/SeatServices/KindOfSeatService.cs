@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application
+namespace Movietheater.Application.SeatServices
 {
     public class KindOfSeatService : IKindOfSeatService
     {
@@ -26,13 +26,23 @@ namespace Movietheater.Application
             };
             _context.KindOfSeats.Add(kindOfSeat);
             int result = await _context.SaveChangesAsync();
-            if(result == 0)
+            if (result == 0)
             {
                 return new ApiErrorResultLite("Tạo mới thất bại");
             }
 
             return new ApiSuccessResultLite();
 
+        }
+
+        public Task<ApiResultLite> DeleteAsync(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResultLite> UpdateAsync(KindOfSeatUpdateRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

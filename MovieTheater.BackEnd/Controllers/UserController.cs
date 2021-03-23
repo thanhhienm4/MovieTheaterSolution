@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Movietheater.Application;
+using Movietheater.Application.UserService;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.User;

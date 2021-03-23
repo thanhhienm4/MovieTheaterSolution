@@ -1,14 +1,14 @@
 ﻿using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Infra.Room.Format;
+using MovieTheater.Models.Infra.RoomModels.Format;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application
+namespace Movietheater.Application.RoomServices
 {
     public class RoomFormatFormatService
     {

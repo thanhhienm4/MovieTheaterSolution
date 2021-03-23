@@ -6,10 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application
+namespace Movietheater.Application.SeatServices
 {
     interface IKindOfSeatService
     {
-         Task<ApiResultLite> CreateAsync(KindOfSeatCreateRequest request);
+        Task<ApiResultLite> CreateAsync(KindOfSeatCreateRequest request);
+        Task<ApiResultLite> UpdateAsync(KindOfSeatUpdateRequest request);
+        Task<ApiResultLite> DeleteAsync(int Id);
+
     }
 }
