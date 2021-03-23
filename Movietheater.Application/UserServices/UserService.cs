@@ -17,9 +17,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.UserService
+namespace Movietheater.Application.UserServices
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly MovieTheaterDBContext _context;
         private readonly UserManager<AppUser> _userManager;

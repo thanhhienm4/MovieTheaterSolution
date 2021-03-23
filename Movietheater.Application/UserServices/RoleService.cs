@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.UserService.UserServices
+namespace Movietheater.Application.UserServices
 {
-    public class RoleService
+    public class RoleService : IRoleService
     {
         private readonly RoleManager<AppRole> _roleManager;
         public RoleService(RoleManager<AppRole> roleManager)

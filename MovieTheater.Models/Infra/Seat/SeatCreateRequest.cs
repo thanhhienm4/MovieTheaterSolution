@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.Infra.Seat
 {
-    public class SeatCreateVMD
+    public class SeatCreateRequest
     {
         public char Row { get; set; }
         public int Number { get; set; }

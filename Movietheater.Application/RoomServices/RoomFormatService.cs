@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Movietheater.Application.RoomServices
 {
-    public class RoomFormatFormatService
+    public class RoomFormatService :IRoomFormatService
     {
         private readonly MovieTheaterDBContext _context;
-        public RoomFormatFormatService(MovieTheaterDBContext context)
+        public RoomFormatService(MovieTheaterDBContext context)
         {
             _context = context;
         }
