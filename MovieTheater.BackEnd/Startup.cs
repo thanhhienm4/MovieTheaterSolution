@@ -8,7 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Movietheater.Application;
+using Movietheater.Application.UserService;
+using Movietheater.Application.UserService.UserServices;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using System.Collections.Generic;
@@ -29,9 +30,13 @@ namespace MovieTheater.BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<UserService, UserService>();
-
+            services.AddTransient<RoleService, RoleService>();
             // For Identity
-            services.AddIdentity<AppUser, AppRole>()
+            services.AddIdentity<AppUser, AppRole>(
+                option =>
+                {
+                    option.Password.RequireNonAlphanumeric = false;
+                })
                 .AddEntityFrameworkStores<MovieTheaterDBContext>()
                 .AddDefaultTokenProviders();
 
@@ -119,7 +124,7 @@ namespace MovieTheater.BackEnd
             });
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

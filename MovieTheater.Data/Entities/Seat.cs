@@ -5,7 +5,7 @@ namespace MovieTheater.Data.Entities
     public class Seat
     {
         public int Id { get; set; }
-        public int Row { get; set; }
+        public char Row { get; set; }
         public int Number { get; set; }
 
         public int KindOfSeatId { get; set; }

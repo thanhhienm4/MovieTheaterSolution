@@ -28,6 +28,7 @@ namespace MovieTheater.Admin
             services.AddMvc()
                 .AddSessionStateTempDataProvider();
             services.AddSession();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {

@@ -67,21 +67,23 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("UserId");
+                    b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.ToTable("AppUserLogins");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -152,8 +154,8 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c5fdb35b-ebf6-42a7-b9ac-ffc1959709f3"),
-                            ConcurrencyStamp = "b2366e6b-438b-4c48-b57c-30e2a03f636d",
+                            Id = new Guid("2e015b35-8986-464d-8383-3bbdfdf8ebe6"),
+                            ConcurrencyStamp = "da1a0920-75b0-4ae8-a629-091852408aac",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -216,9 +218,6 @@ namespace MovieTheater.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -249,7 +248,7 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("836e023f-0834-44af-9657-e123f70f08a4"),
+                            Id = new Guid("b98d47c3-59f1-488a-bd3c-fb373bf4e62f"),
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -261,10 +260,9 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAECfcr57q7lMjbSSNbOuC3/QEsbuJKqcf4zUdu4Zq0I1A/jMKT80eCqTAQkXjUkXciQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJbXzFt/AtZUcL6HTGKjVxowpoxsQ7782M9VCaTSVB1Uf+PYy0+oSAC/cktLEKaTrg==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
-                            RoleId = 0,
                             SecurityStamp = "",
                             Status = 0,
                             TwoFactorEnabled = false,
@@ -281,12 +279,20 @@ namespace MovieTheater.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Bans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "18+"
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Film", b =>
@@ -314,11 +320,25 @@ namespace MovieTheater.Data.Migrations
                     b.Property<DateTime>("PublishDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("TrailerURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BanId");
 
                     b.ToTable("Films");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BanId = 1,
+                            Description = "Xác ướp(tên gốc tiếng Anh: The Mummy) là một bộ phim điện ảnh phiêu lưu - hành động của Mỹ năm 2017[9][10] do Alex Kurtzman đạo diễn và David Koepp, Christopher McQuarrie cùng Dylan Kussman thực hiện phần kịch bản, dựa trên cốt truyện gốc của Kurtzman, Jon Spaihts và Jenny Lumet.",
+                            Length = 0,
+                            Name = "The Mummy",
+                            PublishDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.FilmGenre", b =>
@@ -337,6 +357,13 @@ namespace MovieTheater.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FilmGenres");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Hành động"
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.FilmInGenre", b =>
@@ -352,27 +379,6 @@ namespace MovieTheater.Data.Migrations
                     b.HasIndex("FilmGenreId");
 
                     b.ToTable("FilmInGenres");
-                });
-
-            modelBuilder.Entity("MovieTheater.Data.Entities.Format", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Formats");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Joining", b =>
@@ -395,6 +401,36 @@ namespace MovieTheater.Data.Migrations
                     b.ToTable("Joinings");
                 });
 
+            modelBuilder.Entity("MovieTheater.Data.Entities.KindOfScreening", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Surcharge")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("KindOfScreenings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Chiếu sớm",
+                            Surcharge = 20000
+                        });
+                });
+
             modelBuilder.Entity("MovieTheater.Data.Entities.KindOfSeat", b =>
                 {
                     b.Property<int>("Id")
@@ -404,8 +440,9 @@ namespace MovieTheater.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Surcharge")
                         .HasColumnType("int");
@@ -413,6 +450,14 @@ namespace MovieTheater.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("KindOfSeats");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Thường",
+                            Surcharge = 0
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.People", b =>
@@ -437,6 +482,15 @@ namespace MovieTheater.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Peoples");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DOB = new DateTime(1962, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "homas Cruise Mapother IV là một nam diễn viên và nhà sản xuất người Mỹ. Anh bắt đầu sự nghiệp của mình ở tuổi 19 với bộ phim Endless Love, trước khi nhận được sự chú ý từ công chúng với vai diễn Trung úy Pete \"Maverick\" Mitchell trong Top Gun",
+                            Name = "Tom Cruise"
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Position", b =>
@@ -526,6 +580,49 @@ namespace MovieTheater.Data.Migrations
                     b.HasIndex("FormatId");
 
                     b.ToTable("Rooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FormatId = 1,
+                            Name = "1"
+                        });
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.RoomFormat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoomFormats");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "3D",
+                            Price = 80000
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "2D",
+                            Price = 60000
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Screening", b =>
@@ -538,6 +635,9 @@ namespace MovieTheater.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("FilmId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KindOfScreeningId")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomId")
@@ -555,6 +655,8 @@ namespace MovieTheater.Data.Migrations
 
                     b.HasIndex("FilmId");
 
+                    b.HasIndex("KindOfScreeningId");
+
                     b.HasIndex("RoomId");
 
                     b.ToTable("Screenings");
@@ -565,6 +667,8 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("KindOfSeatId")
@@ -576,10 +680,13 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Row")
-                        .HasColumnType("int");
+                    b.Property<string>("Row")
+                        .IsRequired()
+                        .HasColumnType("varchar(1)");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Row", "Number", "RoomId");
 
                     b.HasIndex("KindOfSeatId");
 
@@ -746,7 +853,7 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Room", b =>
                 {
-                    b.HasOne("MovieTheater.Data.Entities.Format", "Format")
+                    b.HasOne("MovieTheater.Data.Entities.RoomFormat", "Format")
                         .WithMany("Rooms")
                         .HasForeignKey("FormatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -763,6 +870,12 @@ namespace MovieTheater.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MovieTheater.Data.Entities.KindOfScreening", "KindOfScreening")
+                        .WithMany("Screenings")
+                        .HasForeignKey("KindOfScreeningId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MovieTheater.Data.Entities.Room", "Room")
                         .WithMany("Screenings")
                         .HasForeignKey("RoomId")
@@ -770,6 +883,8 @@ namespace MovieTheater.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Film");
+
+                    b.Navigation("KindOfScreening");
 
                     b.Navigation("Room");
                 });
@@ -842,9 +957,9 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("FilmInGenres");
                 });
 
-            modelBuilder.Entity("MovieTheater.Data.Entities.Format", b =>
+            modelBuilder.Entity("MovieTheater.Data.Entities.KindOfScreening", b =>
                 {
-                    b.Navigation("Rooms");
+                    b.Navigation("Screenings");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.KindOfSeat", b =>
@@ -872,6 +987,11 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("Screenings");
 
                     b.Navigation("Seats");
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.RoomFormat", b =>
+                {
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Screening", b =>
