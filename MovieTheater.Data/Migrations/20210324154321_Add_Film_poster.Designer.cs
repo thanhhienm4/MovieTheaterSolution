@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieTheater.Data.EF;
 
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDBContext))]
-    partial class MovieTheaterDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210324154321_Add_Film_poster")]
+    partial class Add_Film_poster
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,8 +156,8 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4ebea1ba-8899-4113-876c-92303aa1aac9"),
-                            ConcurrencyStamp = "26688dc6-15e2-49e5-900a-1234d332c2ef",
+                            Id = new Guid("3bbb4d1b-da49-4f41-8f4e-baaab76e57fc"),
+                            ConcurrencyStamp = "d1ff40b4-7468-4d4b-921d-ca7a76b6d90c",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -248,7 +250,7 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dba80de2-7f39-410c-bea1-036fb713a9ca"),
+                            Id = new Guid("5b5138c7-6ab9-485d-919a-d0d49460133f"),
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -260,7 +262,7 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL46Wla5k4uAP8B+rU09ulKmO4XYs6Vm8b1TjHmDn5cD3Gp+DTYEwQT5zzvqk/sooA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHImt5MAe7YP+B4+uiicdDKfJOR3GZTZyJksJGs6zPiFg9BXtP1nlkKuXR/3y+Gn+A==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
@@ -555,20 +557,12 @@ namespace MovieTheater.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Name")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("ReservationTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Đặt trực tiếp"
-                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Room", b =>
@@ -680,7 +674,7 @@ namespace MovieTheater.Data.Migrations
                             KindOfScreeningId = 1,
                             RoomId = 1,
                             Surcharge = 20000,
-                            TimeStart = new DateTime(2021, 3, 24, 16, 6, 16, 290, DateTimeKind.Utc).AddTicks(2365)
+                            TimeStart = new DateTime(2021, 3, 24, 15, 43, 19, 194, DateTimeKind.Utc).AddTicks(3592)
                         });
                 });
 

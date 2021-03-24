@@ -196,7 +196,7 @@ namespace Movietheater.Application.UserServices
             }
 
         }
-        public async Task<ApiResultLite> RoleAssign(RoleAssignRequest request)
+        public async Task<ApiResultLite> RoleAssignAsync(RoleAssignRequest request)
         {
             var user = await _userManager.FindByIdAsync(request.UserId.ToString());
             if (user == null)
@@ -233,6 +233,28 @@ namespace Movietheater.Application.UserServices
             }
 
             return new ApiSuccessResultLite();
+        }
+        public async Task<ApiResult<UserVMD>> GetUserByIdAsync (string id)
+        {
+            var user = await  _userManager.FindByIdAsync(id);
+            if(user == null)
+            {
+                return new ApiErrorResult<UserVMD>("Người dùng không tồn tại");
+            }
+
+            var userVMD = new UserVMD()
+            {
+                Dob = user.Dob,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Id = user.Id,
+                PhoneNumber = user.PhoneNumber,
+                Status = user.Status,
+                UserName = user.UserName
+            };
+
+            return new ApiSuccessResult<UserVMD>(userVMD);
         }
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {

@@ -34,9 +34,9 @@ namespace Movietheater.Application.UserServices
                 return new ApiErrorResultLite("Tạo mới thất bại");
             }
         }
-        public async Task<ApiResultLite> Delete(Guid id)
+        public async Task<ApiResultLite> DeleteAsync(string id)
         {
-            var role = await _roleManager.FindByIdAsync(id.ToString());
+            var role = await _roleManager.FindByIdAsync(id);
             if (role != null)
             {
                 IdentityResult result = await _roleManager.DeleteAsync(role);
@@ -54,29 +54,21 @@ namespace Movietheater.Application.UserServices
                 return new ApiErrorResultLite("Role không tồn tại");
             }
         }
-        public async Task<ApiResultLite> Update(RoleUpdateRequest model)
+        public async Task<ApiResultLite> UpdateAsync(RoleUpdateRequest model)
         {
-            var role = await _roleManager.FindByIdAsync(model.Id.ToString());
-            if (role != null)
-            {
-                role.Name = model.Name;
-                role.Description = model.Description;
-
-                IdentityResult result = await _roleManager.UpdateAsync(role);
-                if (result.Succeeded)
-                {
-                    return new ApiSuccessResultLite("Cập nhật thành công");
-                }
-                else
-                {
-                    return new ApiErrorResultLite("Không thể cập nhật");
-                }
-            }
-            else
-            {
+            var role =await _roleManager.FindByIdAsync(model.Id.ToString());
+            if (role == null)
                 return new ApiErrorResultLite("Role không tồn tại");
-            }
-        }
 
+            role.Name = model.Name;
+            role.Description = model.Description;
+            var result = await _roleManager.UpdateAsync(role);
+
+            if (!result.Succeeded)
+                return new ApiErrorResultLite("Cập nhật không thành công");
+            return new ApiSuccessResultLite();
+            
+        }
+        
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.UserServices;
-using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
 using System;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
 {
-    [Authorize(Roles ="Admin")]
+//[Authorize(Roles ="Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class RoleController : Controller
@@ -22,11 +21,27 @@ namespace MovieTheater.BackEnd.Controllers
             _roleService = roleService;
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<ApiResultLite> CreateAsync(RoleCreateRequest model)
         {
             var result = await _roleService.CreateAsync(model);
             return result;
         }
+
+        [HttpPost("Update")]
+        public async Task<ApiResultLite> UpdateAsync(RoleUpdateRequest request)
+        {
+            var result = await _roleService.UpdateAsync(request);
+            return result;
+        }
+
+        [HttpDelete("Delete/{id}")]
+        public async Task<ApiResultLite> DeleteAsync(string id)
+        {
+            var result = await _roleService.DeleteAsync(id);
+            return result;
+        }
+
+
     }
 }

@@ -10,8 +10,8 @@ namespace Movietheater.Application.FilmServices
 {
     public interface IFilmService
     {
-        Task<ApiResultLite> CreateAsync(FilmCreateVMD model);
-        Task<ApiResultLite> UpdateAsync(FilmVMD model);
+        Task<ApiResultLite> CreateAsync(FilmCreateRequest model);
+        Task<ApiResultLite> UpdateAsync(FilmUpdateRequest model);
         Task<ApiResultLite> DeleteAsync(int id);
 
         //ban service

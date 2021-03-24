@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Movietheater.Application.FilmServices;
 using Movietheater.Application.ReservationService.cs;
+using Movietheater.Application.ReservationServices.cs;
 using Movietheater.Application.RoomServices;
 using Movietheater.Application.ScreeningServices;
 using Movietheater.Application.SeatServices;
@@ -40,6 +41,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IFilmGenreService, FilmGenreService>();
             services.AddTransient<IPeopleService, PeopleService>();
             services.AddTransient<IReservationService, ReservationService>();
+            services.AddTransient<IReservationTypeService, ReservationTypeService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
@@ -48,6 +50,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IScreeningService, ScreeningService>();
             services.AddTransient<ISeatService, SeatService>();
             services.AddTransient<IKindOfSeatService, KindOfSeatService>();
+            services.AddTransient<IkindOfScreeningService, KindOfScreeningService>();
 
 
             // For Identity

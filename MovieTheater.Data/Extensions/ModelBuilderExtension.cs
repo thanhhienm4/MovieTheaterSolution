@@ -67,6 +67,16 @@ namespace MovieTheater.Data.Extensions
                     Id = 1,
                     Name = "Thường"
                 });
+            modelBuilder.Entity<Seat>().HasData(
+              new Seat()
+              {
+                  Id = 1,
+                  KindOfSeatId = 1,
+                  Number = 1,
+                  RoomId = 1,
+                  Row = 'A'
+              });
+            
             modelBuilder.Entity<Ban>().HasData(
                 new Ban()
                 {
@@ -104,6 +114,22 @@ namespace MovieTheater.Data.Extensions
                     Name = "Chiếu sớm",
                     Surcharge = 20000
                 }) ;
+            modelBuilder.Entity<Screening>().HasData(
+              new Screening()
+              {
+                  Id = 1,
+                  FilmId = 1,
+                  KindOfScreeningId = 1,
+                  RoomId = 1,
+                  Surcharge = 20000,
+                  TimeStart = DateTime.UtcNow
+              });
+            modelBuilder.Entity<ReservationType>().HasData(
+                new ReservationType()
+                {
+                    Id = 1,
+                    Name = "Đặt trực tiếp"
+                });
 
         }
     }

@@ -2,6 +2,7 @@
 using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -35,30 +36,45 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPost("Delete")]
+        [HttpDelete("Delete/{id}")]
         public async Task<ApiResultLite> DeleteAsync(Guid id)
         {
             var result = await _userApi.DeleteAsync(id);
             return result;
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         public async Task<ApiResultLite> UpdateAsync([FromBody] UserUpdateRequest request)
         {
             var result = await _userApi.UpdateAsync(request);
             return result;
         }
 
-        [HttpPost("ChangePassword")]
+        [HttpPut("ChangePassword")]
         public async Task<ApiResultLite> ChangePasswordAsync([FromBody] ChangePWRequest request)
         {
             var result = await _userApi.ChangePasswordAsync(request);
             return result;
         }
+
         [HttpPost("GetUserPaging")]
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
             var result = await _userApi.GetUserPagingAsync(request);
+            return result;
+        }
+
+        [HttpGet("GetUserById/{id}")]
+        public async Task<ApiResult<UserVMD>> GetUserById(string id)
+        {
+            var result = await _userApi.GetUserByIdAsync(id);
+            return result;
+        }
+
+        [HttpPut("RoleAssign")]
+        public async Task<ApiResultLite> RoleAssignAsync([FromBody] RoleAssignRequest request)
+        {
+            var result = await _userApi.RoleAssignAsync(request);
             return result;
         }
     }

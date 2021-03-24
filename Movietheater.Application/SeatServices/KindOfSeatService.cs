@@ -35,14 +35,45 @@ namespace Movietheater.Application.SeatServices
 
         }
 
-        public Task<ApiResultLite> DeleteAsync(int Id)
+        public async Task<ApiResultLite> UpdateAsync(KindOfSeatUpdateRequest request)
         {
-            throw new NotImplementedException();
+            KindOfSeat seat = await _context.KindOfSeats.FindAsync(request.Id);
+            if (seat == null)
+            {
+                return new ApiErrorResultLite("Không tìm thấy");
+            }
+            else
+            {
+                seat.Name = request.Name;
+                seat.Surcharge = request.Surcharge;
+                _context.Update(seat);
+                if(await _context.SaveChangesAsync()!=0)
+                     return new ApiSuccessResultLite("Cập nhật thành công");
+                else
+                    return new ApiErrorResultLite("Cập nhật thất bại mới thất bại");
+            }
         }
 
-        public Task<ApiResultLite> UpdateAsync(KindOfSeatUpdateRequest request)
+        public async Task<ApiResultLite> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            KindOfSeat seat = await _context.KindOfSeats.FindAsync(id);
+            if (seat == null)
+            {
+                return new ApiErrorResultLite("Không tìm thấy");
+            }
+            else
+            {
+                _context.KindOfSeats.Remove(seat);
+                if( await _context.SaveChangesAsync()!=0)
+                {
+                    return new ApiSuccessResultLite("Xóa thành công");
+                }else
+                {
+                    return new ApiErrorResultLite("Xóa thất bại");
+                }
+                   
+                
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.Catalog.Film
 {
-    public  class FilmVMD
+    public class FilmUpdateRequest
     {
         public string Id { get; set; }
         public string Name { get; set; }

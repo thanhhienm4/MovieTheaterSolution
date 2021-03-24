@@ -11,7 +11,7 @@ namespace Movietheater.Application.UserServices
     public interface IRoleService
     {
         Task<ApiResultLite> CreateAsync(RoleCreateRequest model);
-        Task<ApiResultLite> Delete(Guid id);
-        Task<ApiResultLite> Update(RoleUpdateRequest model);
+        Task<ApiResultLite> DeleteAsync(string id);
+        Task<ApiResultLite> UpdateAsync(RoleUpdateRequest model);
     }
 }
