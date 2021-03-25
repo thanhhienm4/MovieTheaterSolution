@@ -1,4 +1,6 @@
-﻿using MovieTheater.Models.Catalog.Film;
+﻿using MovieTheater.Data.EF;
+using MovieTheater.Data.Entities;
+using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using System;
 using System.Collections.Generic;
@@ -10,19 +12,61 @@ namespace Movietheater.Application.FilmServices
 {
     public class BanService : IBanService
     {
-        public Task<ApiResultLite> CreateAsync(string name)
+        private readonly MovieTheaterDBContext _context;
+        public BanService(MovieTheaterDBContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<ApiResultLite> CreateAsync(String name)
+        {
+            Ban ban = new Ban()
+            {
+                Name = name
+            };
+            _context.Bans.Add(ban);
+            int result = await _context.SaveChangesAsync();
+            if (result == 0)
+            {
+                return new ApiErrorResultLite("Thêm thất bại");
+            }
+
+            return new ApiSuccessResultLite("Thêm thành công");
         }
 
-        public Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResultLite> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            Ban ban = await _context.Bans.FindAsync(id);
+            if (ban == null)
+            {
+                return new ApiErrorResultLite("Không tìm thấy");
+            }
+            else
+            {
+                _context.Bans.Remove(ban);
+                await _context.SaveChangesAsync();
+                return new ApiSuccessResultLite("Xóa thành công");
+            }
         }
 
-        public Task<ApiResultLite> UpdateAsync(BanUpdateRequest request)
+        public async Task<ApiResultLite> UpdateAsync(BanUpdateRequest request)
         {
-            throw new NotImplementedException();
+            Ban ban = await _context.Bans.FindAsync(request.Id);
+            if (ban == null)
+            {
+                return new ApiErrorResultLite("Không tìm thấy");
+            }
+            else
+            {
+                ban.Id = request.Id;
+                ban.Name = request.Name;
+                _context.Update(ban);
+                int result = await _context.SaveChangesAsync();
+                if(result == 0)
+                {
+                    return new ApiErrorResultLite("Cập nhật thất bại");
+                }
+                return new ApiSuccessResultLite("Cập nhật thành công");
+            }
         }
     }
 }

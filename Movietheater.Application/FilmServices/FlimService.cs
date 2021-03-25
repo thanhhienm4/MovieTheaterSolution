@@ -19,49 +19,48 @@ namespace Movietheater.Application.FilmServices
         }
 
 
-        public async Task<ApiResultLite> CreateAsync(FilmCreateRequest request)
+        public async Task<ApiResultLite> CreateAsync(FilmCreateRequest model)
         {
             var room = new Film()
             {
-                Name = request.Name,
-                Description = request.Description,
-                BanId = request.BanId,
-                Length = request.Length,
-                PublishDate = request.PublishDate,
-                TrailerURL = request.TrailerURL,
-                Poster = request.Poster
+                Name = model.Name,
+                Description = model.Description,
+                BanId = model.BanId,
+                Length = model.Length,
+                PublishDate = model.PublishDate,
+                TrailerURL = model.TrailerURL
             };
 
             await _context.AddAsync(room);
             if (await _context.SaveChangesAsync() == 0)
             {
-                return new ApiErrorResultLite("Không thể thêm");
+                return new ApiErrorResultLite("Không thể thêm phòng");
             }
             return new ApiSuccessResultLite("Thêm thành công");
 
         }
-        public async Task<ApiResultLite> UpdateAsync(FilmUpdateRequest request)
+        public async Task<ApiResultLite> UpdateAsync(FilmUpdateRequest model)
         {
-            Film film = await _context.Films.FindAsync(request.Id);
+            Film film = await _context.Films.FindAsync(model.Id);
             if (film == null)
             {
                 return new ApiErrorResultLite("Không tìm thấy phòng");
             }
             else
             {
-                film.Name = request.Name;
-                film.Description = request.Description;
-                film.BanId = request.BanId;
-                film.Length = request.Length;
-                film.PublishDate = request.PublishDate;
-                film.TrailerURL = request.TrailerURL;
-                film.Poster = request.Poster;
+                film.Name = model.Name;
+                film.Description = model.Description;
+                film.BanId = model.BanId;
+                film.Length = model.Length;
+                film.PublishDate = model.PublishDate;
+                film.TrailerURL = model.TrailerURL;
                 _context.Films.Update(film);
-                if (await _context.SaveChangesAsync() == 0)
+                int rs = await _context.SaveChangesAsync();
+                if (rs == 0)
                 {
-                    return new ApiErrorResultLite("Chỉnh sửa thất bại");
+                    return new ApiErrorResultLite("Cập nhật thất bại");
                 }
-                return new ApiSuccessResultLite("Chỉnh sửa thành công");
+                return new ApiSuccessResultLite("Cập nhật thành công");
 
             }
         }
@@ -75,10 +74,7 @@ namespace Movietheater.Application.FilmServices
             else
             {
                 _context.Films.Remove(film);
-                if (await _context.SaveChangesAsync() == 0)
-                {
-                    return new ApiErrorResultLite("Xóa thất bại");
-                }
+                await _context.SaveChangesAsync();
                 return new ApiSuccessResultLite("Xóa thành công");
             }
         }

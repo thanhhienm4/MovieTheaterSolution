@@ -33,7 +33,7 @@ namespace Movietheater.Application.ReservationService.cs
                 {
                     ScreeningId = x.ScreeningId,
                     SeatId = x.SeatId,
-                    Price = CalPrice(x.ScreeningId,x.SeatId)
+                    Price = CalPrice(x.ScreeningId, x.SeatId)
 
                 }).ToList()
             };
@@ -48,16 +48,46 @@ namespace Movietheater.Application.ReservationService.cs
 
         }
 
-        public Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResultLite> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            Reservation rv = await _context.Reservations.FindAsync(id);
+            if (rv == null)
+            {
+                return new ApiErrorResultLite("Không tìm thấy");
+            }
+            else
+            {
+                _context.Reservations.Remove(rv);
+                await _context.SaveChangesAsync();
+                return new ApiSuccessResultLite("Xóa thành công");
+            }
         }
 
-        public Task<ApiResultLite> UpdateAsync(ReservationUpdateRequest request)
+        public async Task<ApiResultLite> UpdateAsync(ReservationUpdateRequest request)
         {
-            throw new NotImplementedException();
+            Reservation rv = await _context.Reservations.FindAsync(request.Id);
+            if (rv == null)
+            {
+                return new ApiErrorResultLite("Không tìm thấy");
+            }
+            else
+            {
+                rv.Id = request.Id;
+                rv.Paid = request.Paid;
+                rv.Active = request.Active;
+                rv.ReservationTypeId = request.ReservationTypeId;
+                rv.UserId = request.UserId;
+                rv.EmployeeId = request.EmployeeId;
+                _context.Update(rv);
+                int rs = await _context.SaveChangesAsync();
+                if (rs == 0)
+                {
+                    return new ApiErrorResultLite("Cập nhật thất bại");
+                }
+                return new ApiSuccessResultLite("Cập nhật thành công");
+            }
         }
-        private int  CalPrice(int ScreeningId, int SeatId)
+        private int CalPrice(int ScreeningId, int SeatId)
         {
             var query = from s in _context.Seats
                         join ks in _context.KindOfSeats on s.KindOfSeatId equals ks.Id
@@ -66,12 +96,12 @@ namespace Movietheater.Application.ReservationService.cs
                         where s.Id == SeatId
                         select new { RoomPrice = fr.Price, SeatSurcharge = ks.Surcharge };
 
-            var  screeningSurcharge = from sCR in _context.Screenings
+            var screeningSurcharge = from sCR in _context.Screenings
                                      join kOS in _context.KindOfScreenings on sCR.KindOfScreeningId equals kOS.Id
                                      where sCR.Id == ScreeningId
                                      select (kOS.Surcharge);
-            return  query.First().RoomPrice + query.First().SeatSurcharge + screeningSurcharge.First();
-            
+            return query.First().RoomPrice + query.First().SeatSurcharge + screeningSurcharge.First();
+
 
         }
 
@@ -86,7 +116,7 @@ namespace Movietheater.Application.ReservationService.cs
                 return true;
             else
                 return false;
-            
+
 
         }
     }

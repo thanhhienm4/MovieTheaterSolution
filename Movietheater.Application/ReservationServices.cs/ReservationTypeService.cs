@@ -10,17 +10,17 @@ namespace Movietheater.Application.ReservationServices.cs
 {
     public class ReservationTypeService : IReservationTypeService
     {
-        public Task<ApiResultLite> CreateAsync(string name)
+        public async Task<ApiResultLite> CreateAsync(string name)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResultLite> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApiResultLite> UpdateAsync(ReservationTypeUpdateRequest request)
+        public async Task<ApiResultLite> UpdateAsync(ReservationTypeUpdateRequest request)
         {
             throw new NotImplementedException();
         }

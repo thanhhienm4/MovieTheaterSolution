@@ -1,4 +1,5 @@
 ﻿using MovieTheater.Data.EF;
+using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using System;
@@ -16,19 +17,61 @@ namespace Movietheater.Application.ReservationService.cs
         {
             _context = context;
         }
-        public Task<ApiResultLite> CreateAsync(TicketCreateRequest request)
+        public async Task<ApiResultLite> CreateAsync(TicketCreateRequest request)
         {
-            throw new NotImplementedException();
+            Ticket ticket = new Ticket()
+            {
+                Price = request.Price,
+                ScreeningId = request.ScreeningId,
+                SeatId = request.SeatId
+
+            };
+            _context.Tickets.Add(ticket);
+            int result = await _context.SaveChangesAsync();
+            if (result == 0)
+            {
+                return new ApiErrorResultLite("Thêm thất bại");
+            }
+
+            return new ApiSuccessResultLite("Thêm thành công");
         }
 
-        public Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResultLite> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            Ticket ticket = await _context.Tickets.FindAsync(id);
+            if (ticket == null)
+            {
+                return new ApiErrorResultLite("Không tìm thấy");
+            }
+            else
+            {
+                _context.Tickets.Remove(ticket);
+                await _context.SaveChangesAsync();
+                return new ApiSuccessResultLite("Xóa thành công");
+            }
         }
 
-        public Task<ApiResultLite> UpdateAsync(TicketUpdateRequest request)
+        public async Task<ApiResultLite> UpdateAsync(TicketUpdateRequest request)
         {
-            throw new NotImplementedException();
+            Ticket ticket = await _context.Tickets.FindAsync(request.Id);
+            if (ticket == null)
+            {
+                return new ApiErrorResultLite("Không tìm thấy");
+            }
+            else
+            {
+                ticket.Price = request.Price;
+                ticket.ScreeningId = request.ScreeningId;
+                ticket.SeatId = request.SeatId;
+
+                _context.Update(ticket);
+                int rs = await _context.SaveChangesAsync();
+                if (rs == 0)
+                {
+                    return new ApiErrorResultLite("Cập nhật thất bại");
+                }
+                return new ApiSuccessResultLite("Cập nhật thành công");
+            }
         }
     }
 }
