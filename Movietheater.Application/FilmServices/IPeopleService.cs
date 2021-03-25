@@ -10,7 +10,7 @@ namespace Movietheater.Application.FilmServices
 {
     public interface IPeopleService
     {
-        Task<ApiResultLite> CreateAsync(string name);
+        Task<ApiResultLite> CreateAsync(PeopleCreateRequest request);
         Task<ApiResultLite> UpdateAsync(PeopleUpdateRequest request);
         Task<ApiResultLite> DeleteAsync(int id);
     }

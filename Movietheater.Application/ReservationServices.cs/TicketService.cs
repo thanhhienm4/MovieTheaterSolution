@@ -46,8 +46,11 @@ namespace Movietheater.Application.ReservationService.cs
             else
             {
                 _context.Tickets.Remove(ticket);
-                await _context.SaveChangesAsync();
-                return new ApiSuccessResultLite("Xóa thành công");
+                if (await _context.SaveChangesAsync() != 0)
+                {
+                    return new ApiSuccessResultLite("Xóa thành công");
+                }
+                else return new ApiSuccessResultLite("Không xóa được");
             }
         }
 

@@ -17,11 +17,13 @@ namespace Movietheater.Application.FilmServices
         {
             _context = context;
         }
-        public async Task<ApiResultLite> CreateAsync(string name)
+        public async Task<ApiResultLite> CreateAsync(PeopleCreateRequest request)
         {
             People people = new People()
             {
-                Name = name
+                Name = request.Name,
+                Description = request.Description,
+                DOB = request.DOB
             };
             _context.Peoples.Add(people);
             int result = await _context.SaveChangesAsync();
@@ -43,8 +45,11 @@ namespace Movietheater.Application.FilmServices
             else
             {
                 _context.Peoples.Remove(people);
-                await _context.SaveChangesAsync();
-                return new ApiSuccessResultLite("Xóa thành công");
+                if (await _context.SaveChangesAsync() != 0)
+                {
+                    return new ApiSuccessResultLite("Xóa thành công");
+                }
+                else return new ApiSuccessResultLite("Không xóa được");
             }
         }
 

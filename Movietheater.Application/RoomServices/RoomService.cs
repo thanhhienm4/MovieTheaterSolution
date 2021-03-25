@@ -11,7 +11,7 @@ using MovieTheater.Data.Entities;
 namespace Movietheater.Application.RoomServices
 {
 
-    public class RoomService :IRoomService
+    public class RoomService : IRoomService
     {
         private readonly MovieTheaterDBContext _context;
 
@@ -64,8 +64,14 @@ namespace Movietheater.Application.RoomServices
             else
             {
                 _context.Rooms.Remove(room);
-                await _context.SaveChangesAsync();
-                return new ApiSuccessResultLite("Xóa thành công");
+                if (await _context.SaveChangesAsync() != 0)
+                {
+                    return new ApiSuccessResultLite("Xóa thành công");
+                }
+                else
+                {
+                    return new ApiSuccessResultLite("Không xóa được");
+                }
             }
         }
 
