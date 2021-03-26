@@ -22,7 +22,7 @@ namespace Movietheater.Application.ScreeningServices
             Screening screening = new Screening()
             {
                 TimeStart = request.TimeStart,
-                Surcharge = request.Surcharge,
+               // Surcharge = request.Surcharge,
                 FilmId = request.FilmId,
                 RoomId = request.RoomId,
                 KindOfScreeningId = request.KindOfScreeningId
@@ -67,7 +67,7 @@ namespace Movietheater.Application.ScreeningServices
             {
                 screening.Id = request.Id;
                 screening.TimeStart = request.TimeStart;
-                screening.Surcharge = request.Surcharge;
+                //screening.Surcharge = request.Surcharge;
                 screening.FilmId = request.FilmId;
                 screening.RoomId = request.RoomId;
                 screening.KindOfScreeningId = request.KindOfScreeningId;

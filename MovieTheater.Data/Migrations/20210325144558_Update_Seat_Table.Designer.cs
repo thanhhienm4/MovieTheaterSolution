@@ -10,8 +10,8 @@ using MovieTheater.Data.EF;
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDBContext))]
-    [Migration("20210318054447_Update_Seat-Table")]
-    partial class Update_SeatTable
+    [Migration("20210325144558_Update_Seat_Table")]
+    partial class Update_Seat_Table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,21 +69,23 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("UserId");
+                    b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.ToTable("AppUserLogins");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -154,8 +156,8 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d95b91ce-63a6-4be1-9b59-5bd52d110287"),
-                            ConcurrencyStamp = "0a3384d9-e032-41a3-8180-3eb9ba439357",
+                            Id = new Guid("ca819aed-0e45-4151-9280-ad1f7a6ceb9a"),
+                            ConcurrencyStamp = "4ebbc4d9-eb5a-43fc-b75d-3416f5291272",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -248,7 +250,7 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("22eae46b-540d-4836-a5d2-bbba8f3a3b09"),
+                            Id = new Guid("b3dcc592-3d4b-4d49-b85f-e4552a1dc1fc"),
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -260,7 +262,7 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBeeVgiccHzf8CKMWukO7mi6K5+hZN3xvYM32yRtrP89vslvZiNwp+hU68JhsP9Z2Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDyF/NmgSlEKfTF6VpSTWsmA82ZBg+Epm9/85Fsn9B2pkPKSPqtYYSqoZz/3sJsltg==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
@@ -315,6 +317,9 @@ namespace MovieTheater.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Poster")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PublishDate")
@@ -552,12 +557,20 @@ namespace MovieTheater.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("ReservationTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Đặt trực tiếp"
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Room", b =>
@@ -643,11 +656,6 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Surcharge")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
                     b.Property<DateTime>("TimeStart")
                         .HasColumnType("datetime2");
 
@@ -660,12 +668,30 @@ namespace MovieTheater.Data.Migrations
                     b.HasIndex("RoomId");
 
                     b.ToTable("Screenings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FilmId = 1,
+                            KindOfScreeningId = 1,
+                            RoomId = 1,
+                            TimeStart = new DateTime(2021, 3, 25, 14, 45, 55, 952, DateTimeKind.Utc).AddTicks(7094)
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Seat", b =>
                 {
+                    b.Property<string>("Row")
+                        .HasColumnType("varchar(1)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
@@ -674,25 +700,23 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("KindOfSeatId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Row")
-                        .IsRequired()
-                        .HasColumnType("varchar(1)");
-
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("Row", "Number", "RoomId");
+                    b.HasKey("Row", "Number", "RoomId");
 
                     b.HasIndex("KindOfSeatId");
 
                     b.HasIndex("RoomId");
 
                     b.ToTable("Seats");
+
+                    b.HasData(
+                        new
+                        {
+                            Row = "A",
+                            Number = 1,
+                            RoomId = 1,
+                            Id = 1,
+                            KindOfSeatId = 1
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Ticket", b =>
@@ -923,6 +947,7 @@ namespace MovieTheater.Data.Migrations
                     b.HasOne("MovieTheater.Data.Entities.Seat", "Seat")
                         .WithMany("Tickets")
                         .HasForeignKey("SeatId")
+                        .HasPrincipalKey("Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 

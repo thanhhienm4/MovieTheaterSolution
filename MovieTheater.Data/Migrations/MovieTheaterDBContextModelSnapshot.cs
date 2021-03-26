@@ -154,8 +154,8 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4ebea1ba-8899-4113-876c-92303aa1aac9"),
-                            ConcurrencyStamp = "26688dc6-15e2-49e5-900a-1234d332c2ef",
+                            Id = new Guid("ca819aed-0e45-4151-9280-ad1f7a6ceb9a"),
+                            ConcurrencyStamp = "4ebbc4d9-eb5a-43fc-b75d-3416f5291272",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -248,7 +248,7 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dba80de2-7f39-410c-bea1-036fb713a9ca"),
+                            Id = new Guid("b3dcc592-3d4b-4d49-b85f-e4552a1dc1fc"),
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -260,7 +260,7 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL46Wla5k4uAP8B+rU09ulKmO4XYs6Vm8b1TjHmDn5cD3Gp+DTYEwQT5zzvqk/sooA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDyF/NmgSlEKfTF6VpSTWsmA82ZBg+Epm9/85Fsn9B2pkPKSPqtYYSqoZz/3sJsltg==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
@@ -654,11 +654,6 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Surcharge")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
                     b.Property<DateTime>("TimeStart")
                         .HasColumnType("datetime2");
 
@@ -679,15 +674,22 @@ namespace MovieTheater.Data.Migrations
                             FilmId = 1,
                             KindOfScreeningId = 1,
                             RoomId = 1,
-                            Surcharge = 20000,
-                            TimeStart = new DateTime(2021, 3, 24, 16, 6, 16, 290, DateTimeKind.Utc).AddTicks(2365)
+                            TimeStart = new DateTime(2021, 3, 25, 14, 45, 55, 952, DateTimeKind.Utc).AddTicks(7094)
                         });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Seat", b =>
                 {
+                    b.Property<string>("Row")
+                        .HasColumnType("varchar(1)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
@@ -696,19 +698,7 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("KindOfSeatId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Row")
-                        .IsRequired()
-                        .HasColumnType("varchar(1)");
-
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("Row", "Number", "RoomId");
+                    b.HasKey("Row", "Number", "RoomId");
 
                     b.HasIndex("KindOfSeatId");
 
@@ -719,11 +709,11 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            KindOfSeatId = 1,
+                            Row = "A",
                             Number = 1,
                             RoomId = 1,
-                            Row = "A"
+                            Id = 1,
+                            KindOfSeatId = 1
                         });
                 });
 
@@ -955,6 +945,7 @@ namespace MovieTheater.Data.Migrations
                     b.HasOne("MovieTheater.Data.Entities.Seat", "Seat")
                         .WithMany("Tickets")
                         .HasForeignKey("SeatId")
+                        .HasPrincipalKey("Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 

@@ -121,7 +121,7 @@ namespace MovieTheater.Data.Extensions
                   FilmId = 1,
                   KindOfScreeningId = 1,
                   RoomId = 1,
-                  Surcharge = 20000,
+                 // Surcharge = 20000,
                   TimeStart = DateTime.UtcNow
               });
             modelBuilder.Entity<ReservationType>().HasData(

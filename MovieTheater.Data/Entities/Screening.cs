@@ -7,7 +7,6 @@ namespace MovieTheater.Data.Entities
     {
         public int Id { get; set; }
         public DateTime TimeStart { get; set; }
-        public int Surcharge { get; set; }
 
         public int FilmId { get; set; }
         public Film Film { get; set; }
