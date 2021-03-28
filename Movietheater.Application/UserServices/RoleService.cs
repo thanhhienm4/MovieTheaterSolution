@@ -69,6 +69,18 @@ namespace Movietheater.Application.UserServices
             return new ApiSuccessResultLite();
             
         }
+        public async Task<List<RoleVMD>> GetAllRoles()
+        {
+            var roles = new List<RoleVMD>();
+            roles = (List<RoleVMD>)_roleManager.Roles.Select(x => new RoleVMD()
+            {
+                Id = x.Id,
+                Description = x.Description,
+                Name = x.Name
+            }).ToList();
+            return new List<RoleVMD>(roles);
+        }
+
         
     }
 }

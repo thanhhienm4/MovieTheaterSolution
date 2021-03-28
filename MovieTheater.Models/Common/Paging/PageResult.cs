@@ -6,19 +6,9 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.Common.Paging
 {
-    public class PageResult<T>
+    public class PageResult<T> : PageResultBase
     {
         public List<T> Item { get; set; }
-        public int PageIndex { get; set; }
-        public int PageSize { get; set; }
-        public int TotalRecord { get; set; }
-
-        public int PageCount
-        {
-            get
-            {
-                return (int)Math.Ceiling((double)TotalRecord / PageSize);
-            }
-        }
+        
     }
 }

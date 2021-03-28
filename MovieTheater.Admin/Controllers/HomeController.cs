@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace MovieTheater.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class HomeController : BaseController
     {
         

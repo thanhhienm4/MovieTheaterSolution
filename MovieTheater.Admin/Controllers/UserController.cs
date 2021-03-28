@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Data.Enums;
 using MovieTheater.Models.User;
@@ -17,9 +18,11 @@ namespace MovieTheater.Admin.Controllers
     public class UserController : BaseController
     {
         private readonly UserApiClient _userApiClient;
-        public UserController(UserApiClient userApiClient)
+        private readonly RoleApiClient _roleApiClient;
+        public UserController(UserApiClient userApiClient,RoleApiClient roleApiClient)
         {
             _userApiClient = userApiClient;
+            _roleApiClient = roleApiClient;
         }
         [HttpGet]
         public async Task<IActionResult> Logout()
@@ -38,8 +41,84 @@ namespace MovieTheater.Admin.Controllers
                 RoleId = roleId,
                 Status = status
             };
-            var result =await _userApiClient.GetUserPaging(request);
+            var roles = await _roleApiClient.GetRolesAsync();
+
+            ViewBag.Roles = roles
+                .Select(x => new SelectListItem()
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString(),
+                    Selected = (!string.IsNullOrWhiteSpace(roleId)) && roleId == x.Id.ToString()
+                }).ToList();
+
+            ViewBag.KeyWord = keyword;
+            var result =await _userApiClient.GetUserPagingAsync(request);
             return View(result.ResultObj);
+        }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(UserCreateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
+            var result = await _userApiClient.CreateAsync(request);
+            if (result.IsSuccessed)
+            {
+                TempData["Result"] = "Tạo mới thành công";
+                return RedirectToAction("Index", "User");
+            }
+            ModelState.AddModelError("", result.Message);
+            return View(request);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var result = await _userApiClient.GetUserByIdAsync(id);
+
+            if (result.IsSuccessed)
+            {
+                var updateRequest = new UserUpdateRequest()
+                {
+                    Id = id,
+                    Dob = result.ResultObj.Dob,
+                    Email = result.ResultObj.Email,
+                    FirstName = result.ResultObj.FirstName,
+                    PhoneNumber = result.ResultObj.PhoneNumber,
+                    LastName = result.ResultObj.LastName,
+                    Status = result.ResultObj.Status
+                };
+                return View(updateRequest);
+            }
+            return RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
+            var result = await _userApiClient.UpdateAsync(request);
+            if (result.IsSuccessed)
+            {
+                TempData["Result"] = "Chỉnh sửa thành công";
+                return RedirectToAction("Index", "User");
+            }
+            ModelState.AddModelError("", result.Message);
+            return View(request);
         }
     }
 }

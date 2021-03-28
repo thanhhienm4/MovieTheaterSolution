@@ -13,5 +13,6 @@ namespace Movietheater.Application.UserServices
         Task<ApiResultLite> CreateAsync(RoleCreateRequest model);
         Task<ApiResultLite> DeleteAsync(string id);
         Task<ApiResultLite> UpdateAsync(RoleUpdateRequest model);
+        Task<List<RoleVMD>> GetAllRoles();
     }
 }

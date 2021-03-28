@@ -42,6 +42,12 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [HttpGet("GetAll")]
+        public async Task<List<RoleVMD>> GetAll()
+        {
+            var result = await _roleService.GetAllRoles();
+            return result;
+        }
 
     }
 }
