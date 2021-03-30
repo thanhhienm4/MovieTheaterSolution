@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Data.Enums;
+using MovieTheater.Models.Common;
+using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,7 @@ namespace MovieTheater.Admin.Controllers
     {
         private readonly UserApiClient _userApiClient;
         private readonly RoleApiClient _roleApiClient;
-        public UserController(UserApiClient userApiClient,RoleApiClient roleApiClient)
+        public UserController(UserApiClient userApiClient, RoleApiClient roleApiClient)
         {
             _userApiClient = userApiClient;
             _roleApiClient = roleApiClient;
@@ -31,7 +33,7 @@ namespace MovieTheater.Admin.Controllers
             return RedirectToAction("Index", "Login");
         }
         [HttpGet]
-        public async Task<IActionResult> Index(string keyword,Status? status,string roleId,int  pageIndex = 1,int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword, Status? status, string roleId, int pageIndex = 1, int pageSize = 10)
         {
             var request = new UserPagingRequest()
             {
@@ -41,18 +43,23 @@ namespace MovieTheater.Admin.Controllers
                 RoleId = roleId,
                 Status = status
             };
-            var roles = await _roleApiClient.GetRolesAsync();
 
-            ViewBag.Roles = roles
+            List<SelectListItem> roles = new List<SelectListItem>();
+            roles.Add(new SelectListItem() { Text = "Tất cả", Value = "" });
+            var listRoles = (await _roleApiClient.GetRolesAsync())
                 .Select(x => new SelectListItem()
                 {
                     Text = x.Name,
                     Value = x.Id.ToString(),
                     Selected = (!string.IsNullOrWhiteSpace(roleId)) && roleId == x.Id.ToString()
-                }).ToList();
+                }).ToList().OrderBy(x => x.Text);
+
+            roles.AddRange(listRoles);
+            ViewBag.Roles = roles;
+
 
             ViewBag.KeyWord = keyword;
-            var result =await _userApiClient.GetUserPagingAsync(request);
+            var result = await _userApiClient.GetUserPagingAsync(request);
             return View(result.ResultObj);
         }
         [HttpGet]
@@ -120,5 +127,61 @@ namespace MovieTheater.Admin.Controllers
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> RoleAssign(Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var roleAssignRequest = await GetRoleAssignRequest(id);
+            return View(roleAssignRequest);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleAssign(RoleAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
+            var result = await _userApiClient.RoleAssignAsync(request);
+            if (result.IsSuccessed)
+            {
+                TempData["Result"] = "Gán quyền thành công";
+                return RedirectToAction("Index", "User");
+            }
+            ModelState.AddModelError("", result.Message);
+            var roleAssignRequest = await GetRoleAssignRequest(request.UserId);
+            return View(roleAssignRequest);
+        }
+
+        private async Task<RoleAssignRequest> GetRoleAssignRequest(Guid id)
+        {
+            var userObject = await _userApiClient.GetUserByIdAsync(id);
+            var result = await _roleApiClient.GetRolesAsync();
+            var roleAssignRequest = new RoleAssignRequest();
+            foreach (var role in result)
+            {
+                roleAssignRequest.Roles.Add(new SelectedItem()
+                {
+                    Id = role.Id.ToString(),
+                    Name = role.Name,
+                    Selected = userObject.ResultObj.Roles.Contains(role.Name)
+                });
+            }
+
+            return roleAssignRequest;
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Forbident()
+        {
+            return View();
+        }
     }
+
 }

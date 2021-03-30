@@ -89,7 +89,6 @@ namespace Movietheater.Application.UserServices
             }
             _context.SaveChanges();
 
-
             return new ApiSuccessResult<string>(token);
         }
 
@@ -251,22 +250,23 @@ namespace Movietheater.Application.UserServices
                 Id = user.Id,
                 PhoneNumber = user.PhoneNumber,
                 Status = user.Status,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Roles = (List<string>)await _userManager.GetRolesAsync(user)
             };
 
             return new ApiSuccessResult<UserVMD>(userVMD);
         }
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
-            var query = _context.AppUserRoles.Select(x => x);
-
-            if (!string.IsNullOrWhiteSpace(request.RoleId))
-                query = query.Where(x => x.RoleId.ToString() == request.RoleId);
-
-            var users = query.Join(_context.AppUsers,
-                                ur => ur.UserId,
-                                u => u.Id,
-                                (ur, u) => u);
+            var users = _context.Users.Select(x => x);
+            if(!string.IsNullOrWhiteSpace(request.RoleId))
+            {
+                users = users.Join(_context.AppUserRoles,
+                               u => u.Id,
+                               ur => ur.UserId,
+                               (u, ur) => new { u, ur }).Where(x => request.RoleId == x.ur.RoleId.ToString()).Select(x => x.u);
+            }
+           
 
             if (request.Status != null)
             {
@@ -338,8 +338,6 @@ namespace Movietheater.Application.UserServices
             return false;
         }
 
-
-
-
+      
     }
 }

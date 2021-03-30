@@ -25,5 +25,7 @@ namespace MovieTheater.Models.User
 
         public Status Status { get; set; }
 
+        public List<string> Roles { get; set; }
+
     }
 }

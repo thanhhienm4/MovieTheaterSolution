@@ -82,7 +82,14 @@ namespace Movietheater.Application.FilmServices
             }
         }
 
-        //
+        public Task<List<FilmVMD>> GetFilmPagingAsync(FilmPagingRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+      
+
+
 
 
 

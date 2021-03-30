@@ -21,8 +21,6 @@ namespace MovieTheater.Models.User
 
         public String PhoneNumber { get; set; }
 
-        public String Password { get; set; }
-
         public Status Status { get; set; }
     }
 }

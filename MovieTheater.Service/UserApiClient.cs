@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,10 @@ namespace MovieTheater.Api
         {
             return await GetAsync<ApiResult<UserVMD>> ($"Api/User/GetUserById/{id}");
         }
-       
+        public async Task<ApiResultLite> RoleAssignAsync( RoleAssignRequest request)
+        {
+            return await PutAsync<ApiResultLite>("Api/User/RoleAssign", request);
+        }
+
     }
 }

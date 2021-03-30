@@ -1,5 +1,7 @@
-﻿using MovieTheater.Models.Catalog.Screening;
+﻿using Movietheater.Application.FilmServices;
+using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +15,7 @@ namespace Movietheater.Application.ScreeningServices
         Task<ApiResultLite> CreateAsync(ScreeningCreateRequest request);
         Task<ApiResultLite> UpdateAsync(ScreeningUpdateRequest request);
         Task<ApiResultLite> DeleteAsync(int id);
+        Task<PageResult<ScreeningVMD>> GetScreeningPagingAsync(ScreeningPagingRequest request);
+        Task<PageResult<FilmScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request);
     }
 }

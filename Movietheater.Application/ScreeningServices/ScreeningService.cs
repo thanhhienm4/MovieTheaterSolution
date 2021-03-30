@@ -1,7 +1,9 @@
-﻿using MovieTheater.Data.EF;
+﻿using Movietheater.Application.FilmServices;
+using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +58,21 @@ namespace Movietheater.Application.ScreeningServices
             }
         }
 
+        public Task<PageResult<ScreeningVMD>> GetScreeningPagingAsync(ScreeningPagingRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PageResult<ScreeningVMD>> GetScreeningPagingRequest(ScreeningPagingRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PageResult<FilmScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ApiResultLite> UpdateAsync(ScreeningUpdateRequest request)
         {
             Screening screening = await _context.Screenings.FindAsync(request.Id);
@@ -81,5 +98,6 @@ namespace Movietheater.Application.ScreeningServices
                 return new ApiSuccessResultLite("Cập nhật thành công");
             }
         }
+
     }
 }

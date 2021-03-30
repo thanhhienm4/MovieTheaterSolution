@@ -11,5 +11,10 @@ namespace MovieTheater.Models.Identity.Role
     {
         public Guid UserId { get; set; }
         public List<SelectedItem> Roles { get; set;}
+
+        public RoleAssignRequest()
+        {
+            Roles = new List<SelectedItem>();
+        }
     }
 }
