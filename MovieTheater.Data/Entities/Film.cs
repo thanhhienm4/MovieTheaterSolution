@@ -10,6 +10,8 @@ namespace MovieTheater.Data.Entities
         public string Description { get; set; }
         public DateTime PublishDate { get; set; }
         public int Length { get; set; }
+        public string TrailerURL { get; set; }
+        public string Poster { get; set; }
 
         public int BanId { get; set; }
         public Ban Ban { get; set; }

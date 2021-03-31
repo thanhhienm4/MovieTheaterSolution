@@ -13,7 +13,7 @@ namespace MovieTheater.Data.EFConfigurations
             builder.Property(x => x.Price).HasDefaultValue(0);
 
             builder.HasOne(x => x.Screening).WithMany(x => x.Tickets).HasForeignKey(x => x.ScreeningId);
-            builder.HasOne(x => x.Seat).WithMany(x => x.Tickets).HasForeignKey(x => x.SeatId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(x => x.Seat).WithMany(x => x.Tickets).HasForeignKey(x => x.SeatId).HasPrincipalKey(x => x.Id).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

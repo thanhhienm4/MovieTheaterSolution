@@ -7,7 +7,6 @@ namespace MovieTheater.Data.Entities
     {
         public int Id { get; set; }
         public DateTime TimeStart { get; set; }
-        public int Surcharge { get; set; }
 
         public int FilmId { get; set; }
         public Film Film { get; set; }
@@ -16,5 +15,8 @@ namespace MovieTheater.Data.Entities
         public Room Room { get; set; }
 
         public List<Ticket> Tickets { get; set; }
+        
+        public int KindOfScreeningId { get; set; }
+        public KindOfScreening KindOfScreening { get; set; }
     }
 }

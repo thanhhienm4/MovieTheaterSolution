@@ -25,8 +25,4 @@
     <ProjectReference Include="..\MovieTheater.Service\MovieTheater.Api.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\User\" />
-  </ItemGroup>
-
 </Project>

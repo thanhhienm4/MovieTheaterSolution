@@ -8,7 +8,7 @@ namespace MovieTheater.Data.Entities
         public string Name { get; set; }
 
         public int FormatId { get; set; }
-        public Format Format { get; set; }
+        public RoomFormat Format { get; set; }
 
         public List<Seat> Seats { get; set; }
         public List<Screening> Screenings { get; set; }

@@ -8,7 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Movietheater.Application;
+using Movietheater.Application.FilmServices;
+using Movietheater.Application.ReservationService.cs;
+using Movietheater.Application.ReservationServices.cs;
+using Movietheater.Application.RoomServices;
+using Movietheater.Application.ScreeningServices;
+using Movietheater.Application.SeatServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using System.Collections.Generic;
@@ -28,10 +34,31 @@ namespace MovieTheater.BackEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<UserService, UserService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IBanService, BanService>();
+            services.AddTransient<IFilmService, FlimService>();
+            services.AddTransient<IFilmGenreService, FilmGenreService>();
+            services.AddTransient<IPeopleService, PeopleService>();
+            services.AddTransient<IReservationService, ReservationService>();
+            services.AddTransient<IReservationTypeService, ReservationTypeService>();
+            services.AddTransient<ITicketService, TicketService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IRoomService, RoomService>();
+            services.AddTransient<IRoomFormatService, RoomFormatService>();
+            services.AddTransient<IScreeningService, ScreeningService>();
+            services.AddTransient<ISeatService, SeatService>();
+            services.AddTransient<IKindOfSeatService, KindOfSeatService>();
+            services.AddTransient<IkindOfScreeningService, KindOfScreeningService>();
+
 
             // For Identity
-            services.AddIdentity<AppUser, AppRole>()
+            services.AddIdentity<AppUser, AppRole>(
+                option =>
+                {
+                    option.Password.RequireNonAlphanumeric = false;
+                })
                 .AddEntityFrameworkStores<MovieTheaterDBContext>()
                 .AddDefaultTokenProviders();
 
@@ -119,7 +146,7 @@ namespace MovieTheater.BackEnd
             });
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

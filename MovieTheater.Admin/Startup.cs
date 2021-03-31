@@ -22,12 +22,14 @@ namespace MovieTheater.Admin
         {
             services.AddControllersWithViews();
             services.AddTransient<UserApiClient, UserApiClient>();
+            services.AddTransient<RoleApiClient, RoleApiClient>();
             services.AddHttpClient();
             services.AddHttpContextAccessor();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddMvc()
                 .AddSessionStateTempDataProvider();
             services.AddSession();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {

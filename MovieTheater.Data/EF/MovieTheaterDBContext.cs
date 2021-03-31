@@ -15,7 +15,7 @@ namespace MovieTheater.Data.EF
         public DbSet<Ban> Bans { get; set; }
         public DbSet<Screening> Screenings { get; set; }
         public DbSet<Film> Films { get; set; }
-        public DbSet<Format> Formats { get; set; }
+        public DbSet<RoomFormat> RoomFormats { get; set; }
         public DbSet<FilmGenre> FilmGenre { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<ReservationType> ReservationTypes { get; set; }
@@ -28,6 +28,8 @@ namespace MovieTheater.Data.EF
         public DbSet<Position> Positions { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<FilmInGenre> FilmInGenres { get; set; }
+        public DbSet<KindOfScreening> KindOfScreenings { get; set; }
+        public DbSet<IdentityUserRole<Guid>> AppUserRoles { get; set; }
 
         public MovieTheaterDBContext(DbContextOptions<MovieTheaterDBContext> options) : base(options)
         {
@@ -38,7 +40,7 @@ namespace MovieTheater.Data.EF
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new BanConfiguration());
-            modelBuilder.ApplyConfiguration(new FormatConfiguration());
+            modelBuilder.ApplyConfiguration(new RoomFormatConfiguration());
             modelBuilder.ApplyConfiguration(new JoiningConfiguration());
             modelBuilder.ApplyConfiguration(new FilmGenreConfiguration());
             modelBuilder.ApplyConfiguration(new KindOfSeatConfiguration());
@@ -52,9 +54,11 @@ namespace MovieTheater.Data.EF
             modelBuilder.ApplyConfiguration(new TicketConfiguration());
             modelBuilder.ApplyConfiguration(new FilmInGenreConfiguration());
             modelBuilder.ApplyConfiguration(new FilmConfiguration());
+            modelBuilder.ApplyConfiguration(new KindOfScreeningConfiguration());
+
 
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
-            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
+            //modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
 
             modelBuilder.Seed();
