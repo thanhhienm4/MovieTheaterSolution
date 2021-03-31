@@ -7,6 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MovieTheater.Data.Entities;
+using MovieTheater.Models.Common.Paging;
+using MovieTheater.Models.Identity.Role;
+using MovieTheater.Models.Common;
+using Microsoft.EntityFrameworkCore;
+using MovieTheater.Models.Infra.RoomModels.Format;
+using MovieTheater.Models.Infra.Seat;
 
 namespace Movietheater.Application.RoomServices
 {
@@ -74,6 +80,49 @@ namespace Movietheater.Application.RoomServices
                 }
             }
         }
+
+        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request)
+        {
+            var query = from r in _context.Rooms
+                        join f in _context.RoomFormats on r.FormatId equals f.Id 
+                        select new {r,f};
+                        
+            if(request.Keyword != null)
+            {
+                query = query.Where(x => x.r.Name.Contains(request.Keyword) ||
+                x.r.Id.ToString().Contains(request.Keyword));
+
+            }
+            PageResult<RoomVMD> result = new PageResult<RoomVMD>();
+            result.TotalRecord = await query.CountAsync();
+            result.PageIndex = request.PageIndex;
+            result.PageSize = request.PageSize;
+          
+            var rooms = query.Select(x => new RoomVMD()
+            {
+                Id = x.r.Id,
+                Name = x.r.Name,
+                Format = x.f.Name
+            }).Skip(request.PageIndex*(request.PageSize - 1)).Take(request.PageSize).OrderBy(x => x.Id).ToList();
+            result.Item = rooms;
+
+            return new PageResult<RoomVMD>();
+
+            
+        }
+
+        public Task<List<SeatVMD>> GetSeatsInRoom(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResult<RoomVMD>> GetRoomById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
 
         // RoomFormat 
 

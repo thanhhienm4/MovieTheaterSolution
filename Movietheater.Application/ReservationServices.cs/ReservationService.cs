@@ -66,6 +66,11 @@ namespace Movietheater.Application.ReservationService.cs
             }
         }
 
+        public Task<ApiResult<ReservationVMD>> GetReservationById(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ApiResultLite> UpdateAsync(ReservationUpdateRequest request)
         {
             Reservation rv = await _context.Reservations.FindAsync(request.Id);

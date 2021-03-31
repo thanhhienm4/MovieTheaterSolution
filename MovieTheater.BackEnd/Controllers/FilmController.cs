@@ -2,9 +2,7 @@
 using Movietheater.Application.FilmServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using MovieTheater.Models.Common.Paging;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -14,6 +12,7 @@ namespace MovieTheater.BackEnd.Controllers
     public class FilmController : Controller
     {
         private readonly IFilmService _filmService;
+
         public FilmController(IFilmService filmService)
         {
             _filmService = filmService;
@@ -37,6 +36,13 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
             var result = await _filmService.DeleteAsync(id);
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<PageResult<FilmVMD>> GetFilmPaging(FilmPagingRequest request)
+        {
+            var result = await _filmService.GetFilmPagingAsync(request);
             return result;
         }
     }

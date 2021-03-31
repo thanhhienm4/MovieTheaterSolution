@@ -147,15 +147,17 @@ namespace Movietheater.Application.UserServices
         }
         public async Task<ApiResultLite> DeleteAsync(Guid Id)
         {
+
             var user = await _userManager.FindByIdAsync(Id.ToString());
             if (user == null)
                 return new ApiErrorResultLite("Không tìm thấy người dùng");
             else
             {
-                if (_userManager.GetRolesAsync(user) == null &&
-                    _context.Reservations.Where(x => x.EmployeeId == Id) == null)
+                var reservations =await _context.Reservations.Where(x => x.UserId == Id).ToListAsync();
+                if ((await _userManager.GetRolesAsync(user)).Count() == 0 &&
+                    _context.Reservations.Where(x => x.EmployeeId == Id).Count() == 0 )
                 {
-                    var reservations = _context.Reservations.Where(x => x.UserId == Id);
+                    
                     foreach (var reservation in reservations)
                     {
                         reservation.UserId = null;
@@ -204,7 +206,7 @@ namespace Movietheater.Application.UserServices
             }
 
             // check role available 
-            List<string> roles = request.Roles.Select(x => x.Id).ToList();
+            List<Guid> roles = request.Roles.Select(x => Guid.Parse(x.Id)).ToList();
             if (!CheckRoles(roles))
             {
                 return new ApiErrorResultLite("Yêu cầu không hợp lệ");
@@ -285,7 +287,7 @@ namespace Movietheater.Application.UserServices
 
             int totalRow = await users.CountAsync();
             var item = users.OrderBy(x => x.UserName).Skip((request.PageIndex - 1) * request.PageSize)
-                .Take(request.PageIndex).Select(x => new UserVMD()
+                .Take(request.PageSize).Select(x => new UserVMD()
                 {
                     Id = x.Id,
                     Dob = x.Dob,
@@ -309,9 +311,9 @@ namespace Movietheater.Application.UserServices
             return new ApiSuccessResult<PageResult<UserVMD>>(pageResult);
 
         }
-        private bool CheckRoles(List<string> roles)
+        private bool CheckRoles(List<Guid> roles)
         {
-            var listRole = _roleManager.Roles.Select(x => x.Id.ToString()).ToList();
+            var listRole = _roleManager.Roles.Select(x => x.Id).ToList();
 
             if (roles != null)
             {
@@ -328,9 +330,9 @@ namespace Movietheater.Application.UserServices
             }
             return true;
         }
-        private bool CheckRole(string role, List<string> roles)
+        private bool CheckRole(Guid role, List<Guid> roles)
         {
-            for (int i = 0; i <= 0; i++)
+            for (int i = 0; i < roles.Count ; i++)
             {
                 if (role == roles[i])
                     return true;

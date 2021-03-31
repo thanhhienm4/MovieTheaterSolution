@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.RoomServices;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.RoomModels;
+using MovieTheater.Models.Infra.RoomModels.Format;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +41,14 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _roomService.DeleteAsync(id);
             return result;
         }
+
+        [HttpGet()]
+        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync([FromQuery] RoomPagingRequest request)
+        {
+            var result = await _roomService.GetRoomPagingAsync(request);
+            return result;
+        }
+
     }
     
 }

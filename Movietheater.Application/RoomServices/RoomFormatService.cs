@@ -69,5 +69,10 @@ namespace Movietheater.Application.RoomServices
                 else return new ApiSuccessResultLite("Không xóa được");
             }
         }
+
+        public Task<List<RoomFormatVMD>> GetAllRoomFormat()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

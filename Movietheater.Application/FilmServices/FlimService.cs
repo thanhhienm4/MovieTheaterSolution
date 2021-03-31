@@ -2,6 +2,7 @@
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,16 +83,14 @@ namespace Movietheater.Application.FilmServices
             }
         }
 
-        public Task<List<FilmVMD>> GetFilmPagingAsync(FilmPagingRequest request)
+        public Task<PageResult<FilmVMD>> GetFilmPagingAsync(FilmPagingRequest request)
         {
             throw new NotImplementedException();
         }
 
-      
-
-
-
-
-
+        public Task<ApiResult<FilmVMD>> GetFilmById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

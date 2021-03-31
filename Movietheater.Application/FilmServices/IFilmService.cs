@@ -1,5 +1,6 @@
 ﻿using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,9 @@ namespace Movietheater.Application.FilmServices
         Task<ApiResultLite> CreateAsync(FilmCreateRequest model);
         Task<ApiResultLite> UpdateAsync(FilmUpdateRequest model);
         Task<ApiResultLite> DeleteAsync(int id);
-        Task<List<FilmVMD>> GetFilmPagingAsync(FilmPagingRequest request);
+        Task<PageResult<FilmVMD>> GetFilmPagingAsync(FilmPagingRequest request);
+        Task<ApiResult<FilmVMD>> GetFilmById(int id);
+
         //ban service
 
 

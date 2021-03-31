@@ -55,6 +55,11 @@ namespace Movietheater.Application.SeatServices
             }
         }
 
+        public Task<ApiResult<SeatVMD>> GetSeatById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ApiResultLite> UpdateAsync(SeatUpdateRequest request)
         {
             Seat seat = await _context.Seats.FindAsync(request.Id);
@@ -78,5 +83,6 @@ namespace Movietheater.Application.SeatServices
                 return new ApiSuccessResultLite("Cập nhật thành công");
             }
         }
+
     }
 }

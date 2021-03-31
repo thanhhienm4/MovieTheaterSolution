@@ -13,5 +13,7 @@ namespace Movietheater.Application.SeatServices
         Task<ApiResultLite> CreateAsync(SeatCreateRequest request);
         Task<ApiResultLite> UpdateAsync(SeatUpdateRequest request);
         Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<SeatVMD>> GetSeatById(int id);
+
     }
 }

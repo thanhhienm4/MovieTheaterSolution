@@ -13,5 +13,7 @@ namespace Movietheater.Application.ReservationService.cs
         Task<ApiResultLite> CreateAsync(ReservationCreateRequest request);
         Task<ApiResultLite> UpdateAsync(ReservationUpdateRequest request);
         Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<ReservationVMD>> GetReservationById(int Id);
+
     }
 }

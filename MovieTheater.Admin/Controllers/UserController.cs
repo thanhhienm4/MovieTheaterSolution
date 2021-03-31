@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Data.Enums;
 using MovieTheater.Models.Common;
+using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
@@ -128,8 +129,21 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
-        [HttpGet]
-        [Authorize]
+
+
+        [HttpPost]
+        public async Task<ApiResultLite> Delete(Guid id)
+        {
+
+            var result = await _userApiClient.DeleteAsync(id);
+            if (result.IsSuccessed)
+            {
+                TempData["Result"] = result.Message;
+
+
+            }
+            return result;
+        }
         public async Task<IActionResult> RoleAssign(Guid id)
         {
             if (!ModelState.IsValid)
@@ -139,6 +153,8 @@ namespace MovieTheater.Admin.Controllers
             var roleAssignRequest = await GetRoleAssignRequest(id);
             return View(roleAssignRequest);
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> RoleAssign(RoleAssignRequest request)
@@ -163,6 +179,7 @@ namespace MovieTheater.Admin.Controllers
             var userObject = await _userApiClient.GetUserByIdAsync(id);
             var result = await _roleApiClient.GetRolesAsync();
             var roleAssignRequest = new RoleAssignRequest();
+            roleAssignRequest.UserId = id;
             foreach (var role in result)
             {
                 roleAssignRequest.Roles.Add(new SelectedItem()

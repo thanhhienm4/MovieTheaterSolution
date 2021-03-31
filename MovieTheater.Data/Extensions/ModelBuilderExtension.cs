@@ -13,10 +13,18 @@ namespace MovieTheater.Data.Extensions
                 new AppRole()
                 {
                     Id = Guid.NewGuid(),
+                    Name = "Emloyee",
+                    NormalizedName = "Emloyee",
+                    Description = "Emloyee"
+                },
+                new AppRole()
+                {
+                    Id = Guid.NewGuid(),
                     Name = "Admin",
                     NormalizedName = "Administrator",
                     Description = "Administrator role"
                 });
+               
             modelBuilder.Entity<AppUser>().HasData(
                 new AppUser()
                 {
@@ -82,12 +90,22 @@ namespace MovieTheater.Data.Extensions
                 {
                     Id = 1,
                     Name = "18+"
+                },
+                new Ban()
+                {
+                    Id = 2,
+                    Name = "13+"
                 });
             modelBuilder.Entity<FilmGenre>().HasData(
                 new FilmGenre()
                 {
                     Id = 1,
                     Name = "Hành động"
+                },
+                new FilmGenre()
+                {
+                    Id = 2,
+                    Name = "Haì"
                 });
             
             modelBuilder.Entity<People>().HasData(
@@ -113,6 +131,12 @@ namespace MovieTheater.Data.Extensions
                     Id = 1,
                     Name = "Chiếu sớm",
                     Surcharge = 20000
+                },
+                new KindOfScreening()
+                {
+                    Id = 2,
+                    Name = "Bình thường",
+                    Surcharge = 0
                 }) ;
             modelBuilder.Entity<Screening>().HasData(
               new Screening()
@@ -129,6 +153,11 @@ namespace MovieTheater.Data.Extensions
                 {
                     Id = 1,
                     Name = "Đặt trực tiếp"
+                },
+                new ReservationType()
+                {
+                    Id = 2,
+                    Name = "Đặt qua mạng "
                 });
 
         }
