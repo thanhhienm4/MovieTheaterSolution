@@ -1,4 +1,5 @@
-﻿using MovieTheater.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
@@ -83,14 +84,59 @@ namespace Movietheater.Application.FilmServices
             }
         }
 
-        public Task<PageResult<FilmVMD>> GetFilmPagingAsync(FilmPagingRequest request)
+        public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
-            throw new NotImplementedException();
+            var films = _context.Films.Select(x => x);
+
+
+
+
+
+
+            int totalRow = await films.CountAsync();
+            var item = films.OrderBy(x => x.Name).Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize).Select(x => new FilmVMD()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    PublishDate = x.PublishDate
+                }).ToList();
+
+            var pageResult = new PageResult<FilmVMD>()
+            {
+
+                TotalRecord = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Item = item,
+            };
+
+            return new ApiSuccessResult<PageResult<FilmVMD>>(pageResult);
         }
 
-        public Task<ApiResult<FilmVMD>> GetFilmById(int id)
+        public async Task<ApiResult<FilmVMD>> GetFilmById(int id)
         {
-            throw new NotImplementedException();
+            Film film = await _context.Films.FindAsync(id);
+            if (film == null)
+            {
+                return new ApiErrorResult<FilmVMD>("Không tìm thấy phim");
+            }
+            else
+            {
+                var result = new FilmVMD()
+                {
+                    Id = film.Id,
+                    Name = film.Name,
+                    BanId = film.BanId,
+                    Description = film.Description,
+                    Length = film.Length,
+                    Poster = film.Poster,
+                    PublishDate = film.PublishDate,
+                    TrailerURL = film.TrailerURL
+
+                };
+                return new ApiSuccessResult<FilmVMD>(result);
+            }
         }
     }
 }

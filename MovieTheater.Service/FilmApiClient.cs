@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,5 +30,15 @@ namespace MovieTheater.Api
         {
             return await DeleteAsync<ApiResultLite>($"Api/Film/Delete/{id}");
         }
+        public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
+        {
+            return await PostAsync<ApiResult<PageResult<FilmVMD>>>($"Api/Film/GetFilmPaging", request);
+        }
+
+        public async Task<ApiResult<FilmVMD>> GetFilmByIdAsync(int id)
+        {
+            return await GetAsync<ApiResult<FilmVMD>>($"Api/Film/GetFilmById/{id}");
+        }
+
     }
 }

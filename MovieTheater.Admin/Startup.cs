@@ -23,6 +23,7 @@ namespace MovieTheater.Admin
             services.AddControllersWithViews();
             services.AddTransient<UserApiClient, UserApiClient>();
             services.AddTransient<RoleApiClient, RoleApiClient>();
+            services.AddTransient<FilmApiClient, FilmApiClient>();
             services.AddHttpClient();
             services.AddHttpContextAccessor();
             services.AddRazorPages().AddRazorRuntimeCompilation();

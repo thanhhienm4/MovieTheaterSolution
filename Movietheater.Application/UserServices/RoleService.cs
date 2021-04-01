@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
@@ -72,12 +73,12 @@ namespace Movietheater.Application.UserServices
         public async Task<List<RoleVMD>> GetAllRoles()
         {
             var roles = new List<RoleVMD>();
-            roles = (List<RoleVMD>)_roleManager.Roles.Select(x => new RoleVMD()
+            roles =await _roleManager.Roles.Select(x => new RoleVMD()
             {
                 Id = x.Id,
                 Description = x.Description,
                 Name = x.Name
-            }).ToList();
+            }).ToListAsync();
             return new List<RoleVMD>(roles);
         }
 

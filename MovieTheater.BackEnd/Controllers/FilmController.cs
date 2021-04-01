@@ -25,7 +25,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         public async Task<ApiResultLite> UpdateAsync(FilmUpdateRequest request)
         {
             var result = await _filmService.UpdateAsync(request);
@@ -39,10 +39,16 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpGet]
-        public async Task<PageResult<FilmVMD>> GetFilmPaging(FilmPagingRequest request)
+        [HttpPost("GetFilmPaging")]
+        public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPaging(FilmPagingRequest request)
         {
             var result = await _filmService.GetFilmPagingAsync(request);
+            return result;
+        }
+        [HttpGet("GetFilmById/{id}")]
+        public async Task<ApiResult<FilmVMD>> GetFilmByIdAsync(int id)
+        {
+            var result = await _filmService.GetFilmById(id);
             return result;
         }
     }
