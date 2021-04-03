@@ -22,13 +22,13 @@ namespace Movietheater.Application.UserServices
     public class UserService : IUserService
     {
         private readonly MovieTheaterDBContext _context;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly RoleManager<AppRole> _roleManager;
 
-        public UserService(MovieTheaterDBContext context, UserManager<AppUser> userManager
-            , SignInManager<AppUser> signInManager, IConfiguration configuration, RoleManager<AppRole> roleManager)
+        public UserService(MovieTheaterDBContext context, UserManager<User> userManager
+            , SignInManager<User> signInManager, IConfiguration configuration, RoleManager<AppRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
@@ -51,7 +51,6 @@ namespace Movietheater.Application.UserServices
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.GivenName,user.FirstName),
                 new Claim(ClaimTypes.Email, user.Email),
 
             };
@@ -99,19 +98,18 @@ namespace Movietheater.Application.UserServices
             if (await _userManager.FindByNameAsync(model.UserName) != null)
                 return new ApiErrorResultLite("UserName đã tồn tại");
 
-            //var uid = Guid.NewGuid();
-            //while (await _userManager.FindByIdAsync(uid.ToString()) != null)
-            //{
-            //    uid = Guid.NewGuid();
-            //}
 
-            AppUser user = new AppUser()
+
+            User user = new User()
             {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
                 UserName = model.UserName,
                 Email = model.Email,
+                UserInfor = new UserInfor()
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                }
 
             };
             if ((await _userManager.CreateAsync(user, model.Password)).Succeeded)
@@ -130,12 +128,17 @@ namespace Movietheater.Application.UserServices
 
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
 
-            user.Dob = model.Dob;
+           
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.Status = model.Status;
+            user.UserInfor = new UserInfor()
+            {
+                Dob = model.Dob,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Status = model.Status,
+            };
+           
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
@@ -168,7 +171,7 @@ namespace Movietheater.Application.UserServices
                 }
                 else
                 {
-                    user.Status = Status.InActive;
+                    await _userManager.SetLockoutEnabledAsync(user, true);
                 }
                 return new ApiSuccessResultLite();
             }
@@ -238,20 +241,22 @@ namespace Movietheater.Application.UserServices
         public async Task<ApiResult<UserVMD>> GetUserByIdAsync (string id)
         {
             var user = await  _userManager.FindByIdAsync(id);
+            
             if(user == null)
             {
                 return new ApiErrorResult<UserVMD>("Người dùng không tồn tại");
             }
+            var userInfor = _context.UserInfors.Where(x => x.Id == user.Id).FirstOrDefault();
 
             var userVMD = new UserVMD()
             {
-                Dob = user.Dob,
+                Dob = userInfor.Dob,
+                FirstName = userInfor.FirstName,
+                LastName = userInfor.LastName,
                 Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
                 Id = user.Id,
                 PhoneNumber = user.PhoneNumber,
-                Status = user.Status,
+
                 UserName = user.UserName,
                 Roles = (List<string>)await _userManager.GetRolesAsync(user)
             };
@@ -260,43 +265,42 @@ namespace Movietheater.Application.UserServices
         }
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
-            var users = _context.Users.Select(x => x);
+            var users = from u in _context.Users
+                        join ui in _context.UserInfors on u.Id equals ui.Id
+                        select new { u, ui };
+
             if(!string.IsNullOrWhiteSpace(request.RoleId))
             {
-                users = users.Join(_context.AppUserRoles,
-                               u => u.Id,
+                users = users.Join(_context.UserRoles,
+                               u => u.u.Id,
                                ur => ur.UserId,
                                (u, ur) => new { u, ur }).Where(x => request.RoleId == x.ur.RoleId.ToString()).Select(x => x.u);
             }
            
 
-            if (request.Status != null)
-            {
-                users = users.Where(x => x.Status == request.Status);
-            }
 
             if (!string.IsNullOrWhiteSpace(request.Keyword))
             {
-                users = users.Where(x => x.UserName.Contains(request.Keyword)
-                                      || x.PhoneNumber.Contains(request.Keyword)
-                                      || x.FirstName.Contains(request.Keyword)
-                                      || x.LastName.Contains(request.Keyword)
-                                      || x.Email.Contains(request.Keyword)
-                                      || x.Dob.ToString().Contains(request.Keyword));
+                users = users.Where(x => x.u.UserName.Contains(request.Keyword)
+                                      || x.u.PhoneNumber.Contains(request.Keyword)
+                                      || x.u.Email.Contains(request.Keyword)
+                                      || x.ui.FirstName.Contains(request.Keyword)
+                                      || x.ui.LastName.Contains(request.Keyword)                                   
+                                      || x.ui.Dob.ToString().Contains(request.Keyword));
             }
 
             int totalRow = await users.CountAsync();
-            var item = users.OrderBy(x => x.UserName).Skip((request.PageIndex - 1) * request.PageSize)
+            var item = users.OrderBy(x => x.u.UserName).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize).Select(x => new UserVMD()
                 {
-                    Id = x.Id,
-                    Dob = x.Dob,
-                    Email = x.Email,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    PhoneNumber = x.PhoneNumber,
-                    UserName = x.UserName,
-                    Status = x.Status
+                    Id = x.u.Id,
+                    PhoneNumber = x.u.PhoneNumber,
+                    UserName = x.u.UserName,
+                    Email = x.u.Email,
+                    Dob = x.ui.Dob,
+                    FirstName = x.ui.FirstName,
+                    LastName = x.ui.LastName,
+
                 }).ToList();
 
             var pageResult = new PageResult<UserVMD>()

@@ -5,15 +5,18 @@ using MovieTheater.Data.Enums;
 
 namespace MovieTheater.Data.EFConfig
 {
-    public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
+    public class UserInforConfiguration : IEntityTypeConfiguration<UserInfor>
     {
-        public void Configure(EntityTypeBuilder<AppUser> builder)
+        public void Configure(EntityTypeBuilder<UserInfor> builder)
         {
-            builder.ToTable("AppUsers");
+            builder.ToTable("UserInfors");
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.FirstName).IsRequired().HasMaxLength(200);
             builder.Property(x => x.LastName).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Dob).IsRequired();
             builder.Property(x => x.Status).HasDefaultValue(Status.Active);
+
+            
         }
     }
 }

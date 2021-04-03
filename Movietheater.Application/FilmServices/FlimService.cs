@@ -88,9 +88,9 @@ namespace Movietheater.Application.FilmServices
         {
             var films = _context.Films.Select(x => x);
 
-
-
-
+            if (!string.IsNullOrWhiteSpace(request.Keyword))
+                films = films.Where(x => x.Name.Contains(request.Keyword)
+                                        || x.Id.ToString().Contains(request.Keyword));
 
 
             int totalRow = await films.CountAsync();
@@ -99,7 +99,8 @@ namespace Movietheater.Application.FilmServices
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    PublishDate = x.PublishDate
+                    PublishDate = x.PublishDate,
+                    BanId = x.BanId
                 }).ToList();
 
             var pageResult = new PageResult<FilmVMD>()

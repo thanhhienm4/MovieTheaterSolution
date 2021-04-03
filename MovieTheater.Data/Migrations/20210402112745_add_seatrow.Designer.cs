@@ -10,8 +10,8 @@ using MovieTheater.Data.EF;
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDBContext))]
-    [Migration("20210325144558_Update_Seat_Table")]
-    partial class Update_Seat_Table
+    [Migration("20210402112745_add_seatrow")]
+    partial class add_seatrow
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -100,7 +100,14 @@ namespace MovieTheater.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AppUserRoles");
+                    b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
+                            RoleId = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -119,7 +126,7 @@ namespace MovieTheater.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("AppUserTokens");
+                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.AppRole", b =>
@@ -156,119 +163,19 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ca819aed-0e45-4151-9280-ad1f7a6ceb9a"),
-                            ConcurrencyStamp = "4ebbc4d9-eb5a-43fc-b75d-3416f5291272",
+                            Id = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
+                            ConcurrencyStamp = "9d934722-efc1-4cf1-8cbf-c61b2a43cb98",
+                            Description = "Emloyee",
+                            Name = "Emloyee",
+                            NormalizedName = "Emloyee"
+                        },
+                        new
+                        {
+                            Id = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
+                            ConcurrencyStamp = "5fb83f5d-f8df-4c61-b144-bdb2cf6652b7",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
-                        });
-                });
-
-            modelBuilder.Entity("MovieTheater.Data.Entities.AppUser", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Dob")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AppUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b3dcc592-3d4b-4d49-b85f-e4552a1dc1fc"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "",
-                            Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "Mistake4@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Hien",
-                            LastName = "Nguyen Thanh",
-                            LockoutEnabled = false,
-                            LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            NormalizedEmail = "Mistakem4@gmail.com",
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDyF/NmgSlEKfTF6VpSTWsmA82ZBg+Epm9/85Fsn9B2pkPKSPqtYYSqoZz/3sJsltg==",
-                            PhoneNumber = "0912413908",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "",
-                            Status = 0,
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
                         });
                 });
 
@@ -294,6 +201,11 @@ namespace MovieTheater.Data.Migrations
                         {
                             Id = 1,
                             Name = "18+"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "13+"
                         });
                 });
 
@@ -368,6 +280,11 @@ namespace MovieTheater.Data.Migrations
                         {
                             Id = 1,
                             Name = "Hành động"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Haì"
                         });
                 });
 
@@ -433,6 +350,12 @@ namespace MovieTheater.Data.Migrations
                             Id = 1,
                             Name = "Chiếu sớm",
                             Surcharge = 20000
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Bình thường",
+                            Surcharge = 0
                         });
                 });
 
@@ -570,6 +493,11 @@ namespace MovieTheater.Data.Migrations
                         {
                             Id = 1,
                             Name = "Đặt trực tiếp"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Đặt qua mạng "
                         });
                 });
 
@@ -676,14 +604,14 @@ namespace MovieTheater.Data.Migrations
                             FilmId = 1,
                             KindOfScreeningId = 1,
                             RoomId = 1,
-                            TimeStart = new DateTime(2021, 3, 25, 14, 45, 55, 952, DateTimeKind.Utc).AddTicks(7094)
+                            TimeStart = new DateTime(2021, 4, 2, 11, 27, 42, 632, DateTimeKind.Utc).AddTicks(2856)
                         });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Seat", b =>
                 {
-                    b.Property<string>("Row")
-                        .HasColumnType("varchar(1)");
+                    b.Property<int>("RowId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
@@ -700,7 +628,7 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("KindOfSeatId")
                         .HasColumnType("int");
 
-                    b.HasKey("Row", "Number", "RoomId");
+                    b.HasKey("RowId", "Number", "RoomId");
 
                     b.HasIndex("KindOfSeatId");
 
@@ -711,11 +639,44 @@ namespace MovieTheater.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Row = "A",
+                            RowId = 1,
                             Number = 1,
                             RoomId = 1,
                             Id = 1,
                             KindOfSeatId = 1
+                        });
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.SeatRow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SeatRows");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "A"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "B"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "C"
                         });
                 });
 
@@ -744,6 +705,130 @@ namespace MovieTheater.Data.Migrations
                     b.ToTable("Tickets");
                 });
 
+            modelBuilder.Entity("MovieTheater.Data.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "",
+                            Email = "Mistake4@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            NormalizedEmail = "Mistakem4@gmail.com",
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAaXEOrrZYVtmL7OFNvVUURTBM37AiX3JK7tUq1aRHDKquC4LI8DDWaEOQmJOI7Fog==",
+                            PhoneNumber = "0912413908",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.UserInfor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Dob")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserInfors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
+                            Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Hien",
+                            LastName = "Nguyen Thanh",
+                            Status = 0
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("MovieTheater.Data.Entities.AppRole", null)
@@ -755,7 +840,7 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("MovieTheater.Data.Entities.AppUser", null)
+                    b.HasOne("MovieTheater.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -764,7 +849,7 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("MovieTheater.Data.Entities.AppUser", null)
+                    b.HasOne("MovieTheater.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -779,7 +864,7 @@ namespace MovieTheater.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MovieTheater.Data.Entities.AppUser", null)
+                    b.HasOne("MovieTheater.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -788,7 +873,7 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("MovieTheater.Data.Entities.AppUser", null)
+                    b.HasOne("MovieTheater.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -854,7 +939,7 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Reservation", b =>
                 {
-                    b.HasOne("MovieTheater.Data.Entities.AppUser", "Employee")
+                    b.HasOne("MovieTheater.Data.Entities.UserInfor", "Employee")
                         .WithMany("ReservationsEmployee")
                         .HasForeignKey("EmployeeId");
 
@@ -864,7 +949,7 @@ namespace MovieTheater.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MovieTheater.Data.Entities.AppUser", "User")
+                    b.HasOne("MovieTheater.Data.Entities.UserInfor", "User")
                         .WithMany("ReservationsUser")
                         .HasForeignKey("UserId");
 
@@ -927,9 +1012,17 @@ namespace MovieTheater.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MovieTheater.Data.Entities.SeatRow", "SeatRow")
+                        .WithMany("Seats")
+                        .HasForeignKey("RowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("KindOfSeat");
 
                     b.Navigation("Room");
+
+                    b.Navigation("SeatRow");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Ticket", b =>
@@ -956,11 +1049,15 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("Seat");
                 });
 
-            modelBuilder.Entity("MovieTheater.Data.Entities.AppUser", b =>
+            modelBuilder.Entity("MovieTheater.Data.Entities.User", b =>
                 {
-                    b.Navigation("ReservationsEmployee");
+                    b.HasOne("MovieTheater.Data.Entities.UserInfor", "UserInfor")
+                        .WithOne("User")
+                        .HasForeignKey("MovieTheater.Data.Entities.User", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("ReservationsUser");
+                    b.Navigation("UserInfor");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Ban", b =>
@@ -1027,6 +1124,20 @@ namespace MovieTheater.Data.Migrations
             modelBuilder.Entity("MovieTheater.Data.Entities.Seat", b =>
                 {
                     b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.SeatRow", b =>
+                {
+                    b.Navigation("Seats");
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.UserInfor", b =>
+                {
+                    b.Navigation("ReservationsEmployee");
+
+                    b.Navigation("ReservationsUser");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

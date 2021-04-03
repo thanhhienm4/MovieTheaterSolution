@@ -1,7 +1,6 @@
 ﻿using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Infra.Seat.KindOfSeat;
 using MovieTheater.Models.Infra.Seat.SeatRow;
 using System;
 using System.Collections.Generic;
@@ -11,21 +10,20 @@ using System.Threading.Tasks;
 
 namespace Movietheater.Application.SeatServices
 {
-    public class KindOfSeatService : IKindOfSeatService
+    public class SeatRowService :ISeatRowService
     {
         private readonly MovieTheaterDBContext _context;
-        public KindOfSeatService(MovieTheaterDBContext context)
+        public SeatRowService(MovieTheaterDBContext context)
         {
             _context = context;
         }
-        public async Task<ApiResultLite> CreateAsync(KindOfSeatCreateRequest request)
+        public async Task<ApiResultLite> CreateAsync(string name)
         {
-            KindOfSeat kindOfSeat = new KindOfSeat()
+            SeatRow kindOfSeat = new SeatRow()
             {
-                Name = request.Name,
-                Surcharge = request.SurCharge
+                Name = name
             };
-            _context.KindOfSeats.Add(kindOfSeat);
+            _context.SeatRows.Add(kindOfSeat);
             int result = await _context.SaveChangesAsync();
             if (result == 0)
             {
@@ -36,9 +34,9 @@ namespace Movietheater.Application.SeatServices
 
         }
 
-        public async Task<ApiResultLite> UpdateAsync(KindOfSeatUpdateRequest request)
+        public async Task<ApiResultLite> UpdateAsync(SeatRowUpdateRequest request)
         {
-            KindOfSeat seat = await _context.KindOfSeats.FindAsync(request.Id);
+            SeatRow seat = await _context.SeatRows.FindAsync(request.Id);
             if (seat == null)
             {
                 return new ApiErrorResultLite("Không tìm thấy");
@@ -46,35 +44,36 @@ namespace Movietheater.Application.SeatServices
             else
             {
                 seat.Name = request.Name;
-                seat.Surcharge = request.Surcharge;
                 _context.Update(seat);
-                if(await _context.SaveChangesAsync()!=0)
-                     return new ApiSuccessResultLite("Cập nhật thành công");
+                if (await _context.SaveChangesAsync() != 0)
+                    return new ApiSuccessResultLite("Cập nhật thành công");
                 else
-                    return new ApiErrorResultLite("Cập nhật thất bại mới thất bại");
+                    return new ApiErrorResultLite("Cập nhật thất bại");
             }
         }
 
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
-            KindOfSeat seat = await _context.KindOfSeats.FindAsync(id);
+            SeatRow seat = await _context.SeatRows.FindAsync(id);
             if (seat == null)
             {
                 return new ApiErrorResultLite("Không tìm thấy");
             }
             else
             {
-                _context.KindOfSeats.Remove(seat);
-                if( await _context.SaveChangesAsync()!=0)
+                _context.SeatRows.Remove(seat);
+                if (await _context.SaveChangesAsync() != 0)
                 {
                     return new ApiSuccessResultLite("Xóa thành công");
-                }else
+                }
+                else
                 {
                     return new ApiErrorResultLite("Xóa thất bại");
                 }
-                   
-                
+
+
             }
         }
-    }
+
+   }
 }

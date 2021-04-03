@@ -1,4 +1,5 @@
-﻿using MovieTheater.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
@@ -22,7 +23,7 @@ namespace Movietheater.Application.SeatServices
         {
             Seat seat = new Seat()
             {
-                Row = request.Row,
+                RowId = request.Row,
                 Number = request.Number,
                 KindOfSeatId = request.KindOfSeatId,
                 RoomId = request.RoomId
@@ -70,7 +71,7 @@ namespace Movietheater.Application.SeatServices
             else
             {
                 seat.Id = request.Id;
-                seat.Row = request.Row;
+                seat.RowId = request.RowId;
                 seat.Number = request.Number;
                 seat.KindOfSeatId = request.KindOfSeatId;
                 seat.RoomId = request.RoomId;
@@ -82,6 +83,31 @@ namespace Movietheater.Application.SeatServices
                 }
                 return new ApiSuccessResultLite("Cập nhật thành công");
             }
+        }
+
+        public async Task<ApiResult<List<List<SeatVMD>>>> GetSeatInRoomAsync(int roomId)
+        {
+            var query =  _context.Seats.Where(x => x.RoomId == roomId).ToList();
+
+            List<SeatRow> rows = _context.SeatRows.Select(x => x).OrderBy(x=> x.Name).ToList();
+            List<List<SeatVMD>> result = new List<List<SeatVMD>>();
+
+            foreach(var row in rows)
+            {
+                List<SeatVMD> rowSeats = query.Where(x => x.RowId == row.Id).Select(x => new SeatVMD()
+                {
+                    Id = x.Id,
+                    Number = x.Number,
+                    RowId = x.RowId,
+                    RoomId = x.RoomId
+                })
+                .ToList();
+
+                result.Add(rowSeats);
+            }
+
+            return new ApiSuccessResult<List<List<SeatVMD>>>(result);
+
         }
 
     }

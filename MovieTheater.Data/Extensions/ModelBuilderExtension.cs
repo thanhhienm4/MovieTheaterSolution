@@ -12,42 +12,57 @@ namespace MovieTheater.Data.Extensions
             modelBuilder.Entity<AppRole>().HasData(
                 new AppRole()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("1081FBA0-8368-43B7-8134-032E838C1BB3"),
                     Name = "Emloyee",
                     NormalizedName = "Emloyee",
                     Description = "Emloyee"
                 },
                 new AppRole()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("C02AB224-EBDD-44E3-B691-5ACEC03DA039"),
                     Name = "Admin",
                     NormalizedName = "Administrator",
                     Description = "Administrator role"
                 });
                
-            modelBuilder.Entity<AppUser>().HasData(
-                new AppUser()
+            modelBuilder.Entity<User>().HasData(
+                new User()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("99ECA8CE-E954-4ED9-AB12-1A1FB010A9F8"),
                     UserName = "admin",
                     NormalizedUserName = "admin",
                     Email = "Mistake4@gmail.com",
                     NormalizedEmail = "Mistakem4@gmail.com",
                     EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<AppUser>().HashPassword(null, "Admin123"),
+                    PasswordHash = new PasswordHasher<User>().HashPassword(null, "Admin123"),
                     SecurityStamp = string.Empty,
                     ConcurrencyStamp = string.Empty,
-
-                    FirstName = "Hien",
-                    LastName = "Nguyen Thanh",
-                    Dob = new DateTime(2020, 01, 31),
                     PhoneNumber = "0912413908",
                     PhoneNumberConfirmed = true,
                     LockoutEnabled = false,
                     AccessFailedCount = 0,
                     TwoFactorEnabled = false,
-                    LockoutEnd = new DateTimeOffset()
+                    LockoutEnd = new DateTimeOffset(),
+                   
                 });
+            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData
+                (
+                    new IdentityUserRole<Guid>()
+                    {
+                        RoleId = new Guid("1081FBA0-8368-43B7-8134-032E838C1BB3"),
+                        UserId = new Guid("99ECA8CE-E954-4ED9-AB12-1A1FB010A9F8")
+                    }
+                ); 
+            
+            modelBuilder.Entity<UserInfor>().HasData(
+                 new UserInfor()
+                 {
+                     Id = new Guid("99ECA8CE-E954-4ED9-AB12-1A1FB010A9F8"),
+
+                     FirstName = "Hien",
+                     LastName = "Nguyen Thanh",
+                     Dob = new DateTime(2020, 01, 31),
+                 })  ;
             modelBuilder.Entity<RoomFormat>().HasData(
                 new RoomFormat()
                 {
@@ -75,6 +90,24 @@ namespace MovieTheater.Data.Extensions
                     Id = 1,
                     Name = "Thường"
                 });
+            modelBuilder.Entity<SeatRow>().HasData(
+                new SeatRow()
+                {
+                    Id = 1,
+                    Name = 'A'.ToString()
+                },
+                 new SeatRow()
+                 {
+                     Id = 2,
+                     Name = 'B'.ToString()
+                 },
+                 new SeatRow()
+                 {
+                     Id = 3,
+                     Name = 'C'.ToString()
+                 }
+                ) ;
+            
             modelBuilder.Entity<Seat>().HasData(
               new Seat()
               {
@@ -82,7 +115,7 @@ namespace MovieTheater.Data.Extensions
                   KindOfSeatId = 1,
                   Number = 1,
                   RoomId = 1,
-                  Row = 'A'
+                  RowId = 1
               });
             
             modelBuilder.Entity<Ban>().HasData(

@@ -1,5 +1,6 @@
 ﻿using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat.KindOfSeat;
+using MovieTheater.Models.Infra.Seat.SeatRow;
 using System;
 using System.Collections.Generic;
 using System.Linq;

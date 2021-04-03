@@ -54,7 +54,7 @@ namespace MovieTheater.BackEnd
 
 
             // For Identity
-            services.AddIdentity<AppUser, AppRole>(
+            services.AddIdentity<User, AppRole>(
                 option =>
                 {
                     option.Password.RequireNonAlphanumeric = false;

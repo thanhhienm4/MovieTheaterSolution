@@ -13,11 +13,11 @@ namespace MovieTheater.Data.Entities
         public ReservationType ReservationType { get; set; }
 
         public Guid? UserId { get; set; }
-        public AppUser User { get; set; }
+        public UserInfor User { get; set; }
 
 
         public Guid? EmployeeId { get; set; }
-        public AppUser Employee { get; set; }
+        public UserInfor Employee { get; set; }
 
         public List<Ticket> Tickets { get; set; }
     }

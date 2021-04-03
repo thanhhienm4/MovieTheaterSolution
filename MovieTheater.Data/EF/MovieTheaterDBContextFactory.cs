@@ -18,7 +18,6 @@ namespace MovieTheater.Data.EF
 
             var optionsBuilder = new DbContextOptionsBuilder<MovieTheaterDBContext>();
             optionsBuilder.UseSqlServer(ConnectionString);
-
             return new MovieTheaterDBContext(optionsBuilder.Options);
         }
     }

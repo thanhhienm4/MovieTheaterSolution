@@ -5,6 +5,10 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item active">Film</li>
+</ol>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
@@ -40,19 +44,16 @@
                 <tr>
 
                     <th>
-                        UserName
+                        Id
                     </th>
                     <th>
-                        Trạng thái
+                        Tên phim
                     </th>
                     <th>
-                        SĐT
+                        BanId
                     </th>
                     <th>
-                        Email
-                    </th>
-                    <th>
-                        Ngày sinh
+                       Ngày công chiếu
                     </th>
                     <th></th>
                 </tr>

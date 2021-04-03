@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 
 namespace MovieTheater.Data.Entities
 {
     public class Seat
     {
         public int Id { get; set; }
-        public char Row { get; set; }
+        public int RowId { get; set; }
         public int Number { get; set; }
 
         public int KindOfSeatId { get; set; }
@@ -14,6 +15,7 @@ namespace MovieTheater.Data.Entities
         public int RoomId { get; set; }
         public Room Room { get; set; }
 
+        public SeatRow SeatRow { get; set; }
         public List<Ticket> Tickets { get; set; }
     }
 }

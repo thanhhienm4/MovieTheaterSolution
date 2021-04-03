@@ -9,9 +9,9 @@ using System;
 
 namespace MovieTheater.Data.EF
 {
-    public class MovieTheaterDBContext : IdentityDbContext<AppUser, AppRole, Guid>
+    public class MovieTheaterDBContext : IdentityDbContext<User, AppRole, Guid>
     {
-        public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Ban> Bans { get; set; }
         public DbSet<Screening> Screenings { get; set; }
         public DbSet<Film> Films { get; set; }
@@ -29,7 +29,9 @@ namespace MovieTheater.Data.EF
         public DbSet<Room> Rooms { get; set; }
         public DbSet<FilmInGenre> FilmInGenres { get; set; }
         public DbSet<KindOfScreening> KindOfScreenings { get; set; }
-        public DbSet<IdentityUserRole<Guid>> AppUserRoles { get; set; }
+        public DbSet<IdentityUserRole<Guid>> UserRoles { get; set; }
+        public DbSet<UserInfor> UserInfors { get; set; }
+        public DbSet<SeatRow> SeatRows { get; set; }
 
         public MovieTheaterDBContext(DbContextOptions<MovieTheaterDBContext> options) : base(options)
         {
@@ -38,7 +40,8 @@ namespace MovieTheater.Data.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new AppUserConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new UserInforConfiguration());
             modelBuilder.ApplyConfiguration(new BanConfiguration());
             modelBuilder.ApplyConfiguration(new RoomFormatConfiguration());
             modelBuilder.ApplyConfiguration(new JoiningConfiguration());
@@ -51,15 +54,17 @@ namespace MovieTheater.Data.EF
             modelBuilder.ApplyConfiguration(new RoomConfiguration());
             modelBuilder.ApplyConfiguration(new ScreeningConfiguration());
             modelBuilder.ApplyConfiguration(new SeatConfiguration());
+            modelBuilder.ApplyConfiguration(new SeatRowConfiguration());
             modelBuilder.ApplyConfiguration(new TicketConfiguration());
             modelBuilder.ApplyConfiguration(new FilmInGenreConfiguration());
             modelBuilder.ApplyConfiguration(new FilmConfiguration());
             modelBuilder.ApplyConfiguration(new KindOfScreeningConfiguration());
+           
 
 
-            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
-            //modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
-            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles").HasKey(x => new { x.UserId, x.RoleId });
+            //modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins").HasKey(x => x.UserId);
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens").HasKey(x => x.UserId);
 
             modelBuilder.Seed();
         }
