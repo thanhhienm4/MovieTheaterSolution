@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieTheater.Data.EF;
 
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDBContext))]
-    partial class MovieTheaterDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210403110921_remove_fk_seatrow_room")]
+    partial class remove_fk_seatrow_room
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,7 +164,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
-                            ConcurrencyStamp = "8ca770a5-d01b-436a-912b-787ddc5253f5",
+                            ConcurrencyStamp = "ffd615b2-db0c-447d-9fb4-c24fa818a46e",
                             Description = "Emloyee",
                             Name = "Emloyee",
                             NormalizedName = "Emloyee"
@@ -170,7 +172,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
-                            ConcurrencyStamp = "c774f3df-ee2a-4508-a5b0-c12162bfd271",
+                            ConcurrencyStamp = "4b0d35f0-cf7d-406a-a0d7-90370bd102a7",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -602,7 +604,7 @@ namespace MovieTheater.Data.Migrations
                             FilmId = 1,
                             KindOfScreeningId = 1,
                             RoomId = 1,
-                            TimeStart = new DateTime(2021, 4, 5, 16, 28, 44, 188, DateTimeKind.Utc).AddTicks(9742)
+                            TimeStart = new DateTime(2021, 4, 3, 11, 9, 18, 759, DateTimeKind.Utc).AddTicks(3126)
                         });
                 });
 
@@ -614,23 +616,19 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<int>("KindOfSeatId")
                         .HasColumnType("int");
 
-                    b.HasKey("RowId", "Number", "RoomId");
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RowId", "Number");
 
                     b.HasIndex("KindOfSeatId");
 
@@ -643,10 +641,9 @@ namespace MovieTheater.Data.Migrations
                         {
                             RowId = 1,
                             Number = 1,
-                            RoomId = 1,
                             Id = 1,
-                            IsActive = false,
-                            KindOfSeatId = 1
+                            KindOfSeatId = 1,
+                            RoomId = 1
                         });
                 });
 
@@ -787,7 +784,7 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDNxTB+y6vEhUyTY4vEehFnb41s6x5q3b1MNP1mnLKwqZkFtfbbEOVfcAve/xL+sCQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOwWmCvNnh4O8ygLT1W5XoEC6uE2FV4zwlMHs0BoqHYaL/ZVf2tusmcCW0wVJJrvEw==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
@@ -1013,7 +1010,7 @@ namespace MovieTheater.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("MovieTheater.Data.Entities.Room", "Room")
-                        .WithMany("Seats")
+                        .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1113,8 +1110,6 @@ namespace MovieTheater.Data.Migrations
             modelBuilder.Entity("MovieTheater.Data.Entities.Room", b =>
                 {
                     b.Navigation("Screenings");
-
-                    b.Navigation("Seats");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.RoomFormat", b =>

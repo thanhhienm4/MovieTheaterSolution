@@ -10,7 +10,7 @@ namespace MovieTheater.Data.Entities
         public int FormatId { get; set; }
         public RoomFormat Format { get; set; }
 
-        public List<SeatRow> SeatRows { get; set; }
         public List<Screening> Screenings { get; set; }
+        public List<Seat> Seats { get; set; }
     }
 }

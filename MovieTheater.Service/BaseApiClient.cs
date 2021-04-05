@@ -33,6 +33,13 @@ namespace MovieTheater.Api
             return await GetResultAsync<TResponse>(response);
         }
 
+        protected async Task<List<List<TResponse>>> GetMatrixAsync<TResponse>(string url)
+        {
+            HttpClient client = GetHttpClient();
+            var response = await client.GetAsync(url);
+            return await GetResultAsync<List<List<TResponse>>>(response);
+        }
+
         // post data to Api
         protected async Task<TResponse> PostAsync<TResponse>(string url, object obj)
         {

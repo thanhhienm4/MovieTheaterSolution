@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieTheater.Data.EF;
 
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDBContext))]
-    partial class MovieTheaterDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210405162847_fix_seat_table")]
+    partial class fix_seat_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

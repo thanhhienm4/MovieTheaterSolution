@@ -43,6 +43,7 @@ namespace Movietheater.Application.UserServices
                 return new ApiErrorResult<string>("Tên đăng nhập không tồn tại");
 
             var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, false);
+     
             if (result.Succeeded == false)
                 return new ApiErrorResult<string>("Mật khẩu không chính xác");
 

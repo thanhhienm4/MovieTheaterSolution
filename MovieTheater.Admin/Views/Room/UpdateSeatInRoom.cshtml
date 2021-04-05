@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewData["Title"] = "UpdateSeatInRoom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sơ đồ ghế rạp phim</h2>
+    <div class="card bg-secondary text-white">
+        <div class="card-body d-flex justify-content-center" style="font-size:120%">
+            Màn hình
+        </div>
+    </div>
+    <div class="card bg-light"> 
+        <div class="card-body">
+            <div class="container-fluid">
+                <div style="overflow-x:auto;">
+                    <ul id="place">
+                    </ul>
+                </div>
+                
+            </div>
+            
+        </div>
+         
+    </div>
+
+    <div style="float:left;"> 
+
+    </div>
+    <div style="clear:both;width:100%">
+        <input type="button" id="btnShowNew" value="Show Selected Seats" />
+        <input type="button" id="btnShow" value="Show All" />           
+    </div>
+
+  
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<style type="text/css">
+    #holder{    
+    padding: 10px;
+    height:200px;    
+    width:550px;
+    background-color:#F5F5F5;
+    border:1px solid #A4A4A4;
+    margin-left:10px;   
+    }
+    #place {
+    position:relative;
+    margin:7px;
+    }
+    #place a{
+    font-size:0.6em;
+    }
+    #place li
+    {
+     list-style: none outside none;
+     position: absolute;   
+    }
+
+        #place .seat {
+            background-color: #fff;
+            border-radius: 10%;
+            height: 40px;
+            width: 40px;
+            display: block;
+        }
+        #place .selectedSeat {
+            background-color: #e74a3b;
+        }
+        #place .selectingSeat {
+            background-color: #1cc88a;
+        }
+    #place .row-3, #place .row-4{
+    margin-top:10px;
+    }
+    #seatDescription li{
+    verticle-align:middle;    
+    list-style: none outside none;
+    padding-left:35px;
+    height:35px;
+    float:left;
+    }
+</style>
+<script type="text/javascript">
+    var settings = {
+        rows: 10,
+        cols: 25,
+        rowCssPrefix: 'row-',
+        colCssPrefix: 'col-',
+        seatWidth: 35,
+        seatHeight: 35,
+        seatCss: 'seat',
+        selectedSeatCss: 'selectedSeat',
+        selectingSeatCss: 'selectingSeat'
+    };
+    var listRow = [];
+
+
+    $.ajax({
+        type: "Get",
+        url: "/SeatRow/GetAllSeatRows",
+        success: function (result) {
+            var init = function (reservedSeat) {
+                var str = [], seatNo, className;
+                settings.rows = result.length;
+                for (i = 0; i < settings.rows; i++) {
+                    str.push('<div class="row">');
+                    str.push('<div class="btn-group">');
+                    for (j = 0; j < settings.cols; j++) {
+                        seatNo = result[i].name + j.toString();
+                        className = settings.seatCss ;
+                        if ($.isArray(reservedSeat) && $.inArray(seatNo, reservedSeat) != -1) {
+                            className += ' ' + settings.selectedSeatCss;
+                        }
+                        str.push('<button class ="' + className + '"' +
+                            'data-row="' + result[i].id + '"data-num="' + j.toString() +'" > ' +
+                            '<a title="' + seatNo + '">' + seatNo + '</a>' +
+                            '</button>');
+                    }
+                    str.push('</div>');
+                    str.push('</div>');
+                }
+                $('#place').html(str.join(''));
+            };
+            //case I: Show from starting
+            //init();
+
+            //Case II: If already booked
+            var bookedSeats = ['A1', 'B1', 'B2'];
+            init(bookedSeats);
+            $('.' + settings.seatCss).click(function () {
+                if ($(this).hasClass(settings.selectedSeatCss)) {
+                    alert('This seat is already reserved');
+                }
+                else {
+                    $(this).toggleClass(settings.selectingSeatCss);
+                }
+            });
+        }
+    })
+
+ 
+$('#btnShow').click(function () {
+    var str = [];
+    $.each($('#place button.' + settings.selectedSeatCss + ' a, #place button.'+ settings.selectingSeatCss + ' a'), function (index, value) {
+        str.push($(this).attr('title'));
+    });
+    alert(str.join(','));
+})
+ 
+$('#btnShowNew').click(function () {
+    var seats = [];
+    $.each($('#place button.' + settings.selectingSeatCss), function (index, value) {
+        var seat = {
+            RoomId: @ViewBag.RoomId,
+            RowId: $(this).attr('data-row'),
+            Number: $(this).attr('data-num'),
+            KindOfSeatId: 1
+        };
+        seats.push(seat);
+    });
+   
+    $.ajax({
+        type: "Post",
+        url: "/Room/UpdateSeatInRoom",
+        data: { Seats: seats, RoomId: 1 }
+    });
+})
+
+</script>
+

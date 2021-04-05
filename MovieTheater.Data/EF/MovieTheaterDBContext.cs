@@ -59,7 +59,7 @@ namespace MovieTheater.Data.EF
             modelBuilder.ApplyConfiguration(new FilmInGenreConfiguration());
             modelBuilder.ApplyConfiguration(new FilmConfiguration());
             modelBuilder.ApplyConfiguration(new KindOfScreeningConfiguration());
-           
+
 
 
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles").HasKey(x => new { x.UserId, x.RoleId });

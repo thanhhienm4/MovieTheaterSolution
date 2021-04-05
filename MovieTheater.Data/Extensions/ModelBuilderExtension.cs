@@ -107,7 +107,7 @@ namespace MovieTheater.Data.Extensions
                      Name = 'C'.ToString()
                  }
                 ) ;
-            
+           
             modelBuilder.Entity<Seat>().HasData(
               new Seat()
               {

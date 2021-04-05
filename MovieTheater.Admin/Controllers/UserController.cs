@@ -9,6 +9,7 @@ using MovieTheater.Data.Enums;
 using MovieTheater.Models.Common;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
+using MovieTheater.Models.Infra.Seat.SeatRow;
 using MovieTheater.Models.User;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace MovieTheater.Admin.Controllers
     [AllowAnonymous]
     public class UserController : BaseController
     {
+
         private readonly UserApiClient _userApiClient;
         private readonly RoleApiClient _roleApiClient;
         public UserController(UserApiClient userApiClient, RoleApiClient roleApiClient)
@@ -199,6 +201,8 @@ namespace MovieTheater.Admin.Controllers
         {
             return View();
         }
+
+        
     }
 
 }

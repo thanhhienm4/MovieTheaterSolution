@@ -1,4 +1,5 @@
-﻿using MovieTheater.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat.SeatRow;
@@ -75,5 +76,15 @@ namespace Movietheater.Application.SeatServices
             }
         }
 
-   }
+        public async Task<ApiResult<List<SeatRowVMD>>> GetAllSeatRows()
+        {
+            var result = await _context.SeatRows.Select(x => new SeatRowVMD()
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToListAsync();
+
+            return new ApiSuccessResult<List<SeatRowVMD>>(result);
+        }
+    }
 }

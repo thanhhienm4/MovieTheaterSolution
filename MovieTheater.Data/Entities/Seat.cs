@@ -16,6 +16,8 @@ namespace MovieTheater.Data.Entities
         public Room Room { get; set; }
 
         public SeatRow SeatRow { get; set; }
+
+        public bool IsActive { get; set; }
         public List<Ticket> Tickets { get; set; }
     }
 }
