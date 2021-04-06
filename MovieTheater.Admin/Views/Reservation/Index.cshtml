@@ -1,0 +1,94 @@
+﻿@using MovieTheater.Models.Common.Paging
+@using MovieTheater.Models.Catalog.Reservation
+@model PageResult<ReservationVMD>
+@{ ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-flex">
+            <div class="ml-auto p-2">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Tìm</button>
+                            <button type="button" onclick="window.location.href='/Reservation/Index'" class="btn btn-dark">Reset</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Paid
+                    </th>
+                    <th>
+                        Active
+                    </th>
+                    <th>
+                        ReservationTypeId
+                    </th>
+                    <th>
+                        EmployeeId
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Item)
+                {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Paid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+
+            @Html.DisplayFor(modelItem => item.ReservationTypeId)
+        </td>
+        <td>
+
+            @Html.DisplayFor(modelItem => item.EmployeeId)
+        </td>
+        <td>
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
+
+        </td>
+    </tr>}
+            </tbody>
+        </table>
+        <div class="d-flex">
+            <div class="ml-auto p-2">
+                @await Component.InvokeAsync("Pager", Model)
+            </div>
+        </div>
+
+    </div>
+</div>
+

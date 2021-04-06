@@ -51,5 +51,6 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _filmService.GetFilmById(id);
             return result;
         }
+
     }
 }

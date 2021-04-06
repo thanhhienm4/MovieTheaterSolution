@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.ReservationService.cs
+namespace Movietheater.Application.ReservationServices
 {
     public interface ITicketService
     {

@@ -24,6 +24,8 @@ namespace MovieTheater.Admin
             services.AddTransient<UserApiClient, UserApiClient>();
             services.AddTransient<RoleApiClient, RoleApiClient>();
             services.AddTransient<FilmApiClient, FilmApiClient>();
+            services.AddTransient<PeopleApiClient, PeopleApiClient>();
+            services.AddTransient<ReservationApiClient, ReservationApiClient>();
             services.AddTransient<SeatApiClient, SeatApiClient>();
             services.AddTransient<SeatRowApiClient, SeatRowApiClient>();
             services.AddHttpClient();

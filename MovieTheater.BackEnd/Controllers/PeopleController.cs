@@ -2,6 +2,7 @@
 using Movietheater.Application.FilmServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         public async Task<ApiResultLite> UpdateAsync(PeopleUpdateRequest request)
         {
             var result = await _PeopleService.UpdateAsync(request);
@@ -37,6 +38,19 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
             var result = await _PeopleService.DeleteAsync(id);
+            return result;
+        }
+
+        [HttpPost("GetPeoplePaging")]
+        public async Task<ApiResult<PageResult<PeopleVMD>>> GetPeoplePaging(PeoplePagingRequest request)
+        {
+            var result = await _PeopleService.GetPeoplePagingAsync(request);
+            return result;
+        }
+        [HttpGet("GetPeopleById/{id}")]
+        public async Task<ApiResult<PeopleVMD>> GetPeopleByIdAsync(int id)
+        {
+            var result = await _PeopleService.GetPeopleById(id);
             return result;
         }
     }

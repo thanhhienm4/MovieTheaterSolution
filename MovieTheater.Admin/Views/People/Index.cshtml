@@ -1,0 +1,94 @@
+﻿@using MovieTheater.Models.Common.Paging
+@using MovieTheater.Models.Catalog.Film
+@model PageResult<PeopleVMD>
+@{ ViewData["Title"] = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-flex">
+            <div class="p-2">
+                <a class="btn btn-success" asp-action="Create" asp-controller="People">Tạo mới</a>
+            </div>
+            <div class="ml-auto p-2">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Tìm</button>
+                            <button type="button" onclick="window.location.href='/People/Index'" class="btn btn-dark">Reset</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Tên 
+                    </th>
+                    <th>
+                        Mô tả
+                    </th>
+                    <th>
+                        Ngày sinh
+                    </th>
+                    <th>
+                        Khác
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Item)
+                {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+
+            @Convert.ToDateTime(item.DOB).ToString("dd/MM/yyyy")
+        </td>
+        <td>
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
+
+        </td>
+    </tr>
+}
+            </tbody>
+        </table>
+        <div class="d-flex">
+            <div class="ml-auto p-2">
+                @await Component.InvokeAsync("Pager", Model)
+            </div>
+        </div>
+
+    </div>
+</div>
+

@@ -13,7 +13,6 @@ namespace MovieTheater.Models.Catalog.Reservation
         public int ReservationTypeId { get; set; }
         public Guid? UserId { get; set; }
         public Guid? EmployeeId { get; set; }
-
         public List<TicketCreateRequest> Tickets { get; set; }
     }
 }

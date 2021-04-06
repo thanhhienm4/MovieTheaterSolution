@@ -1,7 +1,9 @@
-﻿using MovieTheater.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,5 +77,51 @@ namespace Movietheater.Application.FilmServices
                 return new ApiSuccessResultLite("Cập nhật thành công");
             }
         }
+        public async Task<ApiResult<PageResult<PeopleVMD>>> GetPeoplePagingAsync(PeoplePagingRequest request)
+        {
+            var peoples = _context.Peoples.Select(x => x);
+
+            int totalRow = await peoples.CountAsync();
+            var item = peoples.OrderBy(x => x.Name).Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize).Select(x => new PeopleVMD()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    DOB = x.DOB,
+                    Description = x.Description
+                }).ToList();
+
+            var pageResult = new PageResult<PeopleVMD>()
+            {
+
+                TotalRecord = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Item = item,
+            };
+
+            return new ApiSuccessResult<PageResult<PeopleVMD>>(pageResult);
+        }
+
+        public async Task<ApiResult<PeopleVMD>> GetPeopleById(int id)
+        {
+            People people = await _context.Peoples.FindAsync(id);
+            if (people == null)
+            {
+                return new ApiErrorResult<PeopleVMD>("Không tìm thấy");
+            }
+            else
+            {
+                var result = new PeopleVMD()
+                {
+                    Id = people.Id,
+                    Name = people.Name,
+                    Description = people.Description,
+                    DOB = people.DOB
+                };
+                return new ApiSuccessResult<PeopleVMD>(result);
+            }
+        }
+
     }
 }

@@ -1,14 +1,16 @@
-﻿using MovieTheater.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.ReservationService.cs
+namespace Movietheater.Application.ReservationServices
 {
     public class ReservationService : IReservationService
     {
@@ -66,10 +68,7 @@ namespace Movietheater.Application.ReservationService.cs
             }
         }
 
-        public Task<ApiResult<ReservationVMD>> GetReservationById(int Id)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public async Task<ApiResultLite> UpdateAsync(ReservationUpdateRequest request)
         {
@@ -126,6 +125,54 @@ namespace Movietheater.Application.ReservationService.cs
                 return false;
 
 
+        }
+        public async Task<ApiResult<PageResult<ReservationVMD>>> GetReservationPagingAsync(ReservationPagingRequest request)
+        {
+            var reservations = _context.Reservations.Select(x => x);
+            int totalRow = await reservations.CountAsync();
+            var item = reservations.OrderBy(x => x.Employee).Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize).Select(x => new ReservationVMD()
+                {
+                    Id = x.Id,
+                    Paid = x.Paid,
+                    Active = x.Active,
+                    ReservationTypeId = x.ReservationTypeId,
+                    UserId = x.UserId,
+                    EmployeeId = x.EmployeeId
+                }).ToList();
+
+            var pageResult = new PageResult<ReservationVMD>()
+            {
+
+                TotalRecord = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Item = item,
+            };
+
+            return new ApiSuccessResult<PageResult<ReservationVMD>>(pageResult);
+        }
+
+        public async Task<ApiResult<ReservationVMD>> GetReservationById(int Id)
+        {
+            Reservation reservation = await _context.Reservations.FindAsync(Id);
+            if (reservation == null)
+            {
+                return new ApiErrorResult<ReservationVMD>("Không tìm thấy");
+            }
+            else
+            {
+                var result = new ReservationVMD()
+                {
+                    Id = reservation.Id,
+                    Paid = reservation.Paid,
+                    Active = reservation.Active,
+                    EmployeeId = reservation.EmployeeId,
+                    UserId = reservation.UserId,
+                    ReservationTypeId = reservation.ReservationTypeId
+                };
+                return new ApiSuccessResult<ReservationVMD>(result);
+            }
         }
     }
 }

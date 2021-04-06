@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Movietheater.Application.ReservationService.cs;
+using Movietheater.Application.ReservationServices;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         public async Task<ApiResultLite> UpdateAsync(ReservationUpdateRequest request)
         {
             var result = await _reservationService.UpdateAsync(request);
@@ -37,6 +38,19 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
             var result = await _reservationService.DeleteAsync(id);
+            return result;
+        }
+
+        [HttpPost("GetReservationPaging")]
+        public async Task<ApiResult<PageResult<ReservationVMD>>> GetPeoplePaging(ReservationPagingRequest request)
+        {
+            var result = await _reservationService.GetReservationPagingAsync(request);
+            return result;
+        }
+        [HttpGet("GetReservationById/{id}")]
+        public async Task<ApiResult<ReservationVMD>> GeReservationByIdAsync(int id)
+        {
+            var result = await _reservationService.GetReservationById(id);
             return result;
         }
     }
