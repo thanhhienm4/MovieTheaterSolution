@@ -17,9 +17,9 @@ namespace MovieTheater.Api
           IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
            httpContextAccessor)
         { }
-        public async Task<ApiResult<List<List<SeatVMD>>>> GetSeatInRoomAsync(int roomId)
+        public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(int roomId)
         {
-            return await GetAsync<ApiResult<List<List<SeatVMD>>>>($"Api/Seat/GetSeatInRoomAsync/{roomId}");
+            return await GetAsync<ApiResult<List<SeatVMD>>>($"Api/Seat/GetSeatInRoomAsync/{roomId}");
         }
         public async Task<ApiResultLite> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
         {

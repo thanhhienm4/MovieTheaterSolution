@@ -85,28 +85,21 @@ namespace Movietheater.Application.SeatServices
             }
         }
 
-        public async Task<ApiResult<List<List<SeatVMD>>>> GetSeatInRoomAsync(int roomId)
+        public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(int roomId)
         {
-            var query =  _context.Seats.Where(x => x.RoomId == roomId).ToList();
 
-            List<SeatRow> rows =await _context.SeatRows.Select(x => x).OrderBy(x=> x.Name).ToListAsync();
-            List<List<SeatVMD>> result = new List<List<SeatVMD>>();
 
-            foreach(var row in rows)
+            var seats = await _context.Seats.Where(x => x.RoomId == roomId && x.IsActive == true).Select(x => new SeatVMD()
             {
-                List<SeatVMD> rowSeats = query.Where(x => x.RowId == row.Id).Select(x => new SeatVMD()
-                {
-                    Id = x.Id,
-                    Number = x.Number,
-                    RowId = x.RowId,
-                    RoomId = x.RoomId
-                })
-                .ToList();
+                Id = x.Id,
+                Number = x.Number,
+                RowId = x.RowId,
+                RoomId = x.RoomId,
+                KindOfSeatId = x.KindOfSeatId
+            }).ToListAsync();
 
-                result.Add(rowSeats);
-            }
 
-            return new ApiSuccessResult<List<List<SeatVMD>>>(result);
+            return new ApiSuccessResult<List<SeatVMD>>(seats);
 
         }
 
@@ -115,22 +108,29 @@ namespace Movietheater.Application.SeatServices
             var room = await _context.Rooms.FindAsync(request.RoomId);
             if (room == null)
                 return new ApiErrorResultLite("Phòng chiếu không hợp lệ");
-            List<int> rowIds = request.Seats.Select(x => x.RowId).ToList();
 
+
+            var seats = await _context.Seats.Where(x => x.RoomId == request.RoomId).ToListAsync();
+            foreach (Seat seat in seats)
+            {
+                seat.IsActive = false;
+                _context.Seats.Update(seat);
+            }
+            if (request.Seats == null)
+            {
+                return new ApiSuccessResultLite("Cập nhật thành công ");
+            }
+            List<int> rowIds = request.Seats.Select(x => x.RowId).ToList();
             if (CheckListRow(rowIds) == false)
                 return new  ApiErrorResultLite("Vị trí không hợp lệ");
 
-            var seats =await _context.Seats.Where(x => x.RoomId == request.RoomId).ToListAsync(); 
-            foreach(Seat seat in seats)
-            {
-                seat.IsActive = false;
-            }
+            
 
             foreach(SeatCreateRequest seatCR in request.Seats)
             {
                 var seat  = await _context.Seats.Where(x=> x.RoomId == seatCR.RoomId
                                                         && x.Number == seatCR.Number
-                                                        && x.RoomId == seatCR.RoomId).FirstOrDefaultAsync();
+                                                        && x.RowId == seatCR.RowId).FirstOrDefaultAsync();
                 if(seat == null)
                 {
                     Seat newSeat = new Seat()

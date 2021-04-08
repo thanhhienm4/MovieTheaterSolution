@@ -18,19 +18,23 @@ namespace MovieTheater.Admin.Controllers
             _seatApiCient = seatApiClient;
             _seatRowApiClient = seatRowApiClient;
         }
-
         [HttpGet]
-        public async Task<IActionResult> UpdateSeatInRoom(int roomId)
+        public async Task<List<SeatVMD>> GetSeatInRoom(int roomId)
         {
-            var seatMatrix = await _seatApiCient.GetSeatInRoomAsync(roomId);
+            var seats = (await _seatApiCient.GetSeatInRoomAsync(roomId)).ResultObj;
+            return seats;
+
+        }
+        [HttpGet]
+        public IActionResult UpdateSeatInRoom(int roomId)
+        {
             ViewBag.RoomId = roomId;
-            return View(seatMatrix);
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
         {
             var seatMatrix = await _seatApiCient.UpdateSeatInRoomAsync(request);
-
             return View(seatMatrix);
         }
     }

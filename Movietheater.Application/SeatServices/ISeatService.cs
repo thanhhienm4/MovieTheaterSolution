@@ -14,7 +14,7 @@ namespace Movietheater.Application.SeatServices
         Task<ApiResultLite> UpdateAsync(SeatUpdateRequest request);
         Task<ApiResultLite> DeleteAsync(int id);
         Task<ApiResult<SeatVMD>> GetSeatById(int id);
-        Task<ApiResult<List<List<SeatVMD>>>> GetSeatInRoomAsync(int roomId);
+        Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(int roomId);
         Task<ApiResultLite> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request);
 
     }

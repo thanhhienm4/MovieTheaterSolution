@@ -28,8 +28,9 @@
 
     </div>
     <div style="clear:both;width:100%">
-        <input type="button" id="btnShowNew" value="Show Selected Seats" />
-        <input type="button" id="btnShow" value="Show All" />           
+        <button id="btnUpdate">Cập nhật</button>
+        <button id="normal" onclick="changeMode(this)">Ghế thường</button>
+        <button id="vip" onclick="changeMode(this)">Ghế VIP</button>
     </div>
 
   
@@ -64,10 +65,10 @@
             width: 40px;
             display: block;
         }
-        #place .selectedSeat {
-            background-color: #e74a3b;
+        #place .vipSeat {
+            background-color: #26b9cc;
         }
-        #place .selectingSeat {
+        #place .normalSeat {
             background-color: #1cc88a;
         }
     #place .row-3, #place .row-4{
@@ -82,6 +83,9 @@
     }
 </style>
 <script type="text/javascript">
+    var mode = { normal: 1, vip: 2 };
+    var modeNow = mode.normal;
+
     var settings = {
         rows: 10,
         cols: 25,
@@ -90,17 +94,30 @@
         seatWidth: 35,
         seatHeight: 35,
         seatCss: 'seat',
-        selectedSeatCss: 'selectedSeat',
-        selectingSeatCss: 'selectingSeat'
+        vipSeatCss: 'vipSeat',
+        normalSeatCss: 'normalSeat'
     };
     var listRow = [];
+    function changeMode(btn) {
+        switch ($(btn).attr('id')) {
+            case 'normal':
+                modeNow = mode.normal;
+                break;
+            case 'vip':
+                modeNow = mode.vip;
+                break;
+
+        }
+    }
+    $(document).ready(function () {
+    
 
 
     $.ajax({
         type: "Get",
         url: "/SeatRow/GetAllSeatRows",
         success: function (result) {
-            var init = function (reservedSeat) {
+            var init = function () {
                 var str = [], seatNo, className;
                 settings.rows = result.length;
                 for (i = 0; i < settings.rows; i++) {
@@ -108,12 +125,10 @@
                     str.push('<div class="btn-group">');
                     for (j = 0; j < settings.cols; j++) {
                         seatNo = result[i].name + j.toString();
-                        className = settings.seatCss ;
-                        if ($.isArray(reservedSeat) && $.inArray(seatNo, reservedSeat) != -1) {
-                            className += ' ' + settings.selectedSeatCss;
-                        }
-                        str.push('<button class ="' + className + '"' +
-                            'data-row="' + result[i].id + '"data-num="' + j.toString() +'" > ' +
+                        className = settings.seatCss;
+
+                        str.push('<button id = "' + result[i].id + '_' + j.toString() + '" class = "' + className + '"' + 'data-kindofseatid="' + result[i].kindOfSeatId +
+                            '"data-row="' + result[i].id + '"data-num="' + j.toString() +'" > ' +
                             '<a title="' + seatNo + '">' + seatNo + '</a>' +
                             '</button>');
                     }
@@ -121,51 +136,75 @@
                     str.push('</div>');
                 }
                 $('#place').html(str.join(''));
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Room/GetSeatInRoom",
+                    data: { roomId : @ViewBag.RoomId },
+                    success: function (res) {
+                        for (var i = 0; i < res.length;i++)
+                        {
+                            var idElement = res[i].rowId + '_' + res[i].number.toString();
+                            var btn = document.getElementById(idElement);
+                            if (res[i].kindOfSeatId == mode.normal) {
+                                $(btn).addClass(settings.normalSeatCss);
+                            }
+
+                            else {
+                                $(btn).addClass(settings.vipSeatCss);
+                            }
+                            $(btn).attr('data-kindofseatid', res[i].kindOfSeatId);
+                               
+                        };
+                    }
+                });
             };
             //case I: Show from starting
-            //init();
 
             //Case II: If already booked
-            var bookedSeats = ['A1', 'B1', 'B2'];
-            init(bookedSeats);
+            init();
             $('.' + settings.seatCss).click(function () {
-                if ($(this).hasClass(settings.selectedSeatCss)) {
-                    alert('This seat is already reserved');
+                if (modeNow == mode.normal) {
+                    $(this).removeClass(settings.vipSeatCss);
+                    $(this).toggleClass(settings.normalSeatCss);
                 }
                 else {
-                    $(this).toggleClass(settings.selectingSeatCss);
+                    $(this).removeClass(settings.normalSeatCss)
+                    $(this).toggleClass(settings.vipSeatCss);
+
                 }
+
+
+                $(this).attr('data-kindofseatid', modeNow.toString());
             });
         }
     })
 
- 
-$('#btnShow').click(function () {
-    var str = [];
-    $.each($('#place button.' + settings.selectedSeatCss + ' a, #place button.'+ settings.selectingSeatCss + ' a'), function (index, value) {
-        str.push($(this).attr('title'));
-    });
-    alert(str.join(','));
-})
- 
-$('#btnShowNew').click(function () {
-    var seats = [];
-    $.each($('#place button.' + settings.selectingSeatCss), function (index, value) {
+
+
+
+
+
+$('#btnUpdate').click(function () {
+            var seats = [];
+    $.each($('#place button.' + settings.vipSeatCss + ', #place button.' + settings.normalSeatCss), function (index, value) {
         var seat = {
             RoomId: @ViewBag.RoomId,
             RowId: $(this).attr('data-row'),
             Number: $(this).attr('data-num'),
-            KindOfSeatId: 1
+            KindOfSeatId: $(this).attr('data-kindofseatid')
         };
         seats.push(seat);
     });
-   
+
     $.ajax({
         type: "Post",
         url: "/Room/UpdateSeatInRoom",
-        data: { Seats: seats, RoomId: 1 }
+        data: { Seats: seats, RoomId: @ViewBag.RoomId }
+        });
+    })
     });
-})
+
 
 </script>
 
