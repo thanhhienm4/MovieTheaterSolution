@@ -2,6 +2,8 @@
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
+using MovieTheater.Models.Infra.Seat;
 using MovieTheater.Models.Infra.Seat.SeatRow;
 using System;
 using System.Collections.Generic;
@@ -20,11 +22,11 @@ namespace Movietheater.Application.SeatServices
         }
         public async Task<ApiResultLite> CreateAsync(string name)
         {
-            SeatRow kindOfSeat = new SeatRow()
+            SeatRow seatRow = new SeatRow()
             {
                 Name = name
             };
-            _context.SeatRows.Add(kindOfSeat);
+            _context.SeatRows.Add(seatRow);
             int result = await _context.SaveChangesAsync();
             if (result == 0)
             {
@@ -85,6 +87,48 @@ namespace Movietheater.Application.SeatServices
             }).ToListAsync();
 
             return new ApiSuccessResult<List<SeatRowVMD>>(result);
+        }
+
+        public async Task<ApiResult<PageResult<SeatRowVMD>>> GetSeatRowPagingAsync(SeatRowPagingRequest request)
+        {
+            var seatRow = _context.SeatRows.Select(x => x);
+
+            int totalRow = await seatRow.CountAsync();
+            var item = seatRow.OrderBy(x => x.Name).Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize).Select(x => new SeatRowVMD()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                }).ToList();
+
+            var pageResult = new PageResult<SeatRowVMD>()
+            {
+
+                TotalRecord = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Item = item,
+            };
+
+            return new ApiSuccessResult<PageResult<SeatRowVMD>>(pageResult);
+        }
+
+        public async Task<ApiResult<SeatRowVMD>> GetSeatRowById(int id)
+        {
+            SeatRow seatRow = await _context.SeatRows.FindAsync(id);
+            if (seatRow == null)
+            {
+                return new ApiErrorResult<SeatRowVMD>("Không tìm thấy");
+            }
+            else
+            {
+                var result = new SeatRowVMD()
+                {
+                    Id = seatRow.Id,
+                    Name = seatRow.Name
+                };
+                return new ApiSuccessResult<SeatRowVMD>(result);
+            }
         }
     }
 }

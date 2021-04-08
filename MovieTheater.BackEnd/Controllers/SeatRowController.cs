@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.SeatServices;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
+using MovieTheater.Models.Infra.Seat;
 using MovieTheater.Models.Infra.Seat.SeatRow;
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync(string name)
+        public async Task<ApiResultLite> CreateAsync(String name)
         {
             var result = await _seatRowService.CreateAsync(name);
             return result;
@@ -45,6 +47,19 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResult<List<SeatRowVMD>>> GetAllSeatRows()
         {
             var result = await _seatRowService.GetAllSeatRows();
+            return result;
+        }
+
+        [HttpPost("GetSeatRowPaging")]
+        public async Task<ApiResult<PageResult<SeatRowVMD>>> GetSeatRowPaging(SeatRowPagingRequest request)
+        {
+            var result = await _seatRowService.GetSeatRowPagingAsync(request);
+            return result;
+        }
+        [HttpGet("GetSeatRowById/{id}")]
+        public async Task<ApiResult<SeatRowVMD>> GetSeatRowByIdAsync(int id)
+        {
+            var result = await _seatRowService.GetSeatRowById(id);
             return result;
         }
     }

@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieTheater.Models.Infra.RoomModels.Format
+namespace MovieTheater.Models.Infra.Seat
 {
-    public  class RoomPagingRequest :PagingRequest
+    public class SeatRowPagingRequest : PagingRequest
     {
-        public int? FormatId { get; set; }
     }
 }

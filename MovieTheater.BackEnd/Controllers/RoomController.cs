@@ -42,10 +42,17 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpGet()]
-        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync([FromQuery] RoomPagingRequest request)
+        [HttpPost("GetRoomPaging")]
+        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request)
         {
             var result = await _roomService.GetRoomPagingAsync(request);
+            return result;
+        }
+
+        [HttpGet("GetRoomById/{id}")]
+        public async Task<ApiResult<RoomVMD>> GetRoomByIdAsync(int id)
+        {
+            var result = await _roomService.GetRoomById(id);
             return result;
         }
 

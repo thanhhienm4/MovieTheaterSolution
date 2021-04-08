@@ -30,6 +30,7 @@ namespace MovieTheater.Admin
             services.AddTransient<ReservationApiClient, ReservationApiClient>();
             services.AddTransient<SeatApiClient, SeatApiClient>();
             services.AddTransient<SeatRowApiClient, SeatRowApiClient>();
+            services.AddTransient<RoomApiClient, RoomApiClient>();
             services.AddHttpClient();
             services.AddHttpContextAccessor();
             services.AddRazorPages().AddRazorRuntimeCompilation();
