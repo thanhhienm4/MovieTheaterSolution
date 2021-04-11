@@ -21,7 +21,6 @@ namespace Movietheater.Application.ReservationServices
         {
             Ticket ticket = new Ticket()
             {
-                Price = request.Price,
                 ScreeningId = request.ScreeningId,
                 SeatId = request.SeatId
 

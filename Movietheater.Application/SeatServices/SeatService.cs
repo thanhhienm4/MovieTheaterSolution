@@ -161,6 +161,31 @@ namespace Movietheater.Application.SeatServices
 
 
         }
+        public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
+        {
+            var screening = await _context.Screenings.FindAsync(screeningId);
+            if (screening == null)
+                return new ApiErrorResult<List<SeatVMD>>("Không tìm thấy xuất chiếu");
+
+            var query = from t in _context.Tickets                        
+                        join s in _context.Seats on t.SeatId equals s.Id
+                        where t.ScreeningId == screeningId
+                        select s;
+
+            var seats = await  query.Select(x => new SeatVMD()
+            {
+                Id = x.Id,
+                KindOfSeatId = x.KindOfSeatId,
+                Number = x.Number,
+                RoomId = x.RoomId,
+                RowId = x.RowId
+            }).ToListAsync();
+
+            return new ApiSuccessResult<List<SeatVMD>>(seats);
+           
+            
+        }
+
 
         private bool CheckListRow(List<int> listSeatRow)
         {

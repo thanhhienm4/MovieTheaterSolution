@@ -98,6 +98,28 @@ namespace Movietheater.Application.ScreeningServices
                 return new ApiSuccessResultLite("Cập nhật thành công");
             }
         }
+        public async Task<ApiResult<ScreeningVMD>> GetScreeningByIdAsync(int id)
+        {
+            var screening = await _context.Screenings.FindAsync(id);
+            if(screening == null)
+            {
+                return new ApiErrorResult<ScreeningVMD>("Không tìm thấy xuất chiếu");
+
+
+            }else
+            {
+                var screeningVMD = new ScreeningVMD()
+                {
+                    Id = screening.Id,
+                    FilmId = screening.FilmId,
+                    RoomId = screening.RoomId,
+                    TimeStart = screening.TimeStart,
+                    KindOfScreeningId = screening.KindOfScreeningId
+
+                };
+                return new ApiSuccessResult<ScreeningVMD>(screeningVMD);
+            }
+        }
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.ScreeningServices;
 using MovieTheater.Models.Catalog.Screening;
@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RouteAttribute = Microsoft.AspNetCore.Components.RouteAttribute;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -43,11 +42,19 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpGet("GetScreeningPaging")]
-        public async Task<PageResult<ScreeningVMD>> GetScreeningPagingAsync([FromQuery] ScreeningPagingRequest request)
+        [HttpPost("GetScreeningPaging")]
+        public async Task<PageResult<ScreeningVMD>> GetScreeningPagingAsync(ScreeningPagingRequest request)
         {
             var result = await _screeningService.GetScreeningPagingAsync(request);
             return result;
         }
+
+        [HttpGet("GetScreeningById/{id}")]
+        public async Task<ApiResult<ScreeningVMD>> GetScreeningByIdAsync(int id)
+        {
+            var result = await _screeningService.GetScreeningByIdAsync(id);
+            return result;
+        }
+
     }
 }

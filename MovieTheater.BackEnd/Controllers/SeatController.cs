@@ -55,5 +55,14 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [HttpGet("GetListSeatReserved/{screeningId}")]
+
+        public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
+        {
+            var result = await _seatService.GetListSeatReserved(screeningId);
+            return result;
+
+        }
+
     }
 }

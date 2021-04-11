@@ -27,24 +27,17 @@
     <div style="float:left;"> 
 
     </div>
-    <div style="clear:both;width:100%">
-        <button id="btnUpdate">Cập nhật</button>
-        <button id="normal" onclick="changeMode(this)">Ghế thường</button>
-        <button id="vip" onclick="changeMode(this)">Ghế VIP</button>
+    <div style="clear:both;width:100%" class="d-flex justify-content-center">
+        <button class="btn btn-primary mr-2" id="btnUpdate">Cập nhật</button>
+        <button class="btn normalSeat mr-2"  onclick="changeMode(this)">Ghế thường</button>
+        <button class="btn vipSeat" id="vip" onclick="changeMode(this)">Ghế VIP</button>
     </div>
 
   
-
+    <link rel="stylesheet" type="text/css" href="/css/seat.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <style type="text/css">
-    #holder{    
-    padding: 10px;
-    height:200px;    
-    width:550px;
-    background-color:#F5F5F5;
-    border:1px solid #A4A4A4;
-    margin-left:10px;   
-    }
+   
     #place {
     position:relative;
     margin:7px;
@@ -58,29 +51,11 @@
      position: absolute;   
     }
 
-        #place .seat {
-            background-color: #fff;
-            border-radius: 10%;
-            height: 40px;
-            width: 40px;
-            display: block;
-        }
-        #place .vipSeat {
-            background-color: #26b9cc;
-        }
-        #place .normalSeat {
-            background-color: #1cc88a;
-        }
+
     #place .row-3, #place .row-4{
     margin-top:10px;
     }
-    #seatDescription li{
-    verticle-align:middle;    
-    list-style: none outside none;
-    padding-left:35px;
-    height:35px;
-    float:left;
-    }
+    
 </style>
 <script type="text/javascript">
     var mode = { normal: 1, vip: 2 };

@@ -15,6 +15,7 @@ namespace Movietheater.Application.ScreeningServices
         Task<ApiResultLite> CreateAsync(ScreeningCreateRequest request);
         Task<ApiResultLite> UpdateAsync(ScreeningUpdateRequest request);
         Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<ScreeningVMD>> GetScreeningByIdAsync(int id);
         Task<PageResult<ScreeningVMD>> GetScreeningPagingAsync(ScreeningPagingRequest request);
         Task<PageResult<FilmScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request);
     }

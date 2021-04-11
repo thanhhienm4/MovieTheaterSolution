@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieTheater.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -129,6 +129,19 @@ namespace MovieTheater.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RoomFormats", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SeatRows",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SeatRows", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -371,16 +384,17 @@ namespace MovieTheater.Data.Migrations
                 name: "Seats",
                 columns: table => new
                 {
-                    Row = table.Column<string>(type: "varchar(1)", nullable: false),
+                    RowId = table.Column<int>(type: "int", nullable: false),
                     Number = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    KindOfSeatId = table.Column<int>(type: "int", nullable: false)
+                    KindOfSeatId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Seats", x => new { x.Row, x.Number, x.RoomId });
+                    table.PrimaryKey("PK_Seats", x => new { x.RowId, x.Number, x.RoomId });
                     table.UniqueConstraint("AK_Seats_Id", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Seats_KindOfSeats_KindOfSeatId",
@@ -392,6 +406,12 @@ namespace MovieTheater.Data.Migrations
                         name: "FK_Seats_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Seats_SeatRows_RowId",
+                        column: x => x.RowId,
+                        principalTable: "SeatRows",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -488,7 +508,7 @@ namespace MovieTheater.Data.Migrations
                     ScreeningId = table.Column<int>(type: "int", nullable: false),
                     SeatId = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    ReservationId = table.Column<int>(type: "int", nullable: true)
+                    ReservationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -498,7 +518,7 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.ReservationId,
                         principalTable: "Reservations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Tickets_Screenings_ScreeningId",
                         column: x => x.ScreeningId,
@@ -517,8 +537,8 @@ namespace MovieTheater.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "54edf04d-17a3-4792-bfc3-0c3d4a1bec86", "Emloyee", "Emloyee", "Emloyee" },
-                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "56e4b793-676c-4238-b40a-e464bcbdb92a", "Administrator role", "Admin", "Administrator" }
+                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "20621c18-77b0-41d1-af6e-21bd1bf0a8c1", "Emloyee", "Emloyee", "Emloyee" },
+                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "d7402098-3080-47a0-a5bd-76b3f029efed", "Administrator role", "Admin", "Administrator" }
                 });
 
             migrationBuilder.InsertData(
@@ -552,7 +572,11 @@ namespace MovieTheater.Data.Migrations
             migrationBuilder.InsertData(
                 table: "KindOfSeats",
                 columns: new[] { "Id", "Name", "Surcharge" },
-                values: new object[] { 1, "Thường", 0 });
+                values: new object[,]
+                {
+                    { 2, "Vip", 0 },
+                    { 1, "Thường", 0 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Peoples",
@@ -578,6 +602,16 @@ namespace MovieTheater.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "SeatRows",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 3, "C" },
+                    { 1, "A" },
+                    { 2, "B" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "UserInfors",
                 columns: new[] { "Id", "Dob", "FirstName", "LastName" },
                 values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hien", "Nguyen Thanh" });
@@ -588,6 +622,11 @@ namespace MovieTheater.Data.Migrations
                 values: new object[] { 1, 1, "Xác ướp(tên gốc tiếng Anh: The Mummy) là một bộ phim điện ảnh phiêu lưu - hành động của Mỹ năm 2017[9][10] do Alex Kurtzman đạo diễn và David Koepp, Christopher McQuarrie cùng Dylan Kussman thực hiện phần kịch bản, dựa trên cốt truyện gốc của Kurtzman, Jon Spaihts và Jenny Lumet.", 0, "The Mummy", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null });
 
             migrationBuilder.InsertData(
+                table: "Reservations",
+                columns: new[] { "Id", "Active", "EmployeeId", "Paid", "ReservationTypeId", "UserId" },
+                values: new object[] { 1, false, new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), false, 1, null });
+
+            migrationBuilder.InsertData(
                 table: "Rooms",
                 columns: new[] { "Id", "FormatId", "Name" },
                 values: new object[] { 1, 1, "1" });
@@ -595,22 +634,27 @@ namespace MovieTheater.Data.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), 0, "", "Mistake4@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEOuQF4JBUFeVfBDhZf6XA8oCFs1M5x7MRMGR1vAqzz1F7BLyiiSJxE2P0bFYqpalKg==", "0912413908", true, "", false, "admin" });
+                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), 0, "", "Mistake4@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEJ+8OCoczYu23hET74Zjy1vzgW+5NL51jCNvuWlgVkIMgL6atu/L+yzXF8+c67O+Ug==", "0912413908", true, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Screenings",
                 columns: new[] { "Id", "FilmId", "KindOfScreeningId", "RoomId", "TimeStart" },
-                values: new object[] { 1, 1, 1, 1, new DateTime(2021, 4, 2, 6, 59, 41, 274, DateTimeKind.Utc).AddTicks(1529) });
+                values: new object[] { 1, 1, 1, 1, new DateTime(2021, 4, 11, 5, 1, 38, 224, DateTimeKind.Utc).AddTicks(3888) });
 
             migrationBuilder.InsertData(
                 table: "Seats",
-                columns: new[] { "Number", "RoomId", "Row", "Id", "KindOfSeatId" },
-                values: new object[] { 1, 1, "A", 1, 1 });
+                columns: new[] { "Number", "RoomId", "RowId", "Id", "IsActive", "KindOfSeatId" },
+                values: new object[] { 1, 1, 1, 1, false, 1 });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8") });
+
+            migrationBuilder.InsertData(
+                table: "Tickets",
+                columns: new[] { "ScreeningId", "SeatId", "ReservationId" },
+                values: new object[] { 1, 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -688,6 +732,12 @@ namespace MovieTheater.Data.Migrations
                 name: "IX_Screenings_RoomId",
                 table: "Screenings",
                 column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SeatRows_Name",
+                table: "SeatRows",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seats_KindOfSeatId",
@@ -791,6 +841,9 @@ namespace MovieTheater.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Rooms");
+
+            migrationBuilder.DropTable(
+                name: "SeatRows");
 
             migrationBuilder.DropTable(
                 name: "UserInfors");

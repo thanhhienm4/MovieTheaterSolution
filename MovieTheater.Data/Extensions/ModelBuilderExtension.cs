@@ -89,6 +89,11 @@ namespace MovieTheater.Data.Extensions
                 {
                     Id = 1,
                     Name = "Thường"
+                },
+                new KindOfSeat()
+                {
+                    Id = 2,
+                    Name = "Vip"
                 });
             modelBuilder.Entity<SeatRow>().HasData(
                 new SeatRow()
@@ -192,6 +197,25 @@ namespace MovieTheater.Data.Extensions
                     Id = 2,
                     Name = "Đặt qua mạng "
                 });
+            modelBuilder.Entity<Reservation>().HasData(
+                new Reservation()
+                {
+                    Id = 1,
+                    ReservationTypeId = 1,
+                    EmployeeId = new Guid("99ECA8CE-E954-4ED9-AB12-1A1FB010A9F8"),
+                    
+
+                });
+            modelBuilder.Entity<Ticket>().HasData(
+                new Ticket()
+                {
+                    ScreeningId = 1,
+                    SeatId = 1,
+                    ReservationId = 1
+
+
+                }
+                ); ;
 
         }
     }

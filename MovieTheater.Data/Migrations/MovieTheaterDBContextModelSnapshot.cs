@@ -162,7 +162,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
-                            ConcurrencyStamp = "8ca770a5-d01b-436a-912b-787ddc5253f5",
+                            ConcurrencyStamp = "20621c18-77b0-41d1-af6e-21bd1bf0a8c1",
                             Description = "Emloyee",
                             Name = "Emloyee",
                             NormalizedName = "Emloyee"
@@ -170,7 +170,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
-                            ConcurrencyStamp = "c774f3df-ee2a-4508-a5b0-c12162bfd271",
+                            ConcurrencyStamp = "d7402098-3080-47a0-a5bd-76b3f029efed",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -383,6 +383,12 @@ namespace MovieTheater.Data.Migrations
                             Id = 1,
                             Name = "Thường",
                             Surcharge = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Vip",
+                            Surcharge = 0
                         });
                 });
 
@@ -467,6 +473,16 @@ namespace MovieTheater.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Active = false,
+                            EmployeeId = new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
+                            Paid = false,
+                            ReservationTypeId = 1
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.ReservationType", b =>
@@ -602,7 +618,7 @@ namespace MovieTheater.Data.Migrations
                             FilmId = 1,
                             KindOfScreeningId = 1,
                             RoomId = 1,
-                            TimeStart = new DateTime(2021, 4, 5, 16, 28, 44, 188, DateTimeKind.Utc).AddTicks(9742)
+                            TimeStart = new DateTime(2021, 4, 11, 5, 1, 38, 224, DateTimeKind.Utc).AddTicks(3888)
                         });
                 });
 
@@ -699,7 +715,7 @@ namespace MovieTheater.Data.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<int?>("ReservationId")
+                    b.Property<int>("ReservationId")
                         .HasColumnType("int");
 
                     b.HasKey("ScreeningId", "SeatId");
@@ -709,6 +725,15 @@ namespace MovieTheater.Data.Migrations
                     b.HasIndex("SeatId");
 
                     b.ToTable("Tickets");
+
+                    b.HasData(
+                        new
+                        {
+                            ScreeningId = 1,
+                            SeatId = 1,
+                            Price = 0,
+                            ReservationId = 1
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.User", b =>
@@ -787,7 +812,7 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDNxTB+y6vEhUyTY4vEehFnb41s6x5q3b1MNP1mnLKwqZkFtfbbEOVfcAve/xL+sCQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ+8OCoczYu23hET74Zjy1vzgW+5NL51jCNvuWlgVkIMgL6atu/L+yzXF8+c67O+Ug==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
@@ -1033,9 +1058,11 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Ticket", b =>
                 {
-                    b.HasOne("MovieTheater.Data.Entities.Reservation", null)
+                    b.HasOne("MovieTheater.Data.Entities.Reservation", "Reservation")
                         .WithMany("Tickets")
-                        .HasForeignKey("ReservationId");
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MovieTheater.Data.Entities.Screening", "Screening")
                         .WithMany("Tickets")
@@ -1049,6 +1076,8 @@ namespace MovieTheater.Data.Migrations
                         .HasPrincipalKey("Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Reservation");
 
                     b.Navigation("Screening");
 

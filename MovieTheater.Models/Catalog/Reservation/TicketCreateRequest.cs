@@ -8,7 +8,6 @@ namespace MovieTheater.Models.Catalog.Reservation
 {
     public class TicketCreateRequest
     {
-        public int Price { get; set; }
         public int ScreeningId { get; set; }
         public int SeatId { get; set; }
     }

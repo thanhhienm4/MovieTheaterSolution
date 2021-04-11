@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-    public class ReservationController : Controller
+    public class ReservationController : BaseController
     {
         private readonly ReservationApiClient _reservationApiClient;
         public ReservationController(ReservationApiClient ReservationApiClient)
@@ -43,6 +43,10 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View(request);
             }
+            //can fix
+            request.EmployeeId = GetUserId();
+            request.ReservationTypeId = 1;
+    
             var result = await _reservationApiClient.CreateAsync(request);
             if (result.IsSuccessed)
             {

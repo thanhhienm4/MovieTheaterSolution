@@ -23,8 +23,14 @@ namespace MovieTheater.Api
         }
         public async Task<ApiResultLite> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
         {
-            return await PutAsync<ApiResultLite>($"Api/Seat/UpdateSeatInRoomAsync",request);
+            return await PutAsync<ApiResultLite>($"Api/Seat/UpdateSeatInRoomAsync", request);
         }
+        public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
+        {
+            return await GetAsync<ApiResult<List<SeatVMD>>>($"Api/Seat/GetListSeatReserved/{screeningId}");
+        }
+
     }
-  
 }
+  
+
