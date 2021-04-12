@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +11,18 @@ namespace MovieTheater.Models.Catalog.Film
 {
     public class FilmCreateRequest
     {
+        [Display(Name="Tên")]
         public string Name { get; set; }
+        [Display(Name= "Mô tả ")]
         public string Description { get; set; }
+        [Display(Name= "Ngày ra rạp")]
         public DateTime PublishDate { get; set; }
         public string TrailerURL { get; set; }
+        [Display(Name= "Thời lượng  film")]
         public int Length { get; set; }
+        [Display(Name= "Giới hạn")]
         public int BanId { get; set; }
+        [Display(Name= "Poster")]
         public IFormFile Poster { get; set; }
     }
     public class FilmCreateValidator : AbstractValidator<FilmCreateRequest>

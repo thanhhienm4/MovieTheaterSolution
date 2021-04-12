@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Data.Enums;
 using MovieTheater.Models.Catalog.Film;
@@ -12,9 +13,11 @@ namespace MovieTheater.Admin.Controllers
     public class FilmController : Controller
     {
         private readonly FilmApiClient _filmApiClient;
-        public FilmController(FilmApiClient filmApiClient) 
+        private readonly BanApiClient _banApiClient;
+        public FilmController(FilmApiClient filmApiClient, BanApiClient banApiClient) 
         {
-            _filmApiClient = filmApiClient; 
+            _filmApiClient = filmApiClient;
+            _banApiClient = banApiClient;
         }
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
@@ -46,8 +49,14 @@ namespace MovieTheater.Admin.Controllers
             return View(result.ResultObj);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
+            var bans = (await _banApiClient.GetAllBanAsync()).ResultObj;
+            ViewBag.Bans = bans.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
             return View();
         }
 
@@ -56,6 +65,12 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var bans = (await _banApiClient.GetAllBanAsync()).ResultObj;
+                ViewBag.Bans = bans.Select(x => new SelectListItem()
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                });
                 return View(request);
             }
             var result = await _filmApiClient.CreateAsync(request);

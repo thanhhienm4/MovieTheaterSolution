@@ -13,5 +13,7 @@ namespace Movietheater.Application.FilmServices
         Task<ApiResultLite> CreateAsync(string name);
         Task<ApiResultLite> UpdateAsync(BanUpdateRequest request);
         Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<List<BanVMD>>> GetAllBanAsync();
+       
     }
 }
