@@ -1,6 +1,8 @@
-﻿using Movietheater.Application.FilmServices;
+﻿using Microsoft.EntityFrameworkCore;
+using Movietheater.Application.FilmServices;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
+using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
@@ -15,9 +17,11 @@ namespace Movietheater.Application.ScreeningServices
     public class ScreeningService : IScreeningService
     {
         private readonly MovieTheaterDBContext _context;
-        public ScreeningService(MovieTheaterDBContext context)
+        private readonly IFilmService _filmService;
+        public ScreeningService(MovieTheaterDBContext context,IFilmService filmService)
         {
             _context = context;
+            _filmService = filmService;
         }
         public async Task<ApiResultLite> CreateAsync(ScreeningCreateRequest request)
         {
@@ -98,6 +102,7 @@ namespace Movietheater.Application.ScreeningServices
                 return new ApiSuccessResultLite("Cập nhật thành công");
             }
         }
+
         public async Task<ApiResult<ScreeningVMD>> GetScreeningByIdAsync(int id)
         {
             var screening = await _context.Screenings.FindAsync(id);
@@ -121,5 +126,47 @@ namespace Movietheater.Application.ScreeningServices
             }
         }
 
+        public async Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningInday(DateTime? date)
+           
+        {
+            if (date == null)
+                date = DateTime.Now;
+
+            var screenings = await  _context.Screenings.Where(x => x.TimeStart.Date == date.GetValueOrDefault().Date).
+                                                Select(x => new ScreeningVMD() 
+                                                { 
+                                                    Id = x.Id,
+                                                    TimeStart = x.TimeStart,
+                                                    FilmId = x.FilmId,
+                                                    RoomId = x.RoomId
+                                                    
+                                                }).ToListAsync();
+
+            List<FilmScreeningVMD> filmScreenings = new List<FilmScreeningVMD>();
+            Dictionary<int, List<ScreeningVMD>> dic = new Dictionary<int, List<ScreeningVMD>>();
+
+            foreach (var screening in screenings)
+            {
+                if(!dic.ContainsKey(screening.FilmId))
+                {
+                    dic.Add(screening.Id, new List<ScreeningVMD>());                   
+                }
+                dic[screening.FilmId].Add(screening);
+            }
+
+            foreach( var pair in dic)
+            {
+                filmScreenings.Add(new FilmScreeningVMD()
+                {
+                    Film = (await _filmService.GetFilmById(pair.Key)).ResultObj,
+                    ListScreening = pair.Value,
+                }) ;
+            }
+            return new ApiSuccessResult<List<FilmScreeningVMD>>(filmScreenings);
+
+
+
+
+        }
     }
 }

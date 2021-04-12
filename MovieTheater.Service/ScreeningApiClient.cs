@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
 using System;
@@ -40,6 +41,12 @@ namespace MovieTheater.Api
             return await GetAsync<ApiResult<ScreeningVMD>> ($"Api/Screening/GetScreeningById/{id}");
         }
 
-        
+        public async  Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningIndateAsync(DateTime? date)
+        {
+            return await GetAsync<ApiResult<List<FilmScreeningVMD>>>($"Api/Screening/GetFilmScreeningIndate?date={date}");
+        }
     }
+
+
 }
+

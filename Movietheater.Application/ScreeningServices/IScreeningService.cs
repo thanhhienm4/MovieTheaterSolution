@@ -1,4 +1,5 @@
 ﻿using Movietheater.Application.FilmServices;
+using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
@@ -18,5 +19,6 @@ namespace Movietheater.Application.ScreeningServices
         Task<ApiResult<ScreeningVMD>> GetScreeningByIdAsync(int id);
         Task<PageResult<ScreeningVMD>> GetScreeningPagingAsync(ScreeningPagingRequest request);
         Task<PageResult<FilmScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request);
+        Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningInday(DateTime? date);
     }
 }

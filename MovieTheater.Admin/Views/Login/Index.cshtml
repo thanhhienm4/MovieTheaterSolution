@@ -44,13 +44,15 @@
                                     </div>
                                     <form class="user" asp-action="Index" asp-controller="Login" method="post">
                                         <div class="form-group">
-                                            <input  class="form-control form-control-user"
-                                                    aria-describedby="emailHelp"
+                                            <input class="form-control form-control-user"
+                                                   aria-describedby="emailHelp"
                                                    placeholder="Enter Email Address..." asp-for="UserName">
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                    placeholder="Password" asp-for="Password">
+                                                   placeholder="Password" asp-for="Password">
+                                            <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -62,7 +64,7 @@
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
-                                           Đăng nhập
+                                            Đăng nhập
                                         </button>
                                         <hr>
                                         <a href="index.html" class="btn btn-google btn-user btn-block">

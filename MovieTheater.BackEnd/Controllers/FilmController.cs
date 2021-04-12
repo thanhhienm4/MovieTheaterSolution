@@ -19,7 +19,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync(FilmCreateRequest model)
+        public async Task<ApiResultLite> CreateAsync([FromForm]FilmCreateRequest model)
         {
             var result = await _filmService.CreateAsync(model);
             return result;

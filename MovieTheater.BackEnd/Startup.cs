@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Movietheater.Application.Common;
 using Movietheater.Application.FilmServices;
 using Movietheater.Application.ReservationServices;
 using Movietheater.Application.RoomServices;
@@ -51,6 +52,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IKindOfSeatService, KindOfSeatService>();
             services.AddTransient<IkindOfScreeningService, KindOfScreeningService>();
             services.AddTransient<ISeatRowService, SeatRowService>();
+            services.AddTransient<IStorageService, FileStorageService>();
 
 
             // For Identity

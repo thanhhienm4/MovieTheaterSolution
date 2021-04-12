@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.ScreeningServices;
+using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
@@ -55,6 +56,14 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _screeningService.GetScreeningByIdAsync(id);
             return result;
         }
+        
+        [HttpGet("GetFilmScreeningIndate")]
+        public async Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningIndate([FromQuery] DateTime? date)
+        {
+            var result = await _screeningService.GetFilmScreeningInday(date);
+            return result;
+        }
 
-    }
+
+}
 }

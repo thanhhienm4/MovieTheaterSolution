@@ -21,5 +21,11 @@ namespace MovieTheater.Admin.Controllers
             var screening = (await _screeningApiClient.GetScreeningByIdAsync(id)).ResultObj;
             return View(screening);
         }
+        public async Task<IActionResult> Index(DateTime? date)
+        {
+            var listFlimScreening = (await _screeningApiClient.GetFilmScreeningIndateAsync(date)).ResultObj;
+            return View(listFlimScreening);
+        }
+           
     }
 }
