@@ -70,8 +70,14 @@ namespace Movietheater.Application.FilmServices
                 film.TrailerURL = request.TrailerURL;
 
                 if(request.Poster != null)
-                {
-                    await _storageService.DeleteFileAsync(film.Poster);
+                {   
+                    try
+                    {
+                        await _storageService.DeleteFileAsync(film.Poster);
+                    }catch(Exception e)
+                    {
+
+                    }              
                     string newPosterPath = await this.SaveFile(request.Poster);
                     film.Poster = newPosterPath;
                 }

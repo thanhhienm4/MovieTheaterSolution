@@ -30,6 +30,11 @@
     cursor: not-allowed;
     background: repeating-linear-gradient( 45deg, rgba(78, 115, 223,.4), rgba(78, 115, 223,0.4) 10px, rgba(78, 115, 223,.6) 0, rgba(78, 115, 223,.6) 20px)
 }
+.time{
+    height: 70px;
+    width: 50px;
+    
+}
 
 
 

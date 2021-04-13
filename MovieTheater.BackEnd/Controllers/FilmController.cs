@@ -26,7 +26,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ApiResultLite> UpdateAsync(FilmUpdateRequest request)
+        public async Task<ApiResultLite> UpdateAsync([FromForm]FilmUpdateRequest request)
         {
             var result = await _filmService.UpdateAsync(request);
             return result;

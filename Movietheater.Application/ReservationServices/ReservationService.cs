@@ -35,7 +35,6 @@ namespace Movietheater.Application.ReservationServices
                 {
                     ScreeningId = x.ScreeningId,
                     SeatId = x.SeatId,
-                    Price = CalPrice(x.ScreeningId, x.SeatId)
 
                 }).ToList()
             };
@@ -94,23 +93,7 @@ namespace Movietheater.Application.ReservationServices
                 return new ApiSuccessResultLite("Cập nhật thành công");
             }
         }
-        private int CalPrice(int ScreeningId, int SeatId)
-        {
-            var query = from s in _context.Seats
-                        join ks in _context.KindOfSeats on s.KindOfSeatId equals ks.Id
-                        join r in _context.Rooms on s.RoomId equals r.Id
-                        join fr in _context.RoomFormats on r.FormatId equals fr.Id
-                        where s.Id == SeatId
-                        select new { RoomPrice = fr.Price, SeatSurcharge = ks.Surcharge };
-
-            var screeningSurcharge = from sCR in _context.Screenings
-                                     join kOS in _context.KindOfScreenings on sCR.KindOfScreeningId equals kOS.Id
-                                     where sCR.Id == ScreeningId
-                                     select (kOS.Surcharge);
-            return query.First().RoomPrice + query.First().SeatSurcharge + screeningSurcharge.First();
-
-
-        }
+        
 
         private bool CheckTickets(List<TicketCreateRequest> tickets)
         {

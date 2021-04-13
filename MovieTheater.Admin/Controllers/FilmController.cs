@@ -98,7 +98,11 @@ namespace MovieTheater.Admin.Controllers
                 {
                     Id = result.ResultObj.Id,
                     Name = result.ResultObj.Name,
-                    PublishDate = result.ResultObj.PublishDate
+                    PublishDate = result.ResultObj.PublishDate,
+                    BanId = result.ResultObj.BanId,
+                    Description = result.ResultObj.Description,
+                    TrailerURL = result.ResultObj.TrailerURL,
+                    Length = result.ResultObj.Length
                     
 
                 };
@@ -108,7 +112,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(FilmUpdateRequest request)
+        public async Task<IActionResult> Edit([FromForm] FilmUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
