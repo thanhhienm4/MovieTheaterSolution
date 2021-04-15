@@ -10,7 +10,6 @@ namespace MovieTheater.Models.Catalog.Screening
     {
         public int Id { get; set; }
         public DateTime TimeStart { get; set; }
-        public int Surcharge { get; set; }
 
         public int FilmId { get; set; }
 

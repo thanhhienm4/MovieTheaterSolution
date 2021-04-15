@@ -5,6 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Views\Film\Create.cshtml" />
+    <None Include="Views\Film\Edit.cshtml" />
+    <None Include="Views\Film\Index.cshtml" />
+    <None Include="Views\People\Create.cshtml" />
+    <None Include="Views\People\Edit.cshtml" />
+    <None Include="Views\People\Index.cshtml" />
+    <None Include="Views\Room\Create.cshtml" />
+    <None Include="Views\Room\Edit.cshtml" />
+    <None Include="Views\Room\Index.cshtml" />
+    <None Include="Views\Room\UpdateSeatInRoom.cshtml" />
+    <None Include="Views\SeatRow\Create.cshtml" />
+    <None Include="Views\SeatRow\Edit.cshtml" />
     <None Include="Views\SeatRow\Index.cshtml" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>

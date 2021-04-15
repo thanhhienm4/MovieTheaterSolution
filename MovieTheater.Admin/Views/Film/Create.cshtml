@@ -1,30 +1,55 @@
 ﻿@model MovieTheater.Models.Catalog.Film.FilmCreateRequest
 
-@{ ViewData["Title"] = "Create";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Tạo mới";}
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item"><a href="/Film">Phim</a></li>
+    <li class="breadcrumb-item active">Tạo mới</li>
+</ol>
 
-<h1>Create</h1>
-
-<h4>FilmCreateRequest</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="card">
+    <div class="card-body">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="form-row">
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="PublishDate" class="control-label"></label>
+                        <input asp-for="PublishDate" class="form-control" type="date" />
+                        <span asp-validation-for="PublishDate" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
+
+            <div class="form-row">
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="Length" class="control-label"></label>
+                        <input asp-for="Length" class="form-control" />
+                        <span asp-validation-for="Length" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="BanId" class="control-label"></label>
+                        <select asp-for="BanId" asp-items="@ViewBag.Bans" class="form-control"></select>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PublishDate" class="control-label"></label>
-                <input asp-for="PublishDate" class="form-control" type="date" />
-                <span asp-validation-for="PublishDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TrailerURL" class="control-label"></label>
@@ -32,27 +57,16 @@
                 <span asp-validation-for="TrailerURL" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Length" class="control-label"></label>
-                <input asp-for="Length" class="form-control" min="0"/>
-                <span asp-validation-for="Length" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BanId" class="control-label"></label>
-                <select asp-for="BanId"  asp-items="@ViewBag.Bans" class="form-control"></select>
-            </div>
-            <div class="form-group">
                 <label asp-for="Poster" class="control-label"></label>
-                <input asp-for="Poster" class="form-control" accept="image/*"/>
+                <input asp-for="Poster" class="form-control" accept="image/*" />
                 <span asp-validation-for="Poster" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group d-flex justify-content-center">
+                <input type="submit" value="Tạo mới" class="btn btn-primary" />
             </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+        </form>
+
+    </div>
 </div>
 

@@ -82,18 +82,18 @@ namespace MovieTheater.Api
             }
             return new ApiErrorResultLite();
         }
-        public async Task<ApiResultLite> DeleteAsync(Guid id)
+        public async Task<ApiResultLite> DeleteAsync(int id)
         {
             return await DeleteAsync<ApiResultLite>($"Api/Film/Delete/{id}");
         }
-        public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
+        public async Task<ApiResult<PageResult<FilmMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
-            return await PostAsync<ApiResult<PageResult<FilmVMD>>>($"Api/Film/GetFilmPaging", request);
+            return await PostAsync<ApiResult<PageResult<FilmMD>>>($"Api/Film/GetFilmPaging", request);
         }
 
-        public async Task<ApiResult<FilmVMD>> GetFilmByIdAsync(int id)
+        public async Task<ApiResult<FilmMD>> GetFilmByIdAsync(int id)
         {
-            return await GetAsync<ApiResult<FilmVMD>>($"Api/Film/GetFilmById/{id}");
+            return await GetAsync<ApiResult<FilmMD>>($"Api/Film/GetFilmById/{id}");
         }
 
     }

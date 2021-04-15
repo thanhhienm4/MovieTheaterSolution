@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Data.Enums;
 using MovieTheater.Models.Catalog.Film;
+using MovieTheater.Models.Common.ApiResult;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,6 +97,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 var updateRequest = new FilmUpdateRequest()
                 {
+
                     Id = result.ResultObj.Id,
                     Name = result.ResultObj.Name,
                     PublishDate = result.ResultObj.PublishDate,
@@ -106,6 +108,13 @@ namespace MovieTheater.Admin.Controllers
                     
 
                 };
+                var bans = (await _banApiClient.GetAllBanAsync()).ResultObj;
+                ViewBag.Bans = bans.Select(x => new SelectListItem()
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                });
+
                 return View(updateRequest);
             }
             return RedirectToAction("Error", "Home");
@@ -116,6 +125,12 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var bans = (await _banApiClient.GetAllBanAsync()).ResultObj;
+                ViewBag.Bans = bans.Select(x => new SelectListItem()
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                });
                 return View(request);
             }
             var result = await _filmApiClient.UpdateAsync(request);
@@ -130,18 +145,13 @@ namespace MovieTheater.Admin.Controllers
 
 
 
-        //[HttpPost]
-        //public async Task<ApiResultLite> Delete(Guid id)
-        //{
+        [HttpPost]
+        public async Task<ApiResultLite> Delete(int id)
+        {
 
-        //    var result = await _FilmApiClient.DeleteAsync(id);
-        //    if (result.IsSuccessed)
-        //    {
-        //        TempData["Result"] = result.Message;
-
-
-        //    }
-        //    return result;
-        //}
+            var result = await _filmApiClient.DeleteAsync(id);
+           
+            return result;
+        }
     }
 }

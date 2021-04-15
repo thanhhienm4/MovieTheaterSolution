@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,10 @@ namespace MovieTheater.Api
         public async  Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningIndateAsync(DateTime? date)
         {
             return await GetAsync<ApiResult<List<FilmScreeningVMD>>>($"Api/Screening/GetFilmScreeningIndate?date={date}");
+        }
+        public async  Task<ApiResult<PageResult<ScreeningVMD>>> GetScreeningPagingAsync(ScreeningPagingRequest request)
+        {
+            return await PostAsync<ApiResult<PageResult<ScreeningVMD>>>($"Api/Screening/GetScreeningPaging",request);
         }
     }
 

@@ -34,18 +34,7 @@ namespace MovieTheater.Admin.Controllers
 
             };
 
-            //List<SelectListItem> roles = new List<SelectListItem>();
-            //roles.Add(new SelectListItem() { Text = "Tất cả", Value = "" });
-            //var listRoles = (await _roleApiClient.GetRolesAsync())
-            //    .Select(x => new SelectListItem()
-            //    {
-            //        Text = x.Name,
-            //        Value = x.Id.ToString(),
-            //        Selected = (!string.IsNullOrWhiteSpace(roleId)) && roleId == x.Id.ToString()
-            //    }).ToList().OrderBy(x => x.Text);
-
-            //roles.AddRange(listRoles);
-            //ViewBag.Roles = roles;
+        
 
 
             ViewBag.KeyWord = keyword;

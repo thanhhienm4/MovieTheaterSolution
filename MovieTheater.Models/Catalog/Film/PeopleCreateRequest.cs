@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,11 @@ namespace MovieTheater.Models.Catalog.Film
 {
     public class PeopleCreateRequest
     {
+        [Display(Name = "Ngày sinh")]
         public DateTime DOB { get; set; }
+        [Display(Name = "Mô tả")]
         public string Description { get; set; }
+        [Display(Name = "Tên")]
         public string Name { get; set; }
     }
     public class PeopleCreateValidator : AbstractValidator<PeopleCreateRequest>

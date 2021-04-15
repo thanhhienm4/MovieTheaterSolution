@@ -62,9 +62,40 @@ namespace Movietheater.Application.ScreeningServices
             }
         }
 
-        public Task<PageResult<ScreeningVMD>> GetScreeningPagingAsync(ScreeningPagingRequest request)
+        public async Task<PageResult<ScreeningVMD>> GetScreeningPagingAsync(ScreeningPagingRequest request)
         {
-            throw new NotImplementedException();
+            var query = from s in _context.Screenings
+                        join ks in _context.KindOfScreenings on s.KindOfScreeningId equals ks.Id
+                        join f in _context.Films on s.FilmId equals f.Id
+                        select new { s, ks, f };
+
+            if (request.Keyword != null)
+            {
+                query = query.Where(x => x.s.Id.ToString().Contains(request.Keyword) ||
+                                         x.s.TimeStart.ToString().Contains(request.Keyword)||
+                                         x.f.Name.Contains(request.Keyword));
+
+            }
+            
+            PageResult<ScreeningVMD> result = new PageResult<ScreeningVMD>();
+            result.TotalRecord = await query.CountAsync();
+            result.PageIndex = request.PageIndex;
+            result.PageSize = request.PageSize;
+
+            var rooms = query.Select(x => new ScreeningVMD()
+            {
+                Id = x.s.Id,
+                FilmId = x.s.FilmId,
+                RoomId = x.s.RoomId,
+                TimeStart = x.s.TimeStart,
+                KindOfScreeningId = x.s.KindOfScreeningId,
+                
+                
+
+            }).OrderBy(x => x.Id).Skip((request.PageIndex - 1) * (request.PageSize)).Take(request.PageSize).ToList();
+            result.Item = rooms;
+
+            return result;
         }
 
         public Task<PageResult<ScreeningVMD>> GetScreeningPagingRequest(ScreeningPagingRequest request)

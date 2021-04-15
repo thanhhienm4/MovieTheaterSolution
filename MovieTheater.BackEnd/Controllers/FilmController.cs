@@ -40,13 +40,13 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("GetFilmPaging")]
-        public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPaging(FilmPagingRequest request)
+        public async Task<ApiResult<PageResult<FilmMD>>> GetFilmPaging(FilmPagingRequest request)
         {
             var result = await _filmService.GetFilmPagingAsync(request);
             return result;
         }
         [HttpGet("GetFilmById/{id}")]
-        public async Task<ApiResult<FilmVMD>> GetFilmByIdAsync(int id)
+        public async Task<ApiResult<FilmMD>> GetFilmByIdAsync(int id)
         {
             var result = await _filmService.GetFilmById(id);
             return result;

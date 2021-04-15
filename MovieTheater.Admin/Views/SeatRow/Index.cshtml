@@ -3,6 +3,12 @@
 @model PageResult<SeatRowVMD>
 @{ ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item active">Hàng ghế</li>
+</ol>
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
@@ -41,7 +47,7 @@
                         ID
                     </th>
                     <th>
-                        Tên
+                        Hàng ghế
                     </th>
                     <th>
                         Khác

@@ -113,7 +113,7 @@ namespace Movietheater.Application.FilmServices
             }
         }
 
-        public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
+        public async Task<ApiResult<PageResult<FilmMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
             var films = _context.Films.Select(x => x);
 
@@ -124,7 +124,7 @@ namespace Movietheater.Application.FilmServices
 
             int totalRow = await films.CountAsync();
             var item = films.OrderBy(x => x.Name).Skip((request.PageIndex - 1) * request.PageSize)
-                .Take(request.PageSize).Select(x => new FilmVMD()
+                .Take(request.PageSize).Select(x => new FilmMD()
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -132,7 +132,7 @@ namespace Movietheater.Application.FilmServices
                     BanId = x.BanId
                 }).ToList();
 
-            var pageResult = new PageResult<FilmVMD>()
+            var pageResult = new PageResult<FilmMD>()
             {
 
                 TotalRecord = totalRow,
@@ -141,19 +141,19 @@ namespace Movietheater.Application.FilmServices
                 Item = item,
             };
 
-            return new ApiSuccessResult<PageResult<FilmVMD>>(pageResult);
+            return new ApiSuccessResult<PageResult<FilmMD>>(pageResult);
         }
 
-        public async Task<ApiResult<FilmVMD>> GetFilmById(int id)
+        public async Task<ApiResult<FilmMD>> GetFilmById(int id)
         {
             Film film = await _context.Films.FindAsync(id);
             if (film == null)
             {
-                return new ApiErrorResult<FilmVMD>("Không tìm thấy phim");
+                return new ApiErrorResult<FilmMD>("Không tìm thấy phim");
             }
             else
             {
-                var result = new FilmVMD()
+                var result = new FilmMD()
                 {
                     Id = film.Id,
                     Name = film.Name,
@@ -166,7 +166,7 @@ namespace Movietheater.Application.FilmServices
                     $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{film.Poster}"
 
                 };
-                return new ApiSuccessResult<FilmVMD>(result);
+                return new ApiSuccessResult<FilmMD>(result);
             }
         }
         private async Task<string> SaveFile(IFormFile file)

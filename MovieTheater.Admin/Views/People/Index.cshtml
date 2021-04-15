@@ -1,8 +1,16 @@
 ﻿@using MovieTheater.Models.Common.Paging
 @using MovieTheater.Models.Catalog.Film
 @model PageResult<PeopleVMD>
-@{ ViewData["Title"] = "Index";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{ 
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item active">Người</li>
+</ol>
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">

@@ -1,21 +1,17 @@
 ﻿@using MovieTheater.Models.Common.Paging
-@using MovieTheater.Models.Infra.RoomModels
-@model PageResult<RoomVMD>
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
+@using MovieTheater.Models.Catalog.Screening
+@model PageResult<ScreeningVMD>
+@{ ViewData["Title"] = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item active">Phòng</li>
+    <li class="breadcrumb-item active">Film</li>
 </ol>
-
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
             <div class="p-2">
-                <a class="btn btn-success" asp-action="Create" asp-controller="Room">Tạo mới</a>
+                <a class="btn btn-success" asp-action="Create" asp-controller="Film">Tạo mới</a>
             </div>
             <div class="ml-auto p-2">
                 <form asp-action="Index" method="get">
@@ -32,7 +28,7 @@
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Tìm</button>
-                            <button type="button" onclick="window.location.href='/Room/Index'" class="btn btn-dark">Reset</button>
+                            <button type="button" onclick="window.location.href='/Film/Index'" class="btn btn-dark">Reset</button>
                         </div>
 
                     </div>
@@ -44,43 +40,52 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    
+
                     <th>
-                        Tên phòng
+                        Id
                     </th>
                     <th>
-                        Mã loại phòng
+                        Tên phim
                     </th>
                     <th>
-                        Khác
+                        Phòng 
                     </th>
+                    <th>
+                        Thời gian 
+                    </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @{ if (Model.Item != null)
-                                {
-                                    foreach (var item in Model.Item)
-                                    {
-                    <tr>
+                @if (Model.Item != null)
+                {
+            foreach (var item in Model.Item)
+            {
+            <tr>
 
-                        
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FormatId)
-                        </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FilmId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomId)
+                </td>
+                <td>
 
-                        <td>
-                            @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
-                            @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
+                    @Convert.ToDateTime(item.TimeStart).ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
 
-                        </td>
-                    </tr> }
-                                } }
-
+                </td>
+            </tr>
+}}
             </tbody>
+              
         </table>
         <div class="d-flex">
             <div class="ml-auto p-2">
@@ -90,4 +95,3 @@
 
     </div>
 </div>
-

@@ -11,7 +11,8 @@ namespace MovieTheater.Data.EFConfigurations
             builder.ToTable("Films");
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Name).IsRequired();
-
+            builder.Property(x => x.Description).IsRequired();
+            builder.Property(x => x.Length).IsRequired();
             builder.HasOne(x => x.Ban).WithMany(x => x.Films).HasForeignKey(x => x.BanId);
         }
     }
