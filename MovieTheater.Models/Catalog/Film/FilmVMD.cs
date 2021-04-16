@@ -16,5 +16,6 @@ namespace MovieTheater.Models.Catalog.Film
         public string TrailerURL { get; set; }
         public string Ban { get; set; }
         public string Poster { get; set; }
+        public List<string> Genres { get; set; }
     }
 }

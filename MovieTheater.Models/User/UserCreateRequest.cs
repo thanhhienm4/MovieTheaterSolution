@@ -2,6 +2,7 @@
 using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,20 +11,21 @@ namespace MovieTheater.Models.User
 {
     public class UserCreateRequest
     {
+        [Display(Name = "Tên đăng nhập")]
         public string UserName { get; set; }
-
+        [Display(Name = "Tên")]
         public string FirstName { get; set; }
-
+        [Display(Name = "Họ")]
         public string LastName { get; set; }
-
+        [Display(Name = "Ngày sinh")]
         public DateTime Dob { get; set; }
 
         public String Email { get; set; }
-
+        [Display(Name = "Số điện thoại")]
         public String PhoneNumber { get; set; }
-
+        [Display(Name = "Mật khẩu")]
         public String Password { get; set; }
-
+        [Display(Name = "Xác nhận mật khẩu")]
         public String ConfirmPassword { get; set; }
     }
     public class UserCreateValidator : AbstractValidator<UserCreateRequest>

@@ -9,7 +9,6 @@ namespace MovieTheater.Models.Catalog.Screening
     public class ScreeningCreateRequest
     {
         public DateTime TimeStart { get; set; }
-        public int Surcharge { get; set; }
 
         public int FilmId { get; set; }
 

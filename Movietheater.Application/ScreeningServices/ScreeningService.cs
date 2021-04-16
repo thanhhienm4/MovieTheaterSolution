@@ -62,12 +62,14 @@ namespace Movietheater.Application.ScreeningServices
             }
         }
 
-        public async Task<PageResult<ScreeningVMD>> GetScreeningPagingAsync(ScreeningPagingRequest request)
+        public async Task<ApiResult<PageResult<ScreeningVMD>>> GetScreeningPagingAsync(ScreeningPagingRequest request)
         {
+
             var query = from s in _context.Screenings
-                        join ks in _context.KindOfScreenings on s.KindOfScreeningId equals ks.Id
                         join f in _context.Films on s.FilmId equals f.Id
-                        select new { s, ks, f };
+                        join r in _context.Rooms on s.RoomId equals r.Id
+                        join kos in _context.KindOfScreenings on s.KindOfScreeningId equals kos.Id
+                        select new { s, f, r, kos };
 
             if (request.Keyword != null)
             {
@@ -85,23 +87,18 @@ namespace Movietheater.Application.ScreeningServices
             var rooms = query.Select(x => new ScreeningVMD()
             {
                 Id = x.s.Id,
-                FilmId = x.s.FilmId,
-                RoomId = x.s.RoomId,
+                Film = x.f.Name,
+                Room = x.r.Name,
                 TimeStart = x.s.TimeStart,
-                KindOfScreeningId = x.s.KindOfScreeningId,
-                
-                
+                KindOfScreening = x.kos.Name
 
             }).OrderBy(x => x.Id).Skip((request.PageIndex - 1) * (request.PageSize)).Take(request.PageSize).ToList();
             result.Item = rooms;
 
-            return result;
+            return new ApiSuccessResult<PageResult<ScreeningVMD>>(result);
         }
 
-        public Task<PageResult<ScreeningVMD>> GetScreeningPagingRequest(ScreeningPagingRequest request)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public Task<PageResult<FilmScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request)
         {
@@ -134,17 +131,17 @@ namespace Movietheater.Application.ScreeningServices
             }
         }
 
-        public async Task<ApiResult<ScreeningVMD>> GetScreeningByIdAsync(int id)
+        public async Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id)
         {
             var screening = await _context.Screenings.FindAsync(id);
             if(screening == null)
             {
-                return new ApiErrorResult<ScreeningVMD>("Không tìm thấy xuất chiếu");
+                return new ApiErrorResult<ScreeningMD>("Không tìm thấy xuất chiếu");
 
 
             }else
             {
-                var screeningVMD = new ScreeningVMD()
+                var screeningVMD = new ScreeningMD()
                 {
                     Id = screening.Id,
                     FilmId = screening.FilmId,
@@ -153,6 +150,34 @@ namespace Movietheater.Application.ScreeningServices
                     KindOfScreeningId = screening.KindOfScreeningId
 
                 };
+                return new ApiSuccessResult<ScreeningMD>(screeningVMD);
+            }
+        }
+
+        public async Task<ApiResult<ScreeningVMD>> GetScreeningVMDByIdAsync(int id)
+        {
+            var screening = await _context.Screenings.FindAsync(id);
+            if (screening == null)
+            {
+                return new ApiErrorResult<ScreeningVMD>("Không tìm thấy xuất chiếu");
+            }
+            else
+            {
+                var query = from s in _context.Screenings
+                            join f in _context.Films on s.FilmId equals f.Id
+                            join r in _context.Rooms on s.RoomId equals r.Id
+                            join kos in _context.KindOfScreenings on s.KindOfScreeningId equals kos.Id
+                            select new { s, f, r , kos };
+
+                var screeningVMD =await query.Select(x =>  new ScreeningVMD()
+                {
+                    Id = x.s.Id,
+                    Film = x.f.Name,
+                    Room = x.r.Name,
+                    TimeStart = x.s.TimeStart,
+                    KindOfScreening = x.kos.Name
+
+                }).FirstOrDefaultAsync();
                 return new ApiSuccessResult<ScreeningVMD>(screeningVMD);
             }
         }
@@ -164,7 +189,7 @@ namespace Movietheater.Application.ScreeningServices
                 date = DateTime.Now;
 
             var screenings = await  _context.Screenings.Where(x => x.TimeStart.Date == date.GetValueOrDefault().Date).
-                                                Select(x => new ScreeningVMD() 
+                                                Select(x => new ScreeningMD() 
                                                 { 
                                                     Id = x.Id,
                                                     TimeStart = x.TimeStart,
@@ -174,13 +199,13 @@ namespace Movietheater.Application.ScreeningServices
                                                 }).ToListAsync();
 
             List<FilmScreeningVMD> filmScreenings = new List<FilmScreeningVMD>();
-            Dictionary<int, List<ScreeningVMD>> dic = new Dictionary<int, List<ScreeningVMD>>();
+            Dictionary<int, List<ScreeningMD>> dic = new Dictionary<int, List<ScreeningMD>>();
 
             foreach (var screening in screenings)
             {
                 if(!dic.ContainsKey(screening.FilmId))
                 {
-                    dic.Add(screening.Id, new List<ScreeningVMD>());                   
+                    dic.Add(screening.Id, new List<ScreeningMD>());                   
                 }
                 dic[screening.FilmId].Add(screening);
             }
@@ -189,7 +214,7 @@ namespace Movietheater.Application.ScreeningServices
             {
                 filmScreenings.Add(new FilmScreeningVMD()
                 {
-                    Film = (await _filmService.GetFilmById(pair.Key)).ResultObj,
+                    Film = (await _filmService.GetFilmVMDById(pair.Key)).ResultObj,
                     ListScreening = pair.Value,
                 }) ;
             }
@@ -199,5 +224,7 @@ namespace Movietheater.Application.ScreeningServices
 
 
         }
+
+       
     }
 }

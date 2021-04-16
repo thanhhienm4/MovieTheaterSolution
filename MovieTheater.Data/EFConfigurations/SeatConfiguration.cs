@@ -16,6 +16,7 @@ namespace MovieTheater.Data.EFConfigurations
             builder.HasOne(x => x.KindOfSeat).WithMany(x => x.Seats).HasForeignKey(x => x.KindOfSeatId);
             builder.HasOne(x => x.SeatRow).WithMany(x => x.Seats).HasForeignKey(x => x.RowId);
             builder.HasOne(x => x.Room).WithMany(x => x.Seats).HasForeignKey(x => x.RoomId);
+            builder.Property(x => x.IsActive).HasDefaultValue(true);
         }
     }
 }

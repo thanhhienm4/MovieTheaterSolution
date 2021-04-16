@@ -39,7 +39,9 @@ namespace MovieTheater.Data.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
+           
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserInforConfiguration());
             modelBuilder.ApplyConfiguration(new BanConfiguration());

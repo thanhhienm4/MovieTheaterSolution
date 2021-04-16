@@ -19,7 +19,7 @@ namespace MovieTheater.Models.Catalog.Film
         public DateTime PublishDate { get; set; }
         [Display(Name = "Đường dẫn của Trailer")]
         public string TrailerURL { get; set; }
-        [Display(Name = "Thời lượng phim")]
+        [Display(Name = "Thời lượng phim (phút)")]
         public int Length { get; set; }
         [Display(Name = "Giới hạn độ tuổi")]
         public int BanId { get; set; }

@@ -22,10 +22,11 @@ namespace MovieTheater.BackEnd.Controllers
             _seatRowService = seatRowService;
         }
 
+
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync(String name)
+        public async Task<ApiResultLite> CreateAsync(SeatRowCreateRequest request)
         {
-            var result = await _seatRowService.CreateAsync(name);
+            var result = await _seatRowService.CreateAsync(request);
             return result;
         }
 
@@ -60,6 +61,14 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResult<SeatRowVMD>> GetSeatRowByIdAsync(int id)
         {
             var result = await _seatRowService.GetSeatRowById(id);
+            return result;
+        }
+        [HttpPost]
+        public async Task<ApiResultLite> Delete(int id)
+        {
+
+            var result = await _seatRowService.DeleteAsync(id);
+
             return result;
         }
     }

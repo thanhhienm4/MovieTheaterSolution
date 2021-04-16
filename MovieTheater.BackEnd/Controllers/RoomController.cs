@@ -56,6 +56,15 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [HttpPost]
+        public async Task<ApiResultLite> Delete(int id)
+        {
+
+            var result = await _roomService.DeleteAsync(id);
+
+            return result;
+        }
+
     }
     
 }

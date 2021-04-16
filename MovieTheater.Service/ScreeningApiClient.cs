@@ -22,7 +22,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResultLite> CreateAsync(ScreeningCreateRequest request)
         {
-            return await PostAsync<ApiResultLite>("Api/Creening/Create", request);
+            return await PostAsync<ApiResultLite>("Api/Screening/Create", request);
         }
 
       
@@ -37,11 +37,14 @@ namespace MovieTheater.Api
             return await DeleteAsync<ApiResultLite>($"Api/Screeing/Delete/{id}");
         }
 
-        public async Task<ApiResult<ScreeningVMD>> GetScreeningByIdAsync(int id)
+        public async Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id)
         {
-            return await GetAsync<ApiResult<ScreeningVMD>> ($"Api/Screening/GetScreeningById/{id}");
+            return await GetAsync<ApiResult<ScreeningMD>> ($"Api/Screening/GetScreeningMDById/{id}");
         }
-
+        public async Task<ApiResult<ScreeningVMD>> GetScreeningVMDByIdAsync(int id)
+        {
+            return await GetAsync<ApiResult<ScreeningVMD>>($"Api/Screening/GetScreeningVMDById/{id}");
+        }
         public async  Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningIndateAsync(DateTime? date)
         {
             return await GetAsync<ApiResult<List<FilmScreeningVMD>>>($"Api/Screening/GetFilmScreeningIndate?date={date}");

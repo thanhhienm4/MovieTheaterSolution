@@ -26,7 +26,7 @@ namespace MovieTheater.Api
         {
             return await PutAsync<ApiResultLite>("Api/People/Update", request);
         }
-        public async Task<ApiResultLite> DeleteAsync(Guid id)
+        public async Task<ApiResultLite> DeleteAsync(int id)
         {
             return await DeleteAsync<ApiResultLite>($"Api/People/Delete/{id}");
         }

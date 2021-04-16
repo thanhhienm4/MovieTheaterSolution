@@ -30,20 +30,7 @@ namespace MovieTheater.Admin.Controllers
                 PageSize = pageSize,
 
             };
-
-            //List<SelectListItem> roles = new List<SelectListItem>();
-            //roles.Add(new SelectListItem() { Text = "Tất cả", Value = "" });
-            //var listRoles = (await _roleApiClient.GetRolesAsync())
-            //    .Select(x => new SelectListItem()
-            //    {
-            //        Text = x.Name,
-            //        Value = x.Id.ToString(),
-            //        Selected = (!string.IsNullOrWhiteSpace(roleId)) && roleId == x.Id.ToString()
-            //    }).ToList().OrderBy(x => x.Text);
-
-            //roles.AddRange(listRoles);
-            //ViewBag.Roles = roles;
-
+            ViewBag.SuccessMsg = TempData["Result"];
 
             ViewBag.KeyWord = keyword;
             var result = await _filmApiClient.GetFilmPagingAsync(request);
@@ -77,9 +64,10 @@ namespace MovieTheater.Admin.Controllers
             var result = await _filmApiClient.CreateAsync(request);
             if (result.IsSuccessed)
             {
-                TempData["Result"] = "Tạo mới thành công";
+                TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Film");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
@@ -91,7 +79,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
-            var result = await _filmApiClient.GetFilmByIdAsync(id);
+            var result = await _filmApiClient.GetFilmMDByIdAsync(id);
 
             if (result.IsSuccessed)
             {
@@ -150,7 +138,7 @@ namespace MovieTheater.Admin.Controllers
         {
 
             var result = await _filmApiClient.DeleteAsync(id);
-           
+            TempData["Result"] = result.Message;
             return result;
         }
     }

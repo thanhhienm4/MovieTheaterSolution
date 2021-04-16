@@ -1,12 +1,19 @@
 ﻿@using MovieTheater.Models.Common.Paging
 @using MovieTheater.Models.Catalog.Film
-@model PageResult<FilmMD>
+@model PageResult<FilmVMD>
 @{ ViewData["Title"] = "Index";
                 Layout = "~/Views/Shared/_Layout.cshtml"; }
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item active">Film</li>
 </ol>
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $("#SuccessMeg").fadeOut('slow');
+        }, 2000);
+    </script>
+}
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
@@ -36,6 +43,14 @@
             </div>
         </div>
     </div>
+    <div>
+        @if (ViewBag.SuccessMsg != null)
+            {
+        <div id="SuccessMeg" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+            }
+    </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -48,7 +63,7 @@
                         Tên phim
                     </th>
                     <th>
-                        BanId
+                        Giới hạn
                     </th>
                     <th>
                         Ngày công chiếu
@@ -71,17 +86,15 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.BanId)
+                        @Html.DisplayFor(modelItem => item.Ban)
                     </td>
                     <td>
 
                         @Convert.ToDateTime(item.PublishDate).ToString("dd/MM/yyyy")
                     </td>
                     <td>
-                        @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
-                        <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteFilm" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
-                        
+                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
+                        <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteFilm" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
                     </td>
                 </tr>
 }

@@ -13,18 +13,18 @@ using System.Threading.Tasks;
 
 namespace Movietheater.Application.SeatServices
 {
-    public class SeatRowService :ISeatRowService
+    public class SeatRowService : ISeatRowService
     {
         private readonly MovieTheaterDBContext _context;
         public SeatRowService(MovieTheaterDBContext context)
         {
             _context = context;
         }
-        public async Task<ApiResultLite> CreateAsync(string name)
+        public async Task<ApiResultLite> CreateAsync(SeatRowCreateRequest request)
         {
             SeatRow seatRow = new SeatRow()
             {
-                Name = name
+                Name = request.Name
             };
             _context.SeatRows.Add(seatRow);
             int result = await _context.SaveChangesAsync();

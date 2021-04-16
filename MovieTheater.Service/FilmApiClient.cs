@@ -41,13 +41,11 @@ namespace MovieTheater.Api
             requestContent.Add(new StringContent(request.PublishDate.ToString()), "PublishDate");
             requestContent.Add(new StringContent(request.TrailerURL.ToString()), "TrailerURL");
             HttpClient client = GetHttpClient();
+
             var response = await client.PostAsync($"Api/Film/Create", requestContent);
 
-            if (response.IsSuccessStatusCode)
-            {
-                return new ApiSuccessResultLite();
-            }
-            return new ApiErrorResultLite();
+            return await GetResultAsync<ApiResultLite>(response);
+            
 
         }
         public async Task<ApiResultLite> UpdateAsync(FilmUpdateRequest request)
@@ -76,24 +74,20 @@ namespace MovieTheater.Api
             HttpClient client = GetHttpClient();
             var response = await client.PutAsync($"Api/Film/Update", requestContent);
 
-            if (response.IsSuccessStatusCode)
-            {
-                return new ApiSuccessResultLite();
-            }
-            return new ApiErrorResultLite();
+            return await GetResultAsync<ApiResultLite>(response);
         }
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
             return await DeleteAsync<ApiResultLite>($"Api/Film/Delete/{id}");
         }
-        public async Task<ApiResult<PageResult<FilmMD>>> GetFilmPagingAsync(FilmPagingRequest request)
+        public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
-            return await PostAsync<ApiResult<PageResult<FilmMD>>>($"Api/Film/GetFilmPaging", request);
+            return await PostAsync<ApiResult<PageResult<FilmVMD>>>($"Api/Film/GetFilmPaging", request);
         }
 
-        public async Task<ApiResult<FilmMD>> GetFilmByIdAsync(int id)
+        public async Task<ApiResult<FilmMD>> GetFilmMDByIdAsync(int id)
         {
-            return await GetAsync<ApiResult<FilmMD>>($"Api/Film/GetFilmById/{id}");
+            return await GetAsync<ApiResult<FilmMD>>($"Api/Film/GetFilmMDById/{id}");
         }
 
     }

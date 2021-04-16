@@ -6,8 +6,12 @@
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item"><a href="/Room">Phòng</a></li>
-    <li class="breadcrumb-item active">Chỉnh sửa</li>
+    <li class="breadcrumb-item active">Chi tiết</li>
 </ol>
+
+<div id="btnEdit" class="p-2">
+    <a class="btn btn-success" href="javascript:enableElements()">Chỉnh sửa</a>
+</div>
 
 <div class="card">
     <div class="card-body">
@@ -17,22 +21,29 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" />
+                        <input id="input1" asp-for="Name" class="form-control" disabled />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="FormatId" class="control-label"></label>
-                        <input asp-for="FormatId" class="form-control" />
+                        <input id="input2" asp-for="FormatId" class="form-control" disabled />
                         <span asp-validation-for="FormatId" class="text-danger"></span>
                     </div>
-                    <div class="form-group d-flex justify-content-center">
-                        <input type="submit" value="Lưu chỉnh sửa" class="btn btn-primary" />
+                    <div id="btnSave" class="form-group d-flex justify-content-center invisible">
+                        <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>function enableElements() {
+        document.getElementById("input1").disabled = false;
+        document.getElementById("input2").disabled = false;
+        document.getElementById("btnEdit").style.display = 'none';
+        document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
+    }</script>
 
 
 

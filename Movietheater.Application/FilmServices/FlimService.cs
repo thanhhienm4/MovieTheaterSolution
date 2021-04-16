@@ -113,38 +113,54 @@ namespace Movietheater.Application.FilmServices
             }
         }
 
-        public async Task<ApiResult<PageResult<FilmMD>>> GetFilmPagingAsync(FilmPagingRequest request)
+        public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
-            var films = _context.Films.Select(x => x);
+            var query = from f in _context.Films 
+                        join b in _context.Bans on f.BanId equals b.Id 
+                        select new {f,b };
 
             if (!string.IsNullOrWhiteSpace(request.Keyword))
-                films = films.Where(x => x.Name.Contains(request.Keyword)
-                                        || x.Id.ToString().Contains(request.Keyword));
+                query = query.Where(x => x.f.Name.Contains(request.Keyword)
+                                        || x.f.Id.ToString().Contains(request.Keyword)
+                                        || x.b.Name.Contains(request.Keyword));
 
 
-            int totalRow = await films.CountAsync();
-            var item = films.OrderBy(x => x.Name).Skip((request.PageIndex - 1) * request.PageSize)
-                .Take(request.PageSize).Select(x => new FilmMD()
+            int totalRow = await query.CountAsync();
+            var films = query.OrderBy(x => x.f.Name).Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize).Select( x => new FilmVMD()
                 {
-                    Id = x.Id,
-                    Name = x.Name,
-                    PublishDate = x.PublishDate,
-                    BanId = x.BanId
+                    Id = x.f.Id,
+                    Name = x.f.Name,
+                    PublishDate = x.f.PublishDate,
+                    Ban = x.b.Name,
+                    Poster = $"{_configuration["BackEndServer"]}/" +
+                    $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
+                    Description = x.f.Description,
+                    TrailerURL = x.f.TrailerURL
+
                 }).ToList();
 
-            var pageResult = new PageResult<FilmMD>()
+            if(films != null)
+            {
+                foreach(var film in films)
+                {
+                    film.Genres = GetGenres(film.Id);
+                }
+            }
+
+            var pageResult = new PageResult<FilmVMD>()
             {
 
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
-                Item = item,
+                Item = films,
             };
 
-            return new ApiSuccessResult<PageResult<FilmMD>>(pageResult);
+            return new ApiSuccessResult<PageResult<FilmVMD>>(pageResult);
         }
 
-        public async Task<ApiResult<FilmMD>> GetFilmById(int id)
+        public async Task<ApiResult<FilmMD>> GetFilmMDById(int id)
         {
             Film film = await _context.Films.FindAsync(id);
             if (film == null)
@@ -169,12 +185,52 @@ namespace Movietheater.Application.FilmServices
                 return new ApiSuccessResult<FilmMD>(result);
             }
         }
+        public async Task<ApiResult<FilmVMD>> GetFilmVMDById(int id)
+        {
+            Film film = await _context.Films.FindAsync(id);
+            if (film == null)
+            {
+                return new ApiErrorResult<FilmVMD>("Không tìm thấy phim");
+            }
+            else
+            {
+                var query = from f in _context.Films
+                            join b in _context.Bans on f.BanId equals b.Id
+                            where f.Id == id
+                            select new { f, b };
+
+                var filmVMD = await query.Select(x => new FilmVMD()
+                {
+                    Id = x.f.Id,
+                    Name = x.f.Name,
+                    PublishDate = x.f.PublishDate,
+                    Ban = x.b.Name,
+                    Poster = $"{_configuration["BackEndServer"]}/" +
+                    $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
+                    Description  = x.f.Description,
+                    TrailerURL = x.f.TrailerURL
+
+                }).FirstOrDefaultAsync();
+                filmVMD.Genres = GetGenres(filmVMD.Id);
+                return new ApiSuccessResult<FilmVMD>(filmVMD);
+            }
+        }
+
         private async Task<string> SaveFile(IFormFile file)
         {
             string originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             string fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return fileName;
+        }
+
+        private List<string> GetGenres(int id)
+        {
+            return   _context.FilmInGenres.Join(_context.FilmGenre,
+                                                            fig => fig.FilmGenreId,
+                                                            fg => fg.Id,
+                                                            (fig, fg) => fg.Name).ToList();
+            
         }
     }
 }

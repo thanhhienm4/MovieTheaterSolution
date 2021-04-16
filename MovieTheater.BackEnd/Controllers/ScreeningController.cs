@@ -44,19 +44,27 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("GetScreeningPaging")]
-        public async Task<PageResult<ScreeningVMD>> GetScreeningPagingAsync(ScreeningPagingRequest request)
+        public async Task<ApiResult<PageResult<ScreeningVMD>>> GetScreeningPagingAsync(ScreeningPagingRequest request)
         {
             var result = await _screeningService.GetScreeningPagingAsync(request);
             return result;
         }
 
-        [HttpGet("GetScreeningById/{id}")]
-        public async Task<ApiResult<ScreeningVMD>> GetScreeningByIdAsync(int id)
+        [HttpGet("GetScreeningMDById/{id}")]
+        public async Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id)
         {
-            var result = await _screeningService.GetScreeningByIdAsync(id);
+            var result = await _screeningService.GetScreeningMDByIdAsync(id);
             return result;
         }
-        
+
+
+        [HttpGet("GetScreeningVMDById/{id}")]
+        public async Task<ApiResult<ScreeningVMD>> GetScreeningVMDByIdAsync(int id)
+        {
+            var result = await _screeningService.GetScreeningVMDByIdAsync(id);
+            return result;
+        }
+
         [HttpGet("GetFilmScreeningIndate")]
         public async Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningIndate([FromQuery] DateTime? date)
         {

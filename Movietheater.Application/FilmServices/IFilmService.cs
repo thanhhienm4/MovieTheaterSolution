@@ -14,9 +14,9 @@ namespace Movietheater.Application.FilmServices
         Task<ApiResultLite> CreateAsync(FilmCreateRequest model);
         Task<ApiResultLite> UpdateAsync(FilmUpdateRequest model);
         Task<ApiResultLite> DeleteAsync(int id);
-        Task<ApiResult<PageResult<FilmMD>>> GetFilmPagingAsync(FilmPagingRequest request);
-        Task<ApiResult<FilmMD>> GetFilmById(int id);
-
+        Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request);
+        Task<ApiResult<FilmMD>> GetFilmMDById(int id);
+        Task<ApiResult<FilmVMD>> GetFilmVMDById(int id);
         //ban service
 
 

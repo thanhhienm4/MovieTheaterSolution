@@ -53,5 +53,13 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _PeopleService.GetPeopleById(id);
             return result;
         }
+        [HttpPost]
+        public async Task<ApiResultLite> Delete(int id)
+        {
+
+            var result = await _PeopleService.DeleteAsync(id);
+
+            return result;
+        }
     }
 }

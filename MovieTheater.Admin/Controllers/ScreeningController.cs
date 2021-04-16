@@ -72,7 +72,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
-            var result = await _screeningApiClient.GetScreeningByIdAsync(id);
+            var result = await _screeningApiClient.GetScreeningMDByIdAsync(id);
 
             if (result.IsSuccessed)
             {
