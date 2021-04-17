@@ -41,7 +41,7 @@ namespace MovieTheater.Admin.Controllers
                 PageSize = pageSize,
 
             };
-
+            ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
             var result = await _seatRowApiClient.GetSeatRowPagingAsync(request);
             return View(result.ResultObj);

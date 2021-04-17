@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieTheater.Data.Migrations
 {
-    public partial class init : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,7 +54,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surcharge = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
@@ -69,7 +69,7 @@ namespace MovieTheater.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surcharge = table.Column<int>(type: "int", nullable: false)
+                    Surcharge = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
@@ -83,7 +83,7 @@ namespace MovieTheater.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DOB = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -177,7 +177,7 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.RoleId,
                         principalTable: "AppRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,7 +187,7 @@ namespace MovieTheater.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Length = table.Column<int>(type: "int", nullable: false),
                     TrailerURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -202,7 +202,7 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.BanId,
                         principalTable: "Bans",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,7 +222,7 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.FormatId,
                         principalTable: "RoomFormats",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -245,7 +245,7 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.ReservationTypeId,
                         principalTable: "ReservationTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reservations_UserInfors_EmployeeId",
                         column: x => x.EmployeeId,
@@ -288,7 +288,7 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.Id,
                         principalTable: "UserInfors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -306,13 +306,13 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.FilmGenreId,
                         principalTable: "FilmGenres",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_FilmInGenres_Films_FilmId",
                         column: x => x.FilmId,
                         principalTable: "Films",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -331,19 +331,19 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.FilmId,
                         principalTable: "Films",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Joinings_Peoples_PeppleId",
                         column: x => x.PeppleId,
                         principalTable: "Peoples",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Joinings_Positions_PositionId",
                         column: x => x.PositionId,
                         principalTable: "Positions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -365,19 +365,19 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.FilmId,
                         principalTable: "Films",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Screenings_KindOfScreenings_KindOfScreeningId",
                         column: x => x.KindOfScreeningId,
                         principalTable: "KindOfScreenings",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Screenings_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -390,7 +390,7 @@ namespace MovieTheater.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KindOfSeatId = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -401,19 +401,19 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.KindOfSeatId,
                         principalTable: "KindOfSeats",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Seats_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Seats_SeatRows_RowId",
                         column: x => x.RowId,
                         principalTable: "SeatRows",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -434,7 +434,7 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -454,7 +454,7 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -472,13 +472,13 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.RoleId,
                         principalTable: "AppRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserRoles_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -498,7 +498,7 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -518,18 +518,19 @@ namespace MovieTheater.Data.Migrations
                         column: x => x.ReservationId,
                         principalTable: "Reservations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Tickets_Screenings_ScreeningId",
                         column: x => x.ScreeningId,
                         principalTable: "Screenings",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Tickets_Seats_SeatId",
                         column: x => x.SeatId,
                         principalTable: "Seats",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -537,8 +538,8 @@ namespace MovieTheater.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "20621c18-77b0-41d1-af6e-21bd1bf0a8c1", "Emloyee", "Emloyee", "Emloyee" },
-                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "d7402098-3080-47a0-a5bd-76b3f029efed", "Administrator role", "Admin", "Administrator" }
+                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "27d861b8-5ec4-40c2-81d6-35c1eee2e525", "Emloyee", "Emloyee", "Emloyee" },
+                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "b795f3a5-1cb8-489a-8866-9af329d475de", "Administrator role", "Admin", "Administrator" }
                 });
 
             migrationBuilder.InsertData(
@@ -571,11 +572,11 @@ namespace MovieTheater.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "KindOfSeats",
-                columns: new[] { "Id", "Name", "Surcharge" },
+                columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 2, "Vip", 0 },
-                    { 1, "Thường", 0 }
+                    { 2, "Vip" },
+                    { 1, "Thường" }
                 });
 
             migrationBuilder.InsertData(
@@ -634,22 +635,22 @@ namespace MovieTheater.Data.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), 0, "", "Mistake4@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEJ+8OCoczYu23hET74Zjy1vzgW+5NL51jCNvuWlgVkIMgL6atu/L+yzXF8+c67O+Ug==", "0912413908", true, "", false, "admin" });
+                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), 0, "", "Mistake4@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEJa4Vyxeaqya9ZaWMWKSkFfOt6fhVPWA2yJNbe1PVNS976C0Y1rotu8c+5YXeURrgA==", "0912413908", true, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Screenings",
                 columns: new[] { "Id", "FilmId", "KindOfScreeningId", "RoomId", "TimeStart" },
-                values: new object[] { 1, 1, 1, 1, new DateTime(2021, 4, 11, 5, 1, 38, 224, DateTimeKind.Utc).AddTicks(3888) });
+                values: new object[] { 1, 1, 1, 1, new DateTime(2021, 4, 17, 14, 9, 57, 659, DateTimeKind.Utc).AddTicks(3410) });
 
             migrationBuilder.InsertData(
                 table: "Seats",
-                columns: new[] { "Number", "RoomId", "RowId", "Id", "IsActive", "KindOfSeatId" },
-                values: new object[] { 1, 1, 1, 1, false, 1 });
+                columns: new[] { "Number", "RoomId", "RowId", "Id", "KindOfSeatId" },
+                values: new object[] { 1, 1, 1, 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8") });
+                values: new object[] { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8") });
 
             migrationBuilder.InsertData(
                 table: "Tickets",

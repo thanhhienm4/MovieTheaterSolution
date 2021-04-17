@@ -57,6 +57,7 @@ namespace MovieTheater.Admin.Controllers
                     Selected = (!string.IsNullOrWhiteSpace(roleId)) && roleId == x.Id.ToString()
                 }).ToList().OrderBy(x => x.Text);
 
+            ViewBag.SuccessMsg = TempData["Result"];
             roles.AddRange(listRoles);
             ViewBag.Roles = roles;
 
@@ -81,7 +82,7 @@ namespace MovieTheater.Admin.Controllers
             var result = await _userApiClient.CreateAsync(request);
             if (result.IsSuccessed)
             {
-                TempData["Result"] = "Tạo mới thành công";
+                TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "User");
             }
             ModelState.AddModelError("", result.Message);
@@ -124,7 +125,7 @@ namespace MovieTheater.Admin.Controllers
             var result = await _userApiClient.UpdateAsync(request);
             if (result.IsSuccessed)
             {
-                TempData["Result"] = "Chỉnh sửa thành công";
+                TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "User");
             }
             ModelState.AddModelError("", result.Message);
@@ -141,8 +142,6 @@ namespace MovieTheater.Admin.Controllers
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
-
-
             }
             return result;
         }

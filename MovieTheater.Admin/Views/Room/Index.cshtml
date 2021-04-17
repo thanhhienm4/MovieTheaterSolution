@@ -2,13 +2,19 @@
 @using MovieTheater.Models.Infra.RoomModels
 @model PageResult<RoomVMD>
 @{ ViewData["Title"] = "Index";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item active">Phòng</li>
 </ol>
-
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $("#SuccessMeg").fadeOut('slow');
+        }, 2000);
+    </script>
+}
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
@@ -38,6 +44,13 @@
             </div>
         </div>
     </div>
+    <div>
+        @if (ViewBag.SuccessMsg != null)
+        {
+<div id="SuccessMeg" class="alert alert-success" role="alert">
+    @ViewBag.SuccessMsg
+</div>            }
+    </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -59,20 +72,20 @@
                     {
                         foreach (var item in Model.Item)
                         {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FormatId)
-                        </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FormatId)
+            </td>
 
-                        <td>
-                            @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
-                            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteRoom" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
-                            @Html.ActionLink("Cập nhật sơ đồ ghế", "UpdateSeatInRoom", new { roomId= item.Id }) 
-                        </td>
-                    </tr>
+            <td>
+                @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
+                <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteRoom" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
+                @Html.ActionLink("Cập nhật sơ đồ ghế", "UpdateSeatInRoom", new { roomId = item.Id })
+            </td>
+        </tr>
  }
 } }
 

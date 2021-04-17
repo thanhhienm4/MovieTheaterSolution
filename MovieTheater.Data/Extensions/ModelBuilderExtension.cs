@@ -49,7 +49,7 @@ namespace MovieTheater.Data.Extensions
                 (
                     new IdentityUserRole<Guid>()
                     {
-                        RoleId = new Guid("1081FBA0-8368-43B7-8134-032E838C1BB3"),
+                        RoleId = new Guid("C02AB224-EBDD-44E3-B691-5ACEC03DA039"),  
                         UserId = new Guid("99ECA8CE-E954-4ED9-AB12-1A1FB010A9F8")
                     }
                 ); 

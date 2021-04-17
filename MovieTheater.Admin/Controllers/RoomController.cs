@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
+using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.RoomModels;
 using MovieTheater.Models.Infra.RoomModels.Format;
 using MovieTheater.Models.Infra.Seat;
@@ -34,9 +35,9 @@ namespace MovieTheater.Admin.Controllers
 
             };
 
-        
+            
 
-
+            ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
             var result = await _roomApiClient.GetRoomPagingAsync(request);
             return View(result);
@@ -58,7 +59,7 @@ namespace MovieTheater.Admin.Controllers
             var result = await _roomApiClient.CreateAsync(request);
             if (result.IsSuccessed)
             {
-                TempData["Result"] = "Tạo mới thành công";
+                TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Room");
             }
             ModelState.AddModelError("", result.Message);
@@ -98,12 +99,21 @@ namespace MovieTheater.Admin.Controllers
             var result = await _roomApiClient.UpdateAsync(request);
             if (result.IsSuccessed)
             {
-                TempData["Result"] = "Chỉnh sửa thành công";
+                TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Room");
             }
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
+
+        [HttpPost]
+        public async Task<ApiResultLite> Delete(int id)
+        {
+            var result = await _roomApiClient.DeleteAsync(id);
+            TempData["Result"] = result.Message;
+            return result;
+        }
+
         [HttpGet]
         public async Task<List<SeatVMD>> GetSeatInRoom(int roomId)
         {

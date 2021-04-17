@@ -134,6 +134,7 @@ namespace Movietheater.Application.UserServices
             user.PhoneNumber = model.PhoneNumber;
             user.UserInfor = new UserInfor()
             {
+                Id = user.Id,
                 Dob = model.Dob,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -144,7 +145,7 @@ namespace Movietheater.Application.UserServices
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                return new ApiSuccessResultLite();
+                return new ApiSuccessResultLite("Cập nhật thành công");
             }
             else
                 return new ApiErrorResultLite("Cập nhật không thành công");
@@ -174,7 +175,7 @@ namespace Movietheater.Application.UserServices
                 {
                     await _userManager.SetLockoutEnabledAsync(user, true);
                 }
-                return new ApiSuccessResultLite();
+                return new ApiSuccessResultLite("Xóa thành công");
             }
         }
         public async Task<ApiResultLite> ChangePasswordAsync(ChangePWRequest request)

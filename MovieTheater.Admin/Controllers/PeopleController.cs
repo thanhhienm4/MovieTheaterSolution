@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Film;
+using MovieTheater.Models.Common.ApiResult;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace MovieTheater.Admin.Controllers
 {
     public class PeopleController : Controller
     {
-        private readonly PeopleApiClient _PeopleApiClient;
+        private readonly PeopleApiClient _peopleApiClient;
         public PeopleController(PeopleApiClient PeopleApiClient)
         {
-            _PeopleApiClient = PeopleApiClient;
+            _peopleApiClient = PeopleApiClient;
         }
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
@@ -25,9 +26,9 @@ namespace MovieTheater.Admin.Controllers
                 PageSize = pageSize,
 
             };
-
+            ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
-            var result = await _PeopleApiClient.GetPeoplePagingAsync(request);
+            var result = await _peopleApiClient.GetPeoplePagingAsync(request);
             return View(result.ResultObj);
         }
         [HttpGet]
@@ -43,7 +44,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View(request);
             }
-            var result = await _PeopleApiClient.CreateAsync(request);
+            var result = await _peopleApiClient.CreateAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = "Tạo mới thành công";
@@ -60,7 +61,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
-            var result = await _PeopleApiClient.GetPeopleByIdAsync(id);
+            var result = await _peopleApiClient.GetPeopleByIdAsync(id);
 
             if (result.IsSuccessed)
             {
@@ -83,7 +84,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View(request);
             }
-            var result = await _PeopleApiClient.UpdateAsync(request);
+            var result = await _peopleApiClient.UpdateAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = "Chỉnh sửa thành công";
@@ -91,6 +92,15 @@ namespace MovieTheater.Admin.Controllers
             }
             ModelState.AddModelError("", result.Message);
             return View(request);
+        }
+
+        [HttpPost]
+        public async Task<ApiResultLite> Delete(int id)
+        {
+
+            var result = await _peopleApiClient.DeleteAsync(id);
+            TempData["Result"] = result.Message;
+            return result;
         }
 
     }

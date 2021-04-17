@@ -6,6 +6,7 @@ using MovieTheater.Data.EFConfigurations;
 using MovieTheater.Data.Entities;
 using MovieTheater.Data.Extensions;
 using System;
+using System.Linq;
 
 namespace MovieTheater.Data.EF
 {
@@ -67,6 +68,9 @@ namespace MovieTheater.Data.EF
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles").HasKey(x => new { x.UserId, x.RoleId });
             //modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins").HasKey(x => x.UserId);
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens").HasKey(x => x.UserId);
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
 
             modelBuilder.Seed();
         }

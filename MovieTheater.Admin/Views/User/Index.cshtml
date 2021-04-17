@@ -1,9 +1,14 @@
 ﻿@using MovieTheater.Models.Common.Paging
 @using MovieTheater.Models.User
 @model PageResult<UserVMD>
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+@{ ViewData["Title"] = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $("#SuccessMeg").fadeOut('slow');
+        }, 2000);
+    </script>
 }
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
@@ -41,6 +46,14 @@
             </div>
         </div>
     </div>
+    <div>
+        @if (ViewBag.SuccessMsg != null)
+            {
+        <div id="SuccessMeg" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+            }
+    </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -66,31 +79,30 @@
             <tbody>
                 @foreach (var item in Model.Item)
                 {
-                <tr>
+    <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
-                    <td class="status">
-                        @item.Status
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td class="status">
+            @item.Status
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
 
-                        @Convert.ToDateTime(item.Dob).ToString("dd/MM/yyyy")
-                    </td>
-                    <td>
-                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
-                        <a href="" data-toggle="modal" data-name="@item.UserName" data-target="#deleteUserUser" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
-                        @Html.ActionLink("Cấp quyền", "RoleAssign", new { id = item.Id })
-                    </td>
-                </tr>
-                }
+            @Convert.ToDateTime(item.Dob).ToString("dd/MM/yyyy")
+        </td>
+        <td>
+            @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
+            <a href="" data-toggle="modal" data-name="@item.UserName" data-target="#deleteUserUser" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
+            @Html.ActionLink("Cấp quyền", "RoleAssign", new { id = item.Id })
+        </td>
+    </tr>}
             </tbody>
         </table>
         <div class="d-flex">
