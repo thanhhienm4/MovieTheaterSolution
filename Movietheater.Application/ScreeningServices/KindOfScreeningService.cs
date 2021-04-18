@@ -1,4 +1,5 @@
-﻿using MovieTheater.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
@@ -76,6 +77,17 @@ namespace Movietheater.Application.ScreeningServices
                     return new ApiErrorResultLite("Xóa thất bại");
                 }
             }
+        }
+        public async Task<ApiResult<List<KindOfScreeningVMD>>> GetAllKindOfScreeningAsync()
+        {
+            var kindOfScreenings = await _context.KindOfScreenings.Select(x => new KindOfScreeningVMD()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Surcharge = x.Surcharge
+            }).ToListAsync();
+
+            return new ApiSuccessResult<List<KindOfScreeningVMD>>(kindOfScreenings);
         }
     }
 }

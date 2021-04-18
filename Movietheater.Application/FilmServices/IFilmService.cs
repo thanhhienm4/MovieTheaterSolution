@@ -17,6 +17,7 @@ namespace Movietheater.Application.FilmServices
         Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request);
         Task<ApiResult<FilmMD>> GetFilmMDById(int id);
         Task<ApiResult<FilmVMD>> GetFilmVMDById(int id);
+        Task<ApiResult<List<FilmVMD>>> GetAllFilmAsync();
         //ban service
 
 

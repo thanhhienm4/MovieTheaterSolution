@@ -18,11 +18,13 @@ namespace Movietheater.Application.RoomServices
         Task<ApiResultLite> CreateAsync(RoomCreateRequest request);
         Task<ApiResultLite> UpdateAsync(RoomUpdateRequest request);
         Task<ApiResultLite> DeleteAsync(int id);
-        Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request);
+        Task<PageResult<RoomMD>> GetRoomPagingAsync(RoomPagingRequest request);
         Task<List<SeatVMD>> GetSeatsInRoom(int id);
-        Task<ApiResult<RoomVMD>> GetRoomById(int id);
+        Task<ApiResult<RoomMD>> GetRoomById(int id);
+        Task<ApiResult<List<RoomVMD>>> GetAllRoomAsync();
 
-            
+
+
 
     }
 }

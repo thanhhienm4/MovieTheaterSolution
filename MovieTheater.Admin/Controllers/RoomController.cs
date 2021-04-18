@@ -128,10 +128,15 @@ namespace MovieTheater.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
+        public async Task<ApiResultLite> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
         {
-            var seatMatrix = await _seatApiCient.UpdateSeatInRoomAsync(request);
-            return View(seatMatrix);
+            var result = await _seatApiCient.UpdateSeatInRoomAsync(request);
+            if(result.IsSuccessed == true)
+            {
+                TempData["Result"] = result.Message;
+               
+            }
+            return result;
         }
     }
 }

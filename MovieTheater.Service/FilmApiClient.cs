@@ -89,6 +89,10 @@ namespace MovieTheater.Api
         {
             return await GetAsync<ApiResult<FilmMD>>($"Api/Film/GetFilmMDById/{id}");
         }
+        public async Task<ApiResult<List<FilmVMD>>> GetAllFilmAsync()
+        {
+            return await GetAsync<ApiResult<List<FilmVMD>>>($"Api/Film/GetAllFilm");
+        }
 
     }
 }

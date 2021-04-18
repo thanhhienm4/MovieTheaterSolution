@@ -39,15 +39,21 @@ namespace MovieTheater.Api
         }
 
 
-        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request)
+        public async Task<PageResult<RoomMD>> GetRoomPagingAsync(RoomPagingRequest request)
         {
-            return await PostAsync<PageResult<RoomVMD>>($"Api/Room/GetRoomPaging", request);
+            return await PostAsync<PageResult<RoomMD>>($"Api/Room/GetRoomPaging", request);
         }
 
 
-        public async Task<ApiResult<RoomVMD>> GetRoomByIdAsync(int id)
+        public async Task<ApiResult<RoomMD>> GetRoomByIdAsync(int id)
         {
-            return await GetAsync<ApiResult<RoomVMD>>($"Api/Room/GetRoomById/{id}");
+            return await GetAsync<ApiResult<RoomMD>>($"Api/Room/GetRoomById/{id}");
         }
+
+        public async Task<ApiResult<List<RoomVMD>>> GetAllRoomAsync()
+        {
+            return await GetAsync<ApiResult<List<RoomVMD>>>($"Api/Room/GetAllRoom");
+        }
+
     }
 }

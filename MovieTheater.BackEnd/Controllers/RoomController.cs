@@ -43,14 +43,14 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("GetRoomPaging")]
-        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request)
+        public async Task<PageResult<RoomMD>> GetRoomPagingAsync(RoomPagingRequest request)
         {
             var result = await _roomService.GetRoomPagingAsync(request);
             return result;
         }
 
         [HttpGet("GetRoomById/{id}")]
-        public async Task<ApiResult<RoomVMD>> GetRoomByIdAsync(int id)
+        public async Task<ApiResult<RoomMD>> GetRoomByIdAsync(int id)
         {
             var result = await _roomService.GetRoomById(id);
             return result;
@@ -64,7 +64,12 @@ namespace MovieTheater.BackEnd.Controllers
 
             return result;
         }
-
+        [HttpGet("getAllRoom")]
+        public async Task<ApiResult<List<RoomVMD>>> GetAllRoomAsync()
+        {
+            var result = await _roomService.GetAllRoomAsync();
+            return result;
+        }
     }
     
 }

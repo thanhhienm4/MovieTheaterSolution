@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.Infra.RoomModels
 {
-    public class RoomVMD
+    public class RoomMD
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Format { get; set; }
+        public string  Name { get; set; }
+        public int FormatId { get; set; }
     }
 }

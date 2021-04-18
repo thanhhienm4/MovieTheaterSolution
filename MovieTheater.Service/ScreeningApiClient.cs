@@ -53,6 +53,12 @@ namespace MovieTheater.Api
         {
             return await PostAsync<ApiResult<PageResult<ScreeningVMD>>>($"Api/Screening/GetScreeningPaging",request);
         }
+
+
+        public async Task<ApiResult<List<KindOfScreeningVMD>>> GetAllKindOfScreeningAsync()
+        {
+            return await GetAsync<ApiResult<List<KindOfScreeningVMD>>>($"Api/KindOfScreening/GetAllKindOfScreening");
+        }
     }
 
 

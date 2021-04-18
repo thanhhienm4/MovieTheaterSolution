@@ -3,6 +3,7 @@ using Movietheater.Application.FilmServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -60,5 +61,11 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [HttpGet("getAllFilm")]
+        public async Task<ApiResult<List<FilmVMD>>> GetAllBanAsync()
+        {
+            var result = await _filmService.GetAllFilmAsync();
+            return result;
+        }
     }
 }

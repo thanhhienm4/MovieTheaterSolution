@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Infra.Seat;
@@ -14,10 +15,15 @@ namespace MovieTheater.Admin.Controllers
     {
         private readonly SeatApiClient _seatApiClient;
         private readonly ScreeningApiClient _screeningApiClient;
-        public ScreeningController(SeatApiClient seatApiClient, ScreeningApiClient screeningApiClient)
+        private readonly RoomApiClient _roomApiClient;
+        private readonly FilmApiClient _filmApiClient;
+        public ScreeningController(SeatApiClient seatApiClient, ScreeningApiClient screeningApiClient, 
+            RoomApiClient roomApiClient, FilmApiClient filmApiClient)
         {
             _seatApiClient = seatApiClient;
             _screeningApiClient = screeningApiClient;
+            _roomApiClient = roomApiClient;
+            _filmApiClient = filmApiClient;
 
         }
         [HttpGet]
@@ -43,8 +49,10 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+
+            await SetViewBagAsync();
             return View();
         }
 
@@ -53,6 +61,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                await SetViewBagAsync();
                 return View(request);
             }
             var result = await _screeningApiClient.CreateAsync(request);
@@ -70,6 +79,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                
                 return View();
             }
             var result = await _screeningApiClient.GetScreeningMDByIdAsync(id);
@@ -85,6 +95,7 @@ namespace MovieTheater.Admin.Controllers
                     TimeStart = result.ResultObj.TimeStart
 
                 };
+                await SetViewBagAsync();
                 return View(updateRequest);
             }
             return RedirectToAction("Error", "Home");
@@ -95,6 +106,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                await SetViewBagAsync();
                 return View(request);
             }
             var result = await _screeningApiClient.UpdateAsync(request);
@@ -105,6 +117,28 @@ namespace MovieTheater.Admin.Controllers
             }
             ModelState.AddModelError("", result.Message);
             return View(request);
+        }
+
+        private async Task SetViewBagAsync()
+        {
+            var rooms = (await _roomApiClient.GetAllRoomAsync()).ResultObj;
+            ViewBag.Rooms = rooms.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
+            var films = (await _filmApiClient.GetAllFilmAsync()).ResultObj;
+            ViewBag.Films = films.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
+            var kindOfScreenings = (await _screeningApiClient.GetAllKindOfScreeningAsync()).ResultObj;
+            ViewBag.KindOfScreenings = kindOfScreenings.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
         }
 
     }
