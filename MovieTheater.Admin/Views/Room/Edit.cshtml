@@ -10,35 +10,40 @@
 </ol>
 
 <div id="btnEdit" class="p-2">
-    <a class="btn btn-success" href="javascript:enableElements()">Chỉnh sửa</a>
+    <a class="btn btn-success" onclick="enableElements()">Chỉnh sửa</a>
 </div>
 
 <div class="card">
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-4">
-                <form asp-action="Edit">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row">
+                <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
                         <input id="input1" asp-for="Name" class="form-control" disabled />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
+                </div>
+                <div class="col-md">
                     <div class="form-group">
                         <label asp-for="FormatId" class="control-label"></label>
-                        <input id="input2" asp-for="FormatId" class="form-control" disabled />
-                        <span asp-validation-for="FormatId" class="text-danger"></span>
+                        <select id="input2" asp-for="FormatId" asp-items="@ViewBag.RoomFormats" class="form-control"></select>
                     </div>
-                    <div id="btnSave" class="form-group d-flex justify-content-center invisible">
-                        <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
-                    </div>
-                </form>
+                </div>
+                
             </div>
-        </div>
+          
+            <div id="btnSave" class="form-group d-flex justify-content-center invisible">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
+        
 </div>
 
-<script>function enableElements() {
+<script>
+    function enableElements() {
         document.getElementById("input1").disabled = false;
         document.getElementById("input2").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';

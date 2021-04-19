@@ -1,6 +1,6 @@
 ﻿@using MovieTheater.Models.Common.Paging
 @using MovieTheater.Models.Infra.RoomModels
-@model PageResult<RoomMD>
+@model PageResult<RoomVMD>
 @{ ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
@@ -55,12 +55,14 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-
+                    <th>
+                        Mã phòng
+                    </th>
                     <th>
                         Tên phòng
                     </th>
                     <th>
-                        Mã loại phòng
+                        Loại phòng
                     </th>
                     <th>
                         Khác
@@ -72,20 +74,23 @@
                     {
                         foreach (var item in Model.Item)
                         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FormatId)
-            </td>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Format)
+                                    </td>
 
-            <td>
-                @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
-                <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteRoom" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
-                @Html.ActionLink("Cập nhật sơ đồ ghế", "UpdateSeatInRoom", new { roomId = item.Id })
-            </td>
-        </tr>
+                                    <td>
+                                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
+                                        <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteRoom" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
+                                        @Html.ActionLink("Cập nhật sơ đồ ghế", "UpdateSeatInRoom", new { roomId = item.Id })
+                                    </td>
+                                </tr>
  }
 } }
 

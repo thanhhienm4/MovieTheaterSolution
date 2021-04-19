@@ -236,6 +236,52 @@ namespace Movietheater.Application.FilmServices
             }
         }
 
+        public async Task<ApiResultLite> GenreAssignAsync(GenreAssignRequest request)
+        {
+            var film = await _context.Films.FindAsync(request.FilmId);
+            if (film == null)
+            {
+                return new ApiErrorResultLite("Phim không tồn tại");
+            }
+
+            // check genres available 
+            List<int> genres = request.Genres.Select(x =>Int32.Parse(x.Id)).ToList();
+            if (!CheckGenres(genres))
+            {
+                return new ApiErrorResultLite("Yêu cầu không hợp lệ");
+            }
+
+            var filmInGenres = _context.FilmInGenres.Where(X => X.FilmId == request.FilmId).Select(x=>x);
+            _context.FilmInGenres.RemoveRange(filmInGenres);
+
+            var activeGenres = request.Genres.Where(x => x.Selected == true).Select(x => new FilmInGenre()
+            {
+                FilmId = request.FilmId, 
+                FilmGenreId = Int32.Parse(x.Id)
+            }) ;
+            _context.FilmInGenres.AddRange(activeGenres);
+
+            await _context.SaveChangesAsync();
+
+            return new ApiSuccessResultLite("Gán danh mục thành công");
+           
+            
+        }
+        private bool CheckGenres (List<int> genres)
+        {
+            var query =  genres.Join(_context.FilmGenre,
+                x => x,
+                fg => fg.Id,
+                (x, fg) => x).ToList();
+
+            HashSet<int> setGenres = new HashSet<int>(genres);
+            if (setGenres.Count == query.Count)
+                return true;
+            else
+                return false;
+
+
+        }
         private async Task<string> SaveFile(IFormFile file)
         {
             string originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');

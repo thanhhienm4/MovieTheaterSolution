@@ -18,7 +18,7 @@ namespace MovieTheater.Admin.Controllers
 
         public async Task<IActionResult> ChooseSeat(int id)
         {
-            var screening = (await _screeningApiClient.GetScreeningVMDByIdAsync(id)).ResultObj;
+            var screening = (await _screeningApiClient.GetScreeningMDByIdAsync(id)).ResultObj;
             return View(screening);
         }
         public async Task<IActionResult> Index(DateTime? date)

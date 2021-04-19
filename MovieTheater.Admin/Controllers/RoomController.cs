@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.RoomModels;
@@ -44,8 +45,9 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            await SetViewBagAsync();
             return View();
         }
 
@@ -54,8 +56,10 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                await SetViewBagAsync();
                 return View(request);
             }
+          
             var result = await _roomApiClient.CreateAsync(request);
             if (result.IsSuccessed)
             {
@@ -71,6 +75,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+               
                 return View();
             }
             var result = await _roomApiClient.GetRoomByIdAsync(id);
@@ -84,6 +89,7 @@ namespace MovieTheater.Admin.Controllers
                     FormatId = result.ResultObj.FormatId
 
                 };
+                await SetViewBagAsync();
                 return View(updateRequest);
             }
             return RedirectToAction("Error", "Home");
@@ -94,6 +100,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                await SetViewBagAsync();
                 return View(request);
             }
             var result = await _roomApiClient.UpdateAsync(request);
@@ -137,6 +144,17 @@ namespace MovieTheater.Admin.Controllers
                
             }
             return result;
+        }
+
+        private async Task SetViewBagAsync()
+        {
+            var roomFormats = (await _roomApiClient.GetAllRoomFormatAsync()).ResultObj;
+
+            ViewBag.RoomFormats = roomFormats.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
         }
     }
 }

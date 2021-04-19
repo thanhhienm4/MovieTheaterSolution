@@ -11,6 +11,7 @@ namespace MovieTheater.Data.EFConfigurations
             builder.ToTable("Positions");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
+           builder.HasIndex(x => x.Name).IsUnique();
             builder.Property(x => x.Name).IsRequired();
         }
     }

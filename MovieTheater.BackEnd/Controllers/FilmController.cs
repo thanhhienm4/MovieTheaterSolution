@@ -67,5 +67,12 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _filmService.GetAllFilmAsync();
             return result;
         }
+
+        [HttpPost("GenreAssign")]
+        public async Task<ApiResultLite> GenreAssignAsync(GenreAssignRequest request)
+        {
+            var result = await _filmService.GenreAssignAsync(request);
+            return result;
+        }
     }
 }

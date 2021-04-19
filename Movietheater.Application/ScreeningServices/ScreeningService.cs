@@ -78,7 +78,9 @@ namespace Movietheater.Application.ScreeningServices
                                          x.f.Name.Contains(request.Keyword));
 
             }
-            
+            if (request.Date != null)
+                query = query.Where(x => x.s.TimeStart.Date == request.Date);
+
             PageResult<ScreeningVMD> result = new PageResult<ScreeningVMD>();
             result.TotalRecord = await query.CountAsync();
             result.PageIndex = request.PageIndex;
@@ -205,7 +207,7 @@ namespace Movietheater.Application.ScreeningServices
             {
                 if(!dic.ContainsKey(screening.FilmId))
                 {
-                    dic.Add(screening.Id, new List<ScreeningMD>());                   
+                    dic.Add(screening.FilmId, new List<ScreeningMD>());                   
                 }
                 dic[screening.FilmId].Add(screening);
             }

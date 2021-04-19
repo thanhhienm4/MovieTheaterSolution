@@ -9,6 +9,6 @@ namespace MovieTheater.Models.Catalog.Screening
 {
     public class ScreeningPagingRequest : PagingRequest
     {
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
     }
 }

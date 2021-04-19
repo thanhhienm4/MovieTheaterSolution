@@ -1,4 +1,5 @@
-﻿using MovieTheater.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.RoomModels.Format;
@@ -70,9 +71,16 @@ namespace Movietheater.Application.RoomServices
             }
         }
 
-        public Task<List<RoomFormatVMD>> GetAllRoomFormat()
+        public async Task<ApiResult<List<RoomFormatVMD>>> GetAllRoomFormatAsync()
         {
-            throw new NotImplementedException();
+            var roomFormats =await _context.RoomFormats.Select(x => new RoomFormatVMD()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price
+            }).ToListAsync();
+
+            return new ApiSuccessResult<List<RoomFormatVMD>>(roomFormats);
         }
     }
 }

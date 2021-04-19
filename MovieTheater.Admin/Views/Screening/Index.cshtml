@@ -16,7 +16,9 @@
             <div class="ml-auto p-2">
                 <form asp-action="Index" method="get">
                     <div class="row">
-
+                        <div>
+                            <input type="date" name="date" value="@ViewBag.Date"/>
+                        </div>
                         <div>
                             &nbsp;
                         </div>
@@ -78,7 +80,7 @@
                     </td>
                     <td>
 
-                        @Convert.ToDateTime(item.TimeStart).ToString("yyyy/MM/dd HH:mm")
+                        @Convert.ToDateTime(item.TimeStart).ToString("dd/mm/yyyy hh:mm tt")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.KindOfScreening)

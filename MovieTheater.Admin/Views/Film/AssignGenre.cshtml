@@ -1,0 +1,40 @@
+﻿@model MovieTheater.Models.Catalog.Film.GenreAssignRequest
+
+@{
+    ViewData["Title"] = "AssignGenre";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item"><a href="/Film">Film</a></li>
+    <li class="breadcrumb-item active">Gán danh mục</li>
+</ol>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <a asp-action="Index" asp-controller="Film">Về danh sách</a>
+    </div>
+
+    <div class="card-body">
+        <form asp-action="GenreAssign">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FilmId" />
+            @for (var i = 0; i < Model.Genres.Count; i++)
+            {
+                <div class="form-group">
+                    <label>
+                        @Model.Genres[i].Name
+                        <input type="checkbox" asp-for="Genres[i].Selected" />
+                        <input type="hidden" asp-for="Genres[i].Id" />
+                        <input type="hidden" asp-for="Genres[i].Name" />
+                    </label>
+                </div>
+            }
+            <div class="form-group d-flex justify-content-center">
+                <input type="submit" value="Lưu lại" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

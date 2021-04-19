@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Data.Enums;
 using MovieTheater.Models.Catalog.Film;
+using MovieTheater.Models.Common;
 using MovieTheater.Models.Common.ApiResult;
 using System;
 using System.Collections.Generic;
@@ -132,7 +133,6 @@ namespace MovieTheater.Admin.Controllers
         }
 
 
-
         [HttpPost]
         public async Task<ApiResultLite> Delete(int id)
         {
@@ -140,6 +140,53 @@ namespace MovieTheater.Admin.Controllers
             var result = await _filmApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;
             return result;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AssignGenre(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var genreAssignRequest = await GetGenreAssignRequest(id);
+            return View(genreAssignRequest);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GenreAssign(GenreAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
+            var result = await _filmApiClient.AssignGenre(request);
+            if (result.IsSuccessed)
+            {
+                TempData["Result"] = "Gán quyền thành công";
+                return RedirectToAction("Index", "Film");
+            }
+            ModelState.AddModelError("", result.Message);
+            var genreAssignRequest = await GetGenreAssignRequest(request.FilmId);
+            return View(genreAssignRequest);
+        }
+
+        private async Task<GenreAssignRequest> GetGenreAssignRequest(int id)
+        {
+            var filmObject = await _filmApiClient.GetFilmVMDByIdAsync(id);
+            var result = (await _filmApiClient.GetAllFilmGenreAsync()).ResultObj;
+            var genreAssignRequest = new GenreAssignRequest();
+            genreAssignRequest.FilmId = id;
+            foreach (var genre in result)
+            {
+                genreAssignRequest.Genres.Add(new SelectedItem()
+                {
+                    Id = genre.Id.ToString(),
+                    Name = genre.Name,
+                    Selected = filmObject.ResultObj.Genres.Contains(genre.Name)
+                });
+            }
+
+            return genreAssignRequest;
         }
     }
 }

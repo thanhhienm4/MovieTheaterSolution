@@ -86,7 +86,7 @@ namespace Movietheater.Application.RoomServices
             }
         }
 
-        public async Task<PageResult<RoomMD>> GetRoomPagingAsync(RoomPagingRequest request)
+        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request)
         {
             var query = from r in _context.Rooms
                         join f in _context.RoomFormats on r.FormatId equals f.Id
@@ -102,15 +102,16 @@ namespace Movietheater.Application.RoomServices
             {
                 query = query.Where(x => x.r.FormatId == request.FormatId);
             }
-            PageResult<RoomMD> result = new PageResult<RoomMD>();
+            PageResult<RoomVMD> result = new PageResult<RoomVMD>();
             result.TotalRecord = await query.CountAsync();
             result.PageIndex = request.PageIndex;
             result.PageSize = request.PageSize;
 
-            var rooms = query.Select(x => new RoomMD()
+            var rooms = query.Select(x => new RoomVMD()
             {
                 Id = x.r.Id,
                 Name = x.r.Name,
+                Format = x.f.Name
 
             }).OrderBy(x => x.Id).Skip((request.PageIndex - 1) * (request.PageSize)).Take(request.PageSize).ToList();
             result.Item = rooms;

@@ -84,7 +84,10 @@ namespace MovieTheater.Api
         {
             return await PostAsync<ApiResult<PageResult<FilmVMD>>>($"Api/Film/GetFilmPaging", request);
         }
-
+        public async Task<ApiResult<FilmVMD>> GetFilmVMDByIdAsync(int id)
+        {
+            return await GetAsync<ApiResult<FilmVMD>>($"Api/Film/GetFilmVMDById/{id}");
+        }
         public async Task<ApiResult<FilmMD>> GetFilmMDByIdAsync(int id)
         {
             return await GetAsync<ApiResult<FilmMD>>($"Api/Film/GetFilmMDById/{id}");
@@ -93,6 +96,14 @@ namespace MovieTheater.Api
         {
             return await GetAsync<ApiResult<List<FilmVMD>>>($"Api/Film/GetAllFilm");
         }
+        public async Task<ApiResultLite> AssignGenre(GenreAssignRequest request)
+        {
+            return await PostAsync<ApiResultLite>($"Api/Film/GenreAssign",request);
+        }
 
+        public async Task<ApiResult<List<FilmGenreVMD>>> GetAllFilmGenreAsync()
+        {
+            return await GetAsync<ApiResult<List<FilmGenreVMD>>>($"Api/FilmGenre/GetAllFilmGenre");
+        }
     }
 }

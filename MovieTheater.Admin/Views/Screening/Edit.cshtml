@@ -52,7 +52,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="TimeStart" class="control-label"></label>
-                        <input asp-for="TimeStart" class="form-control" />
+                        <input asp-for="TimeStart" class="form-control"  value="@DateTime.Now.ToString()" type="datetime-local" />
                         <span asp-validation-for="TimeStart" class="text-danger"></span>
                     </div>
                 </div>

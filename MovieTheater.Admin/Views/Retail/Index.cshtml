@@ -48,11 +48,11 @@
                                             {
                                                 if (screening.TimeStart.AddMinutes(filmScreening.Film.Length) > DateTime.Now)
                                                 {
-                                                    <a class="btn  time" style="background-color:gray" href="/retail/chooseseat/@screening.Id">@screening.TimeStart.Hour : @screening.TimeStart.Minute</a>
+                                                    <a class="btn  time mr-2"  href="/retail/chooseseat/@screening.Id">@screening.TimeStart.ToString("HH:mm")</a>
                                                 }
                                                 else
                                                 {
-                                                    <a class="btn btn-secondary time" style="cursor:no-drop">@screening.TimeStart.Hour : @screening.TimeStart.Minute</a>
+                                    <a class="btn btn-secondary time mr-2" style="cursor:no-drop">@screening.TimeStart.ToString("HH:mm")</a>
                                                 }
 
                                             }

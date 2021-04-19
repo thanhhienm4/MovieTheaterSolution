@@ -11,7 +11,7 @@ namespace MovieTheater.Data.EFConfigurations
             builder.ToTable("Rooms");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
-
+           builder.HasIndex(x => x.Name).IsUnique();
             builder.HasOne(x => x.Format).WithMany(x => x.Rooms).HasForeignKey(x => x.FormatId);
         }
     }

@@ -5,7 +5,7 @@
                 Layout = "~/Views/Shared/_Layout.cshtml"; }
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item active">Film</li>
+    <li class="breadcrumb-item active">Phim</li>
 </ol>
 @section Scripts{
     <script>
@@ -94,7 +94,8 @@
                     </td>
                     <td>
                         @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
-                        <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteFilm" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
+                        <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteFilm" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|
+                        @Html.ActionLink("Gián danh mục", "AssignGenre", new { id = item.Id }) 
                     </td>
                 </tr>
 }

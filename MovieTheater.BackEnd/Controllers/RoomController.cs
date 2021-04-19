@@ -43,7 +43,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("GetRoomPaging")]
-        public async Task<PageResult<RoomMD>> GetRoomPagingAsync(RoomPagingRequest request)
+        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request)
         {
             var result = await _roomService.GetRoomPagingAsync(request);
             return result;
