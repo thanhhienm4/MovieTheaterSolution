@@ -45,6 +45,7 @@ namespace MovieTheater.Admin.Controllers
             };
             if (date == null)
                 date = DateTime.Now.Date;
+
             ViewBag.Date = date;
             ViewBag.KeyWord = keyword;
             var result = (await _screeningApiClient.GetScreeningPagingAsync(request)).ResultObj;
@@ -98,6 +99,7 @@ namespace MovieTheater.Admin.Controllers
                     TimeStart = result.ResultObj.TimeStart
 
                 };
+                ViewBag.Date = result.ResultObj.TimeStart;
                 await SetViewBagAsync();
                 return View(updateRequest);
             }
@@ -109,6 +111,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.IsEdit = true;
                 await SetViewBagAsync();
                 return View(request);
             }

@@ -17,7 +17,7 @@
     <div class="card-body">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input  asp-for="Id" class="form-control" hidden />
+            <input asp-for="Id" class="form-control" hidden />
             <div class="form-row">
                 <div class="col-md">
                     <div class="form-group">
@@ -39,7 +39,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Length" class="control-label"></label>
-                        <input id="input3" asp-for="Length" class="form-control" disabled />
+                        <input id="input3" asp-for="Length" class="form-control" disabled min="0" />
                         <span asp-validation-for="Length" class="text-danger"></span>
                     </div>
                 </div>
@@ -73,14 +73,21 @@
     </div>
 </div>
 
-<script>function enableElements() {
+<script>
+    function enableElements() {
         document.getElementById("input1").disabled = false;
         document.getElementById("input2").disabled = false;
         document.getElementById("input3").disabled = false;
-    document.getElementById("input4").disabled = false;
-    document.getElementById("input5").disabled = false;
+        document.getElementById("input4").disabled = false;
+        document.getElementById("input5").disabled = false;
         document.getElementById("select").disabled = false;
         document.getElementById("exampleFormControlTextarea1").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
     }</script>
+@if (ViewBag.IsEdit != null)
+{
+    <script>
+        enableElements();
+    </script>
+}

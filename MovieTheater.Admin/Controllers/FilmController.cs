@@ -114,6 +114,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.IsEdit = true;
                 var bans = (await _banApiClient.GetAllBanAsync()).ResultObj;
                 ViewBag.Bans = bans.Select(x => new SelectListItem()
                 {

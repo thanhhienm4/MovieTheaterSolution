@@ -52,7 +52,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="TimeStart" class="control-label"></label>
-                        <input asp-for="TimeStart" class="form-control"  value="@DateTime.Now.ToString()" type="datetime-local" />
+                        <input asp-for="TimeStart" class="form-control" value="@ViewBag.Date.ToString("yyyy-MM-ddThh:mm")" type="datetime-local" />
                         <span asp-validation-for="TimeStart" class="text-danger"></span>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
 
             <div class="d-flex justify-content-center">
                 <div class="form-group">
-                    <input type="submit" value="Chỉnh sửa" class="btn btn-primary" />
+                    <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
                 </div>
             </div>
 
@@ -91,3 +91,9 @@
 
     });
 </script>
+@if (ViewBag.IsEdit != null)
+{
+    <script>
+        enableElements();
+    </script>
+}

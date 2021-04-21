@@ -7,24 +7,47 @@
 
 
 <h2>Sơ đồ ghế rạp phim</h2>
-<div class="card bg-secondary text-white">
-    <div class="card-body d-flex justify-content-center" style="font-size:120%">
-        Màn hình
-    </div>
-</div>
-<div class="card bg-light">
-    <div class="card-body">
-        <div class="container-fluid">
-            <div style="overflow-x:auto;">
-                <ul id="place">
-                </ul>
+<div class="row">
+    <div class="col-9">
+        <div class="card bg-secondary text-white">
+            <div class="card-body d-flex justify-content-center" style="font-size:120%">
+                Màn hình
+            </div>
+        </div>
+        <div class="card bg-light">
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div style="overflow-x:auto;">
+                        <ul id="place">
+                        </ul>
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
-
     </div>
-
+    <div class="col-3">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-center">
+                    <p>Thành tiền</p>
+                </div>
+            </div>
+            <div class="card-body">
+                <p id="seatsName"></p>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <p style="color:red">Tổng tiền:</p>
+                    <p id="price"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <div style="float:left;">
 
@@ -91,8 +114,8 @@
                         className = settings.seatCss;
 
                         str.push('<button id = "' + result[i].id + '_' + j.toString() + '" class = "' + className + '"' + 'data-kindofseatid="' + result[i].kindOfSeatId +
-                            '"data-row="' + result[i].id + '"data-num="' + j.toString() +'" disabled > ' +
-                            '<a title="' + seatNo + '">' + seatNo + '</a>' +
+                            '"data-row="' + result[i].id +'"data-num="' + j.toString() +'" disabled > ' +
+
                             '</button>');
                     }
                     str.push('</div>');
@@ -111,6 +134,8 @@
                             var idElement = res[i].rowId + '_' + res[i].number.toString();
                             var btn = document.getElementById(idElement);
                             $(btn).attr("disabled", false);
+                            $(btn).attr('data-name', res[i].name);
+                            $(btn).attr('data-id', res[i].id);
                             if (res[i].kindOfSeatId == mode.normal) {
                                 $(btn).addClass(settings.normalSeatCss);
                             }
@@ -119,7 +144,8 @@
                                 $(btn).addClass(settings.vipSeatCss);
                             }
                             $(btn).attr('data-kindofseatid', res[i].kindOfSeatId);
-                            $(btn).attr('data-id', res[i].id);
+                            //$(btn).html('<a title="' + res[i].name + '">' + ' ' + '</a>');
+
 
                         };
 
@@ -131,8 +157,10 @@
                             for (var i = 0; i < res.length; i++) {
                                 var idElement = res[i].rowId + '_' + res[i].number.toString();
                                 var btn = document.getElementById(idElement);
-                                
+
                                 $(btn).addClass('taken');
+
+
                             }
                             }
                         });
@@ -147,12 +175,44 @@
 
             //Case II: If already booked
             init();
-            $('.' + settings.seatCss).click(function () {
-                $(this).toggleClass(settings.selectingSeatCss);
 
+             $('.' + settings.seatCss).click(function () {
+                $(this).toggleClass(settings.selectingSeatCss);
+                var seatsName = '';
+                var tickets = [];
+                 $.each($('#place button.' + settings.selectingSeatCss), function (index, value) {
+                     if (!this.classList.contains('taken')) {
+                          seatsName += $(this).attr('data-name') + ', ';
+                         var ticket = {
+                            ScreeningId: @Model.Id,
+                            SeatId: $(this).attr('data-id'),
+                        };
+                        tickets.push(ticket);
+                     }
+
+
+                });
+                $("#seatsName").text(seatsName);
+
+        
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Retail/CalPrePrice",
+                    data: { tickets },
+                    success: function (res) {
+                        $('#price').html(res.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                        }));
+
+
+                    }
+                });
 
 
             });
+
         }
     })
 
@@ -160,11 +220,14 @@
 $('#btnReserve').click(function () {
     var tickets = [];
     $.each($('#place button.' + settings.selectingSeatCss), function (index, value) {
-        var ticket = {
+        if (!this.classList.contains('taken')) {
+             var ticket = {
             ScreeningId: @Model.Id,
             SeatId: $(this).attr('data-id'),
         };
         tickets.push(ticket);
+        }
+
     });
 
     $.ajax({
@@ -172,7 +235,7 @@ $('#btnReserve').click(function () {
         url: "/Reservation/Create",
         data: { Active: true, Paid: false, Tickets: tickets },
         success: function (res) {
-
+            window.location.href = "https://localhost:5001/retail";
         }
         });
     })

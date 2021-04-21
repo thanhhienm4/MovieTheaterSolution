@@ -80,7 +80,12 @@ namespace Movietheater.Application.FilmServices
         public async Task<ApiResult<PageResult<PeopleVMD>>> GetPeoplePagingAsync(PeoplePagingRequest request)
         {
             var peoples = _context.Peoples.Select(x => x);
-
+            if(request.Keyword != null)
+            {
+                peoples = peoples.Where(x => x.Id.ToString().Contains(request.Keyword) ||
+                                                x.Name.Contains(request.Keyword) ||
+                                                x.DOB.ToString().Contains(request.Keyword));
+            }
             int totalRow = await peoples.CountAsync();
             var item = peoples.OrderBy(x => x.Name).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize).Select(x => new PeopleVMD()

@@ -95,7 +95,8 @@ namespace Movietheater.Application.SeatServices
                 Number = x.Number,
                 RowId = x.RowId,
                 RoomId = x.RoomId,
-                KindOfSeatId = x.KindOfSeatId
+                KindOfSeatId = x.KindOfSeatId,
+                Name = x.Name 
             }).ToListAsync();
 
 

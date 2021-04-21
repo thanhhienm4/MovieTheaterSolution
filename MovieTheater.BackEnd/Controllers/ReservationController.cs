@@ -53,5 +53,12 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _reservationService.GetReservationById(id);
             return result;
         }
+
+        [HttpPost("CalPrePrice")]
+        public async Task<int> CalPrePriceAsync(List<TicketCreateRequest> tickets)
+        {
+            var result = await _reservationService.CalPrePriceAsync(tickets);
+            return result;
+        }
     }
 }

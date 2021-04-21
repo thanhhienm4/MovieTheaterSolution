@@ -25,7 +25,7 @@ namespace MovieTheater.Admin.Controllers
             _roomApiClient = roomApiClient;
         }
         [HttpGet]
-        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword,int? formatId, int pageIndex = 1, int pageSize = 10)
         {
 
             var request = new RoomPagingRequest()
@@ -33,10 +33,19 @@ namespace MovieTheater.Admin.Controllers
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
+                FormatId = formatId,
 
             };
 
-            
+            var formats = new List<SelectListItem>();
+            formats.Add(new SelectListItem() { Text = "Tất cả", Value = "" });
+            formats.AddRange((await _roomApiClient.GetAllRoomFormatAsync()).ResultObj.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString(),
+                Selected = (formatId!=null) && (formatId == x.Id)
+            }).OrderBy(x=>x.Text));
+            ViewBag.RoomFormats = formats;
 
             ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
@@ -100,6 +109,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.IsEdit = true;
                 await SetViewBagAsync();
                 return View(request);
             }

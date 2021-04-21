@@ -81,9 +81,6 @@ namespace Movietheater.Application.ReservationServices
                 rv.Id = request.Id;
                 rv.Paid = request.Paid;
                 rv.Active = request.Active;
-                rv.ReservationTypeId = request.ReservationTypeId;
-                rv.UserId = request.UserId;
-                rv.EmployeeId = request.EmployeeId;
                 _context.Update(rv);
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)
@@ -156,6 +153,38 @@ namespace Movietheater.Application.ReservationServices
                 };
                 return new ApiSuccessResult<ReservationVMD>(result);
             }
+        }
+
+        public async Task<int> CalPrePriceAsync(List<TicketCreateRequest> tickets)
+        {
+            int total = 0;
+            if(tickets!=null)
+            {
+                foreach(var ticket in tickets)
+                {
+                    total += await CalPriceAsync(ticket);
+                }
+            }
+            return total;
+
+        }
+        public async Task<int> CalPriceAsync(TicketCreateRequest ticket)
+        {
+            var query = from s in _context.Screenings
+                        join ks in _context.KindOfScreenings on s.KindOfScreeningId equals ks.Id
+                        join r in _context.Rooms on s.RoomId equals r.Id
+                        join fr in _context.RoomFormats on r.FormatId equals fr.Id
+                        join se in _context.Seats on r.Id equals se.RoomId
+                        join kse in _context.KindOfSeats on se.KindOfSeatId equals kse.Id
+                        where s.Id == ticket.ScreeningId && se.Id == ticket.SeatId
+
+                        select new {ks,fr,kse};
+
+            int a = query.Select(x => x.fr.Price).FirstOrDefault();
+            int b = query.Select(x => x.ks.Surcharge).FirstOrDefault();
+            int c = query.Select(x => x.kse.Surcharge).FirstOrDefault();
+            int price =await query.Select(x => x.fr.Price + x.ks.Surcharge + x.kse.Surcharge).FirstOrDefaultAsync();
+            return price;
         }
     }
 }

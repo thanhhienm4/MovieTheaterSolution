@@ -70,12 +70,10 @@ namespace MovieTheater.Admin.Controllers
             {
                 var updateRequest = new ReservationUpdateRequest()
                 {
-                    Id = result.ResultObj.Id,
-                    EmployeeId = result.ResultObj.EmployeeId,
-                    ReservationTypeId = result.ResultObj.ReservationTypeId,
+                    Id = result.ResultObj.Id,                 
                     Paid = result.ResultObj.Paid,
-                    Active = result.ResultObj.Active,
-                    UserId = result.ResultObj.UserId
+                    Active = result.ResultObj.Active
+                   
                 };
                 return View(updateRequest);
             }
@@ -87,6 +85,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.IsEdit = true;
                 return View(request);
             }
             var result = await _reservationApiClient.UpdateAsync(request);
@@ -98,5 +97,6 @@ namespace MovieTheater.Admin.Controllers
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
+        
     }
 }

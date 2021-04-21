@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
+using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Catalog.Screening;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace MovieTheater.Admin.Controllers
     public class RetailController : Controller
     {
         private readonly ScreeningApiClient _screeningApiClient;
-        public RetailController(ScreeningApiClient screeningApiClient)
+        private readonly ReservationApiClient _reservationApiClient;
+        public RetailController(ScreeningApiClient screeningApiClient,ReservationApiClient reservationApiClient)
         {
             _screeningApiClient = screeningApiClient;
+            _reservationApiClient = reservationApiClient;
         }
 
         public async Task<IActionResult> ChooseSeat(int id)
@@ -26,6 +29,12 @@ namespace MovieTheater.Admin.Controllers
             var listFlimScreening = (await _screeningApiClient.GetFilmScreeningIndateAsync(date)).ResultObj;
             return View(listFlimScreening);
         }
-           
+        [HttpPost]
+        public async Task<int> CalPrePrice(List<TicketCreateRequest> tickets)
+        {
+            if (tickets == null)
+                return 0;
+            return await _reservationApiClient.CalPrePriceAsync(tickets);
+        }
     }
 }

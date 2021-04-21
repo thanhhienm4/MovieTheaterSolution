@@ -16,7 +16,7 @@ namespace Movietheater.Application.ReservationServices
         Task<ApiResultLite> DeleteAsync(int id);
         Task<ApiResult<ReservationVMD>> GetReservationById(int Id);
         Task<ApiResult<PageResult<ReservationVMD>>> GetReservationPagingAsync(ReservationPagingRequest request);
-
+        Task<int> CalPrePriceAsync(List<TicketCreateRequest> tickets);
 
     }
 }

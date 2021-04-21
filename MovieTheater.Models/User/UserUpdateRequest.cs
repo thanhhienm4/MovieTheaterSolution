@@ -23,11 +23,7 @@ namespace MovieTheater.Models.User
         public String Email { get; set; }
         [Display(Name = "Số điện thoại")]
         public String PhoneNumber { get; set; }
-        [Display(Name = "Mật khẩu")]
-        public String Password { get; set; }
-        [Display(Name = "Xác nhận mật khẩu")]
-        public String ConfirmPassword { get; set; }
-        [Display(Name = "Trạng thái")]
+
         public Status Status { get; set; }
     }
     public class UserUpdateValidator : AbstractValidator<UserUpdateRequest>

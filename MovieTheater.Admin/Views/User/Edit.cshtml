@@ -86,7 +86,9 @@
     </div>
 </div>
 
-<script>function enableElements() {
+
+<script>
+    function enableElements() {
         document.getElementById("input1").disabled = false;
         document.getElementById("input2").disabled = false;
         document.getElementById("input3").disabled = false;
@@ -96,5 +98,10 @@
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
     }</script>
 
-
+@if(ViewBag.IsEdit != null)
+            {
+                <script>
+                    enableElements();
+                </script>
+            }
 

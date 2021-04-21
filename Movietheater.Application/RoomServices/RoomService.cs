@@ -95,7 +95,8 @@ namespace Movietheater.Application.RoomServices
             if (request.Keyword != null)
             {
                 query = query.Where(x => x.r.Name.Contains(request.Keyword) ||
-                x.r.Id.ToString().Contains(request.Keyword));
+                x.r.Id.ToString().Contains(request.Keyword) ||
+                x.f.Name.Contains(request.Keyword));
 
             }
             if (request.FormatId != null)

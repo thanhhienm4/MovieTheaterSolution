@@ -95,6 +95,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.IsEdit = true;
                 return View(request);
             }
             var result = await _seatRowApiClient.UpdateAsync(request);

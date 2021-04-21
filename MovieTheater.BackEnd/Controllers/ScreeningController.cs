@@ -29,7 +29,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         public async Task<ApiResultLite> UpdateAsync(ScreeningUpdateRequest request)
         {
             var result = await _screeningService.UpdateAsync(request);
