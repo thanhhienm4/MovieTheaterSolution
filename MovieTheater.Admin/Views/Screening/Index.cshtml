@@ -2,10 +2,10 @@
 @using MovieTheater.Models.Catalog.Screening
 @model PageResult<ScreeningVMD>
 @{ ViewData["Title"] = "Index";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item active">Film</li>
+    <li class="breadcrumb-item active">Suất chiếu</li>
 </ol>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -17,7 +17,7 @@
                 <form asp-action="Index" method="get">
                     <div class="row">
                         <div>
-                            <input type="date" name="date" value="@ViewBag.Date.ToString("yyyy-MM-dd")" onchange="submit()" class="form-control"/>
+                            <input type="date" name="date" value="@ViewBag.Date.ToString("yyyy-MM-dd")" onchange="submit()" class="form-control" />
                         </div>
                         <div>
                             &nbsp;
@@ -50,15 +50,15 @@
                         Tên phim
                     </th>
                     <th>
-                        Phòng 
+                        Phòng
                     </th>
                     <th>
-                        Thời gian 
+                        Thời gian
                     </th>
                     <th>
                         Loại xuất chiếu
                     </th>
-                    <th></th>
+                    <th>Khác</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,35 +66,33 @@
                 {
                     foreach (var item in Model.Item)
                     {
-                <tr>
+    <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Film)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Room)
-                    </td>
-                    <td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Film)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Room)
+        </td>
+        <td>
 
-                        @Convert.ToDateTime(item.TimeStart).ToString("dd/MM/yyyy HH:mm")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.KindOfScreening)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) 
+            @Convert.ToDateTime(item.TimeStart).ToString("dd/MM/yyyy HH:mm")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KindOfScreening)
+        </td>
+        <td>
+            @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
 
-                    </td>
-                </tr>
-                        }           
+        </td>
+    </tr>}
                 }
             </tbody>
-              
+
         </table>
         <div class="d-flex">
             <div class="ml-auto p-2">

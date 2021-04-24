@@ -18,7 +18,7 @@ namespace Movietheater.Application.ScreeningServices
     {
         private readonly MovieTheaterDBContext _context;
         private readonly IFilmService _filmService;
-        public ScreeningService(MovieTheaterDBContext context,IFilmService filmService)
+        public ScreeningService(MovieTheaterDBContext context, IFilmService filmService)
         {
             _context = context;
             _filmService = filmService;
@@ -28,20 +28,30 @@ namespace Movietheater.Application.ScreeningServices
             Screening screening = new Screening()
             {
                 TimeStart = request.TimeStart,
-               // Surcharge = request.Surcharge,
+                // Surcharge = request.Surcharge,
                 FilmId = request.FilmId,
                 RoomId = request.RoomId,
                 KindOfScreeningId = request.KindOfScreeningId
 
             };
             _context.Screenings.Add(screening);
-            int result = await _context.SaveChangesAsync();
-            if (result == 0)
+
+            try
+            {
+                int result = await _context.SaveChangesAsync();
+                if (result == 0)
+                {
+                    return new ApiErrorResultLite("Thêm thất bại");
+                }
+                return new ApiSuccessResultLite("Thêm thành công");
+            }
+            catch(Exception e)
             {
                 return new ApiErrorResultLite("Thêm thất bại");
             }
+           
 
-            return new ApiSuccessResultLite("Thêm thành công");
+           
         }
 
         public async Task<ApiResultLite> DeleteAsync(int id)
@@ -52,13 +62,31 @@ namespace Movietheater.Application.ScreeningServices
                 return new ApiErrorResultLite("Không tìm thấy");
             }
             else
+
             {
-                _context.Screenings.Remove(screening);
-                if (await _context.SaveChangesAsync() != 0)
+                try
                 {
+                    if (screening.Tickets != null)
+                    {
+                        screening.Active = false;
+                        _context.Screenings.Update(screening);
+                    }
+                    else
+                    {
+                        _context.Screenings.Remove(screening);
+                    }
+
+                    await _context.SaveChangesAsync();
                     return new ApiSuccessResultLite("Xóa thành công");
+
+                }catch(DbUpdateException e)
+                {
+                    return new ApiErrorResultLite("Xóa thất bại");
                 }
-                else return new ApiSuccessResultLite("Không xóa được");
+                
+
+              
+              
             }
         }
 
@@ -74,7 +102,7 @@ namespace Movietheater.Application.ScreeningServices
             if (request.Keyword != null)
             {
                 query = query.Where(x => x.s.Id.ToString().Contains(request.Keyword) ||
-                                         x.s.TimeStart.ToString().Contains(request.Keyword)||
+                                         x.s.TimeStart.ToString().Contains(request.Keyword) ||
                                          x.f.Name.Contains(request.Keyword));
 
             }
@@ -94,13 +122,13 @@ namespace Movietheater.Application.ScreeningServices
                 TimeStart = x.s.TimeStart,
                 KindOfScreening = x.kos.Name
 
-            }).OrderBy(x => x.Id).Skip((request.PageIndex - 1) * (request.PageSize)).Take(request.PageSize).ToList();
+            }).OrderByDescending(x => x.TimeStart).Skip((request.PageIndex - 1) * (request.PageSize)).Take(request.PageSize).ToList();
             result.Item = rooms;
 
             return new ApiSuccessResult<PageResult<ScreeningVMD>>(result);
         }
 
-       
+
 
         public Task<PageResult<FilmScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request)
         {
@@ -124,24 +152,33 @@ namespace Movietheater.Application.ScreeningServices
                 screening.KindOfScreeningId = request.KindOfScreeningId;
 
                 _context.Update(screening);
-                int rs = await _context.SaveChangesAsync();
-                if (rs == 0)
+
+                try
+                {
+                    int rs = await _context.SaveChangesAsync();
+                    if (rs == 0)
+                    {
+                        return new ApiErrorResultLite("Cập nhật thất bại");
+                    }
+                    return new ApiSuccessResultLite("Cập nhật thành công");
+                }catch(DbUpdateException e)
                 {
                     return new ApiErrorResultLite("Cập nhật thất bại");
                 }
-                return new ApiSuccessResultLite("Cập nhật thành công");
+            
             }
         }
 
         public async Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id)
         {
             var screening = await _context.Screenings.FindAsync(id);
-            if(screening == null)
+            if (screening == null)
             {
                 return new ApiErrorResult<ScreeningMD>("Không tìm thấy xuất chiếu");
 
 
-            }else
+            }
+            else
             {
                 var screeningVMD = new ScreeningMD()
                 {
@@ -169,9 +206,9 @@ namespace Movietheater.Application.ScreeningServices
                             join f in _context.Films on s.FilmId equals f.Id
                             join r in _context.Rooms on s.RoomId equals r.Id
                             join kos in _context.KindOfScreenings on s.KindOfScreeningId equals kos.Id
-                            select new { s, f, r , kos };
+                            select new { s, f, r, kos };
 
-                var screeningVMD =await query.Select(x =>  new ScreeningVMD()
+                var screeningVMD = await query.Select(x => new ScreeningVMD()
                 {
                     Id = x.s.Id,
                     Film = x.f.Name,
@@ -185,19 +222,19 @@ namespace Movietheater.Application.ScreeningServices
         }
 
         public async Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningInday(DateTime? date)
-           
+
         {
             if (date == null)
                 date = DateTime.Now;
 
-            var screenings = await  _context.Screenings.Where(x => x.TimeStart.Date == date.GetValueOrDefault().Date).
-                                                Select(x => new ScreeningMD() 
-                                                { 
+            var screenings = await _context.Screenings.Where(x => x.TimeStart.Date == date.GetValueOrDefault().Date).
+                                                Select(x => new ScreeningMD()
+                                                {
                                                     Id = x.Id,
                                                     TimeStart = x.TimeStart,
                                                     FilmId = x.FilmId,
                                                     RoomId = x.RoomId
-                                                    
+
                                                 }).ToListAsync();
 
             List<FilmScreeningVMD> filmScreenings = new List<FilmScreeningVMD>();
@@ -205,20 +242,20 @@ namespace Movietheater.Application.ScreeningServices
 
             foreach (var screening in screenings)
             {
-                if(!dic.ContainsKey(screening.FilmId))
+                if (!dic.ContainsKey(screening.FilmId))
                 {
-                    dic.Add(screening.FilmId, new List<ScreeningMD>());                   
+                    dic.Add(screening.FilmId, new List<ScreeningMD>());
                 }
                 dic[screening.FilmId].Add(screening);
             }
 
-            foreach( var pair in dic)
+            foreach (var pair in dic)
             {
                 filmScreenings.Add(new FilmScreeningVMD()
                 {
                     Film = (await _filmService.GetFilmVMDById(pair.Key)).ResultObj,
                     ListScreening = pair.Value,
-                }) ;
+                });
             }
             return new ApiSuccessResult<List<FilmScreeningVMD>>(filmScreenings);
 
@@ -227,6 +264,6 @@ namespace Movietheater.Application.ScreeningServices
 
         }
 
-       
+
     }
 }

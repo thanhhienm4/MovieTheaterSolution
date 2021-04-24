@@ -1,14 +1,15 @@
 ﻿@model MovieTheater.Models.Catalog.Reservation.ReservationUpdateRequest
 
-@{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewData["Title"] = "Edit";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-<h1>Edit</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item"><a href="/Reservation">Đặt vé</a></li>
+    <li class="breadcrumb-item active">Chi tiết</li>
+</ol>
 
-<h4>PeopleUpdateRequest</h4>
-<hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -30,13 +31,10 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @if (ViewBag.IsEdit != null)
 {
-    <script>
-                    enableElements();
-    </script>
-}
+<script>
+    enableElements();
+</script>}

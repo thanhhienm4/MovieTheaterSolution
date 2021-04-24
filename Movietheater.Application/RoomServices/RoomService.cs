@@ -26,12 +26,15 @@ namespace Movietheater.Application.RoomServices
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync(RoomCreateRequest model)
+        public async Task<ApiResultLite> CreateAsync(RoomCreateRequest request)
         {
+            if (_context.Rooms.Where(x => x.Name == request.Name) != null)
+                return new ApiErrorResultLite("Tên phòng đã bị trùng");
+
             var room = new Room()
             {
-                Name = model.Name,
-                FormatId = model.FormatId
+                Name = request.Name,
+                FormatId = request.FormatId
             };
 
             await _context.Rooms.AddAsync(room);
@@ -42,17 +45,20 @@ namespace Movietheater.Application.RoomServices
             return new ApiSuccessResultLite("Thêm thành công");
 
         }
-        public async Task<ApiResultLite> UpdateAsync(RoomUpdateRequest model)
+        public async Task<ApiResultLite> UpdateAsync(RoomUpdateRequest request)
         {
-            Room room = await _context.Rooms.FindAsync(model.Id);
+            Room room = await _context.Rooms.FindAsync(request.Id);
             if (room == null)
             {
                 return new ApiErrorResultLite("Không tìm thấy phòng");
             }
             else
             {
-                room.Name = model.Name;
-                room.FormatId = model.FormatId;
+                if (_context.Rooms.Where(x => (x.Id != request.Id) && (x.Name == request.Name)).Count() != 0)
+                    return new ApiErrorResultLite("Tên phòng đã bị trùng");
+
+                room.Name = request.Name;
+                room.FormatId = request.FormatId;
 
 
                 _context.Rooms.Update(room);
@@ -74,15 +80,31 @@ namespace Movietheater.Application.RoomServices
             }
             else
             {
-                _context.Rooms.Remove(room);
-                if (await _context.SaveChangesAsync() != 0)
+                if (room.Screenings!=null)
                 {
-                    return new ApiSuccessResultLite("Xóa thành công");
-                }
-                else
+                    return new ApiErrorResultLite("không thể xóa");
+                }else
                 {
-                    return new ApiSuccessResultLite("Không xóa được");
+                    try
+                    {
+                        var seats = _context.Seats.Where(x => x.RoomId == room.Id);
+                        _context.Seats.RemoveRange(seats);
+                        _context.SaveChanges();
+
+                        _context.Rooms.Remove(room);
+                        _context.SaveChanges();
+
+                        return new ApiSuccessResultLite("Xóa thành công");
+                    }catch(DbUpdateException e)
+                    {
+                        return new ApiErrorResultLite("xóa thất bại");
+                    }
+                   
+
+
                 }
+                
+            
             }
         }
 

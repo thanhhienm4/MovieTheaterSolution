@@ -2,7 +2,7 @@
 @using MovieTheater.Models.User
 @model PageResult<UserVMD>
 @{ ViewData["Title"] = "Index";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 @section Scripts{
     <script>
         setTimeout(function () {
@@ -48,11 +48,10 @@
     </div>
     <div>
         @if (ViewBag.SuccessMsg != null)
-            {
-        <div id="SuccessMeg" class="alert alert-success" role="alert">
-            @ViewBag.SuccessMsg
-        </div>
-            }
+        {
+<div id="SuccessMeg" class="alert alert-success" role="alert">
+    @ViewBag.SuccessMsg
+</div>            }
     </div>
     <div class="table-responsive">
         <table class="table table-bordered">
@@ -73,6 +72,9 @@
                     </th>
                     <th>
                         Ngày sinh
+                    </th>
+                    <th>
+                        Khác
                     </th>
                 </tr>
             </thead>
@@ -102,7 +104,8 @@
             <a href="" data-toggle="modal" data-name="@item.UserName" data-target="#deleteUserUser" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
             @Html.ActionLink("Cấp quyền", "RoleAssign", new { id = item.Id })
         </td>
-    </tr>}
+    </tr>
+}
             </tbody>
         </table>
         <div class="d-flex">

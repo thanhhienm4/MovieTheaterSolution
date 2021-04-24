@@ -28,11 +28,12 @@ namespace MovieTheater.Models.User
         [Display(Name = "Xác nhận mật khẩu")]
         public String ConfirmPassword { get; set; }
     }
+
     public class UserCreateValidator : AbstractValidator<UserCreateRequest>
     {
         public UserCreateValidator()
         {
-            RuleFor(x => x.UserName).NotEmpty().WithMessage("Tên đăng nhập không được bỏ trống").Matches("^[\\S]$").WithMessage("Tên đăng nhập không bao gồm khoảng trắng");
+            RuleFor(x => x.UserName).NotEmpty().WithMessage("Tên đăng nhập không được bỏ trống").Must(u => !u.Any(x => Char.IsWhiteSpace(x))).When(u => !string.IsNullOrWhiteSpace(u.UserName)).WithMessage("Tên đăng nhập không bao gồm khoảng trắng");
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("Tên không được bỏ trống");
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Họ không được bỏ trống");
             RuleFor(x => x.Email).NotEmpty().WithMessage("Email không được bỏ trống ").EmailAddress().WithMessage("Email không đúng định dạng");

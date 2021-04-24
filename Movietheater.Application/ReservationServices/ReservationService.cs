@@ -39,13 +39,21 @@ namespace Movietheater.Application.ReservationServices
                 }).ToList()
             };
 
+       
             await _context.Reservations.AddAsync(reservattion);
-            if (await _context.SaveChangesAsync() == 0)
+            try
+            {
+                if (await _context.SaveChangesAsync() == 0)
+                {
+                    return new ApiErrorResultLite("Thêm thất bại");
+                }
+
+                return new ApiSuccessResultLite("Thêm thành công");
+            }catch(Exception e)
             {
                 return new ApiErrorResultLite("Thêm thất bại");
             }
-
-            return new ApiSuccessResultLite("Thêm thành công");
+           
 
         }
 

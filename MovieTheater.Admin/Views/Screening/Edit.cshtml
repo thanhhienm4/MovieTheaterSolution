@@ -1,15 +1,18 @@
 ﻿@model MovieTheater.Models.Catalog.Screening.ScreeningUpdateRequest
 
-@{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewData["Title"] = "Edit";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item"><a href="/Room">Xuất chiếu</a></li>
     <li class="breadcrumb-item active">Chỉnh sửa</li>
 </ol>
+
+<div id="btnEdit" class="p-2">
+    <a class="btn btn-success" href="javascript:enableElements()">Chỉnh sửa</a>
+</div>
+
 <hr />
 
 <div class="card">
@@ -23,10 +26,10 @@
                         <label asp-for="FilmId" class="control-label"></label>
                         <div class="row">
                             <div class="col-md">
-                                <select id="selectFilm" asp-for="FilmId" asp-items="@ViewBag.Films" class="form-control"></select>
+                                <select id="selectFilm" asp-for="FilmId" asp-items="@ViewBag.Films" class="form-control" disabled></select>
                             </div>
                             <div class="col-md">
-                                <input id="filmName" class="form-control" />
+                                <input id="filmName" class="form-control" disabled />
                             </div>
                         </div>
 
@@ -36,7 +39,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="RoomId" class="control-label"></label>
-                        <select asp-for="RoomId" asp-items="@ViewBag.Rooms" class="form-control"></select>
+                        <select id="selectRoom" asp-for="RoomId" asp-items="@ViewBag.Rooms" class="form-control" disabled></select>
                         <span asp-validation-for="RoomId" class="text-danger"></span>
                     </div>
                 </div>
@@ -45,14 +48,14 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="KindOfScreeningId" class="control-label"></label>
-                        <select asp-for="KindOfScreeningId" asp-items="@ViewBag.KindOfScreenings" class="form-control"></select>
+                        <select id="selectKOS" asp-for="KindOfScreeningId" asp-items="@ViewBag.KindOfScreenings" class="form-control" disabled></select>
                         <span asp-validation-for="KindOfScreeningId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="TimeStart" class="control-label"></label>
-                        <input asp-for="TimeStart" class="form-control" value="@ViewBag.Date.ToString("yyyy-MM-ddThh:mm")" type="datetime-local" />
+                        <input id="input" asp-for="TimeStart" class="form-control" value="@ViewBag.Date.ToString("yyyy-MM-ddThh:mm")" type="datetime-local" disabled />
                         <span asp-validation-for="TimeStart" class="text-danger"></span>
                     </div>
                 </div>
@@ -61,10 +64,8 @@
 
 
 
-            <div class="d-flex justify-content-center">
-                <div class="form-group">
-                    <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
-                </div>
+            <div id="btnSave" class="form-group d-flex justify-content-center invisible">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
             </div>
 
         </form>
@@ -90,10 +91,19 @@
         });
 
     });
+
+    function enableElements() {
+        document.getElementById("selectFilm").disabled = false;
+        document.getElementById("selectRoom").disabled = false;
+        document.getElementById("selectKOS").disabled = false;
+        document.getElementById("input").disabled = false;
+        document.getElementById("filmName").disabled = false;
+        document.getElementById("btnEdit").style.display = 'none';
+        document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
+    }
 </script>
 @if (ViewBag.IsEdit != null)
 {
-    <script>
-        enableElements();
-    </script>
-}
+<script>
+    enableElements();
+</script>}
