@@ -100,10 +100,18 @@ namespace MovieTheater.Api
         {
             return await PostAsync<ApiResultLite>($"Api/Film/GenreAssign",request);
         }
-
+        public async Task<ApiResult<List<FilmVMD>>> GetAllPlayingFilmAsync()
+        {
+            return await GetAsync<ApiResult<List<FilmVMD>>>($"Api/Film/getAllPlayingFilm");
+        }
+        public async Task<ApiResult<List<FilmVMD>>> GetAllUpcomingFilmAsync()
+        {
+            return await GetAsync<ApiResult<List<FilmVMD>>>($"Api/Film/getAllUpcomingFilm");
+        }
         public async Task<ApiResult<List<FilmGenreVMD>>> GetAllFilmGenreAsync()
         {
             return await GetAsync<ApiResult<List<FilmGenreVMD>>>($"Api/FilmGenre/GetAllFilmGenre");
         }
+
     }
 }

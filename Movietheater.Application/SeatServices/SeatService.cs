@@ -47,7 +47,9 @@ namespace Movietheater.Application.SeatServices
             }
             else
             {
+
                 _context.Seats.Remove(seat);
+                
                 if (await _context.SaveChangesAsync() != 0)
                 {
                     return new ApiSuccessResultLite("Xóa thành công");

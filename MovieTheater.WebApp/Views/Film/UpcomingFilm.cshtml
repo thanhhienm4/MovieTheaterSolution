@@ -1,0 +1,38 @@
+﻿@using MovieTheater.Models.Catalog.Film
+@model List<FilmVMD>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <h1>Phim đang chiếu</h1>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="container-fluid">
+
+            @if (Model != null)
+            {
+                foreach (var film in Model)
+                {
+                    <div class="col-sm-3 ">
+                        <div class="card">
+                            <img src="@film.Poster" alt="@film.Name" style="width:100%" class="card card-img-top">
+
+                            <div class="d-flex justify-content-center">
+                                <strong>@film.Name</strong>
+                                <p>@film.Ban</p>
+                            </div>
+
+
+                            <div class="mx-3 mt-3 mb-2 card footer">
+                                <a class=" btn btn-danger" href="/Film/ScreeningInWeek/@film.Id">Đặt vé</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+

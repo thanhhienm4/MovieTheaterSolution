@@ -45,7 +45,7 @@ namespace Movietheater.Application.ScreeningServices
                 }
                 return new ApiSuccessResultLite("Thêm thành công");
             }
-            catch(Exception e)
+            catch(DbUpdateException e)
             {
                 return new ApiErrorResultLite("Thêm thất bại");
             }
@@ -262,6 +262,32 @@ namespace Movietheater.Application.ScreeningServices
 
 
 
+        }
+
+        public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeek(int filmId)
+        {
+            var screenings = await _context.Screenings.Where(x => x.TimeStart.Date >= DateTime.Now && 
+                                                    x.TimeStart <= DateTime.Now.AddDays(6).Date &&
+                                                    x.FilmId == filmId).
+                                               Select(x => new ScreeningMD()
+                                               {
+                                                   Id = x.Id,
+                                                   TimeStart = x.TimeStart,
+                                                   FilmId = x.FilmId,
+                                                   RoomId = x.RoomId
+
+                                               }).ToListAsync();
+
+            ScreeningOfFilmInWeekVMD sof = new ScreeningOfFilmInWeekVMD();
+            sof.Film = (await _filmService.GetFilmVMDById(filmId)).ResultObj;
+            sof.Screenings = new List<List<ScreeningMD>>();
+            for (int i=0;i<=6;i++)
+            {
+                var listScrening = screenings.Where(x => x.TimeStart.Date == DateTime.Now.AddDays(i).Date).ToList();
+                sof.Screenings.Add(listScrening);
+            }
+
+            return new ApiSuccessResult<ScreeningOfFilmInWeekVMD> (sof);
         }
 
 

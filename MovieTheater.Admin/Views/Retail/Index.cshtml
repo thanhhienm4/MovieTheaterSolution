@@ -13,7 +13,7 @@
     @for (int i = 0; i < 7; i++)
     {
         DateTime date = @DateTime.Now.AddDays(i);
-        <a class="btn bg-light" href="index?date=@date.ToString("d")"  data-date="@date">@date.Month/@date.Day</a>
+        <a class="btn bg-light" href="index?date=@date.ToString("d")" data-date="@date">@date.Month/@date.Day</a>
     }
 </div>
 
@@ -46,7 +46,7 @@
                                         {
                                             foreach (var screening in filmScreening.ListScreening)
                                             {
-                                                if (screening.TimeStart.AddMinutes(filmScreening.Film.Length) > DateTime.Now)
+                                                if (screening.TimeStart.AddMinutes(30) > DateTime.Now)
                                                 {
                                                     <a class="btn  time mr-2"  href="/retail/chooseseat/@screening.Id">@screening.TimeStart.ToString("HH:mm")</a>
                                                 }

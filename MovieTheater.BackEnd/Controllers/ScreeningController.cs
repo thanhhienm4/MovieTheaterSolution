@@ -72,6 +72,13 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [HttpGet("GetListCreeningOfFilmInWeek/{filmId}")]
+        public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeek(int filmId)
+        {
+            var result = await _screeningService.GetListCreeningOfFilmInWeek(filmId);
+            return result;
+        }
+        
 
-}
+    }
 }

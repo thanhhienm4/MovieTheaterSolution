@@ -75,6 +75,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Room");
             }
+            await SetViewBagAsync();
             ModelState.AddModelError("", result.Message);
             return View(request);
         }

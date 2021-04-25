@@ -30,7 +30,7 @@
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Tìm</button>
-                            <button type="button" onclick="window.location.href='/Screening/Index'" class="btn btn-dark">Reset</button>
+                            <button type="button" onclick="window.location.href='/Screening/Index'" class="btn btn-light"><img src="https://img.icons8.com/ios-filled/20/000000/rotate.png" /></button>
                         </div>
 
                     </div>
@@ -66,30 +66,31 @@
                 {
                     foreach (var item in Model.Item)
                     {
-    <tr>
+                <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Film)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Room)
-        </td>
-        <td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Film)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Room)
+                    </td>
+                    <td>
 
-            @Convert.ToDateTime(item.TimeStart).ToString("dd/MM/yyyy HH:mm")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.KindOfScreening)
-        </td>
-        <td>
-            @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
-
-        </td>
-    </tr>}
+                        @Convert.ToDateTime(item.TimeStart).ToString("dd/MM/yyyy HH:mm")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KindOfScreening)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
+                        <a href="" data-toggle="modal" data-name="@item.Film" data-target="#deleteScreening" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
+                    </td>
+                </tr>
+}
                 }
             </tbody>
 
@@ -102,3 +103,61 @@
 
     </div>
 </div>
+<!--model delete-->
+<input id="nameScreening" hidden />
+<input id="idScreening" hidden />
+
+<div class="modal fade" id="deleteScreening" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-center">
+                    <h5 id="ModalLabel">Thông báo</h5>
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="deleteMeg"></div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" onclick="deleteScreening()">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function holdData(item) {
+        var name = $(item).attr("data-name");
+        var id = $(item).attr("data-id");
+        $("#nameScreening").val(name);
+        $("#idScreening").val(id);
+        $("#deleteMeg").text("Bạn có muốn xóa suất chiếu của phim " + name + "?");
+    }
+
+    $(function () {
+
+        $("#deleteScreeningScreening").on('show.bs.modal', function () {
+            name = $("#nameScreening").val();
+
+        });
+
+
+    });
+
+    function deleteScreening() {
+        var userId = $("#idScreening").val();
+        $.ajax({
+            type: "POST",
+            url: "/Screening/Delete",
+            data: { id: userId },
+            success: function () {
+                location.reload();
+            }
+        })
+    }</script>

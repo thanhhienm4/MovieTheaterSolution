@@ -133,6 +133,54 @@ namespace Movietheater.Application.FilmServices
 
             return new ApiSuccessResult<List<FilmVMD>>(films);
         }
+        public async Task<ApiResult<List<FilmVMD>>> GetAllPlayingFilmAsync()
+        {
+            var query = from f in _context.Films
+                        join b in _context.Bans on f.BanId equals b.Id
+                        join s in _context.Screenings on f.Id equals s.FilmId 
+                        where s.TimeStart.Date == DateTime.Now.Date
+
+                      
+                        select new { f, b };
+
+            var films = await query.Distinct().Select(x => new FilmVMD()
+            {
+                Id = x.f.Id,
+                Name = x.f.Name,
+                PublishDate = x.f.PublishDate,
+                Ban = x.b.Name,
+                Poster = $"{_configuration["BackEndServer"]}/" +
+                   $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
+                Description = x.f.Description,
+                TrailerURL = x.f.TrailerURL
+
+            }).ToListAsync();
+
+            return new ApiSuccessResult<List<FilmVMD>>(films);
+        }
+        public async Task<ApiResult<List<FilmVMD>>> GetAllUpcomingFilmAsync()
+        {
+            var query = from f in _context.Films
+                        join b in _context.Bans on f.BanId equals b.Id
+                        where f.PublishDate.Date > DateTime.Now.Date
+                        select new { f, b };
+
+            var films = await query.Select(x => new FilmVMD()
+            {
+                Id = x.f.Id,
+                Name = x.f.Name,
+                PublishDate = x.f.PublishDate,
+                Ban = x.b.Name,
+                Poster = $"{_configuration["BackEndServer"]}/" +
+                   $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
+                Description = x.f.Description,
+                TrailerURL = x.f.TrailerURL
+
+            }).ToListAsync();
+
+            return new ApiSuccessResult<List<FilmVMD>>(films);
+        }
+
         public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
             var query = from f in _context.Films 

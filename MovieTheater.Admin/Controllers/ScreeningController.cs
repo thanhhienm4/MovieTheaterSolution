@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Screening;
+using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
 using System;
 using System.Collections.Generic;
@@ -145,6 +146,14 @@ namespace MovieTheater.Admin.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
+        }
+        [HttpPost]
+        public async Task<ApiResultLite> Delete(int id)
+        {
+
+            var result = await _screeningApiClient.DeleteAsync(id);
+
+            return result;
         }
 
     }

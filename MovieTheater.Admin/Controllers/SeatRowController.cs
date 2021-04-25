@@ -113,7 +113,8 @@ namespace MovieTheater.Admin.Controllers
         public async Task<ApiResultLite> Delete(int id)
         {
             var result = await _seatRowApiClient.DeleteAsync(id);
-            TempData["Result"] = result.Message;
+            if(result.IsSuccessed)
+                TempData["Result"] = result.Message;
             return result;
         }
     }

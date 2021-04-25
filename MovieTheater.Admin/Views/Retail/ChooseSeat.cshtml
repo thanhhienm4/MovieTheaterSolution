@@ -1,12 +1,10 @@
 ﻿@model MovieTheater.Models.Catalog.Screening.ScreeningMD
 
-@{
-    ViewData["Title"] = "ChooseSeatAsync";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewData["Title"] = "ChooseSeatAsync";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 
-<h2>Sơ đồ ghế rạp phim</h2>
+<h2>@ViewBag.Film.Name  @Model.TimeStart.ToString("dd/MM/yyyy HH:mm")</h2>
 <div class="row">
     <div class="col-9">
         <div class="card bg-secondary text-white">
@@ -27,6 +25,19 @@
             </div>
 
         </div>
+        <div style="clear:both;width:100%" class="d-flex justify-content-center">
+            <div class="row">
+                <button class="seat normalSeat mr-2" ></button>
+                <p class="mr-5"> Ghế thường</p>
+                <button class="seat vipSeat mr-2" ></button>
+                <p> Ghế vip</p>
+            </div>
+        </div>
+        <br />>
+        <div style="clear:both;width:100%" class="d-flex justify-content-center">
+            <button class="btn btn-success mr-2" id="btnReserve">Đặt vé</button>
+        </div>
+
     </div>
     <div class="col-3">
         <div class="card">
@@ -42,12 +53,12 @@
                 <div class="row">
                     <p style="color:red" class="p-2">Tổng tiền: </p>
                     <div class="ml-auto p-2">
-                        <strong  id="price">
-                            
+                        <strong id="price">
+
                         </strong>
-                       
+
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -55,11 +66,9 @@
 </div>
 
 
+
 <div style="float:left;">
 
-</div>
-<div style="clear:both;width:100%" class="d-flex justify-content-center">
-    <button class="btn btn-primary mr-2" id="btnReserve">đặt vé</button>
 </div>
 
 
@@ -200,7 +209,7 @@
                 });
                 $("#seatsName").text(seatsName);
 
-        
+
 
                 $.ajax({
                     type: "POST",

@@ -1,0 +1,41 @@
+﻿@using MovieTheater.Models.Catalog.Film
+
+@model FilmVMD
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card" style="background-color:#18043d">
+    <div class="row">
+        <div class="col-3">
+            <img class="img-fluid" src="@Model.Poster" />
+        </div>
+        <div class="col-9 style=" color:white"">
+            <h1 style="color:red">@Model.Name</h1>
+            <div class="row">
+
+                <div class="col-5">
+                    <p>@Model.Description</p>
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        <p>Giới hạn: @Model.Ban</p>
+                    </div>
+                    <div class="row">
+                        @if (Model.Genres != null)
+                        {
+                            <p>@string.Join(" ", Model.Genres)</p>
+                        }
+                    </div>
+                    <div class="row">
+                        <a class=" btn btn-danger mr-5" href="/Film/ScreeningInWeek/@Model.Id">Đặt vé</a>
+                        <a class=" btn btn-primary" href="@Model.TrailerURL">Trailer</a>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

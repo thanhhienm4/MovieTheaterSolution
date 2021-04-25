@@ -1,13 +1,12 @@
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MovieTheater.Api;
+using MovieTheater.Models.User;
 
 namespace MovieTheater.WebApp
 {
@@ -24,6 +23,35 @@ namespace MovieTheater.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddTransient<UserApiClient, UserApiClient>();
+            services.AddTransient<RoleApiClient, RoleApiClient>();
+            services.AddTransient<FilmApiClient, FilmApiClient>();
+            services.AddTransient<PeopleApiClient, PeopleApiClient>();
+            services.AddTransient<ReservationApiClient, ReservationApiClient>();
+            services.AddTransient<SeatApiClient, SeatApiClient>();
+            services.AddTransient<SeatRowApiClient, SeatRowApiClient>();
+            services.AddTransient<RoomApiClient, RoomApiClient>();
+            services.AddTransient<ScreeningApiClient, ScreeningApiClient>();
+            services.AddTransient<BanApiClient, BanApiClient>();
+
+            services.AddHttpClient();
+            services.AddHttpContextAccessor();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddMvc().AddSessionStateTempDataProvider();
+            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserCreateValidator>());
+
+            services.AddSession();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+
+                        options.LoginPath = "/Login/Index";
+                        options.AccessDeniedPath = "/User/Forbident";
+                        options.LogoutPath = "/User/Logout";
+
+                    });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,16 +64,15 @@ namespace MovieTheater.WebApp
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

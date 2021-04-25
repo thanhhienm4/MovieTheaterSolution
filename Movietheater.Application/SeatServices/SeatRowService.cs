@@ -57,22 +57,21 @@ namespace Movietheater.Application.SeatServices
 
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
-            SeatRow seat = await _context.SeatRows.FindAsync(id);
-            if (seat == null)
+            SeatRow seatrow = await _context.SeatRows.FindAsync(id);
+            if (seatrow == null)
             {
                 return new ApiErrorResultLite("Không tìm thấy");
             }
             else
             {
-                _context.SeatRows.Remove(seat);
-                if (await _context.SaveChangesAsync() != 0)
-                {
-                    return new ApiSuccessResultLite("Xóa thành công");
-                }
+                if(_context.Seats.Where(x => x.RowId == seatrow.Id).Count()==0)
+                    _context.SeatRows.Remove(seatrow);
                 else
                 {
                     return new ApiErrorResultLite("Xóa thất bại");
                 }
+                await _context.SaveChangesAsync();
+                return new ApiSuccessResultLite("Xóa thành công");
 
 
             }
@@ -94,6 +93,11 @@ namespace Movietheater.Application.SeatServices
             var seatRow = _context.SeatRows.Select(x => x);
 
             int totalRow = await seatRow.CountAsync();
+            if(request.Keyword != null)
+            {
+                seatRow = seatRow.Where(x => x.Name.Contains(request.Keyword)
+                                                || x.Id.ToString().Contains(request.Keyword));
+            }
             var item = seatRow.OrderBy(x => x.Name).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize).Select(x => new SeatRowVMD()
                 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MovieTheater.Api;
 using MovieTheater.WebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -11,27 +12,21 @@ namespace MovieTheater.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ScreeningApiClient _screeningApiClient;
+        public HomeController(ScreeningApiClient screeningApiClient)
         {
-            _logger = logger;
+            _screeningApiClient = screeningApiClient;
+        }
+        public async Task<IActionResult> Index(DateTime? date)
+        {
+            var listFlimScreening = (await _screeningApiClient.GetFilmScreeningIndateAsync(date)).ResultObj;
+
+            return View(listFlimScreening);
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
+
     }
 }

@@ -31,10 +31,9 @@ namespace MovieTheater.Api
             return await PutAsync<ApiResultLite>("Api/Screening/Update", request);
         }
 
-       
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
-            return await DeleteAsync<ApiResultLite>($"Api/Screeing/Delete/{id}");
+            return await DeleteAsync<ApiResultLite>($"Api/Screening/Delete/{id}");
         }
 
         public async Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id)
@@ -58,6 +57,11 @@ namespace MovieTheater.Api
         public async Task<ApiResult<List<KindOfScreeningVMD>>> GetAllKindOfScreeningAsync()
         {
             return await GetAsync<ApiResult<List<KindOfScreeningVMD>>>($"Api/KindOfScreening/GetAllKindOfScreening");
+        }
+
+        public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeekAsync(int filmId)
+        {
+            return await GetAsync<ApiResult<ScreeningOfFilmInWeekVMD>>($"Api/Screening/GetListCreeningOfFilmInWeek/{filmId}");
         }
     }
 
