@@ -14,6 +14,7 @@ using Movietheater.Application.ReservationServices;
 using Movietheater.Application.RoomServices;
 using Movietheater.Application.ScreeningServices;
 using Movietheater.Application.SeatServices;
+using Movietheater.Application.Statitic;
 using Movietheater.Application.UserServices;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
@@ -54,7 +55,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<ISeatRowService, SeatRowService>();
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IBanService, BanService>();
-
+            services.AddTransient<IStatiticService, StatiticService>();
 
             // For Identity
             services.AddIdentity<User, AppRole>(
