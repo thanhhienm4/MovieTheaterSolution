@@ -33,6 +33,7 @@ namespace MovieTheater.Admin
             services.AddTransient<RoomApiClient, RoomApiClient>();
             services.AddTransient<ScreeningApiClient, ScreeningApiClient>();
             services.AddTransient<BanApiClient, BanApiClient>();
+            services.AddTransient<StatiticApiClient, StatiticApiClient>();
 
             services.AddHttpClient();
             services.AddHttpContextAccessor();

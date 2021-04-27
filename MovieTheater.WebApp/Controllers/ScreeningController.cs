@@ -26,6 +26,7 @@ namespace MovieTheater.WebApp.Controllers
             _filmApiClient = filmApiClient;
 
         }
+
         [HttpGet]
         public async Task<List<SeatVMD>> GetListSeatReserved(int id)
         {

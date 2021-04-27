@@ -29,7 +29,7 @@ namespace MovieTheater.WebApp.Controllers
             return View(screening);
         }
        
-        [HttpPost]
+        [HttpPost] 
         public async Task<int> CalPrePrice(List<TicketCreateRequest> tickets)
         {
             if (tickets == null)

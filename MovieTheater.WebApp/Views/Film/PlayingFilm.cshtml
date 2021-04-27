@@ -4,39 +4,54 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div>
-    <h1>Phim đang chiếu</h1>
-</div>
-<div class="card">
-    <div class="card-body">
-        <div class="container-fluid">
 
+<!-- Playing Film SECTION -->
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            Phim đang chiếu 
+        </div>
+        <div class="movies-slide carousel-nav-center owl-carousel">
+            <!-- MOVIE ITEM -->
             @if (Model != null)
             {
                 foreach (var film in Model)
                 {
-                    <div class="col-sm-3 ">
-                       
-                        <div class="card">
-                            <a href="/film/detail/@film.Id">
-                                <img src="@film.Poster" alt="@film.Name" style="width:100%" class="card card-img-top">
-
-                                <div class="d-flex justify-content-center">
-                                    <strong>@film.Name</strong>
-                                    <p>@film.Ban</p>
+                    <a href="/film/detail/@film.Id" class="movie-item">
+                        <img src="@film.Poster" alt="">
+                        <div class="movie-item-content">
+                            <div class="movie-item-title">
+                                @film.Name
+                            </div>
+                            <div class="movie-infos">
+                                <div class="movie-info">
+                                    <i class="bx bxs-star"></i>
+                                    <span>9.5</span>
                                 </div>
-
-                            </a>
-                                <div class="mx-3 mt-3 mb-2 card footer">
-                                    <a class=" btn btn-danger" href="/Film/ScreeningInWeek/@film.Id">Đặt vé</a>
+                                <div class="movie-info">
+                                    <i class="bx bxs-time"></i>
+                                    <span>@film.Length mins</span>
                                 </div>
+                                <div class="movie-info">
+                                    @if (film.Genres != null)
+                                    {
+                                        <span>@string.Join(' ', film.Genres)</span>
+                                    }
+
+                                </div>
+                                <div class="movie-info">
+                                    <span>@film.Ban</span>
+                                </div>
+                            </div>
                         </div>
-                     
-                        
-                    </div>
+                    </a>
                 }
+
             }
+
+            <!-- END MOVIE ITEM -->
+
         </div>
     </div>
 </div>
-
+<!-- END Playing Film SECTION -->

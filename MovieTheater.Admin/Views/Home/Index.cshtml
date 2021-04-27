@@ -3,7 +3,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 <div class="container-fluid">
 
     <!-- Page Heading -->
@@ -112,30 +112,14 @@
         <!-- Area Chart -->
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
+                <div class="card-header">
+                    <i class="fas fa-chart-bar mr-1"></i>
+                    Top doanh thu
                 </div>
-                <!-- Card Body -->
                 <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
-                    </div>
+                    <canvas id="TopGossingBar"></canvas>
                 </div>
+                   
             </div>
         </div>
 
@@ -347,4 +331,32 @@
     </div>
 
 </div>
+<script>
+    var colors = ['#007bff', '#28a745', '#333333', '#c3e6cb', '#dc3545', '#6c757d'];
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+
+            url: "/Statitic/GetTopGossingFilm",
+            success: function (res) {
+                var chBar = document.getElementById("TopGossingBar");
+                if (chBar) {
+                    new Chart(chBar, {
+                        type: 'bar',
+                        data: {
+                            labels: ["Saab", "Volvo", "BMW"],
+                            datasets: [{
+                                data: res.dataRows[1],
+                                backgroundColor: colors[0]
+                            }]
+                        },
+
+                        
+                    });
+                }
+            }
+        });
+
+    })
+</script>
 
