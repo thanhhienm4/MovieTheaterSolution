@@ -113,11 +113,11 @@
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
                 <div class="card-header">
-                    <i class="fas fa-chart-bar mr-1"></i>
-                    Top doanh thu
+                    <p class="m-0 font-weight-bold text-primary">Top doanh thu</p>
+                    
                 </div>
                 <div class="card-body">
-                    <canvas id="TopGossingBar"></canvas>
+                    <canvas id="TopGossingBar" class="chart-bar"></canvas>
                 </div>
                    
             </div>
@@ -339,19 +339,30 @@
 
             url: "/Statitic/GetTopGossingFilm",
             success: function (res) {
+               
                 var chBar = document.getElementById("TopGossingBar");
+               
                 if (chBar) {
                     new Chart(chBar, {
                         type: 'bar',
                         data: {
-                            labels: ["Saab", "Volvo", "BMW"],
+                            labels: res.lables,
                             datasets: [{
                                 data: res.dataRows[1],
                                 backgroundColor: colors[0]
                             }]
                         },
-
-                        
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    barPercentage: 0.4,
+                                    categoryPercentage: 0.5
+                                }]
+                            }
+                        }
                     });
                 }
             }
