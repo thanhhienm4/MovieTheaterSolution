@@ -18,7 +18,7 @@ namespace Movietheater.Application.Statitic
             _context = context;
         }
 
-        public async Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(TopGrossingFilmRequest request)
+        public async Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(CalRevenueRequest request)
         {
             var query = from s in _context.Screenings
                         join f in _context.Films on s.FilmId equals f.Id
@@ -39,6 +39,15 @@ namespace Movietheater.Application.Statitic
             return new ApiSuccessResult<ChartData>(chartData);
                         
 
+        }
+        public async Task<ApiResult<long>> GetRevenueAsync(CalRevenueRequest request)
+        {
+            var query = from s in _context.Screenings
+                        join t in _context.Tickets on s.Id equals t.ScreeningId
+                        where s.TimeStart.Date > request.StartDate && s.TimeStart.Date < request.EndDate
+                        select t;
+            long revenue = query.Sum(x => x.Price);
+            return new ApiSuccessResult<long>(revenue);
         }
     }
 }

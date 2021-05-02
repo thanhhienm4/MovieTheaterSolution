@@ -10,6 +10,7 @@ namespace Movietheater.Application.Statitic
 {
     public interface IStatiticService
     {
-        Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(TopGrossingFilmRequest request);
+        Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(CalRevenueRequest request);
+        Task<ApiResult<long>> GetRevenueAsync(CalRevenueRequest request);
     }
 }

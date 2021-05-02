@@ -19,9 +19,15 @@ namespace MovieTheater.Api
         { }
 
        
-        public async Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(TopGrossingFilmRequest request)
+        public async Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(CalRevenueRequest request)
         {
             return await PostAsync<ApiResult<ChartData>>("Api/Statitic/GetTopGrossingFilm", request); 
+
+        }
+
+        public async Task<ApiResult<long>> GetRevenueAsync(CalRevenueRequest request)
+        {
+            return await PostAsync<ApiResult<long>>("Api/Statitic/GetRevenueAsync", request);
 
         }
     }

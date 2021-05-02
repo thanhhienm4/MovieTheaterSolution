@@ -19,12 +19,20 @@ namespace MovieTheater.BackEnd.Controllers
             _statiticService = statiticService;
         }
         [HttpPost("GetTopGrossingFilm")]
-        public async Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(TopGrossingFilmRequest request)
+        public async Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(CalRevenueRequest request)
         {
             var result = await _statiticService.GetTopGrossingFilmAsync(request);
             return result;
 
         }
+        [HttpPost("GetRevenueAsync")]
+        public async Task<ApiResult<long>> GetGetRevenueAsync(CalRevenueRequest request)
+        {
+            var result = await _statiticService.GetRevenueAsync(request);
+            return result;
+
+        }
+        
 
     }
 }
