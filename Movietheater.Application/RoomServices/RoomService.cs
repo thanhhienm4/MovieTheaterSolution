@@ -28,7 +28,7 @@ namespace Movietheater.Application.RoomServices
 
         public async Task<ApiResultLite> CreateAsync(RoomCreateRequest request)
         {
-            if (_context.Rooms.Where(x => x.Name == request.Name) != null)
+            if (_context.Rooms.Where(x => x.Name == request.Name).Count() != 0)
                 return new ApiErrorResultLite("Tên phòng đã bị trùng");
 
             var room = new Room()

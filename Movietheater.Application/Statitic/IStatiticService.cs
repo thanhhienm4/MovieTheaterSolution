@@ -12,5 +12,6 @@ namespace Movietheater.Application.Statitic
     {
         Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(CalRevenueRequest request);
         Task<ApiResult<long>> GetRevenueAsync(CalRevenueRequest request);
+        Task<ApiResult<ChartData>> GetGroosingTypeAsync(CalRevenueRequest request);
     }
 }

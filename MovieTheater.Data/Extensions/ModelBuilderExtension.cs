@@ -203,6 +203,7 @@ namespace MovieTheater.Data.Extensions
                     Id = 1,
                     ReservationTypeId = 1,
                     EmployeeId = new Guid("99ECA8CE-E954-4ED9-AB12-1A1FB010A9F8"),
+                    CustomerId = null
                     
 
                 });

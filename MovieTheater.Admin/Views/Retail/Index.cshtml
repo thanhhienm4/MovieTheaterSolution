@@ -13,7 +13,7 @@
     @for (int i = 0; i < 7; i++)
     {
         DateTime date = @DateTime.Now.AddDays(i);
-        <a class="btn bg-light" href="index?date=@date.ToString("d")" data-date="@date">@date.Month/@date.Day</a>
+        <a class="btn bg-light" href="/retail/index?date=@date.ToString("d")" data-date="@date">@date.Month/@date.Day</a>
     }
 </div>
 

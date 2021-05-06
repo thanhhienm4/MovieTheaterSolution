@@ -41,7 +41,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +54,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Surcharge = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
@@ -68,7 +68,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Surcharge = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
@@ -110,7 +110,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,7 +123,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -145,18 +145,28 @@ namespace MovieTheater.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserInfors",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Dob = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserInfors", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -211,7 +221,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     FormatId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -226,67 +236,126 @@ namespace MovieTheater.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reservations",
+                name: "AspNetUserClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Paid = table.Column<bool>(type: "bit", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    ReservationTypeId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservations_ReservationTypes_ReservationTypeId",
-                        column: x => x.ReservationTypeId,
-                        principalTable: "ReservationTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reservations_UserInfors_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "UserInfors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reservations_UserInfors_UserId",
+                        name: "FK_AspNetUserClaims_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "UserInfors",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_User_UserInfors_Id",
+                        name: "FK_AspNetUserLogins_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CustomerInfors",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Dob = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomerInfors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CustomerInfors_User_Id",
                         column: x => x.Id,
-                        principalTable: "UserInfors",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserInfors",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Dob = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserInfors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserInfors_User_Id",
+                        column: x => x.Id,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_UserRoles_AppRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AppRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTokens", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_UserTokens_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -353,6 +422,7 @@ namespace MovieTheater.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TimeStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
                     FilmId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
                     KindOfScreeningId = table.Column<int>(type: "int", nullable: false)
@@ -389,6 +459,7 @@ namespace MovieTheater.Data.Migrations
                     RoomId = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     KindOfSeatId = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
                 },
@@ -417,86 +488,36 @@ namespace MovieTheater.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
+                name: "Reservations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Paid = table.Column<bool>(type: "bit", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    ReservationTypeId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserLogins_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_UserRoles_AppRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AppRoles",
+                        name: "FK_Reservations_CustomerInfors_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "CustomerInfors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserRoles_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
+                        name: "FK_Reservations_ReservationTypes_ReservationTypeId",
+                        column: x => x.ReservationTypeId,
+                        principalTable: "ReservationTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserTokens", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_UserTokens_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
+                        name: "FK_Reservations_UserInfors_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "UserInfors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -538,8 +559,8 @@ namespace MovieTheater.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "27d861b8-5ec4-40c2-81d6-35c1eee2e525", "Emloyee", "Emloyee", "Emloyee" },
-                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "b795f3a5-1cb8-489a-8866-9af329d475de", "Administrator role", "Admin", "Administrator" }
+                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "acf671eb-91e7-4f3d-a63d-b6c43be5eb76", "Emloyee", "Emloyee", "Emloyee" },
+                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "2482df42-7af0-4ab7-8522-c3bc0ecfa5fe", "Administrator role", "Admin", "Administrator" }
                 });
 
             migrationBuilder.InsertData(
@@ -613,9 +634,9 @@ namespace MovieTheater.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "UserInfors",
-                columns: new[] { "Id", "Dob", "FirstName", "LastName" },
-                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hien", "Nguyen Thanh" });
+                table: "User",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), 0, "", "Mistake4@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEIN4cPiQR8ByyCHP3Y0F5DufnOFJEuBwR/WnztJ+2R4prjlQQ2mY5wtNEoQ0dh9Zhw==", "0912413908", true, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Films",
@@ -623,34 +644,34 @@ namespace MovieTheater.Data.Migrations
                 values: new object[] { 1, 1, "Xác ướp(tên gốc tiếng Anh: The Mummy) là một bộ phim điện ảnh phiêu lưu - hành động của Mỹ năm 2017[9][10] do Alex Kurtzman đạo diễn và David Koepp, Christopher McQuarrie cùng Dylan Kussman thực hiện phần kịch bản, dựa trên cốt truyện gốc của Kurtzman, Jon Spaihts và Jenny Lumet.", 0, "The Mummy", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null });
 
             migrationBuilder.InsertData(
-                table: "Reservations",
-                columns: new[] { "Id", "Active", "EmployeeId", "Paid", "ReservationTypeId", "UserId" },
-                values: new object[] { 1, false, new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), false, 1, null });
-
-            migrationBuilder.InsertData(
                 table: "Rooms",
                 columns: new[] { "Id", "FormatId", "Name" },
                 values: new object[] { 1, 1, "1" });
 
             migrationBuilder.InsertData(
-                table: "User",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), 0, "", "Mistake4@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEJa4Vyxeaqya9ZaWMWKSkFfOt6fhVPWA2yJNbe1PVNS976C0Y1rotu8c+5YXeURrgA==", "0912413908", true, "", false, "admin" });
-
-            migrationBuilder.InsertData(
-                table: "Screenings",
-                columns: new[] { "Id", "FilmId", "KindOfScreeningId", "RoomId", "TimeStart" },
-                values: new object[] { 1, 1, 1, 1, new DateTime(2021, 4, 17, 14, 9, 57, 659, DateTimeKind.Utc).AddTicks(3410) });
-
-            migrationBuilder.InsertData(
-                table: "Seats",
-                columns: new[] { "Number", "RoomId", "RowId", "Id", "KindOfSeatId" },
-                values: new object[] { 1, 1, 1, 1, 1 });
+                table: "UserInfors",
+                columns: new[] { "Id", "Dob", "FirstName", "LastName" },
+                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hien", "Nguyen Thanh" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8") });
+
+            migrationBuilder.InsertData(
+                table: "Reservations",
+                columns: new[] { "Id", "Active", "CustomerId", "EmployeeId", "Paid", "ReservationTypeId" },
+                values: new object[] { 1, false, null, new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), false, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Screenings",
+                columns: new[] { "Id", "Active", "FilmId", "KindOfScreeningId", "RoomId", "TimeStart" },
+                values: new object[] { 1, false, 1, 1, 1, new DateTime(2021, 5, 6, 16, 50, 48, 91, DateTimeKind.Utc).AddTicks(3849) });
+
+            migrationBuilder.InsertData(
+                table: "Seats",
+                columns: new[] { "Number", "RoomId", "RowId", "Id", "KindOfSeatId", "Name" },
+                values: new object[] { 1, 1, 1, 1, 1, null });
 
             migrationBuilder.InsertData(
                 table: "Tickets",
@@ -680,6 +701,12 @@ namespace MovieTheater.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FilmGenres_Name",
+                table: "FilmGenres",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FilmInGenres_FilmGenreId",
                 table: "FilmInGenres",
                 column: "FilmGenreId");
@@ -700,6 +727,23 @@ namespace MovieTheater.Data.Migrations
                 column: "PositionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_KindOfScreenings_Name",
+                table: "KindOfScreenings",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KindOfSeats_Name",
+                table: "KindOfSeats",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_CustomerId",
+                table: "Reservations",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_EmployeeId",
                 table: "Reservations",
                 column: "EmployeeId");
@@ -710,14 +754,28 @@ namespace MovieTheater.Data.Migrations
                 column: "ReservationTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_UserId",
-                table: "Reservations",
-                column: "UserId");
+                name: "IX_ReservationTypes_Name",
+                table: "ReservationTypes",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoomFormats_Name",
+                table: "RoomFormats",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_FormatId",
                 table: "Rooms",
                 column: "FormatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rooms_Name",
+                table: "Rooms",
+                column: "Name",
+                unique: true,
+                filter: "[Name] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Screenings_FilmId",
@@ -826,10 +884,13 @@ namespace MovieTheater.Data.Migrations
                 name: "AppRoles");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "CustomerInfors");
 
             migrationBuilder.DropTable(
                 name: "ReservationTypes");
+
+            migrationBuilder.DropTable(
+                name: "UserInfors");
 
             migrationBuilder.DropTable(
                 name: "Films");
@@ -847,7 +908,7 @@ namespace MovieTheater.Data.Migrations
                 name: "SeatRows");
 
             migrationBuilder.DropTable(
-                name: "UserInfors");
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Bans");

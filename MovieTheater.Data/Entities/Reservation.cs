@@ -8,12 +8,12 @@ namespace MovieTheater.Data.Entities
         public int Id { get; set; }
         public bool Paid { get; set; }
         public bool Active { get; set; }
-
+        public DateTime Time { get; set; }
         public int ReservationTypeId { get; set; }
         public ReservationType ReservationType { get; set; }
 
-        public Guid? UserId { get; set; }
-        public UserInfor User { get; set; }
+        public Guid? CustomerId { get; set; }
+        public CustomerInfor Customer { get; set; }
 
 
         public Guid? EmployeeId { get; set; }

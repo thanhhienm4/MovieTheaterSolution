@@ -25,6 +25,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
 
         }
+
         [HttpPost("GetRevenueAsync")]
         public async Task<ApiResult<long>> GetGetRevenueAsync(CalRevenueRequest request)
         {
@@ -32,7 +33,15 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
 
         }
-        
+
+        [HttpPost("GetGroosingTypeAsync")]
+        public async Task<ApiResult<ChartData>> GetGroosingTypeAsync(CalRevenueRequest request)
+        {
+            var result = await _statiticService.GetGroosingTypeAsync(request);
+            return result;
+
+        }
+
 
     }
 }

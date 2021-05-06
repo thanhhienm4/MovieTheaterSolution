@@ -17,7 +17,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<ChartData> GetTopGossingFilm(CalRevenueRequest request)
+        public async Task<ChartData> GetTopGrossingFilm(CalRevenueRequest request)
         {
             request = new CalRevenueRequest();
             request.StartDate = DateTime.Now.AddMonths(-1);
@@ -51,6 +51,20 @@ namespace MovieTheater.Admin.Controllers
             };
 
             var result = (await _statiticApiClient.GetRevenueAsync(request)).ResultObj;
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<ChartData> GetGroosingType(DateTime date)
+        {
+            date = DateTime.Now;
+            var request = new CalRevenueRequest()
+            {
+                StartDate = new DateTime(date.Year, 1, 1),
+                EndDate = new DateTime(date.AddYears(1).Year, 1, 1).AddDays(-1)
+            };
+
+            var result = (await _statiticApiClient.GetGroosingTypeAsync(request)).ResultObj;
             return result;
         }
     }

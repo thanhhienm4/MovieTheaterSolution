@@ -43,7 +43,11 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             var respond = await _userApiClient.LoginAsync(request);
             if (respond.IsSuccessed == false)
+            {
+                ModelState.AddModelError("", respond.Message);
                 return View();
+            }    
+               
             var userPrincipal = ValidateToken(respond.ResultObj);
             var authProperties = new AuthenticationProperties()
             {

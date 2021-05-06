@@ -24,7 +24,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Earnings (Monthly)
+                                Doanh thu(Tháng)
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800" id="monthRevenue">$40,000</div>
                         </div>
@@ -43,7 +43,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Earnings (Annual)
+                                Doanh thu(Năm)
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800" id="yearRevenue">$215,000</div>
                         </div>
@@ -117,7 +117,7 @@
                     
                 </div>
                 <div class="card-body">
-                    <canvas id="TopGossingBar" class="chart-bar"></canvas>
+                    <canvas id="TopGrossingBar" class="chart-bar"></canvas>
                 </div>
                    
             </div>
@@ -126,40 +126,12 @@
         <!-- Pie Chart -->
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
+                <div class="card-header">
+                    <p class="m-0 font-weight-bold text-primary">Top doanh thu</p>
+
                 </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <canvas id="myPieChart"></canvas>
-                    </div>
-                    <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Direct
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Social
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Referral
-                        </span>
-                    </div>
+                <div class="card-body mb-5">
+                    <canvas id="GrossingType" class="chart-pie"></canvas>
                 </div>
             </div>
         </div>
@@ -338,10 +310,10 @@
         $.ajax({
             type: "GET",
 
-            url: "/Statitic/GetTopGossingFilm",
+            url: "/Statitic/GetTopGrossingFilm",
             success: function (res) {
                
-                var chBar = document.getElementById("TopGossingBar");
+                var chBar = document.getElementById("TopGrossingBar");
                
                 if (chBar) {
                     new Chart(chBar, {
@@ -364,6 +336,32 @@
                                 }]
                             }
                         }
+                    });
+                }
+            }
+        });
+        $.ajax({
+            type: "GET",
+
+            url: "/Statitic/GetGroosingType",
+            success: function (res) {
+
+                var chPie = document.getElementById("GrossingType");
+
+                if (chPie) {
+                    new Chart(chPie, {
+                        type: 'pie',
+                        data: {
+                            labels: res.lables,
+                            datasets: [{
+                                data: res.dataRows[1],
+                                backgroundColor: colors[0]
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+
                     });
                 }
             }

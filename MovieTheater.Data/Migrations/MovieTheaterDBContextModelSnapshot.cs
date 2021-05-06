@@ -162,7 +162,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
-                            ConcurrencyStamp = "1e3b6f5d-4dab-441d-8d5d-4fbb0f39de2d",
+                            ConcurrencyStamp = "ace8cdf2-ca74-46ec-8d32-6cd16e70c4ab",
                             Description = "Emloyee",
                             Name = "Emloyee",
                             NormalizedName = "Emloyee"
@@ -170,7 +170,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
-                            ConcurrencyStamp = "f7975cbb-22e4-47f5-b02e-77748bc34c54",
+                            ConcurrencyStamp = "446ed63a-d1e8-44f5-9aa9-2b21f93d80cb",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -205,6 +205,29 @@ namespace MovieTheater.Data.Migrations
                             Id = 2,
                             Name = "13+"
                         });
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.CustomerInfor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Dob")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomerInfors");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Film", b =>
@@ -466,6 +489,9 @@ namespace MovieTheater.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
@@ -475,16 +501,16 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("ReservationTypeId")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("ReservationTypeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
 
@@ -495,7 +521,8 @@ namespace MovieTheater.Data.Migrations
                             Active = false,
                             EmployeeId = new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
                             Paid = false,
-                            ReservationTypeId = 1
+                            ReservationTypeId = 1,
+                            Time = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -646,7 +673,7 @@ namespace MovieTheater.Data.Migrations
                             FilmId = 1,
                             KindOfScreeningId = 1,
                             RoomId = 1,
-                            TimeStart = new DateTime(2021, 4, 24, 2, 21, 47, 461, DateTimeKind.Utc).AddTicks(9173)
+                            TimeStart = new DateTime(2021, 5, 6, 17, 7, 20, 204, DateTimeKind.Utc).AddTicks(679)
                         });
                 });
 
@@ -772,6 +799,7 @@ namespace MovieTheater.Data.Migrations
             modelBuilder.Entity("MovieTheater.Data.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
@@ -845,7 +873,7 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELVg5Gs9/bNpBeikWQAGxb4VSNwtTiXyhxvrq3zbDLAsc2wdbpBCdHAcnCX0LjFvzg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELPjCpNd6EXr997+J/0lvHfyCvWcXmBEcNh68ZH9l4gkss78zE+EbarYue7tK/37TA==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
@@ -857,7 +885,6 @@ namespace MovieTheater.Data.Migrations
             modelBuilder.Entity("MovieTheater.Data.Entities.UserInfor", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Dob")
@@ -873,11 +900,6 @@ namespace MovieTheater.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
                     b.HasKey("Id");
 
                     b.ToTable("UserInfors");
@@ -888,8 +910,7 @@ namespace MovieTheater.Data.Migrations
                             Id = new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Hien",
-                            LastName = "Nguyen Thanh",
-                            Status = 0
+                            LastName = "Nguyen Thanh"
                         });
                 });
 
@@ -942,6 +963,17 @@ namespace MovieTheater.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.CustomerInfor", b =>
+                {
+                    b.HasOne("MovieTheater.Data.Entities.User", "User")
+                        .WithOne("CustomerInfor")
+                        .HasForeignKey("MovieTheater.Data.Entities.CustomerInfor", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Film", b =>
@@ -1003,6 +1035,11 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Reservation", b =>
                 {
+                    b.HasOne("MovieTheater.Data.Entities.CustomerInfor", "Customer")
+                        .WithMany("ReservationsCustomer")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("MovieTheater.Data.Entities.UserInfor", "Employee")
                         .WithMany("ReservationsEmployee")
                         .HasForeignKey("EmployeeId")
@@ -1014,16 +1051,11 @@ namespace MovieTheater.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MovieTheater.Data.Entities.UserInfor", "User")
-                        .WithMany("ReservationsUser")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.Navigation("Customer");
 
                     b.Navigation("Employee");
 
                     b.Navigation("ReservationType");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Room", b =>
@@ -1119,20 +1151,25 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("Seat");
                 });
 
-            modelBuilder.Entity("MovieTheater.Data.Entities.User", b =>
+            modelBuilder.Entity("MovieTheater.Data.Entities.UserInfor", b =>
                 {
-                    b.HasOne("MovieTheater.Data.Entities.UserInfor", "UserInfor")
-                        .WithOne("User")
-                        .HasForeignKey("MovieTheater.Data.Entities.User", "Id")
+                    b.HasOne("MovieTheater.Data.Entities.User", "User")
+                        .WithOne("UserInfor")
+                        .HasForeignKey("MovieTheater.Data.Entities.UserInfor", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("UserInfor");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Ban", b =>
                 {
                     b.Navigation("Films");
+                });
+
+            modelBuilder.Entity("MovieTheater.Data.Entities.CustomerInfor", b =>
+                {
+                    b.Navigation("ReservationsCustomer");
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Film", b =>
@@ -1201,13 +1238,16 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("Seats");
                 });
 
+            modelBuilder.Entity("MovieTheater.Data.Entities.User", b =>
+                {
+                    b.Navigation("CustomerInfor");
+
+                    b.Navigation("UserInfor");
+                });
+
             modelBuilder.Entity("MovieTheater.Data.Entities.UserInfor", b =>
                 {
                     b.Navigation("ReservationsEmployee");
-
-                    b.Navigation("ReservationsUser");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

@@ -30,5 +30,11 @@ namespace MovieTheater.Api
             return await PostAsync<ApiResult<long>>("Api/Statitic/GetRevenueAsync", request);
 
         }
+
+        public async Task<ApiResult<ChartData>> GetGroosingTypeAsync(CalRevenueRequest request)
+        {
+            return await PostAsync<ApiResult<ChartData>>("Api/Statitic/GetGroosingTypeAsync", request);
+
+        }
     }
 }

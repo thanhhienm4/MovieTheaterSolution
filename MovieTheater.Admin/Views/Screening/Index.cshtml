@@ -7,6 +7,13 @@
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item active">Suất chiếu</li>
 </ol>
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $("#SuccessMeg").fadeOut('slow');
+        }, 2000);
+    </script>
+}
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
@@ -38,6 +45,13 @@
             </div>
         </div>
     </div>
+    <div>
+        @if (ViewBag.SuccessMsg != null)
+        {
+            <div id="SuccessMeg" class="alert alert-success" role="alert">
+                @ViewBag.SuccessMsg
+            </div>      }
+    </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -66,31 +80,31 @@
                 {
                     foreach (var item in Model.Item)
                     {
-                <tr>
+                        <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Film)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Room)
-                    </td>
-                    <td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Film)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Room)
+                            </td>
+                            <td>
 
-                        @Convert.ToDateTime(item.TimeStart).ToString("dd/MM/yyyy HH:mm")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.KindOfScreening)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
-                        <a href="" data-toggle="modal" data-name="@item.Film" data-target="#deleteScreening" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
-                    </td>
-                </tr>
-}
+                                @Convert.ToDateTime(item.TimeStart).ToString("dd/MM/yyyy HH:mm")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.KindOfScreening)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
+                                <a href="" data-toggle="modal" data-name="@item.Film" data-target="#deleteScreening" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
 

@@ -32,6 +32,7 @@ namespace MovieTheater.Data.EF
         public DbSet<KindOfScreening> KindOfScreenings { get; set; }
         public DbSet<IdentityUserRole<Guid>> UserRoles { get; set; }
         public DbSet<UserInfor> UserInfors { get; set; }
+        public DbSet<UserInfor> CustomerInfors { get; set; }
         public DbSet<SeatRow> SeatRows { get; set; }
 
         public MovieTheaterDBContext(DbContextOptions<MovieTheaterDBContext> options) : base(options)
@@ -42,7 +43,7 @@ namespace MovieTheater.Data.EF
         {
 
             base.OnModelCreating(modelBuilder);
-           
+            modelBuilder.ApplyConfiguration(new CustomerInforConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserInforConfiguration());
             modelBuilder.ApplyConfiguration(new BanConfiguration());

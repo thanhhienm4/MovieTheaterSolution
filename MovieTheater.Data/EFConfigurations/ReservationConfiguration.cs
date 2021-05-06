@@ -12,10 +12,10 @@ namespace MovieTheater.Data.EFConfigurations
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Paid).IsRequired();
             builder.Property(x => x.Active).IsRequired();
-            
+            builder.Property(x => x.Time).IsRequired();
 
             builder.HasOne(x => x.Employee).WithMany(x => x.ReservationsEmployee).HasForeignKey(x => x.EmployeeId);
-            builder.HasOne(x => x.User).WithMany(x => x.ReservationsUser).HasForeignKey(x => x.UserId);
+            builder.HasOne(x => x.Customer).WithMany(x => x.ReservationsCustomer).HasForeignKey(x => x.CustomerId);
            
         }
     }

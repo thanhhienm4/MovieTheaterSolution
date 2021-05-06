@@ -49,6 +49,7 @@ namespace MovieTheater.Admin.Controllers
 
             ViewBag.Date = date;
             ViewBag.KeyWord = keyword;
+            ViewBag.SuccessMsg = TempData["Result"];
             var result = (await _screeningApiClient.GetScreeningPagingAsync(request)).ResultObj;
             return View(result);
         }
@@ -72,7 +73,7 @@ namespace MovieTheater.Admin.Controllers
             var result = await _screeningApiClient.CreateAsync(request);
             if (result.IsSuccessed)
             {
-                TempData["Result"] = "Tạo mới thành công";
+                TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Screening");
             }
             ModelState.AddModelError("", result.Message);
@@ -119,7 +120,7 @@ namespace MovieTheater.Admin.Controllers
             var result = await _screeningApiClient.UpdateAsync(request);
             if (result.IsSuccessed)
             {
-                TempData["Result"] = "Chỉnh sửa thành công";
+                TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Screening");
             }
             ModelState.AddModelError("", result.Message);
@@ -152,7 +153,7 @@ namespace MovieTheater.Admin.Controllers
         {
 
             var result = await _screeningApiClient.DeleteAsync(id);
-
+            TempData["Result"] = result.Message;
             return result;
         }
 

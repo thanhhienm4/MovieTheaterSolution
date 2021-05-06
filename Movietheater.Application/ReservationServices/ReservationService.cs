@@ -26,9 +26,10 @@ namespace Movietheater.Application.ReservationServices
 
             var reservattion = new Reservation()
             {
+                Time = DateTime.Now,
                 Active = true,
                 EmployeeId = request.EmployeeId,
-                UserId = request.UserId,
+                CustomerId = request.CustomerId,
                 Paid = request.Paid,
                 ReservationTypeId = request.ReservationTypeId,
                 Tickets = request.Tickets.Select(x => new Ticket()
@@ -116,17 +117,26 @@ namespace Movietheater.Application.ReservationServices
         }
         public async Task<ApiResult<PageResult<ReservationVMD>>> GetReservationPagingAsync(ReservationPagingRequest request)
         {
-            var reservations = _context.Reservations.Select(x => x);
-            int totalRow = await reservations.CountAsync();
-            var item = reservations.OrderBy(x => x.Employee).Skip((request.PageIndex - 1) * request.PageSize)
+            var query = from r in _context.Reservations
+                        join c in _context.CustomerInfors on r.CustomerId equals c.Id into rc
+                        from c in rc.DefaultIfEmpty()
+                        join e in _context.UserInfors on r.EmployeeId equals e.Id into rec 
+                        from e in rec.DefaultIfEmpty()
+                        join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
+                        select new { r, c, rt ,e };
+
+
+            int totalRow = await query.CountAsync();
+            var item = query.OrderBy(x => x.r.Time).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize).Select(x => new ReservationVMD()
                 {
-                    Id = x.Id,
-                    Paid = x.Paid,
-                    Active = x.Active,
-                    ReservationTypeId = x.ReservationTypeId,
-                    UserId = x.UserId,
-                    EmployeeId = x.EmployeeId
+                    Id = x.r.Id,
+                    Paid = x.r.Paid,
+                    Active = x.r.Active,
+                    ReservationType = x.rt.Name,
+                    Time = x.r.Time,
+                    Employee = x.e.LastName +" " + x.e.FirstName ,
+                    Customer = x.c.LastName + " " + x.c.FirstName
                 }).ToList();
 
             var pageResult = new PageResult<ReservationVMD>()
@@ -150,16 +160,28 @@ namespace Movietheater.Application.ReservationServices
             }
             else
             {
-                var result = new ReservationVMD()
-                {
-                    Id = reservation.Id,
-                    Paid = reservation.Paid,
-                    Active = reservation.Active,
-                    EmployeeId = reservation.EmployeeId,
-                    UserId = reservation.UserId,
-                    ReservationTypeId = reservation.ReservationTypeId
-                };
-                return new ApiSuccessResult<ReservationVMD>(result);
+                var query = from r in _context.Reservations
+                            join c in _context.CustomerInfors on r.CustomerId equals c.Id into rc
+                            from c in rc.DefaultIfEmpty()
+                            join e in _context.UserInfors on r.EmployeeId equals e.Id into rec
+                            from e in rec.DefaultIfEmpty()
+                            join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
+                            select new { r, c, rt, e };
+
+                int totalRow = await query.CountAsync();
+                var res = query.Select(x => new ReservationVMD()
+                    {
+                        Id = x.r.Id,
+                        Paid = x.r.Paid,
+                        Active = x.r.Active,
+                        ReservationType = x.rt.Name,
+                        Time = x.r.Time,
+                        Employee = x.e.LastName + " " + x.e.FirstName,
+                        Customer = x.c.LastName + " " + x.c.FirstName
+                    }).FirstOrDefault();
+                return new ApiSuccessResult<ReservationVMD>(res);
+
+              
             }
         }
 

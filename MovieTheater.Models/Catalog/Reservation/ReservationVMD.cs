@@ -11,8 +11,9 @@ namespace MovieTheater.Models.Catalog.Reservation
         public int Id { get; set; }
         public bool Paid { get; set; }
         public bool Active { get; set; }
-        public int ReservationTypeId { get; set; }
-        public Guid? UserId { get; set; }
-        public Guid? EmployeeId { get; set; }
+        public string ReservationType { get; set; }
+        public string Customer { get; set; }
+        public string Employee { get; set; }
+        public DateTime Time { get; set; } 
     }
 }

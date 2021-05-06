@@ -34,7 +34,7 @@ namespace MovieTheater.Models.Catalog.Film
         {
             RuleFor(x => x.Name).NotEmpty().WithMessage("Tên phim không được bỏ trống");
             RuleFor(x => x.Description).NotEmpty().WithMessage("Miêu tả phim không được bỏ trống");
-            RuleFor(x => x.PublishDate).GreaterThan(DateTime.Now).WithMessage("Ngày ra rạp phải lớn hơn hoặc bằng ngày hiện tại");
+            RuleFor(x => x.PublishDate).NotEmpty().WithMessage("Ngày công chiếu không được bỏ trống");
             RuleFor(x => x.TrailerURL).NotEmpty().WithMessage("Trailer phim không được bỏ trống");
             RuleFor(x => x.Length).NotEmpty().WithMessage("Thời lượng phim không được bỏ trống").GreaterThan(0).WithMessage("Thời lượng phim phải lớn hơn 0"); ;
             //RuleFor(x => x.Poster).NotEmpty().WithMessage("Poster phim không được bỏ trống");

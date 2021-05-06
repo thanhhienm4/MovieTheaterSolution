@@ -6,6 +6,8 @@ using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -40,6 +42,7 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task<ApiResultLite> DeleteAsync(Guid id)
         {
+            
             var result = await _userService.DeleteAsync(id);
             return result;
         }
@@ -79,8 +82,11 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+       
 
 
-      
+
+
+
     }
 }

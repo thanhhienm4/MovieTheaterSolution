@@ -140,10 +140,7 @@ namespace MovieTheater.Admin.Controllers
         {
 
             var result = await _userApiClient.DeleteAsync(id);
-            if (result.IsSuccessed)
-            {
-                TempData["Result"] = result.Message;
-            }
+            TempData["Result"] = result.Message;
             return result;
         }
         public async Task<IActionResult> RoleAssign(Guid id)

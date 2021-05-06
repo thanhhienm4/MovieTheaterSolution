@@ -44,16 +44,22 @@
                         ID
                     </th>
                     <th>
-                        Paid
+                        Thanh toán
                     </th>
                     <th>
-                        Active
+                        Trạng thái
                     </th>
                     <th>
-                        ReservationTypeId
+                        Kiểu đặt vé
                     </th>
                     <th>
-                        EmployeeId
+                        Thời gian
+                    </th>
+                    <th>
+                        Nhân viên đặt
+                    </th>
+                    <th>
+                        Khách hàng
                     </th>
                     <th>Khác</th>
                 </tr>
@@ -61,31 +67,39 @@
             <tbody>
                 @foreach (var item in Model.Item)
                 {
-    <tr>
+                <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Paid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Paid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td>
 
-            @Html.DisplayFor(modelItem => item.ReservationTypeId)
-        </td>
-        <td>
+                        @Html.DisplayFor(modelItem => item.ReservationType)
+                    </td>
+                    <td>
 
-            @Html.DisplayFor(modelItem => item.EmployeeId)
-        </td>
-        <td>
-            @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
+                        @Html.DisplayFor(modelItem => item.Time)
+                    </td>
+                    <td>
 
-        </td>
-    </tr>
+                        @Html.DisplayFor(modelItem => item.Employee)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.Customer)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
+
+                    </td>
+                </tr>
 }
             </tbody>
         </table>

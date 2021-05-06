@@ -14,7 +14,7 @@ namespace MovieTheater.Data.EFConfigurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("User");
-            builder.HasOne(x => x.UserInfor).WithOne(x => x.User).HasForeignKey<User>(x => x.Id);
+           
         }
     }
 }
