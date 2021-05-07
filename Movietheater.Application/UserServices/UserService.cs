@@ -249,7 +249,7 @@ namespace Movietheater.Application.UserServices
                 return new ApiErrorResultLite("Yêu cầu không hợp lệ");
             }
 
-            var removedRoles = request.Roles.Where(x => x.Selected == false).Select(x => x.Name).ToList();
+            var removedRoles = request.Roles.Where(x => x.Selected == false).Select(x => x.Id).ToList();
             foreach (var roleId in removedRoles)
             {
                 var userRoles = _context.UserRoles.Where(x => x.RoleId.ToString() == roleId && x.UserId == user.Id);

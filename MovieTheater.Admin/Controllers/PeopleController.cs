@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PeopleController : Controller
     {
         private readonly PeopleApiClient _peopleApiClient;

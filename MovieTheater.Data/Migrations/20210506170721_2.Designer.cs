@@ -165,9 +165,9 @@ namespace MovieTheater.Data.Migrations
                         {
                             Id = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
                             ConcurrencyStamp = "ace8cdf2-ca74-46ec-8d32-6cd16e70c4ab",
-                            Description = "Emloyee",
-                            Name = "Emloyee",
-                            NormalizedName = "Emloyee"
+                            Description = "Employee",
+                            Name = "Employee",
+                            NormalizedName = "Employee"
                         },
                         new
                         {

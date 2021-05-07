@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieTheater.Admin.Controllers
+namespace MovieTheater.WebApp.Controllers
 {
     
     public class UserController : BaseController
@@ -35,46 +35,14 @@ namespace MovieTheater.Admin.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Login");
         }
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> Index(string keyword, Status? status, string roleId, int pageIndex = 1, int pageSize = 10)
-        {
-            var request = new UserPagingRequest()
-            {
-                Keyword = keyword,
-                PageIndex = pageIndex,
-                PageSize = pageSize,
-                RoleId = roleId,
-                Status = status
-            };
-
-            List<SelectListItem> roles = new List<SelectListItem>();
-            roles.Add(new SelectListItem() { Text = "Tất cả", Value = "" });
-            var listRoles = (await _roleApiClient.GetRolesAsync())
-                .Select(x => new SelectListItem()
-                {
-                    Text = x.Name,
-                    Value = x.Id.ToString(),
-                    Selected = (!string.IsNullOrWhiteSpace(roleId)) && roleId == x.Id.ToString()
-                }).ToList().OrderBy(x => x.Text);
-
-            ViewBag.SuccessMsg = TempData["Result"];
-            roles.AddRange(listRoles);
-            ViewBag.Roles = roles;
-
-
-            ViewBag.KeyWord = keyword;
-            var result = await _userApiClient.GetUserPagingAsync(request);
-            return View(result.ResultObj);
-        }
-
-        [Authorize(Roles = "Admin")]
+      
+       
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-        [Authorize(Roles = "Admin")]
+        
         [HttpPost]
         public async Task<IActionResult> Create(UserCreateRequest request)
         {
@@ -92,7 +60,7 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -118,7 +86,7 @@ namespace MovieTheater.Admin.Controllers
             }
             return RedirectToAction("Error", "Home");
         }
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(UserUpdateRequest request)
         {
@@ -139,64 +107,10 @@ namespace MovieTheater.Admin.Controllers
 
 
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<ApiResultLite> Delete(Guid id)
-        {
-
-            var result = await _userApiClient.DeleteAsync(id);
-            TempData["Result"] = result.Message;
-            return result;
-        }
-        public async Task<IActionResult> RoleAssign(Guid id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-            var roleAssignRequest = await GetRoleAssignRequest(id);
-            return View(roleAssignRequest);
-        }
+      
+     
 
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<IActionResult> RoleAssign(RoleAssignRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(request);
-            }
-            var result = await _userApiClient.RoleAssignAsync(request);
-            if (result.IsSuccessed)
-            {
-                TempData["Result"] = "Gán quyền thành công";
-                return RedirectToAction("Index", "User");
-            }
-            ModelState.AddModelError("", result.Message);
-            var roleAssignRequest = await GetRoleAssignRequest(request.UserId);
-            return View(roleAssignRequest);
-        }
-
-        [Authorize(Roles = "Admin")]
-        private async Task<RoleAssignRequest> GetRoleAssignRequest(Guid id)
-        {
-            var userObject = await _userApiClient.GetUserByIdAsync(id);
-            var result = await _roleApiClient.GetRolesAsync();
-            var roleAssignRequest = new RoleAssignRequest();
-            roleAssignRequest.UserId = id;
-            foreach (var role in result)
-            {
-                roleAssignRequest.Roles.Add(new SelectedItem()
-                {
-                    Id = role.Id.ToString(),
-                    Name = role.Name,
-                    Selected = userObject.ResultObj.Roles.Contains(role.Name)
-                });
-            }
-
-            return roleAssignRequest;
-        }
 
         [HttpGet]
         [AllowAnonymous]

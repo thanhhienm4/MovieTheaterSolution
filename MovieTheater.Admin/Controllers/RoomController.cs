@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Models.Common.ApiResult;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
+    
     public class RoomController : Controller
     {
         private readonly SeatApiClient _seatApiCient;
@@ -24,6 +26,7 @@ namespace MovieTheater.Admin.Controllers
             _seatRowApiClient = seatRowApiClient;
             _roomApiClient = roomApiClient;
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Index(string keyword,int? formatId, int pageIndex = 1, int pageSize = 10)
         {
@@ -52,14 +55,14 @@ namespace MovieTheater.Admin.Controllers
             var result = await _roomApiClient.GetRoomPagingAsync(request);
             return View(result);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             await SetViewBagAsync();
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(RoomCreateRequest request)
         {
@@ -80,6 +83,7 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -104,7 +108,7 @@ namespace MovieTheater.Admin.Controllers
             }
             return RedirectToAction("Error", "Home");
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(RoomUpdateRequest request)
         {
@@ -123,7 +127,7 @@ namespace MovieTheater.Admin.Controllers
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ApiResultLite> Delete(int id)
         {
@@ -139,12 +143,15 @@ namespace MovieTheater.Admin.Controllers
             return seats;
 
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult UpdateSeatInRoom(int roomId)
         {
             ViewBag.RoomId = roomId;
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ApiResultLite> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
         {
@@ -156,7 +163,7 @@ namespace MovieTheater.Admin.Controllers
             }
             return result;
         }
-
+        [Authorize(Roles = "Admin")]
         private async Task SetViewBagAsync()
         {
             var roomFormats = (await _roomApiClient.GetAllRoomFormatAsync()).ResultObj;

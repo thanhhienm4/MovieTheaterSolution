@@ -13,9 +13,9 @@ namespace MovieTheater.Data.Extensions
                 new AppRole()
                 {
                     Id = new Guid("1081FBA0-8368-43B7-8134-032E838C1BB3"),
-                    Name = "Emloyee",
-                    NormalizedName = "Emloyee",
-                    Description = "Emloyee"
+                    Name = "Employee",
+                    NormalizedName = "Employee",
+                    Description = "Employee"
                 },
                 new AppRole()
                 {

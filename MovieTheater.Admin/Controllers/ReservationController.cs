@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Data.Enums;
 using MovieTheater.Models.Catalog.Reservation;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
+    [Authorize(Roles = "Admin,Employee")]
     public class ReservationController : BaseController
     {
         private readonly ReservationApiClient _reservationApiClient;

@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-    [AllowAnonymous]
+     [Authorize(Roles = "Admin")]
     public class SeatRowController : BaseController
     {
         private readonly SeatRowApiClient _seatRowApiClient;
@@ -25,7 +25,7 @@ namespace MovieTheater.Admin.Controllers
         {
             _seatRowApiClient = seatRowApiClient;
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<List<SeatRowVMD>> GetAllSeatRows()
         {

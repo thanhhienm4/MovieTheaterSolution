@@ -559,7 +559,7 @@ namespace MovieTheater.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "acf671eb-91e7-4f3d-a63d-b6c43be5eb76", "Emloyee", "Emloyee", "Emloyee" },
+                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "acf671eb-91e7-4f3d-a63d-b6c43be5eb76", "Employee", "Employee", "Employee" },
                     { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "2482df42-7af0-4ab7-8522-c3bc0ecfa5fe", "Administrator role", "Admin", "Administrator" }
                 });
 

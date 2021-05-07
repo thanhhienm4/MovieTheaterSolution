@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Data.Enums;
@@ -12,8 +13,10 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class FilmController : Controller
     {
+        
         private readonly FilmApiClient _filmApiClient;
         private readonly BanApiClient _banApiClient;
         public FilmController(FilmApiClient filmApiClient, BanApiClient banApiClient) 
