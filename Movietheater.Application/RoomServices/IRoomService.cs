@@ -22,9 +22,5 @@ namespace Movietheater.Application.RoomServices
         Task<List<SeatVMD>> GetSeatsInRoom(int id);
         Task<ApiResult<RoomMD>> GetRoomById(int id);
         Task<ApiResult<List<RoomVMD>>> GetAllRoomAsync();
-
-
-
-
     }
 }

@@ -76,6 +76,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Screening");
             }
+            await SetViewBagAsync();
             ModelState.AddModelError("", result.Message);
             return View(request);
         }

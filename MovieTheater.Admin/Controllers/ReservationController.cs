@@ -68,6 +68,7 @@ namespace MovieTheater.Admin.Controllers
 
             if (result.IsSuccessed)
             {
+                ViewBag.Reservation = result.ResultObj;
                 var updateRequest = new ReservationUpdateRequest()
                 {
                     Id = result.ResultObj.Id,                 

@@ -122,9 +122,17 @@ namespace Movietheater.Application.ReservationServices
                         from c in rc.DefaultIfEmpty()
                         join e in _context.UserInfors on r.EmployeeId equals e.Id into rec 
                         from e in rec.DefaultIfEmpty()
+                        join u in _context.Users on r.CustomerId equals u.Id into recu
+                        from u in recu.DefaultIfEmpty()
                         join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
-                        select new { r, c, rt ,e };
+                        select new { r, c, rt ,e ,u};
 
+            //if(string.IsNullOrWhiteSpace(request.Keyword))
+            //{
+            //    query = query.Where(x => x.r.Id.ToString().Contains(request.Keyword) ||
+            //                            x.u.PhoneNumber.Contains(request.Keyword) ||
+            //                            x.u.Email.Contains(request.Keyword));
+            //}
 
             int totalRow = await query.CountAsync();
             var item = query.OrderBy(x => x.r.Time).Skip((request.PageIndex - 1) * request.PageSize)
@@ -166,6 +174,7 @@ namespace Movietheater.Application.ReservationServices
                             join e in _context.UserInfors on r.EmployeeId equals e.Id into rec
                             from e in rec.DefaultIfEmpty()
                             join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
+                            where r.Id == Id
                             select new { r, c, rt, e };
 
                 int totalRow = await query.CountAsync();
@@ -179,12 +188,34 @@ namespace Movietheater.Application.ReservationServices
                         Employee = x.e.LastName + " " + x.e.FirstName,
                         Customer = x.c.LastName + " " + x.c.FirstName
                     }).FirstOrDefault();
+                res.Tickets = await GetTicketsAsync(Id);
                 return new ApiSuccessResult<ReservationVMD>(res);
 
               
             }
         }
+        public async Task<List<TicketVMD>> GetTicketsAsync(int reserId)
+        {
+            var query = from t in _context.Tickets
+                        join s in _context.Screenings on t.ScreeningId equals s.Id
+                        join f in _context.Films on s.FilmId equals f.Id
+                        join r in _context.Rooms on s.RoomId equals r.Id
+                        join se in _context.Seats on t.SeatId equals se.Id
+                        where t.ReservationId == reserId
+                        select new { t, s, f ,r, se};
 
+            var tickets = await query.OrderBy(x=>x.se.Name).Select(x => new TicketVMD()
+            {
+                Film = x.f.Name,
+                Price = x.t.Price,
+                Room = x.r.Name,
+                Seat = x.se.Name,
+                Time = x.s.TimeStart
+            }).ToListAsync() ;
+
+            return  tickets;
+
+        }
         public async Task<int> CalPrePriceAsync(List<TicketCreateRequest> tickets)
         {
             int total = 0;

@@ -28,6 +28,9 @@ namespace Movietheater.Application.Common
 
         public async Task DeleteFileAsync(string fileName)
         {
+            if (string.IsNullOrEmpty(fileName))
+                return;
+
             var filePath = Path.Combine(_userContentFolder, fileName);
             if (File.Exists(filePath))
             {

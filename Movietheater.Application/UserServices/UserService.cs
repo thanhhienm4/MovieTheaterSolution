@@ -136,15 +136,22 @@ namespace Movietheater.Application.UserServices
 
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
 
+
            
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
             if (model.Status == Status.Active)
                 user.LockoutEnabled = false;
             else
-                user.LockoutEnabled = true;
+            {
+                await _userManager.SetLockoutEnabledAsync(user, true);
+                await _userManager.SetLockoutEndDateAsync(user,DateTime.Now.AddYears(1000));
 
-           user.UserInfor = new UserInfor()
+            }
+
+
+
+            var userInfor = new UserInfor()
             {
                 Id = user.Id,
                 Dob = model.Dob,
@@ -155,6 +162,8 @@ namespace Movietheater.Application.UserServices
            
 
             var result = await _userManager.UpdateAsync(user);
+            _context.UserInfors.Update(userInfor);
+            _context.SaveChanges();
             if (result.Succeeded)
             {
                 return new ApiSuccessResultLite("Cập nhật thành công");

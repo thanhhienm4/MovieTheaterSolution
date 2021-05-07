@@ -58,7 +58,7 @@ namespace Movietheater.Application.FilmServices
             Film film = await _context.Films.FindAsync(request.Id);
             if (film == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy phòng");
+                return new ApiErrorResultLite("Không tìm thấy phim");
             }
             else
             {
@@ -102,14 +102,16 @@ namespace Movietheater.Application.FilmServices
             }
             else
             {
+                if(_context.Screenings.Where(x => x.FilmId == film.Id).Count()!=0)
+                    return new ApiSuccessResultLite("Xóa thất bại");
+
                 string poster = film.Poster;
                 _context.Films.Remove(film);
-                if (await _context.SaveChangesAsync() != 0)
-                {
-                    await _storageService.DeleteFileAsync(poster);
-                    return new ApiSuccessResultLite("Xóa thành công");
-                }
-                else return new ApiSuccessResultLite("Không xóa được");
+                _context.SaveChanges();
+                await _storageService.DeleteFileAsync(poster);
+                return new ApiSuccessResultLite("Xóa thành công");
+
+
             }
         }
         public async Task<ApiResult<List<FilmVMD>>> GetAllFilmAsync()

@@ -191,7 +191,7 @@
             //Case II: If already booked
             init();
 
-             $('.' + settings.seatCss).click(function () {
+            $('#place button.' + settings.seatCss).click(function () {
                 $(this).toggleClass(settings.selectingSeatCss);
                 var seatsName = '';
                 var tickets = [];
@@ -213,7 +213,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/Retail/CalPrePrice",
+                    url: "/Ticket/CalPrePrice",
                     data: { tickets },
                     success: function (res) {
                         $('#price').html(res.toLocaleString('vi-VN', {
@@ -250,7 +250,8 @@ $('#btnReserve').click(function () {
         url: "/Reservation/Create",
         data: { Active: true, Paid: false, Tickets: tickets },
         success: function (res) {
-            window.location.href = "https://localhost:5001/retail";
+            alert(res.message);
+            location.reload();
         }
         });
     })

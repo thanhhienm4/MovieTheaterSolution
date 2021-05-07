@@ -1,7 +1,8 @@
 ﻿@model MovieTheater.Models.Catalog.Screening.ScreeningCreateRequest
 
 @{ ViewData["Title"] = "Create";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
 
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
@@ -20,11 +21,9 @@
                         <label asp-for="FilmId" class="control-label"></label>
                         <div class="row">
                             <div class="col-md">
-                                <select id="selectFilm" asp-for="FilmId" asp-items="@ViewBag.Films" class="form-control"></select>
+                                <select id="selectFilm" asp-for="FilmId" asp-items="@ViewBag.Films" class="form-control chosen-select"></select>
                             </div>
-                            <div class="col-md">
-                                <input id="filmName" class="form-control" placeholder="Tìm phim" />
-                            </div>
+                           
                         </div>
 
                         <span asp-validation-for="FilmId" class="text-danger"></span>
@@ -70,21 +69,8 @@
 
 </div>
 
-<script>
-    $(function () {
-        var opts = $('#selectFilm option').map(function () {
-            return [[this.value, $(this).text()]];
-        });
-        $('#filmName').keyup(function () {
-            var rxp = new RegExp($('#filmName').val(), 'i');
-            var optlist = $('#selectFilm').empty();
-            opts.each(function () {
-                if (rxp.test(this[1])) {
-                    optlist.append($('<option/>').attr('value', this[0]).text(this[1]));
-                }
-            });
 
-        });
-
-    });
-</script>
+<script src="/docsupport/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="/chosen.jquery.js" type="text/javascript"></script>
+<script src="/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+<script src="/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
