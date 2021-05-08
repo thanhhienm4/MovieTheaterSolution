@@ -65,7 +65,6 @@ namespace MovieTheater.Admin.Controllers
                 StartDate = new DateTime(date.Year, 1, 1),
                 EndDate = new DateTime(date.AddYears(1).Year, 1, 1).AddDays(-1)
             };
-
             var result = (await _statiticApiClient.GetGroosingTypeAsync(request)).ResultObj;
             return result;
         }

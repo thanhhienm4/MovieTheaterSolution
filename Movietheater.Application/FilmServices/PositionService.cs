@@ -1,4 +1,5 @@
-﻿using MovieTheater.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
@@ -69,6 +70,17 @@ namespace Movietheater.Application.FilmServices
                 }
                 return new ApiSuccessResultLite("Cập nhật thành công");
             }
+        }
+
+        public async Task<ApiResult<List<PositionVMD>>> GetAllPositionAsync()
+        {
+            var positions =  await _context.Positions.Select(x => new PositionVMD()
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToListAsync();
+
+            return new ApiSuccessResult<List<PositionVMD>>(positions);
         }
     }
 }

@@ -113,5 +113,23 @@ namespace MovieTheater.Api
             return await GetAsync<ApiResult<List<FilmGenreVMD>>>($"Api/FilmGenre/GetAllFilmGenre");
         }
 
+        public async Task<ApiResultLite> PosAssignAsync(PosAssignRequest request)
+        {
+            return await PostAsync<ApiResultLite>($"Api/Film/PosAssign",request);
+        }
+        
+        public async Task<ApiResultLite> DeletePosAssignAsync(PosAssignRequest request)
+        {
+            return await PostAsync<ApiResultLite>($"Api/Film/DeletePosAssign", request);
+            
+        }
+
+      
+        public async Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id)
+        {
+            return await GetAsync<ApiResult<List<JoiningPosVMD>>>($"Api/Film/GetJoining/{id}");
+            
+        }
+
     }
 }

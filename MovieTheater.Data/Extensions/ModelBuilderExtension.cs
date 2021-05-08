@@ -216,7 +216,23 @@ namespace MovieTheater.Data.Extensions
 
 
                 }
-                ); ;
+                );
+            modelBuilder.Entity<Position>().HasData(
+                new Position()
+                {
+                    Id = 1,
+                    Name = "Diễn viên"
+
+
+                },
+                new Position()
+                {
+                    Id = 2,
+                    Name = "Đạo diễn"
+
+
+                }
+                );
 
         }
     }

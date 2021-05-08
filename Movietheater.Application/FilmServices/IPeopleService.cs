@@ -16,5 +16,6 @@ namespace Movietheater.Application.FilmServices
         Task<ApiResultLite> DeleteAsync(int id);
         Task<ApiResult<PageResult<PeopleVMD>>> GetPeoplePagingAsync(PeoplePagingRequest request);
         Task<ApiResult<PeopleVMD>> GetPeopleById(int id);
+        Task<ApiResult<List<PeopleVMD>>> GetAllPeopleAsync();
     }
 }

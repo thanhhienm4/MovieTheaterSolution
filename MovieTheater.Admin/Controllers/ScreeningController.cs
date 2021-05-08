@@ -72,12 +72,14 @@ namespace MovieTheater.Admin.Controllers
                 await SetViewBagAsync();
                 return View(request);
             }
+
             var result = await _screeningApiClient.CreateAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Screening");
             }
+
             await SetViewBagAsync();
             ModelState.AddModelError("", result.Message);
             return View(request);
@@ -130,6 +132,15 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
+       
+        [HttpPost]
+        public async Task<ApiResultLite> Delete(int id)
+        {
+
+            var result = await _screeningApiClient.DeleteAsync(id);
+            TempData["Result"] = result.Message;
+            return result;
+        }
         private async Task SetViewBagAsync()
         {
             var rooms = (await _roomApiClient.GetAllRoomAsync()).ResultObj;
@@ -150,14 +161,6 @@ namespace MovieTheater.Admin.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
-        }
-        [HttpPost]
-        public async Task<ApiResultLite> Delete(int id)
-        {
-
-            var result = await _screeningApiClient.DeleteAsync(id);
-            TempData["Result"] = result.Message;
-            return result;
         }
 
     }

@@ -13,5 +13,6 @@ namespace Movietheater.Application.FilmServices
         Task<ApiResultLite> CreateAsync(string name);
         Task<ApiResultLite> UpdateAsync(PositionUpdateRequest request);
         Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<List<PositionVMD>>> GetAllPositionAsync();
     }
 }

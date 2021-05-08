@@ -34,7 +34,7 @@ namespace MovieTheater.Admin
             services.AddTransient<ScreeningApiClient, ScreeningApiClient>();
             services.AddTransient<BanApiClient, BanApiClient>();
             services.AddTransient<StatiticApiClient, StatiticApiClient>();
-
+            services.AddTransient<PositionApiClient, PositionApiClient>();
             services.AddHttpClient();
             services.AddHttpContextAccessor();
             services.AddRazorPages().AddRazorRuntimeCompilation();

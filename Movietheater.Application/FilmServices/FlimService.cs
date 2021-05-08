@@ -317,6 +317,74 @@ namespace Movietheater.Application.FilmServices
            
             
         }
+        public async Task<ApiResultLite> PosAssignAsync(PosAssignRequest request)
+        {
+            if ((await _context.Films.FindAsync(request.FilmId)) == null)
+                return new ApiErrorResultLite("Không tìm thấy phim");
+            if ((await _context.Peoples.FindAsync(request.PeopleId)) == null)
+                return new ApiErrorResultLite("Không tìm thấy nghệ sĩ");
+            if ((await _context.Positions.FindAsync(request.PosId)) == null)
+                return new ApiErrorResultLite("Không tìm vai trò");
+
+            try
+            {
+                Joining joining = new Joining()
+                {
+                    FilmId = request.FilmId,
+                    PeppleId = request.PeopleId,
+                    PositionId = request.PosId
+                };
+
+                await _context.Joinings.AddAsync(joining);
+                await _context.SaveChangesAsync();
+                return new ApiSuccessResultLite("Thêm thành công");
+            }catch(DbUpdateException e)
+            {
+                return new ApiErrorResultLite("Thêm thất bại");
+            }
+        }
+        public async Task<ApiResultLite> DeletePosAssignAsync(PosAssignRequest request)
+        {
+            var joining =await _context.Joinings.Where(x => x.FilmId == request.FilmId &&
+                                                        x.PositionId == request.PosId &&
+                                                        x.PeppleId == request.PeopleId).FirstOrDefaultAsync();
+            if (joining == null)
+                return new ApiErrorResultLite("Yêu cầu không hợp lệ");
+            else
+            {
+                _context.Joinings.Remove(joining);
+                _context.SaveChanges();
+                return new ApiSuccessResultLite("Xóa thành công");
+            }
+
+        }
+        public async Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id)
+        {
+            var query = from j in _context.Joinings
+                        join p in _context.Peoples on j.PeppleId equals p.Id
+                        where j.FilmId == id
+                        select new { j, p };
+
+            var res = new List<JoiningPosVMD>();
+
+            var positions =await _context.Positions.ToListAsync();
+            foreach(var position in positions)
+            {
+                JoiningPosVMD joiningPos = new JoiningPosVMD();
+                joiningPos.Name = position.Name;
+                joiningPos.Joinings = query.Where(x => x.p.Id == position.Id).Select(x =>
+                                            new JoiningVMD()
+                                            {
+                                                FilmId = x.j.FilmId,
+                                                PeopleId = x.j.PeppleId,
+                                                PosId = x.j.PositionId,
+                                                Name = x.p.Name
+                                            }).ToList();
+                res.Add(joiningPos);
+            }
+
+            return new ApiSuccessResult<List<JoiningPosVMD>>(res);   
+        }
         private bool CheckGenres (List<int> genres)
         {
             var query =  genres.Join(_context.FilmGenre,
@@ -339,6 +407,7 @@ namespace Movietheater.Application.FilmServices
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return fileName;
         }
+        
 
         private List<string> GetGenres(int id)
         {

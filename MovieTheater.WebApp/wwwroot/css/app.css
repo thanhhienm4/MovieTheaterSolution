@@ -17,6 +17,53 @@ html {
     font-size: 16px;
 }
 
+.silver-background {
+    background-color: green;
+}
+
+
+
+.mybg-dark {
+    background-color: #006666 !important;
+    position: relative;
+}
+
+.movie-infosbackup {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.content-movies {
+    top: 10px left: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.smaller-image {
+    width: 160px;
+    height: 230px;
+    position: relative;
+}
+
+.thick-green-border {
+    border-color: white;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 10px;
+}
+
+.img-position {
+    margin-top: 15px;
+    margin-left: 190px;
+    position: relative;
+}
+
+
+
 body {
     font-family: "Cairo", sans-serif;
     background-color: var(--body-bg);

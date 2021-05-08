@@ -106,5 +106,7 @@ namespace MovieTheater.Admin.Controllers
             return result;
         }
 
+        
+
     }
 }

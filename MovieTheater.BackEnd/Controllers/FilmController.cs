@@ -80,10 +80,32 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _filmService.GetAllPlayingFilmAsync();
             return result;
         }
+
         [HttpGet("getAllUpcomingFilm")]
         public async Task<ApiResult<List<FilmVMD>>> GetAllUpcomingBanAsync()
         {
             var result = await _filmService.GetAllUpcomingFilmAsync();
+            return result;
+        }
+
+        [HttpPost("PosAssign")]
+        public async Task<ApiResultLite> PosAssignAsync(PosAssignRequest request)
+        {
+            var result = await _filmService.PosAssignAsync(request);
+            return result;
+        }
+
+        [HttpPost("DeletePosAssign")]
+        public async Task<ApiResultLite> DeletePosAssignAsync(PosAssignRequest request)
+        {
+            var result = await _filmService.DeletePosAssignAsync(request);
+            return result;
+        }
+
+        [HttpGet("GetJoining/{id}")]
+        public async Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id)
+        {
+            var result = await _filmService.GetJoiningAsync(id);
             return result;
         }
     }

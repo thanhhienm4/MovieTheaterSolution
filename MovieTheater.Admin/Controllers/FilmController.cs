@@ -19,10 +19,17 @@ namespace MovieTheater.Admin.Controllers
         
         private readonly FilmApiClient _filmApiClient;
         private readonly BanApiClient _banApiClient;
-        public FilmController(FilmApiClient filmApiClient, BanApiClient banApiClient) 
+        private readonly PositionApiClient _positionApiClient;
+        private readonly PeopleApiClient _peopleApiClient;
+        public FilmController(FilmApiClient filmApiClient, BanApiClient banApiClient,
+            PositionApiClient positionApiClient, PeopleApiClient peopleApiClient) 
         {
             _filmApiClient = filmApiClient;
             _banApiClient = banApiClient;
+            _positionApiClient = positionApiClient;
+            _peopleApiClient = peopleApiClient;
+
+               
         }
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
@@ -173,7 +180,7 @@ namespace MovieTheater.Admin.Controllers
             var genreAssignRequest = await GetGenreAssignRequest(request.FilmId);
             return View(genreAssignRequest);
         }
-
+        
         private async Task<GenreAssignRequest> GetGenreAssignRequest(int id)
         {
             var filmObject = await _filmApiClient.GetFilmVMDByIdAsync(id);
@@ -191,6 +198,33 @@ namespace MovieTheater.Admin.Controllers
             }
 
             return genreAssignRequest;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> PosAssign(int id)
+        {
+            var film = (await _filmApiClient.GetFilmVMDByIdAsync(id)).ResultObj;
+
+            await SetViewBagForPosAssignAsync();
+            return View(film);
+        }
+
+        private async Task SetViewBagForPosAssignAsync()
+        {
+            var peoples = (await _peopleApiClient.GetAllPeopleAsync()).ResultObj;
+            ViewBag.Peoples = peoples.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
+
+            var positions = (await _positionApiClient.GetAllPositionAsync()).ResultObj;
+            ViewBag.Positions = positions.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
+            
         }
     }
 }

@@ -107,7 +107,18 @@ namespace Movietheater.Application.FilmServices
 
             return new ApiSuccessResult<PageResult<PeopleVMD>>(pageResult);
         }
-
+        public async Task<ApiResult<List<PeopleVMD>>> GetAllPeopleAsync()
+        {
+            var peoples =await _context.Peoples.Select(x => new PeopleVMD()
+            {
+                Description = x.Description,
+                DOB = x.DOB,
+                Id = x.Id,
+                Name = x.Name
+                
+            }).ToListAsync();
+            return new ApiSuccessResult<List<PeopleVMD>>(peoples);
+        }
         public async Task<ApiResult<PeopleVMD>> GetPeopleById(int id)
         {
             People people = await _context.Peoples.FindAsync(id);

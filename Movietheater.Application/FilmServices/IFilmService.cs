@@ -21,6 +21,10 @@ namespace Movietheater.Application.FilmServices
         Task<ApiResultLite> GenreAssignAsync(GenreAssignRequest request);
         Task<ApiResult<List<FilmVMD>>> GetAllPlayingFilmAsync();
         Task<ApiResult<List<FilmVMD>>> GetAllUpcomingFilmAsync();
+        Task<ApiResultLite> PosAssignAsync(PosAssignRequest request);
+        Task<ApiResultLite> DeletePosAssignAsync(PosAssignRequest request);
+        Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id);
+
         //ban service
 
 

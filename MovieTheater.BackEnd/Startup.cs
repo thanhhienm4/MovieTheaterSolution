@@ -56,7 +56,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IBanService, BanService>();
             services.AddTransient<IStatiticService, StatiticService>();
-
+            services.AddTransient<IPositionService, PositionService>();
             // For Identity
             services.AddIdentity<User, AppRole>(
                 option =>

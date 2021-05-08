@@ -38,5 +38,10 @@ namespace MovieTheater.Api
         {
             return await GetAsync<ApiResult<PeopleVMD>>($"Api/People/GetPeopleById/{id}");
         }
+        public async Task<ApiResult<List<PeopleVMD>>> GetAllPeopleAsync()
+        {
+            return await GetAsync<ApiResult<List<PeopleVMD>>>($"Api/People/GetAllPeople");
+        }
+
     }
 }
