@@ -10,7 +10,7 @@ using MovieTheater.Data.EF;
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDBContext))]
-    [Migration("20210508052823_3")]
+    [Migration("20210510030432_3")]
     partial class _3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,7 +164,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
-                            ConcurrencyStamp = "2de9776a-2e57-48d0-8278-126004a1f13f",
+                            ConcurrencyStamp = "11c4fe7b-15c6-4f42-91ba-c80c481e7e39",
                             Description = "Employee",
                             Name = "Employee",
                             NormalizedName = "Employee"
@@ -172,7 +172,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
-                            ConcurrencyStamp = "7b4c253d-36a0-4be3-bd82-0f0fe5fbed39",
+                            ConcurrencyStamp = "c9c4471c-5002-44ba-a4f6-30aa6f7893b2",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -259,7 +259,7 @@ namespace MovieTheater.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PublishDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("TrailerURL")
                         .HasColumnType("nvarchar(max)");
@@ -655,7 +655,9 @@ namespace MovieTheater.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
@@ -666,7 +668,7 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TimeStart")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -687,7 +689,7 @@ namespace MovieTheater.Data.Migrations
                             FilmId = 1,
                             KindOfScreeningId = 1,
                             RoomId = 1,
-                            TimeStart = new DateTime(2021, 5, 8, 5, 28, 22, 294, DateTimeKind.Utc).AddTicks(7374)
+                            StartTime = new DateTime(2021, 5, 10, 3, 4, 31, 217, DateTimeKind.Utc).AddTicks(1806)
                         });
                 });
 
@@ -887,7 +889,7 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI39+kBvCR6GrstngSHcYXrXz5Rzv3yfVqHbbDdDZuoH2mJVhjG7lQqTRmNpvvtYiQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF2IXpzJ1Wq3PRnhzcOm/0ASTF+2ysuHs8K9knnj5s8+m/uQ2vOJA1C+8ho0L0x+7w==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",

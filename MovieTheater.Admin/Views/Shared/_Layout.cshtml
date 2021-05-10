@@ -20,7 +20,8 @@
           rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet" />
+   
 
 </head>
 
@@ -299,14 +300,18 @@
                                  aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="/user/Edit/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
                                     <i class="fa fa-user-o" style="font-size:24px"></i>
-                                    Profile
+                                    Thông tin cá nhân
                                 </a>
-
-                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
+                                    <i class="fa fa-user-o" style="font-size:24px"></i>
+                                    Đổi mật khẩu
+                                </a>
                                 <a class="dropdown-item" href="/User/Logout">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Đăng xuất
                                 </a>
+                                
+
                             </div>
                         </li>
 

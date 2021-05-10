@@ -46,13 +46,13 @@
                                         {
                                             foreach (var screening in filmScreening.ListScreening)
                                             {
-                                                if (screening.TimeStart.AddMinutes(30) > DateTime.Now)
+                                                if (screening.StartTime.AddMinutes(30) > DateTime.Now)
                                                 {
-                                                    <a class="btn  time mr-2"  href="/retail/chooseseat/@screening.Id">@screening.TimeStart.ToString("HH:mm")</a>
+                                                    <a class="btn  time mr-2"  href="/retail/chooseseat/@screening.Id">@screening.StartTime.ToString("HH:mm")</a>
                                                 }
                                                 else
                                                 {
-                                    <a class="btn btn-secondary time mr-2" style="cursor:no-drop">@screening.TimeStart.ToString("HH:mm")</a>
+                                    <a class="btn btn-secondary time mr-2" style="cursor:no-drop">@screening.StartTime.ToString("HH:mm")</a>
                                                 }
 
                                             }

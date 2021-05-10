@@ -15,7 +15,7 @@ namespace MovieTheater.Data.Extensions
                     Id = new Guid("1081FBA0-8368-43B7-8134-032E838C1BB3"),
                     Name = "Employee",
                     NormalizedName = "Employee",
-                    Description = "Employee"
+                    Description = "Employee role"
                 },
                 new AppRole()
                 {
@@ -23,8 +23,15 @@ namespace MovieTheater.Data.Extensions
                     Name = "Admin",
                     NormalizedName = "Administrator",
                     Description = "Administrator role"
-                });
-               
+                },
+                 new AppRole()
+                 {
+                     Id = new Guid("0417C463-9AF0-46D9-9FF7-D3E63321DFCC"),                     
+                     Name = "Customer",
+                     NormalizedName = "Customer",
+                     Description = "Customer role"
+                 });
+
             modelBuilder.Entity<User>().HasData(
                 new User()
                 {
@@ -184,7 +191,7 @@ namespace MovieTheater.Data.Extensions
                   KindOfScreeningId = 1,
                   RoomId = 1,
                  // Surcharge = 20000,
-                  TimeStart = DateTime.UtcNow
+                  StartTime = DateTime.UtcNow
               });
             modelBuilder.Entity<ReservationType>().HasData(
                 new ReservationType()

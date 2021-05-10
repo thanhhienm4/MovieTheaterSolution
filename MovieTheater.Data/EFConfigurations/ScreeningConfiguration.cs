@@ -12,7 +12,8 @@ namespace MovieTheater.Data.EFConfigurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
            // builder.Property(x => x.Surcharge).HasDefaultValue(0);
-            builder.Property(x => x.TimeStart).IsRequired();
+            builder.Property(x => x.StartTime).IsRequired();
+            builder.Property(x => x.Active).HasDefaultValue(true);
 
             builder.HasOne(x => x.Film).WithMany(x => x.Screenings).HasForeignKey(x => x.FilmId);
             builder.HasOne(x => x.Room).WithMany(x => x.Screenings).HasForeignKey(x => x.RoomId);

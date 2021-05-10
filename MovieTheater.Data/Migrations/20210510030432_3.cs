@@ -3,79 +3,84 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieTheater.Data.Migrations
 {
-    public partial class _2 : Migration
+    public partial class _3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<DateTime>(
-                name: "Time",
-                table: "Reservations",
-                type: "datetime2",
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "PublishDate",
+                table: "Films",
+                type: "date",
                 nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2");
 
             migrationBuilder.UpdateData(
                 table: "AppRoles",
                 keyColumn: "Id",
                 keyValue: new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
                 column: "ConcurrencyStamp",
-                value: "ace8cdf2-ca74-46ec-8d32-6cd16e70c4ab");
+                value: "11c4fe7b-15c6-4f42-91ba-c80c481e7e39");
 
             migrationBuilder.UpdateData(
                 table: "AppRoles",
                 keyColumn: "Id",
                 keyValue: new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
                 column: "ConcurrencyStamp",
-                value: "446ed63a-d1e8-44f5-9aa9-2b21f93d80cb");
+                value: "c9c4471c-5002-44ba-a4f6-30aa6f7893b2");
 
             migrationBuilder.UpdateData(
                 table: "Screenings",
                 keyColumn: "Id",
                 keyValue: 1,
-                column: "TimeStart",
-                value: new DateTime(2021, 5, 6, 17, 7, 20, 204, DateTimeKind.Utc).AddTicks(679));
+                column: "StartTime",
+                value: new DateTime(2021, 5, 10, 3, 4, 31, 217, DateTimeKind.Utc).AddTicks(1806));
 
             migrationBuilder.UpdateData(
                 table: "User",
                 keyColumn: "Id",
                 keyValue: new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
                 column: "PasswordHash",
-                value: "AQAAAAEAACcQAAAAELPjCpNd6EXr997+J/0lvHfyCvWcXmBEcNh68ZH9l4gkss78zE+EbarYue7tK/37TA==");
+                value: "AQAAAAEAACcQAAAAEF2IXpzJ1Wq3PRnhzcOm/0ASTF+2ysuHs8K9knnj5s8+m/uQ2vOJA1C+8ho0L0x+7w==");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Time",
-                table: "Reservations");
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "PublishDate",
+                table: "Films",
+                type: "datetime2",
+                nullable: false,
+                oldClrType: typeof(DateTime),
+                oldType: "date");
 
             migrationBuilder.UpdateData(
                 table: "AppRoles",
                 keyColumn: "Id",
                 keyValue: new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
                 column: "ConcurrencyStamp",
-                value: "acf671eb-91e7-4f3d-a63d-b6c43be5eb76");
+                value: "16cdab62-3d7c-4b89-a6c6-a4ea4911c658");
 
             migrationBuilder.UpdateData(
                 table: "AppRoles",
                 keyColumn: "Id",
                 keyValue: new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
                 column: "ConcurrencyStamp",
-                value: "2482df42-7af0-4ab7-8522-c3bc0ecfa5fe");
+                value: "2c497018-89d8-4bfa-8f51-47c5a3db21e4");
 
             migrationBuilder.UpdateData(
                 table: "Screenings",
                 keyColumn: "Id",
                 keyValue: 1,
-                column: "TimeStart",
-                value: new DateTime(2021, 5, 6, 16, 50, 48, 91, DateTimeKind.Utc).AddTicks(3849));
+                column: "StartTime",
+                value: new DateTime(2021, 5, 10, 2, 31, 49, 280, DateTimeKind.Utc).AddTicks(8359));
 
             migrationBuilder.UpdateData(
                 table: "User",
                 keyColumn: "Id",
                 keyValue: new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
                 column: "PasswordHash",
-                value: "AQAAAAEAACcQAAAAEIN4cPiQR8ByyCHP3Y0F5DufnOFJEuBwR/WnztJ+2R4prjlQQ2mY5wtNEoQ0dh9Zhw==");
+                value: "AQAAAAEAACcQAAAAEO3J18b/5ibuRNwu+Qh7DLlc0AiWEh5ADnSS6bYzGjPlv2zBiwl3UgYtwQp5qHVPrg==");
         }
     }
 }

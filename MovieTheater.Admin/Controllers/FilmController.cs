@@ -200,6 +200,21 @@ namespace MovieTheater.Admin.Controllers
             return genreAssignRequest;
         }
 
+        [HttpPost]
+        public async Task<ApiResultLite> PosAssign(PosAssignRequest request)
+        {
+            var res = (await _filmApiClient.PosAssignAsync(request ));
+            return res;
+           
+        }
+        [HttpPost]
+        public async Task<ApiResultLite> DeletePosAssign(PosAssignRequest request)
+        {
+            var res = (await _filmApiClient.DeletePosAssignAsync(request));
+            return res;
+
+        }
+
         [HttpGet]
         public async Task<IActionResult> PosAssign(int id)
         {
@@ -207,6 +222,15 @@ namespace MovieTheater.Admin.Controllers
 
             await SetViewBagForPosAssignAsync();
             return View(film);
+        }
+
+        [HttpGet]
+        public async Task<List<JoiningPosVMD>> GetJoining(int id)
+        {
+            var res = (await _filmApiClient.GetJoiningAsync(id)).ResultObj;
+            return res;
+
+
         }
 
         private async Task SetViewBagForPosAssignAsync()
@@ -226,5 +250,6 @@ namespace MovieTheater.Admin.Controllers
             });
             
         }
+
     }
 }

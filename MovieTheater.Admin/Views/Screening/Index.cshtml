@@ -67,7 +67,10 @@
                         Phòng
                     </th>
                     <th>
-                        Thời gian
+                        Bắt đầu 
+                    </th>
+                    <th>
+                        Kết thúc
                     </th>
                     <th>
                         Loại xuất chiếu
@@ -80,30 +83,34 @@
                 {
                     foreach (var item in Model.Item)
                     {
-                        <tr>
+                <tr>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Film)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Room)
-                            </td>
-                            <td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Film)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Room)
+                    </td>
+                    <td>
 
-                                @Convert.ToDateTime(item.TimeStart).ToString("dd/MM/yyyy HH:mm")
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.KindOfScreening)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
-                                <a href="" data-toggle="modal" data-name="@item.Film" data-target="#deleteScreening" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
-                            </td>
-                        </tr>
+                        @Convert.ToDateTime(item.StartTime).ToString("dd/MM/yyyy HH:mm")
+                    </td>
+                    <td>
+
+                        @Convert.ToDateTime(item.FinishTime).ToString("dd/MM/yyyy HH:mm")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KindOfScreening)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
+                        <a href="" data-toggle="modal" data-name="@item.Film" data-target="#deleteScreening" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
+                    </td>
+                </tr>
                     }
                 }
             </tbody>

@@ -14,6 +14,7 @@ namespace MovieTheater.Data.EFConfigurations
             builder.Property(x => x.Description).IsRequired();
             builder.Property(x => x.Length).IsRequired();
             builder.HasOne(x => x.Ban).WithMany(x => x.Films).HasForeignKey(x => x.BanId);
+            builder.Property(x => x.PublishDate).IsRequired().HasColumnType("date");
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Movietheater.Application.Statitic
             var query = from s in _context.Screenings
                         join f in _context.Films on s.FilmId equals f.Id
                         join t in _context.Tickets on s.Id equals t.ScreeningId
-                        where s.TimeStart.Date > request.StartDate && s.TimeStart.Date < request.EndDate
+                        where s.StartTime.Date > request.StartDate && s.StartTime.Date < request.EndDate
                         select new { s,f,t};
 
             var grossing = await query.GroupBy(x => new { x.f.Name,x.f.Id}).Select(x => new 
@@ -44,7 +44,7 @@ namespace Movietheater.Application.Statitic
         {
             var query = from s in _context.Screenings
                         join t in _context.Tickets on s.Id equals t.ScreeningId
-                        where s.TimeStart.Date > request.StartDate && s.TimeStart.Date < request.EndDate
+                        where s.StartTime.Date > request.StartDate && s.StartTime.Date < request.EndDate
                         select t;
             long revenue = query.Sum(x => x.Price);
             return new ApiSuccessResult<long>(revenue);
@@ -55,7 +55,7 @@ namespace Movietheater.Application.Statitic
                         join t in _context.Tickets on s.Id equals t.ScreeningId
                         join r in _context.Reservations on t.ReservationId  equals r.Id
                         join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
-                        where s.TimeStart.Date > request.StartDate && s.TimeStart.Date < request.EndDate
+                        where s.StartTime.Date > request.StartDate && s.StartTime.Date < request.EndDate
                         select new { rt, t };
             
             var grossing = await query.GroupBy(x => new { x.rt.Name }).Select(x => new

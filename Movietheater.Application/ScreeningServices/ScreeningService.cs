@@ -25,13 +25,18 @@ namespace Movietheater.Application.ScreeningServices
         }
         public async Task<ApiResultLite> CreateAsync(ScreeningCreateRequest request)
         {
+            DateTime publishDate = _context.Films.Where(x => x.Id == request.FilmId).Select(x => x.PublishDate).FirstOrDefault();
+            if(publishDate.Date > request.StartTime.Date)
+                return new ApiErrorResultLite("Thời gian chiếu không được trước ngày công chiếu " + publishDate.ToString("dd/MM/yyyy"));
+
             Screening screening = new Screening()
             {
-                TimeStart = request.TimeStart,
+                StartTime = request.StartTime,
                 // Surcharge = request.Surcharge,
                 FilmId = request.FilmId,
                 RoomId = request.RoomId,
-                KindOfScreeningId = request.KindOfScreeningId
+                KindOfScreeningId = request.KindOfScreeningId,
+                Active = true
 
             };
             _context.Screenings.Add(screening);
@@ -102,12 +107,12 @@ namespace Movietheater.Application.ScreeningServices
             if (request.Keyword != null)
             {
                 query = query.Where(x => x.s.Id.ToString().Contains(request.Keyword) ||
-                                         x.s.TimeStart.ToString().Contains(request.Keyword) ||
+                                         x.s.StartTime.ToString().Contains(request.Keyword) ||
                                          x.f.Name.Contains(request.Keyword));
 
             }
             if (request.Date != null)
-                query = query.Where(x => x.s.TimeStart.Date == request.Date);
+                query = query.Where(x => x.s.StartTime.Date == request.Date);
 
             PageResult<ScreeningVMD> result = new PageResult<ScreeningVMD>();
             result.TotalRecord = await query.CountAsync();
@@ -119,10 +124,11 @@ namespace Movietheater.Application.ScreeningServices
                 Id = x.s.Id,
                 Film = x.f.Name,
                 Room = x.r.Name,
-                TimeStart = x.s.TimeStart,
+                StartTime = x.s.StartTime,
+                FinishTime = x.s.StartTime.AddMinutes(x.f.Length),
                 KindOfScreening = x.kos.Name
 
-            }).OrderByDescending(x => x.TimeStart).Skip((request.PageIndex - 1) * (request.PageSize)).Take(request.PageSize).ToList();
+            }).OrderByDescending(x => x.StartTime).Skip((request.PageIndex - 1) * (request.PageSize)).Take(request.PageSize).ToList();
             result.Item = rooms;
 
             return new ApiSuccessResult<PageResult<ScreeningVMD>>(result);
@@ -138,15 +144,19 @@ namespace Movietheater.Application.ScreeningServices
         public async Task<ApiResultLite> UpdateAsync(ScreeningUpdateRequest request)
         {
             Screening screening = await _context.Screenings.FindAsync(request.Id);
-            if (screening == null)
+            if (screening == null) 
             {
                 return new ApiErrorResultLite("Không tìm thấy");
             }
             else
             {
+                DateTime publishDate = _context.Films.Where(x => x.Id == request.FilmId).Select(x => x.PublishDate).FirstOrDefault();
+                if (publishDate.Date > request.StartTime.Date)
+                    return new ApiErrorResultLite("Thời gian chiếu không được trước ngày công chiếu "+ publishDate.ToString("dd/MM/yyyy"));
+
                 screening.Id = request.Id;
-                screening.TimeStart = request.TimeStart;
-                //screening.Surcharge = request.Surcharge;
+                screening.StartTime = request.StartTime;
+               
                 screening.FilmId = request.FilmId;
                 screening.RoomId = request.RoomId;
                 screening.KindOfScreeningId = request.KindOfScreeningId;
@@ -185,7 +195,7 @@ namespace Movietheater.Application.ScreeningServices
                     Id = screening.Id,
                     FilmId = screening.FilmId,
                     RoomId = screening.RoomId,
-                    TimeStart = screening.TimeStart,
+                    StartTime = screening.StartTime,
                     KindOfScreeningId = screening.KindOfScreeningId
 
                 };
@@ -213,7 +223,7 @@ namespace Movietheater.Application.ScreeningServices
                     Id = x.s.Id,
                     Film = x.f.Name,
                     Room = x.r.Name,
-                    TimeStart = x.s.TimeStart,
+                    StartTime = x.s.StartTime,
                     KindOfScreening = x.kos.Name
 
                 }).FirstOrDefaultAsync();
@@ -227,11 +237,11 @@ namespace Movietheater.Application.ScreeningServices
             if (date == null)
                 date = DateTime.Now;
 
-            var screenings = await _context.Screenings.Where(x => x.TimeStart.Date == date.GetValueOrDefault().Date).
+            var screenings = await _context.Screenings.Where(x => x.StartTime.Date == date.GetValueOrDefault().Date).
                                                 Select(x => new ScreeningMD()
                                                 {
                                                     Id = x.Id,
-                                                    TimeStart = x.TimeStart,
+                                                    StartTime = x.StartTime,
                                                     FilmId = x.FilmId,
                                                     RoomId = x.RoomId
 
@@ -266,13 +276,13 @@ namespace Movietheater.Application.ScreeningServices
 
         public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeek(int filmId)
         {
-            var screenings = await _context.Screenings.Where(x => x.TimeStart.Date >= DateTime.Now && 
-                                                    x.TimeStart <= DateTime.Now.AddDays(6).Date &&
+            var screenings = await _context.Screenings.Where(x => x.StartTime.Date >= DateTime.Now.Date && 
+                                                    x.StartTime <= DateTime.Now.AddDays(6).Date &&
                                                     x.FilmId == filmId).
                                                Select(x => new ScreeningMD()
                                                {
                                                    Id = x.Id,
-                                                   TimeStart = x.TimeStart,
+                                                   StartTime = x.StartTime,
                                                    FilmId = x.FilmId,
                                                    RoomId = x.RoomId
 
@@ -281,9 +291,10 @@ namespace Movietheater.Application.ScreeningServices
             ScreeningOfFilmInWeekVMD sof = new ScreeningOfFilmInWeekVMD();
             sof.Film = (await _filmService.GetFilmVMDById(filmId)).ResultObj;
             sof.Screenings = new List<List<ScreeningMD>>();
+
             for (int i=0;i<=6;i++)
             {
-                var listScrening = screenings.Where(x => x.TimeStart.Date == DateTime.Now.AddDays(i).Date).ToList();
+                var listScrening = screenings.Where(x => x.StartTime.Date == DateTime.Now.AddDays(i).Date).ToList();
                 sof.Screenings.Add(listScrening);
             }
 

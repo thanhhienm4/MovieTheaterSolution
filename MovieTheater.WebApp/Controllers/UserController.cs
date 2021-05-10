@@ -50,11 +50,11 @@ namespace MovieTheater.WebApp.Controllers
             {
                 return View(request);
             }
-            var result = await _userApiClient.CreateAsync(request);
+            var result = await _userApiClient.CreateCustomerAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", result.Message);
             return View(request);
@@ -95,7 +95,7 @@ namespace MovieTheater.WebApp.Controllers
                 ViewBag.IsEdit = true;
                 return View(request);
             }
-            var result = await _userApiClient.UpdateAsync(request);
+            var result = await _userApiClient.UpdateCustomerAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;

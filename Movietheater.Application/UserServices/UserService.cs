@@ -40,19 +40,23 @@ namespace Movietheater.Application.UserServices
             _roleManager = roleManager;
             _accessor = accessor;
         }
-        public async Task<ApiResult<string>> LoginAsync(LoginRequest request)
+
+        public async Task<ApiResult<string>> LoginStaffAsync(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
                 return new ApiErrorResult<string>("Tên đăng nhập không tồn tại");
 
             var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, false);
-
+            
             if(result.IsLockedOut == true)
                return new ApiErrorResult<string>("Tài khoản của bạn đã bị vô hiệu hóa");
 
             if (result.Succeeded == false)
                 return new ApiErrorResult<string>("Mật khẩu không chính xác");
+
+            if(await _context.UserInfors.FindAsync(user.Id) == null)
+                return new ApiErrorResult<string>("Tài khoản không tồn tại");
 
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new List<Claim>
@@ -99,7 +103,7 @@ namespace Movietheater.Application.UserServices
             return new ApiSuccessResult<string>(token);
         }
 
-        public async Task<ApiResultLite> CreateAsync(UserCreateRequest model)
+        public async Task<ApiResultLite> CreateStaffAsync(UserCreateRequest model)
         {
             if (await _userManager.FindByEmailAsync(model.Email) != null)
                 return new ApiErrorResultLite("Email đã tồn tại");
@@ -120,6 +124,7 @@ namespace Movietheater.Application.UserServices
                 }
 
             };
+
             if ((await _userManager.CreateAsync(user, model.Password)).Succeeded)
             {
                 return new ApiSuccessResultLite("Tạo mới thành công");
@@ -127,7 +132,105 @@ namespace Movietheater.Application.UserServices
             return new ApiErrorResultLite("Tạo mới thất bại");
 
         }
-        public async Task<ApiResultLite> UpdateAsync(UserUpdateRequest model)
+
+        public async Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request)
+        {
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            if (user == null)
+                return new ApiErrorResult<string>("Tên đăng nhập không tồn tại");
+
+            var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, false);
+
+            if (result.IsLockedOut == true)
+                return new ApiErrorResult<string>("Tài khoản của bạn đã bị vô hiệu hóa");
+
+            if (result.Succeeded == false)
+                return new ApiErrorResult<string>("Mật khẩu không chính xác");
+
+            if (await _context.CustomerInfors.FindAsync(user.Id) == null)
+                return new ApiErrorResult<string>("Tài khoản không tồn tại");
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name,user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
+
+            };
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var jwtSecurityToken = new JwtSecurityToken(_configuration["JWT:ValidIssuer"],
+                _configuration["JWT:validAudience"],
+              claims,
+              expires: DateTime.Now.AddMonths(1),
+              signingCredentials: credentials);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            string token = tokenHandler.WriteToken(jwtSecurityToken);
+
+            // Save Token
+            var userToken = await _context.UserTokens.FindAsync(user.Id);
+            if (userToken == null)
+            {
+                await _context.UserTokens.AddAsync(new IdentityUserToken<Guid>()
+                {
+                    UserId = user.Id,
+                    Value = token
+                });
+            }
+            else
+            {
+                userToken.Value = token;
+                _context.UserTokens.Update(userToken);
+            }
+            _context.SaveChanges();
+
+            return new ApiSuccessResult<string>(token);
+        }
+
+        public async Task<ApiResultLite> CreateCustomerAsync(UserCreateRequest model)
+        {
+            if (await _userManager.FindByEmailAsync(model.Email) != null)
+                return new ApiErrorResultLite("Email đã tồn tại");
+            if (await _userManager.FindByNameAsync(model.UserName) != null)
+                return new ApiErrorResultLite("UserName đã tồn tại");
+
+
+
+            User user = new User()
+            {
+                PhoneNumber = model.PhoneNumber,
+                UserName = model.UserName,
+                Email = model.Email,
+                CustomerInfor = new CustomerInfor()
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                }
+
+            };
+
+           
+
+            if ((await _userManager.CreateAsync(user, model.Password)).Succeeded)
+            {
+                var roleCus =await _roleManager.FindByNameAsync("Customer");
+                _context.UserRoles.Add(new IdentityUserRole<Guid>() { UserId = user.Id, RoleId = roleCus.Id });
+                _context.SaveChanges();
+                return new ApiSuccessResultLite("Tạo mới thành công");
+            }
+            return new ApiErrorResultLite("Tạo mới thất bại");
+
+        }
+
+        public async Task<ApiResultLite> UpdateStaffAsync(UserUpdateRequest model)
         {
             if (await _userManager.Users.AnyAsync(x => x.Email == model.Email && x.Id != model.Id))
             {
@@ -163,6 +266,51 @@ namespace Movietheater.Application.UserServices
 
             var result = await _userManager.UpdateAsync(user);
             _context.UserInfors.Update(userInfor);
+            _context.SaveChanges();
+            if (result.Succeeded)
+            {
+                return new ApiSuccessResultLite("Cập nhật thành công");
+            }
+            else
+                return new ApiErrorResultLite("Cập nhật không thành công");
+        }
+        public async Task<ApiResultLite> UpdateCustomerAsync(UserUpdateRequest model)
+        {
+            if (await _userManager.Users.AnyAsync(x => x.Email == model.Email && x.Id != model.Id))
+            {
+                return new ApiErrorResultLite("Emai đã tồn tại");
+            }
+
+            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+
+
+
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            if (model.Status == Status.Active)
+                user.LockoutEnabled = false;
+            else
+            {
+                await _userManager.SetLockoutEnabledAsync(user, true);
+                await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(1000));
+
+            }
+
+
+            
+            var customerInfor = new CustomerInfor()
+            {
+                Id = user.Id,
+                Dob = model.Dob,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+
+            };
+
+
+            var result = await _userManager.UpdateAsync(user);
+            _context.CustomerInfors.Update(customerInfor);
+
             _context.SaveChanges();
             if (result.Succeeded)
             {

@@ -22,5 +22,6 @@ namespace MovieTheater.Api
         {
             return await GetAsync<ApiResult<List<PositionVMD>>>("/api/Position/GetAllPosition");
         }
+       
     }
 }

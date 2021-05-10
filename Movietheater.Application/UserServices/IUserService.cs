@@ -12,11 +12,15 @@ namespace Movietheater.Application.UserServices
 {
     public interface IUserService
     {
-        Task<ApiResult<string>> LoginAsync(LoginRequest request);
+        Task<ApiResult<string>> LoginStaffAsync(LoginRequest request);
+        Task<ApiResultLite> CreateStaffAsync(UserCreateRequest model);
+        Task<ApiResultLite> UpdateStaffAsync(UserUpdateRequest model);
 
-        Task<ApiResultLite> CreateAsync(UserCreateRequest model);
-        Task<ApiResultLite> UpdateAsync(UserUpdateRequest model);
-        Task<ApiResultLite> DeleteAsync(Guid Id);
+        Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request);
+        Task<ApiResultLite> CreateCustomerAsync(UserCreateRequest model);
+        Task<ApiResultLite> UpdateCustomerAsync(UserUpdateRequest model);
+
+        Task<ApiResultLite> DeleteAsync(Guid id);
         Task<ApiResultLite> ChangePasswordAsync(ChangePWRequest request);
         Task<ApiResultLite> RoleAssignAsync(RoleAssignRequest request);
         Task<ApiResult<UserVMD>> GetUserByIdAsync(string id);

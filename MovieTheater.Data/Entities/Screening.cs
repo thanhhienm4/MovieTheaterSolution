@@ -6,7 +6,7 @@ namespace MovieTheater.Data.Entities
     public class Screening
     {
         public int Id { get; set; }
-        public DateTime TimeStart { get; set; }
+        public DateTime StartTime { get; set; }
         public bool Active { get; set; }
 
         public int FilmId { get; set; }

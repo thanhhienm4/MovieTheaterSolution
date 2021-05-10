@@ -12,7 +12,9 @@ namespace MovieTheater.Models.Catalog.Screening
         [Display(Name = "Mã xuất chiếu")]
         public int Id { get; set; }
         [Display(Name = "Thời gian bắt đầu")]
-        public DateTime TimeStart { get; set; }
+        public DateTime StartTime { get; set; }
+        [Display(Name = "Thời gian kết thúc")]
+        public DateTime FinishTime { get; set; }
         [Display(Name = "Tên phim")]
         public string Film { get; set; }
         [Display(Name = "Tên phòng")]

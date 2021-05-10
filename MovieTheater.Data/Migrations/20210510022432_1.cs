@@ -421,7 +421,7 @@ namespace MovieTheater.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TimeStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     FilmId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
@@ -495,6 +495,7 @@ namespace MovieTheater.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Paid = table.Column<bool>(type: "bit", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false),
+                    Time = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReservationTypeId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -559,8 +560,8 @@ namespace MovieTheater.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "acf671eb-91e7-4f3d-a63d-b6c43be5eb76", "Employee", "Employee", "Employee" },
-                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "2482df42-7af0-4ab7-8522-c3bc0ecfa5fe", "Administrator role", "Admin", "Administrator" }
+                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "11bf2d49-d75e-4461-ba29-f709fe2cc12d", "Employee", "Employee", "Employee" },
+                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "78c8b600-de13-4829-bdf0-7b805744fa77", "Administrator role", "Admin", "Administrator" }
                 });
 
             migrationBuilder.InsertData(
@@ -596,14 +597,23 @@ namespace MovieTheater.Data.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 2, "Vip" },
-                    { 1, "Thường" }
+                    { 1, "Thường" },
+                    { 2, "Vip" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Peoples",
                 columns: new[] { "Id", "DOB", "Description", "Name" },
                 values: new object[] { 1, new DateTime(1962, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "homas Cruise Mapother IV là một nam diễn viên và nhà sản xuất người Mỹ. Anh bắt đầu sự nghiệp của mình ở tuổi 19 với bộ phim Endless Love, trước khi nhận được sự chú ý từ công chúng với vai diễn Trung úy Pete \"Maverick\" Mitchell trong Top Gun", "Tom Cruise" });
+
+            migrationBuilder.InsertData(
+                table: "Positions",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Diễn viên" },
+                    { 2, "Đạo diễn" }
+                });
 
             migrationBuilder.InsertData(
                 table: "ReservationTypes",
@@ -628,15 +638,15 @@ namespace MovieTheater.Data.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 3, "C" },
                     { 1, "A" },
-                    { 2, "B" }
+                    { 2, "B" },
+                    { 3, "C" }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), 0, "", "Mistake4@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEIN4cPiQR8ByyCHP3Y0F5DufnOFJEuBwR/WnztJ+2R4prjlQQ2mY5wtNEoQ0dh9Zhw==", "0912413908", true, "", false, "admin" });
+                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), 0, "", "Mistake4@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEEto6xPeHvzf6U6I29JT3RCxLQ+poOxvdOdXHgwvjwdYOhk273RXTigddmvKTbElqQ==", "0912413908", true, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Films",
@@ -660,13 +670,13 @@ namespace MovieTheater.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Reservations",
-                columns: new[] { "Id", "Active", "CustomerId", "EmployeeId", "Paid", "ReservationTypeId" },
-                values: new object[] { 1, false, null, new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), false, 1 });
+                columns: new[] { "Id", "Active", "CustomerId", "EmployeeId", "Paid", "ReservationTypeId", "Time" },
+                values: new object[] { 1, false, null, new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), false, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Screenings",
-                columns: new[] { "Id", "Active", "FilmId", "KindOfScreeningId", "RoomId", "TimeStart" },
-                values: new object[] { 1, false, 1, 1, 1, new DateTime(2021, 5, 6, 16, 50, 48, 91, DateTimeKind.Utc).AddTicks(3849) });
+                columns: new[] { "Id", "Active", "FilmId", "KindOfScreeningId", "RoomId", "StartTime" },
+                values: new object[] { 1, false, 1, 1, 1, new DateTime(2021, 5, 10, 2, 24, 31, 978, DateTimeKind.Utc).AddTicks(5906) });
 
             migrationBuilder.InsertData(
                 table: "Seats",

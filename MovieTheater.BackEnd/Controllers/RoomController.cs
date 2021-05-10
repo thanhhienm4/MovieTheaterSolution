@@ -64,12 +64,15 @@ namespace MovieTheater.BackEnd.Controllers
 
             return result;
         }
+
         [HttpGet("getAllRoom")]
         public async Task<ApiResult<List<RoomVMD>>> GetAllRoomAsync()
         {
             var result = await _roomService.GetAllRoomAsync();
             return result;
         }
+
+
     }
     
 }

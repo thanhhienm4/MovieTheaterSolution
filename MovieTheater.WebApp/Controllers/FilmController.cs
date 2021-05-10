@@ -24,17 +24,7 @@ namespace MovieTheater.WebApp.Controllers
             return View(result);
         }
 
-        public async Task<IActionResult> PlayingFilm()
-        {
-            var playingFilms = (await _filmApiClient.GetAllPlayingFilmAsync()).ResultObj;
-            return View(playingFilms);
-        }
-
-        public async Task<IActionResult> UpcomingFilm()
-        {
-            var upcomingFilms = (await _filmApiClient.GetAllUpcomingFilmAsync()).ResultObj;
-            return View(upcomingFilms);
-        }
+       
 
         public async Task<IActionResult> ScreeningInWeek(int id)
         {

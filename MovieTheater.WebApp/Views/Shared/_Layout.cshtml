@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -21,7 +22,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    
+
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -34,21 +35,53 @@
     <div class="nav-wrapper">
         <div class="container">
             <div class="nav">
+
                 <a href="#" class="logo">
                     <i class='bx bx-movie-play bx-tada main-color'></i>GG<span class="main-color"></span>
                 </a>
                 <ul class="nav-menu" id="nav-menu">
-                    <li><a href="#">Trang chủ</a></li>
-                    <li><a href="/film/playingfilm">Phim đang chiếu</a></li>
-                    <li><a href="/film/upcomingfilm">Phim sắp chiếu</a></li>
+                    <li><a href="/">Trang chủ</a></li>
                     <li><a href="/home/index">Lich chiếu film</a></li>
                     <li>
+                        @if (User.Identity.IsAuthenticated == true)
+                        {
+                            <!-- Nav Item - User Information -->
+                            <li >
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
+                                    <i class="bi bi-people"></i>
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                     aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="/user/Edit/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
+                                        <i class="fa fa-user-o" style="font-size:24px"></i>
+                                        Thông tin cá nhân
+                                    </a>
+                                    <a class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
+                                        <i class="fa fa-user-o" style="font-size:24px"></i>
+                                        Đổi mật khẩu
+                                    </a>
+                                    <a class="dropdown-item" href="/User/Logout">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Đăng xuất
+                                    </a>
+
+
+                                </div>
+                            </li>
+                    }
+                    else
+                    {
                         <a href="/login/index" class="btn btn-hover">
                             <span>Đăng nhập</span>
                         </a>
-                    </li>
-                </ul>
-              
+                    }
+
+                        </li>
+                    </ul>
+
             </div>
         </div>
     </div>

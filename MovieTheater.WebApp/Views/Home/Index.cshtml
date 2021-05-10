@@ -1,72 +1,115 @@
-﻿@using MovieTheater.Models.Catalog.Film;
-@model List<FilmScreeningVMD>;
+﻿@using MovieTheater.Models.Catalog.Film
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item active">Lịch chiếu phim </li>
-</ol>
-<br />
-<div class="d-flex justify-content-between">
-    @for (int i = 0; i < 7; i++)
-    {
-        DateTime date = @DateTime.Now.AddDays(i);
-        <a class="btn bg-light" href="/home/index?date=@date.ToString("d")" data-date="@date">@date.Month/@date.Day</a>
-    }
-</div>
 
-<br />
-<div class="card">
-    <div class="card-body">
-
-
-        @if (Model != null)
-        {
-            foreach (var filmScreening in Model)
+<!-- Playing Film SECTION -->
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            Phim đang chiếu
+        </div>
+        <div class="movies-slide carousel-nav-center owl-carousel">
+            <!-- MOVIE ITEM -->
+            @if (ViewData["PlayingFilms"] != null)
             {
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-3 col-sm-2">
-                                <img src="@filmScreening.Film.Poster" class="img-fluid img-thumbnail" />
+                foreach (var film in ViewData["PlayingFilms"] as List<FilmVMD>)
+                {
+                    <a href="/film/detail/@film.Id" class="movie-item">
+                        <img src="@film.Poster" alt="">
+                        <div class="movie-item-content">
+                            <div class="movie-item-title">
+                                @film.Name
                             </div>
-                            <div class="col-10">
-                                <div style="color:black" class="row">
-                                    <font size="+1"><strong>@filmScreening.Film.Name</strong></font>
+                            <div class="movie-infos">
+                                <div class="movie-info">
+                                    <i class="bx bxs-star"></i>
+                                    <span>9.5</span>
                                 </div>
-                                <div class="row">
-                                    <p class="mr-2">@filmScreening.Film.Ban </p>
-                                    <p class="mr-2">@filmScreening.Film.Length </p>
-                                    <a href="@filmScreening.Film.TrailerURL" style="color:darkblue">Trailer</a>
+                                <div class="movie-info">
+                                    <i class="bx bxs-time"></i>
+                                    <span>@film.Length mins</span>
                                 </div>
-                                <div class="row">
-                                    @if (filmScreening.ListScreening != null)
+                                <div class="movie-info">
+                                    @if (film.Genres != null)
                                     {
-                                        foreach (var screening in filmScreening.ListScreening)
-                                        {
-                                            if (screening.TimeStart.AddMinutes(30) > DateTime.Now)
-                                            {
-                                                <a class="btn mr-2" href="/ticket/chooseseat/@screening.Id">@screening.TimeStart.ToString("HH:mm")</a>
-                                            }
-                                            else
-                                            {
-                                                <a class="btn btn-secondary mr-2" style="cursor:no-drop">@screening.TimeStart.ToString("HH:mm")</a>
-                                            }
-
-                                        }
+                                        <span>@string.Join(' ', film.Genres)</span>
                                     }
+
+                                </div>
+                                <div class="movie-info">
+                                    <span>@film.Ban</span>
                                 </div>
                             </div>
-
                         </div>
+                    </a>
+                }
 
-                    </div>
-                </div>
             }
-        }
 
+            <!-- END MOVIE ITEM -->
 
+        </div>
     </div>
 </div>
+
+
+
+<!-- Playing Film SECTION -->
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            Phim sắp chiếu
+        </div>
+        <div class="movies-slide carousel-nav-center owl-carousel">
+            <!-- MOVIE ITEM -->
+            @if (ViewData["UpcomingFilms"] != null)
+            {
+                foreach (var film in ViewData["UpcomingFilms"] as List<FilmVMD>)
+                {
+                    <a href="/film/detail/@film.Id" class="movie-item">
+                        <img src="@film.Poster" alt="">
+                        <div class="movie-item-content">
+                            <div class="movie-item-title">
+                                @film.Name
+                            </div>
+                            <div class="movie-infos">
+                                <div class="movie-info">
+                                    <i class="bx bxs-time"></i>
+                                    <span>Ngày phát hành: @film.PublishDate.ToString("dd/MM/yyyy")</span>
+                                </div>
+                            </div>
+                            <div class="movie-infos">
+                                <div class="movie-info">
+                                    <i class="bx bxs-star"></i>
+                                    <span>9.5</span>
+                                </div>
+                                <div class="movie-info">
+                                    <i class="bx bxs-time"></i>
+                                    <span>@film.Length mins</span>
+                                </div>
+
+                                <div class="movie-info">
+                                    @if (film.Genres != null)
+                                    {
+                                        <span>@string.Join(' ', film.Genres)</span>
+                                    }
+
+                                </div>
+                                <div class="movie-info">
+                                    <span>@film.Ban</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                }
+
+            }
+
+            <!-- END MOVIE ITEM -->
+
+        </div>
+    </div>
+</div>
+<!-- END Playing Film SECTION -->

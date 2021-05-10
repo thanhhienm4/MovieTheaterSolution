@@ -10,7 +10,7 @@ using MovieTheater.Data.EF;
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDBContext))]
-    [Migration("20210506165048_1")]
+    [Migration("20210510022432_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,7 +164,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
-                            ConcurrencyStamp = "acf671eb-91e7-4f3d-a63d-b6c43be5eb76",
+                            ConcurrencyStamp = "11bf2d49-d75e-4461-ba29-f709fe2cc12d",
                             Description = "Employee",
                             Name = "Employee",
                             NormalizedName = "Employee"
@@ -172,7 +172,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
-                            ConcurrencyStamp = "2482df42-7af0-4ab7-8522-c3bc0ecfa5fe",
+                            ConcurrencyStamp = "78c8b600-de13-4829-bdf0-7b805744fa77",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -477,6 +477,18 @@ namespace MovieTheater.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Positions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Diễn viên"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Đạo diễn"
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Reservation", b =>
@@ -503,6 +515,9 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("ReservationTypeId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
@@ -520,7 +535,8 @@ namespace MovieTheater.Data.Migrations
                             Active = false,
                             EmployeeId = new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
                             Paid = false,
-                            ReservationTypeId = 1
+                            ReservationTypeId = 1,
+                            Time = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -650,7 +666,7 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TimeStart")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -671,7 +687,7 @@ namespace MovieTheater.Data.Migrations
                             FilmId = 1,
                             KindOfScreeningId = 1,
                             RoomId = 1,
-                            TimeStart = new DateTime(2021, 5, 6, 16, 50, 48, 91, DateTimeKind.Utc).AddTicks(3849)
+                            StartTime = new DateTime(2021, 5, 10, 2, 24, 31, 978, DateTimeKind.Utc).AddTicks(5906)
                         });
                 });
 
@@ -871,7 +887,7 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIN4cPiQR8ByyCHP3Y0F5DufnOFJEuBwR/WnztJ+2R4prjlQQ2mY5wtNEoQ0dh9Zhw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEto6xPeHvzf6U6I29JT3RCxLQ+poOxvdOdXHgwvjwdYOhk273RXTigddmvKTbElqQ==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",

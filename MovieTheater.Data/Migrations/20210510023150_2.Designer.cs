@@ -10,7 +10,7 @@ using MovieTheater.Data.EF;
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDBContext))]
-    [Migration("20210506170721_2")]
+    [Migration("20210510023150_2")]
     partial class _2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,7 +164,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
-                            ConcurrencyStamp = "ace8cdf2-ca74-46ec-8d32-6cd16e70c4ab",
+                            ConcurrencyStamp = "16cdab62-3d7c-4b89-a6c6-a4ea4911c658",
                             Description = "Employee",
                             Name = "Employee",
                             NormalizedName = "Employee"
@@ -172,7 +172,7 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
-                            ConcurrencyStamp = "446ed63a-d1e8-44f5-9aa9-2b21f93d80cb",
+                            ConcurrencyStamp = "2c497018-89d8-4bfa-8f51-47c5a3db21e4",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
@@ -477,6 +477,18 @@ namespace MovieTheater.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Positions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Diễn viên"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Đạo diễn"
+                        });
                 });
 
             modelBuilder.Entity("MovieTheater.Data.Entities.Reservation", b =>
@@ -643,7 +655,9 @@ namespace MovieTheater.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
@@ -654,7 +668,7 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TimeStart")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -675,7 +689,7 @@ namespace MovieTheater.Data.Migrations
                             FilmId = 1,
                             KindOfScreeningId = 1,
                             RoomId = 1,
-                            TimeStart = new DateTime(2021, 5, 6, 17, 7, 20, 204, DateTimeKind.Utc).AddTicks(679)
+                            StartTime = new DateTime(2021, 5, 10, 2, 31, 49, 280, DateTimeKind.Utc).AddTicks(8359)
                         });
                 });
 
@@ -875,7 +889,7 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELPjCpNd6EXr997+J/0lvHfyCvWcXmBEcNh68ZH9l4gkss78zE+EbarYue7tK/37TA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEO3J18b/5ibuRNwu+Qh7DLlc0AiWEh5ADnSS6bYzGjPlv2zBiwl3UgYtwQp5qHVPrg==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",

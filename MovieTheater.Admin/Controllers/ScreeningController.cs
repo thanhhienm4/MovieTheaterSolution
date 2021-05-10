@@ -29,6 +29,8 @@ namespace MovieTheater.Admin.Controllers
             _filmApiClient = filmApiClient;
 
         }
+
+        [Authorize(Roles = "Admin,Employee")]
         [HttpGet]
         public async Task<List<SeatVMD>> GetListSeatReserved(int id)
         {
@@ -103,10 +105,10 @@ namespace MovieTheater.Admin.Controllers
                     FilmId = result.ResultObj.FilmId,
                     KindOfScreeningId = result.ResultObj.KindOfScreeningId,
                     RoomId = result.ResultObj.RoomId,
-                    TimeStart = result.ResultObj.TimeStart
+                    StartTime = result.ResultObj.StartTime
 
                 };
-                ViewBag.Date = result.ResultObj.TimeStart;
+                ViewBag.Date = result.ResultObj.StartTime;
                 await SetViewBagAsync();
                 return View(updateRequest);
             }
@@ -122,12 +124,17 @@ namespace MovieTheater.Admin.Controllers
                 await SetViewBagAsync();
                 return View(request);
             }
+
             var result = await _screeningApiClient.UpdateAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Screening");
             }
+
+            ViewBag.IsEdit = true;
+            await SetViewBagAsync();
+            ViewBag.Date = request.StartTime;
             ModelState.AddModelError("", result.Message);
             return View(request);
         }

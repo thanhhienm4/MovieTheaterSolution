@@ -12,7 +12,9 @@ namespace MovieTheater.Models.User
     public class UserUpdateRequest
     {
         public Guid Id { get; set; }
-
+        [Display(Name = "Tên Đăng nhập")]
+        public string UserName { get; set; }
+       
         [Display(Name = "Tên")]
         public string FirstName { get; set; }
         [Display(Name = "Họ")]

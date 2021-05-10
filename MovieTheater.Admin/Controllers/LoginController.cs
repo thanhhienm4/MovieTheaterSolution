@@ -41,7 +41,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (ModelState.IsValid == false)
                 return View();
-            var respond = await _userApiClient.LoginAsync(request);
+            var respond = await _userApiClient.LoginStaffAsync(request);
             if (respond.IsSuccessed == false)
             {
                 ModelState.AddModelError("", respond.Message);

@@ -210,7 +210,7 @@ namespace Movietheater.Application.ReservationServices
                 Price = x.t.Price,
                 Room = x.r.Name,
                 Seat = x.se.Name,
-                Time = x.s.TimeStart
+                Time = x.s.StartTime
             }).ToListAsync() ;
 
             return  tickets;

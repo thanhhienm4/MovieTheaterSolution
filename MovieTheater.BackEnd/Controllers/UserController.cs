@@ -25,17 +25,45 @@ namespace MovieTheater.BackEnd.Controllers
             _userService = userService;
         }
 
-        [HttpPost("Login")]
-        public async Task<ApiResult<string>> LoginAsync([FromBody] LoginRequest request)
+        [HttpPost("LoginStaff")]
+        public async Task<ApiResult<string>> LoginStaffAsync([FromBody] LoginRequest request)
         {
-            var result = await _userService.LoginAsync(request);
+            var result = await _userService.LoginStaffAsync(request);
             return result;
         }
 
-        [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync ([FromBody] UserCreateRequest request)
+        [HttpPost("CreateStaff")]
+        public async Task<ApiResultLite> CreateStaffAsync([FromBody] UserCreateRequest request)
         {
-            var result = await _userService.CreateAsync(request);
+            var result = await _userService.CreateStaffAsync(request);
+            return result;
+        }
+
+        [HttpPut("UpdateStaff")]
+        public async Task<ApiResultLite> UpdateStaffAsync([FromBody] UserUpdateRequest request)
+        {
+            var result = await _userService.UpdateStaffAsync(request);
+            return result;
+        }
+
+        [HttpPost("LoginCustomer")]
+        public async Task<ApiResult<string>> LoginCustomerAsync([FromBody] LoginRequest request)
+        {
+            var result = await _userService.LoginCustomerAsync(request);
+            return result;
+        }
+
+        [HttpPost("CreateCustomer")]
+        public async Task<ApiResultLite> CreateCustomerAsync([FromBody] UserCreateRequest request)
+        {
+            var result = await _userService.CreateCustomerAsync(request);
+            return result;
+        }
+
+        [HttpPut("UpdateCustomer")]
+        public async Task<ApiResultLite> UpdateCustomerAsync([FromBody] UserUpdateRequest request)
+        {
+            var result = await _userService.UpdateCustomerAsync(request);
             return result;
         }
 
@@ -47,13 +75,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPut("Update")]
-        public async Task<ApiResultLite> UpdateAsync([FromBody] UserUpdateRequest request)
-        {
-            var result = await _userService.UpdateAsync(request);
-            return result;
-        }
-
+        
         [HttpPut("ChangePassword")]
         public async Task<ApiResultLite> ChangePasswordAsync([FromBody] ChangePWRequest request)
         {

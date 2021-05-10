@@ -140,7 +140,7 @@ namespace Movietheater.Application.FilmServices
             var query = from f in _context.Films
                         join b in _context.Bans on f.BanId equals b.Id
                         join s in _context.Screenings on f.Id equals s.FilmId 
-                        where s.TimeStart.Date == DateTime.Now.Date
+                        where s.StartTime.Date == DateTime.Now.Date
 
                       
                         select new { f, b };
@@ -326,16 +326,22 @@ namespace Movietheater.Application.FilmServices
             if ((await _context.Positions.FindAsync(request.PosId)) == null)
                 return new ApiErrorResultLite("Không tìm vai trò");
 
+            var joining =await _context.Joinings.FindAsync(request.FilmId, request.PeopleId, request.PosId);
+            if (joining != null)
+                return new ApiErrorResultLite("Đã tồn tại");
+
             try
             {
-                Joining joining = new Joining()
+                Joining jn = new Joining()
                 {
                     FilmId = request.FilmId,
                     PeppleId = request.PeopleId,
                     PositionId = request.PosId
                 };
 
-                await _context.Joinings.AddAsync(joining);
+              
+
+                await _context.Joinings.AddAsync(jn);
                 await _context.SaveChangesAsync();
                 return new ApiSuccessResultLite("Thêm thành công");
             }catch(DbUpdateException e)
@@ -372,7 +378,7 @@ namespace Movietheater.Application.FilmServices
             {
                 JoiningPosVMD joiningPos = new JoiningPosVMD();
                 joiningPos.Name = position.Name;
-                joiningPos.Joinings = query.Where(x => x.p.Id == position.Id).Select(x =>
+                joiningPos.Joinings = query.Where(x => x.j.PositionId == position.Id).Select(x =>
                                             new JoiningVMD()
                                             {
                                                 FilmId = x.j.FilmId,

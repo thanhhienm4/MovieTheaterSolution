@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Reservation;
@@ -21,14 +22,14 @@ namespace MovieTheater.WebApp.Controllers
             _reservationApiClient = reservationApiClient;
             _filmApiClient = filmApiClient;
         }
-
+        [Authorize]
         public async Task<IActionResult> ChooseSeat(int id)
         {
             var screening = (await _screeningApiClient.GetScreeningMDByIdAsync(id)).ResultObj;
             ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(screening.FilmId)).ResultObj;
             return View(screening);
         }
-       
+        [Authorize]
         [HttpPost] 
         public async Task<int> CalPrePrice(List<TicketCreateRequest> tickets)
         {

@@ -13,15 +13,17 @@ namespace MovieTheater.WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ScreeningApiClient _screeningApiClient;
-        public HomeController(ScreeningApiClient screeningApiClient)
+        private readonly FilmApiClient _filmApiClient;
+        public HomeController(ScreeningApiClient screeningApiClient, FilmApiClient filmApiClient)
         {
             _screeningApiClient = screeningApiClient;
+            _filmApiClient = filmApiClient;
         }
-        public async Task<IActionResult> Index(DateTime? date)
+        public async Task<IActionResult> Index()
         {
-            var listFlimScreening = (await _screeningApiClient.GetFilmScreeningIndateAsync(date)).ResultObj;
-
-            return View(listFlimScreening);
+            ViewData["PlayingFilms"] = (await _filmApiClient.GetAllPlayingFilmAsync()).ResultObj;
+            ViewData["UpcomingFilms"] = (await _filmApiClient.GetAllUpcomingFilmAsync()).ResultObj;
+            return View();
         }
 
 

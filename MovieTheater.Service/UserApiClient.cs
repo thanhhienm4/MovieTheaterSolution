@@ -23,22 +23,35 @@ namespace MovieTheater.Api
             IHttpContextAccessor httpContextAccessor):base(httpClientFactory,  configuration,
              httpContextAccessor)
         { }
-        public async Task<ApiResult<string>> LoginAsync(LoginRequest request)
+        public async Task<ApiResult<string>> LoginStaffAsync(LoginRequest request)
         {
-            return await PostAsync<ApiResult<string>>("/api/User/Login", request);
+            return await PostAsync<ApiResult<string>>("/api/User/LoginStaff", request);
+        }
+        public async Task<ApiResultLite> CreateStaffAsync(UserCreateRequest request)
+        {
+            return await PostAsync<ApiResultLite>("Api/User/CreateStaff", request);
+        }
+        public async Task<ApiResultLite> UpdateStaffAsync(UserUpdateRequest request)
+        {
+            return await PutAsync<ApiResultLite>("Api/User/UpdateStaff", request);
+        }
+        public async Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request)
+        {
+            return await PostAsync<ApiResult<string>>("/api/User/LoginCustomer", request);
+        }
+        public async Task<ApiResultLite> CreateCustomerAsync(UserCreateRequest request)
+        {
+            return await PostAsync<ApiResultLite>("Api/User/CreateCustomer", request);
+        }
+        public async Task<ApiResultLite> UpdateCustomerAsync(UserUpdateRequest request)
+        {
+            return await PutAsync<ApiResultLite>("Api/User/UpdateCustomer", request);
         }
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
             return await PostAsync<ApiResult<PageResult<UserVMD>>>("/api/User/GetUserPaging", request);
         }
-        public async Task<ApiResultLite> CreateAsync(UserCreateRequest request)
-        {
-            return await PostAsync<ApiResultLite>("Api/User/Create", request);
-        }
-        public async Task<ApiResultLite> UpdateAsync(UserUpdateRequest request)
-        {
-            return await PutAsync<ApiResultLite>("Api/User/Update", request);
-        }
+       
         public async Task<ApiResultLite> DeleteAsync(Guid id)
         {
             return await DeleteAsync<ApiResultLite>($"Api/User/Delete/{id}");
@@ -51,6 +64,10 @@ namespace MovieTheater.Api
         {
             return await PutAsync<ApiResultLite>("Api/User/RoleAssign", request);
         }
-
+        public async Task<ApiResultLite> ChangePasswordAsync( ChangePWRequest request)
+        {
+            return await PutAsync<ApiResultLite>("Api/User/ChangePassword", request);
+        }
+        
     }
 }

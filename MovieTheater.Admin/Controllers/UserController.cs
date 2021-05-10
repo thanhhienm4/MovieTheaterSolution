@@ -82,7 +82,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View(request);
             }
-            var result = await _userApiClient.CreateAsync(request);
+            var result = await _userApiClient.CreateStaffAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
@@ -107,6 +107,7 @@ namespace MovieTheater.Admin.Controllers
                 var updateRequest = new UserUpdateRequest()
                 {
                     Id = id,
+                    UserName = result.ResultObj.UserName,
                     Dob = result.ResultObj.Dob,
                     Email = result.ResultObj.Email,
                     FirstName = result.ResultObj.FirstName,
@@ -127,7 +128,7 @@ namespace MovieTheater.Admin.Controllers
                 ViewBag.IsEdit = true;
                 return View(request);
             }
-            var result = await _userApiClient.UpdateAsync(request);
+            var result = await _userApiClient.UpdateStaffAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
@@ -198,6 +199,38 @@ namespace MovieTheater.Admin.Controllers
             return roleAssignRequest;
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ChangPassword(Guid id)
+        {
+            ViewBag.User = (await _userApiClient.GetUserByIdAsync(id)).ResultObj;
+            return View();
+                       
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangPassword(ChangePWRequest request)
+        {
+            request.UserName = User.Identity.Name;
+            if(!ModelState.IsValid)
+            {
+                return View(request);
+            }
+            var res = (await _userApiClient.ChangePasswordAsync(request));
+            if (res.IsSuccessed)
+            {
+                var userId = GetUserId();
+                return Redirect($"/user/Edit/{userId}");
+            }               
+            else
+            {
+                ModelState.AddModelError("", res.Message);
+                return View(request);
+            }
+        }
+
+
+        
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Forbident()
