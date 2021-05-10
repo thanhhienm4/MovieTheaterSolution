@@ -68,7 +68,7 @@ namespace MovieTheater.WebApp.Controllers
             {
                 return View();
             }
-            var result = await _userApiClient.GetUserByIdAsync(id);
+            var result = await _userApiClient.GetCustomerByIdAsync(id);
 
             if (result.IsSuccessed)
             {

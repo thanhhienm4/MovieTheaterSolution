@@ -1,0 +1,93 @@
+﻿@model MovieTheater.Models.Common.ChartTable.CalRevenueRequest
+@using MovieTheater.Models.Common.ChartTable 
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item active">Thống kê</li>
+</ol>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-flex">
+            
+            <div class="ml-auto p-2">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+
+                        <div>
+                            <input asp-for="StartDate" class="form-control" type="date" />
+                            
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <input asp-for="EndDate" class="form-control" type="date" />
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Tìm</button>
+                          
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="card">
+            <div class="card-header">
+                Top doanh thu
+            </div>
+            <div class="card-body">
+                @if ((ViewData["TopGroosingFilm"] as ChartData) != null)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Phim
+                                    </th>
+                                    <th>
+                                        Doanh thu
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ChartData TopGroosingFilm = ViewData["TopGroosingFilm"] as ChartData;}
+                                @for (int i = 0; i < (ViewData["TopGroosingFilm"] as ChartData).Lables.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @TopGroosingFilm.Lables[i]
+                                        </td>
+                                        <td>
+                                            @TopGroosingFilm.DataRows[1][i];
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                }
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+  
+  

@@ -19,6 +19,17 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Index(CalRevenueRequest request)
+        {
+
+            var topGroosingFilm = (await _statiticApiClient.GetTopGrossingFilmAsync(request)).ResultObj;
+            var groosing =  (await _statiticApiClient.GetGroosingTypeAsync(request)).ResultObj;
+            ViewData["TopGroosingFilm"] = topGroosingFilm;
+            ViewData["Groosing"] = groosing;
+            
+            return View(request);
+        }
+        [HttpGet]
         public async Task<ChartData> GetTopGrossingFilm(CalRevenueRequest request)
         {
             request = new CalRevenueRequest();

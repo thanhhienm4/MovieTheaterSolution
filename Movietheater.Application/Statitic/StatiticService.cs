@@ -23,14 +23,14 @@ namespace Movietheater.Application.Statitic
             var query = from s in _context.Screenings
                         join f in _context.Films on s.FilmId equals f.Id
                         join t in _context.Tickets on s.Id equals t.ScreeningId
-                        where s.StartTime.Date > request.StartDate && s.StartTime.Date < request.EndDate
+                        where s.StartTime.Date >= request.StartDate.Date && s.StartTime.Date <= request.EndDate.Date
                         select new { s,f,t};
 
             var grossing = await query.GroupBy(x => new { x.f.Name,x.f.Id}).Select(x => new 
                 {
                     Name = x.Key.Name,
                     Grossing = (decimal)x.Sum(sft => sft.t.Price)
-                }).ToListAsync();
+                }).OrderByDescending(x => x.Grossing).ToListAsync();
 
             ChartData chartData = new ChartData();
             chartData.Lables = grossing.Select(x => x.Name).ToList();

@@ -444,6 +444,33 @@ namespace Movietheater.Application.UserServices
 
             return new ApiSuccessResult<UserVMD>(userVMD);
         }
+        public async Task<ApiResult<UserVMD>> GetCustomerByIdAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return new ApiErrorResult<UserVMD>("Người dùng không tồn tại");
+            }
+            var userInfor = _context.CustomerInfors.Where(x => x.Id == user.Id).FirstOrDefault();
+
+            var userVMD = new UserVMD()
+            {
+                Dob = userInfor.Dob,
+                FirstName = userInfor.FirstName,
+                LastName = userInfor.LastName,
+                Email = user.Email,
+                Id = user.Id,
+                PhoneNumber = user.PhoneNumber,
+                Status = user.LockoutEnabled ? Status.InActive : Status.Active,
+                UserName = user.UserName,
+                Roles = (List<string>)await _userManager.GetRolesAsync(user)
+            };
+
+
+            return new ApiSuccessResult<UserVMD>(userVMD);
+        }
+
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
             var users = from u in _context.Users

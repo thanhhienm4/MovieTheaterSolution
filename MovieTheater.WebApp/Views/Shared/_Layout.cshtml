@@ -42,64 +42,70 @@
                 <ul class="nav-menu" id="nav-menu">
                     <li><a href="/">Trang chủ</a></li>
                     <li><a href="/home/index">Lich chiếu film</a></li>
+
                     <li>
                         @if (User.Identity.IsAuthenticated == true)
-                        {
-                            <!-- Nav Item - User Information -->
-                            <li >
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
-                                    <i class="bi bi-people"></i>
-                                </a>
-                                <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="/user/Edit/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
-                                        <i class="fa fa-user-o" style="font-size:24px"></i>
-                                        Thông tin cá nhân
-                                    </a>
-                                    <a class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
-                                        <i class="fa fa-user-o" style="font-size:24px"></i>
-                                        Đổi mật khẩu
-                                    </a>
-                                    <a class="dropdown-item" href="/User/Logout">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Đăng xuất
-                                    </a>
+                        {<!-- Nav Item - User Information -->
+
+                                        <li>
+                                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
+                                                <i class="bi bi-people"></i>
+                                            </a>
+                                            <!-- Dropdown - User Information -->
+                                            <div class="dropdown-menu  shadow"
+                                                 aria-labelledby="userDropdown" style="background-color:royalblue">
+                                                <a class="dropdown-item" href="/user/Edit/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
+                                                    <i class="fa fa-user-o" style="font-size:24px"></i>
+                                                    Thông tin cá nhân
+                                                </a>
+                                                <a class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
+                                                    <i class="fa fa-user-o" style="font-size:24px"></i>
+                                                    Đổi mật khẩu
+                                                </a>
+                                                <a class="dropdown-item" href="/User/Logout">
+                                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                    Đăng xuất
+                                                </a>
 
 
-                                </div>
-                            </li>
-                    }
-                    else
-                    {
+                                            </div>
+                                        </li>
+ }
+                                    else
+                                    {
                         <a href="/login/index" class="btn btn-hover">
                             <span>Đăng nhập</span>
                         </a>
-                    }
+}
 
                         </li>
+
                     </ul>
 
+                </div>
             </div>
         </div>
-    </div>
 
-    @RenderBody()
+        @RenderBody()
 
 
-    <!-- END COPYRIGHT SECTION -->
-    <!-- SCRIPT -->
-    <!-- JQUERY -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <!-- OWL CAROUSEL -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
-    <!-- APP SCRIPT -->
+        <!-- END COPYRIGHT SECTION -->
+        <!-- SCRIPT -->
+        <!-- JQUERY -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <!-- OWL CAROUSEL -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+        <!-- APP SCRIPT -->
 
-    <script src="~/js/app.js"></script>
+        <script src="~/js/app.js"></script>
 
-</body>
+        <!-- Bootstrap core JavaScript-->
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    </body>
 
 </html>
 

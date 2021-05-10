@@ -103,8 +103,15 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _userService.RoleAssignAsync(request);
             return result;
         }
+        [HttpGet("GetCustomerById/{id}")]
+        public async Task<ApiResult<UserVMD>> GetCustomerById(string id)
+        {
+            var result = await _userService.GetUserByIdAsync(id);
+            return result;
+        }
+           
 
-       
+
 
 
 
