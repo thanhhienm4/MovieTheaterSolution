@@ -198,7 +198,7 @@ namespace MovieTheater.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PublishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PublishDate = table.Column<DateTime>(type: "date", nullable: false),
                     Length = table.Column<int>(type: "int", nullable: false),
                     TrailerURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Poster = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -422,7 +422,7 @@ namespace MovieTheater.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     FilmId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
                     KindOfScreeningId = table.Column<int>(type: "int", nullable: false)
@@ -560,8 +560,9 @@ namespace MovieTheater.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "11bf2d49-d75e-4461-ba29-f709fe2cc12d", "Employee", "Employee", "Employee" },
-                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "78c8b600-de13-4829-bdf0-7b805744fa77", "Administrator role", "Admin", "Administrator" }
+                    { new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"), "d48d2694-0215-44ec-a7c9-c25db8b96aef", "Employee role", "Employee", "Employee" },
+                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), "b935f161-6cb5-4547-9435-5a39d2e79c54", "Administrator role", "Admin", "Administrator" },
+                    { new Guid("0417c463-9af0-46d9-9ff7-d3e63321dfcc"), "e6c65eea-7ca8-4ad8-8066-f0e1385af508", "Customer role", "Customer", "Customer" }
                 });
 
             migrationBuilder.InsertData(
@@ -646,7 +647,11 @@ namespace MovieTheater.Data.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), 0, "", "Mistake4@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEEto6xPeHvzf6U6I29JT3RCxLQ+poOxvdOdXHgwvjwdYOhk273RXTigddmvKTbElqQ==", "0912413908", true, "", false, "admin" });
+                values: new object[,]
+                {
+                    { new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"), 0, "", "Mistake4@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Mistakem4@gmail.com", "admin", "AQAAAAEAACcQAAAAEJv+NBND9jZiemqUWmJqCbX+1jdrjFohVcggOLB8ys+eexn2cAnanBmkwa2Y7hcOJQ==", "0912413908", true, "", false, "admin" },
+                    { new Guid("bfdb878d-f543-4a69-b140-f05378ecb17c"), 0, "", "Hien@gmail.com", true, false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Hien@gmail.com", "Hien", "AQAAAAEAACcQAAAAEKds491Lcsx/NO0YsZrISsL136cnPDXyiyQ42tELY4wZ5QnsGP6apJEvKXc/kVgadw==", "0912413901", true, "", false, "Hien" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Films",
@@ -666,7 +671,11 @@ namespace MovieTheater.Data.Migrations
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8") });
+                values: new object[,]
+                {
+                    { new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"), new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8") },
+                    { new Guid("0417c463-9af0-46d9-9ff7-d3e63321dfcc"), new Guid("bfdb878d-f543-4a69-b140-f05378ecb17c") }
+                });
 
             migrationBuilder.InsertData(
                 table: "Reservations",
@@ -675,8 +684,8 @@ namespace MovieTheater.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Screenings",
-                columns: new[] { "Id", "Active", "FilmId", "KindOfScreeningId", "RoomId", "StartTime" },
-                values: new object[] { 1, false, 1, 1, 1, new DateTime(2021, 5, 10, 2, 24, 31, 978, DateTimeKind.Utc).AddTicks(5906) });
+                columns: new[] { "Id", "FilmId", "KindOfScreeningId", "RoomId", "StartTime" },
+                values: new object[] { 1, 1, 1, 1, new DateTime(2021, 5, 11, 4, 10, 18, 157, DateTimeKind.Utc).AddTicks(4856) });
 
             migrationBuilder.InsertData(
                 table: "Seats",

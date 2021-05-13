@@ -51,14 +51,40 @@ namespace MovieTheater.Data.Extensions
                     TwoFactorEnabled = false,
                     LockoutEnd = new DateTimeOffset(),
                    
-                });
+                },
+                 new User()
+                 {
+                     Id = new Guid("BFDB878D-F543-4A69-B140-F05378ECB17C") ,
+                     UserName = "Hien",
+                     NormalizedUserName = "Hien",
+                     Email = "Hien@gmail.com",
+                     NormalizedEmail = "Hien@gmail.com",
+                     EmailConfirmed = true,
+                     PasswordHash = new PasswordHasher<User>().HashPassword(null, "Hienn123"),
+                     SecurityStamp = string.Empty,
+                     ConcurrencyStamp = string.Empty,
+                     PhoneNumber = "0912413901",
+                     PhoneNumberConfirmed = true,
+                     LockoutEnabled = false,
+                     AccessFailedCount = 0,
+                     TwoFactorEnabled = false,
+                     LockoutEnd = new DateTimeOffset(),
+
+                 }
+                );
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasData
                 (
                     new IdentityUserRole<Guid>()
                     {
                         RoleId = new Guid("C02AB224-EBDD-44E3-B691-5ACEC03DA039"),  
                         UserId = new Guid("99ECA8CE-E954-4ED9-AB12-1A1FB010A9F8")
-                    }
+                    },
+                     new IdentityUserRole<Guid>()
+                     {
+                        RoleId = new Guid("0417C463-9AF0-46D9-9FF7-D3E63321DFCC") ,
+                         UserId = new Guid("BFDB878D-F543-4A69-B140-F05378ECB17C")
+                     }
+
                 ); 
             
             modelBuilder.Entity<UserInfor>().HasData(

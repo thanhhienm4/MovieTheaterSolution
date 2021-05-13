@@ -157,10 +157,16 @@ namespace Movietheater.Application.SeatServices
 
             }
 
-            if (await _context.SaveChangesAsync() == 0)
-                return new ApiErrorResultLite("Cập nhật không thành công");
-            else
-                return new ApiSuccessResultLite("Cập nhật thành công ");
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch(DbUpdateException e )
+            {
+                return new ApiErrorResultLite("Không thể chỉnh sửa ghế đã đặt vé, vui lòng kiểm tra lại thông tin");
+            }
+            
+            return new ApiSuccessResultLite("Cập nhật thành công ");
 
 
         }

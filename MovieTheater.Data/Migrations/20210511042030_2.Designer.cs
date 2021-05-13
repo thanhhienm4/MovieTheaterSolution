@@ -10,7 +10,7 @@ using MovieTheater.Data.EF;
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDBContext))]
-    [Migration("20210510023150_2")]
+    [Migration("20210511042030_2")]
     partial class _2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace MovieTheater.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -107,6 +107,11 @@ namespace MovieTheater.Data.Migrations
                         {
                             UserId = new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
                             RoleId = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039")
+                        },
+                        new
+                        {
+                            UserId = new Guid("bfdb878d-f543-4a69-b140-f05378ecb17c"),
+                            RoleId = new Guid("0417c463-9af0-46d9-9ff7-d3e63321dfcc")
                         });
                 });
 
@@ -164,18 +169,26 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
-                            ConcurrencyStamp = "16cdab62-3d7c-4b89-a6c6-a4ea4911c658",
-                            Description = "Employee",
+                            ConcurrencyStamp = "57036880-c10f-42f0-89b8-a578dff09b8b",
+                            Description = "Employee role",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         },
                         new
                         {
                             Id = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
-                            ConcurrencyStamp = "2c497018-89d8-4bfa-8f51-47c5a3db21e4",
+                            ConcurrencyStamp = "449a3301-cb01-4fac-bd79-7e34eae3fa68",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
+                        },
+                        new
+                        {
+                            Id = new Guid("0417c463-9af0-46d9-9ff7-d3e63321dfcc"),
+                            ConcurrencyStamp = "43d208bb-168c-42a4-b541-aacac65f62b9",
+                            Description = "Customer role",
+                            Name = "Customer",
+                            NormalizedName = "Customer"
                         });
                 });
 
@@ -259,7 +272,7 @@ namespace MovieTheater.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PublishDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("TrailerURL")
                         .HasColumnType("nvarchar(max)");
@@ -689,7 +702,7 @@ namespace MovieTheater.Data.Migrations
                             FilmId = 1,
                             KindOfScreeningId = 1,
                             RoomId = 1,
-                            StartTime = new DateTime(2021, 5, 10, 2, 31, 49, 280, DateTimeKind.Utc).AddTicks(8359)
+                            StartTime = new DateTime(2021, 5, 11, 4, 20, 29, 357, DateTimeKind.Utc).AddTicks(6376)
                         });
                 });
 
@@ -889,12 +902,30 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO3J18b/5ibuRNwu+Qh7DLlc0AiWEh5ADnSS6bYzGjPlv2zBiwl3UgYtwQp5qHVPrg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIZEMwaN5+m3mANgr5frN1MXY+5eFm7HRPjPT7S2uH2cpL5r55e15oHxlnV/dwH9zA==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("bfdb878d-f543-4a69-b140-f05378ecb17c"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "",
+                            Email = "Hien@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            NormalizedEmail = "Hien@gmail.com",
+                            NormalizedUserName = "Hien",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGDwqVs3FH6kGdQt3CeiRBmxJH3L/3oXBibXCHArRf5exFILaaR3aQaomYxov7+brA==",
+                            PhoneNumber = "0912413901",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "Hien"
                         });
                 });
 

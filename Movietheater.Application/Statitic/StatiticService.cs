@@ -23,7 +23,8 @@ namespace Movietheater.Application.Statitic
             var query = from s in _context.Screenings
                         join f in _context.Films on s.FilmId equals f.Id
                         join t in _context.Tickets on s.Id equals t.ScreeningId
-                        where s.StartTime.Date >= request.StartDate.Date && s.StartTime.Date <= request.EndDate.Date
+                        join r in _context.Reservations on t.ReservationId equals r.Id
+                        where s.StartTime.Date >= request.StartDate.Date && s.StartTime.Date <= request.EndDate.Date && s.Active == true && r.Active == true
                         select new { s,f,t};
 
             var grossing = await query.GroupBy(x => new { x.f.Name,x.f.Id}).Select(x => new 
@@ -44,9 +45,11 @@ namespace Movietheater.Application.Statitic
         {
             var query = from s in _context.Screenings
                         join t in _context.Tickets on s.Id equals t.ScreeningId
+                        join r in _context.Reservations on t.ReservationId equals r.Id
                         where s.StartTime.Date > request.StartDate && s.StartTime.Date < request.EndDate
+                        && s.Active == true && r.Active == true
                         select t;
-            long revenue = query.Sum(x => x.Price);
+            long revenue = await query.SumAsync(x => x.Price);
             return new ApiSuccessResult<long>(revenue);
         }
         public async Task<ApiResult<ChartData>> GetGroosingTypeAsync(CalRevenueRequest request)
@@ -56,6 +59,7 @@ namespace Movietheater.Application.Statitic
                         join r in _context.Reservations on t.ReservationId  equals r.Id
                         join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
                         where s.StartTime.Date > request.StartDate && s.StartTime.Date < request.EndDate
+                        && s.Active == true && r.Active ==true
                         select new { rt, t };
             
             var grossing = await query.GroupBy(x => new { x.rt.Name }).Select(x => new

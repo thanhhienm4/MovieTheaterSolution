@@ -10,8 +10,8 @@ using MovieTheater.Data.EF;
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDBContext))]
-    [Migration("20210510030432_3")]
-    partial class _3
+    [Migration("20210511041018_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,6 +107,11 @@ namespace MovieTheater.Data.Migrations
                         {
                             UserId = new Guid("99eca8ce-e954-4ed9-ab12-1a1fb010a9f8"),
                             RoleId = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039")
+                        },
+                        new
+                        {
+                            UserId = new Guid("bfdb878d-f543-4a69-b140-f05378ecb17c"),
+                            RoleId = new Guid("0417c463-9af0-46d9-9ff7-d3e63321dfcc")
                         });
                 });
 
@@ -164,18 +169,26 @@ namespace MovieTheater.Data.Migrations
                         new
                         {
                             Id = new Guid("1081fba0-8368-43b7-8134-032e838c1bb3"),
-                            ConcurrencyStamp = "11c4fe7b-15c6-4f42-91ba-c80c481e7e39",
-                            Description = "Employee",
+                            ConcurrencyStamp = "d48d2694-0215-44ec-a7c9-c25db8b96aef",
+                            Description = "Employee role",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         },
                         new
                         {
                             Id = new Guid("c02ab224-ebdd-44e3-b691-5acec03da039"),
-                            ConcurrencyStamp = "c9c4471c-5002-44ba-a4f6-30aa6f7893b2",
+                            ConcurrencyStamp = "b935f161-6cb5-4547-9435-5a39d2e79c54",
                             Description = "Administrator role",
                             Name = "Admin",
                             NormalizedName = "Administrator"
+                        },
+                        new
+                        {
+                            Id = new Guid("0417c463-9af0-46d9-9ff7-d3e63321dfcc"),
+                            ConcurrencyStamp = "e6c65eea-7ca8-4ad8-8066-f0e1385af508",
+                            Description = "Customer role",
+                            Name = "Customer",
+                            NormalizedName = "Customer"
                         });
                 });
 
@@ -689,7 +702,7 @@ namespace MovieTheater.Data.Migrations
                             FilmId = 1,
                             KindOfScreeningId = 1,
                             RoomId = 1,
-                            StartTime = new DateTime(2021, 5, 10, 3, 4, 31, 217, DateTimeKind.Utc).AddTicks(1806)
+                            StartTime = new DateTime(2021, 5, 11, 4, 10, 18, 157, DateTimeKind.Utc).AddTicks(4856)
                         });
                 });
 
@@ -889,12 +902,30 @@ namespace MovieTheater.Data.Migrations
                             LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "Mistakem4@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF2IXpzJ1Wq3PRnhzcOm/0ASTF+2ysuHs8K9knnj5s8+m/uQ2vOJA1C+8ho0L0x+7w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJv+NBND9jZiemqUWmJqCbX+1jdrjFohVcggOLB8ys+eexn2cAnanBmkwa2Y7hcOJQ==",
                             PhoneNumber = "0912413908",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("bfdb878d-f543-4a69-b140-f05378ecb17c"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "",
+                            Email = "Hien@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            LockoutEnd = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            NormalizedEmail = "Hien@gmail.com",
+                            NormalizedUserName = "Hien",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKds491Lcsx/NO0YsZrISsL136cnPDXyiyQ42tELY4wZ5QnsGP6apJEvKXc/kVgadw==",
+                            PhoneNumber = "0912413901",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "Hien"
                         });
                 });
 

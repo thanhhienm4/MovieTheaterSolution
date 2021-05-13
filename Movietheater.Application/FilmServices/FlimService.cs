@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Movietheater.Application.FilmServices
 {
@@ -48,7 +49,7 @@ namespace Movietheater.Application.FilmServices
             await _context.AddAsync(room);
             if (await _context.SaveChangesAsync() == 0)
             {
-                return new ApiErrorResultLite("Không thể thêm phòng");
+                return new ApiErrorResultLite("Không thể thêm phim");
             }
             return new ApiSuccessResultLite("Thêm thành công");
 
@@ -95,6 +96,7 @@ namespace Movietheater.Application.FilmServices
         }
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
+            using var transaction = _context.Database.BeginTransaction();
             Film film = await _context.Films.FindAsync(id);
             if (film == null)
             {
@@ -105,11 +107,25 @@ namespace Movietheater.Application.FilmServices
                 if(_context.Screenings.Where(x => x.FilmId == film.Id).Count()!=0)
                     return new ApiSuccessResultLite("Xóa thất bại");
 
-                string poster = film.Poster;
-                _context.Films.Remove(film);
-                _context.SaveChanges();
-                await _storageService.DeleteFileAsync(poster);
-                return new ApiSuccessResultLite("Xóa thành công");
+                try
+                {
+                    
+                    _context.Joinings.RemoveRange(_context.Joinings.Where(x => x.FilmId == id));
+                    _context.SaveChanges();
+
+                    string poster = film.Poster;
+                    _context.Films.Remove(film);
+                    _context.SaveChanges();
+                    transaction.Commit();
+
+                    await _storageService.DeleteFileAsync(poster);
+                    return new ApiSuccessResultLite("Xóa thành công");
+                }
+                catch(Exception e)
+                {
+                    return new ApiSuccessResultLite("Xóa thất bại");
+                }
+                
 
 
             }
@@ -282,6 +298,8 @@ namespace Movietheater.Application.FilmServices
 
                 }).FirstOrDefaultAsync();
                 filmVMD.Genres = GetGenres(filmVMD.Id);
+                filmVMD.Directors = GetDirectors(filmVMD.Id);
+                filmVMD.Actors = GetActors(filmVMD.Id);
                 return new ApiSuccessResult<FilmVMD>(filmVMD);
             }
         }
@@ -422,6 +440,24 @@ namespace Movietheater.Application.FilmServices
                                                             fg => fg.Id,
                                                             (fig, fg) => fg.Name).ToList();
             
+        }
+
+        private List<string> GetActors(int id)
+        {
+            return _context.Joinings.Where(x => x.FilmId == id && x.PositionId == 1).Join(_context.Peoples,
+                                                            fig => fig.FilmId,
+                                                            p => p.Id,
+                                                            (fig, p) => p.Name).ToList();
+
+        }
+
+        private List<string> GetDirectors(int id)
+        {
+            return _context.Joinings.Where(x => x.FilmId == id && x.PositionId == 2).Join(_context.Peoples,
+                                                             fig => fig.FilmId,
+                                                             p => p.Id,
+                                                             (fig, p) => p.Name).ToList();
+
         }
     }
 }

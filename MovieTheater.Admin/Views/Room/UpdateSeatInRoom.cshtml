@@ -177,9 +177,7 @@ $('#btnUpdate').click(function () {
         url: "/Room/UpdateSeatInRoom",
         data: { Seats: seats, RoomId: @ViewBag.RoomId },
         success: function (res) {
-            if (res.isSuccessed) {
-                location.href = '/Room'
-            }
+            location.href = '/Room'
         }
         });
     })

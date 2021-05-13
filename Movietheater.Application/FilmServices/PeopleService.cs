@@ -46,6 +46,9 @@ namespace Movietheater.Application.FilmServices
             }
             else
             {
+                if (_context.Joinings.Where(x => x.PeppleId == id).Count() != 0)
+                    return new ApiErrorResultLite("Không thể xóa nghệ sĩ");
+
                 _context.Peoples.Remove(people);
                 if (await _context.SaveChangesAsync() != 0)
                 {

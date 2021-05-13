@@ -156,11 +156,7 @@ namespace MovieTheater.Admin.Controllers
         public async Task<ApiResultLite> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
         {
             var result = await _seatApiCient.UpdateSeatInRoomAsync(request);
-            if(result.IsSuccessed == true)
-            {
-                TempData["Result"] = result.Message;
-               
-            }
+            TempData["Result"] = result.Message;
             return result;
         }
         [Authorize(Roles = "Admin")]

@@ -24,7 +24,15 @@
                 <form asp-action="Index" method="get">
                     <div class="row">
                         <div>
-                            <input type="date" name="date" value="@ViewBag.Date.ToString("yyyy-MM-dd")" onchange="submit()" class="form-control" />
+                            @if (ViewBag.Date != null)
+                            {
+                                <input type="date" name="date" value="@ViewBag.Date.ToString("yyyy-MM-dd")" onchange="submit()" class="form-control" />
+                            }
+                            else
+                            {
+                                <input type="date" name="date" value="" onchange="submit()" class="form-control" />
+                            }
+
                         </div>
                         <div>
                             &nbsp;

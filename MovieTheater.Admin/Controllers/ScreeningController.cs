@@ -37,7 +37,7 @@ namespace MovieTheater.Admin.Controllers
             var result = (await _seatApiClient.GetListSeatReserved(id)).ResultObj;
             return result;
         }
-        public async Task<IActionResult> Index(string keyword, DateTime? date, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword, DateTime? date = null, int pageIndex = 1, int pageSize = 10)
         {
 
             var request = new ScreeningPagingRequest()
@@ -48,8 +48,7 @@ namespace MovieTheater.Admin.Controllers
                 Date = date
 
             };
-            if (date == null)
-                date = DateTime.Now.Date;
+            
 
             ViewBag.Date = date;
             ViewBag.KeyWord = keyword;

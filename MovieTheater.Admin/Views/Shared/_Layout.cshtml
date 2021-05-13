@@ -190,34 +190,19 @@
                                                                                                                     </div>
                                                                                                                 </li>            }
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReservation"
-                   aria-expanded="true" aria-controls="collapseReservation">
+                <a class="nav-link collapsed" href="/Reservation/Index" >
                     <img src="https://img.icons8.com/material/15/ffffff/starred-ticket--v1.png" />
                     <span>&nbsp; Đặt vé</span>
                 </a>
-                <div id="collapseReservation" class="collapse" aria-labelledby="headingReservation" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-
-                        <a class="collapse-item" href="/Reservation/Index">Danh sách</a>
-
-                    </div>
-                </div>
+               
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRetail"
-                   aria-expanded="true" aria-controls="collapseRetail">
+                <a class="nav-link collapsed" href="/Retail/Index" >
                     <img src="https://img.icons8.com/material-outlined/15/ffffff/shopping-basket.png" />
                     <span>&nbsp; Bán vé</span>
                 </a>
-                <div id="collapseRetail" class="collapse" aria-labelledby="headingRetail" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-
-                        <a class="collapse-item" href="/Retail/Index">Danh sách</a>
-
-
-                    </div>
-                </div>
+                
             </li>
 
             <!-- Divider -->
@@ -297,15 +282,15 @@
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="/user/Edit/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
-                                    <i class="fa fa-user-o" style="font-size:24px"></i>
+                                    
                                     Thông tin cá nhân
                                 </a>
                                 <a class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
-                                    <i class="fa fa-user-o" style="font-size:24px"></i>
+                                   
                                     Đổi mật khẩu
                                 </a>
                                 <a class="dropdown-item" href="/User/Logout">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                   
                                     Đăng xuất
                                 </a>
 

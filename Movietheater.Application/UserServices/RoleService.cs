@@ -73,7 +73,7 @@ namespace Movietheater.Application.UserServices
         public async Task<List<RoleVMD>> GetAllRoles()
         {
             var roles = new List<RoleVMD>();
-            roles =await _roleManager.Roles.Select(x => new RoleVMD()
+            roles =await _roleManager.Roles.Where(x=> x.Id != new Guid("0417C463-9AF0-46D9-9FF7-D3E63321DFCC")).Select(x => new RoleVMD()
             {
                 Id = x.Id,
                 Description = x.Description,

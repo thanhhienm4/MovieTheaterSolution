@@ -5,7 +5,7 @@
 @{ ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 <div class="container">
-    <div class="card" style="background-color:#18043d">
+    <div class="card d-flex" style="background-color:#18043d">
         <div class="row">
             <div class="col-3">
                 <img class="img-fluid" src="@Model.Poster" />
@@ -27,15 +27,76 @@
                     <div class="row">
                         @if (Model.Genres != null)
                         {
-            <p>@string.Join(" ", Model.Genres)</p>}
+                            <p>@string.Join(" ", Model.Genres)</p>
+                        }
                     </div>
-
+                    <div class="row">
+                        <p>Diễn viên: </p>
+                        @if (Model.Actors != null)
+                        {
+                            <p>@string.Join(" ", Model.Actors)</p>
+                        }
+                    </div>
+                    <div class="row">
+                        <p>Đạo điẽn:</p>
+                        @if (Model.Genres != null)
+                        {
+                    <p>@string.Join(" ", Model.Directors)</p>}
+                   
                 </div>
                 <div class="row">
                     <a class=" btn btn-danger mr-5" href="/Film/ScreeningInWeek/@Model.Id">Đặt vé</a>
-                    <a class=" btn btn-primary" href="@Model.TrailerURL">Trailer</a>
                 </div>
+
             </div>
         </div>
+
     </div>
 </div>
+<div class="container">
+    <div class="card" style="height:800px">
+        <div class="row">
+            <p>Trailer</p>
+        </div>
+        <iframe width="560" height="315" src="@Model.TrailerURL" title="YouTube video player" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    </div>
+</div>
+    
+    <script>
+        $(document).ready(function () {
+
+            // Gets the video src from the data-src on each button
+
+            var $videoSrc;
+            $('.video-btn').click(function () {
+                $videoSrc = $(this).data("src");
+            });
+            console.log($videoSrc);
+
+
+
+            // when the modal is opened autoplay it
+            $('#trailerModal').on('shown.bs.modal', function (e) {
+
+                // set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
+                $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+            })
+
+
+
+            // stop playing the youtube video when I close the modal
+            $('#trailerModal').on('hide.bs.modal', function (e) {
+                // a poor man's stop video
+                $("#video").attr('src', $videoSrc);
+            })
+
+
+
+
+
+
+            // document ready
+        });
+
+    </script>
