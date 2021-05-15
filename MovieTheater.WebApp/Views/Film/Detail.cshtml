@@ -14,38 +14,59 @@
                 <h1 style="color:red">@Model.Name</h1>
                 <div class="row">
 
-                    <div class="col-11">
+                    <div class="col-11 text-justify">
                         <p>@Model.Description</p>
                     </div>
 
 
                 </div>
-                <div class="col-4">
+
+                <div class="col-12">
                     <div class="row">
+
                         <p>Giới hạn: @Model.Ban</p>
+                        <div class="col-1"></div>
+
+
+                        <p>Thể loại:</p>
+                        <div class="col-3">
+                            @if (Model.Genres != null)
+                            {
+                <p>@string.Join(" ", Model.Genres)</p>}
+
+                        </div>
+
                     </div>
+                </div>
+                <div class="col-12">
                     <div class="row">
-                        @if (Model.Genres != null)
-                        {
-                            <p>@string.Join(" ", Model.Genres)</p>
-                        }
-                    </div>
-                    <div class="row">
-                        <p>Diễn viên: </p>
+
+                        <p>Diễn viên:&nbsp;</p>
+
                         @if (Model.Actors != null)
                         {
-                            <p>@string.Join(" ", Model.Actors)</p>
-                        }
+            <p>@string.Join(" ", Model.Actors)</p>}
+
                     </div>
+                </div>
+
+                <div class="col-12">
                     <div class="row">
-                        <p>Đạo điẽn:</p>
+
+                        <p>Đạo diễn:&nbsp;</p>
+
                         @if (Model.Genres != null)
                         {
-                    <p>@string.Join(" ", Model.Directors)</p>}
-                   
+            <p>@string.Join(" ", Model.Directors)</p>}
+
+                    </div>
                 </div>
-                <div class="row">
-                    <a class=" btn btn-danger mr-5" href="/Film/ScreeningInWeek/@Model.Id">Đặt vé</a>
+
+
+
+
+                <div class="row d-flex justify-content-center">
+                    <a class=" btn btn-danger mr-5 " style="margin-bottom:7px" href="/Film/ScreeningInWeek/@Model.Id">Đặt vé</a>
                 </div>
 
             </div>
@@ -53,50 +74,50 @@
 
     </div>
 </div>
+<hr />
 <div class="container">
-    <div class="card" style="height:800px">
-        <div class="row">
-            <p>Trailer</p>
-        </div>
+    <div style="width:400px;height:500px">
+        <p style="color:black;font-size:larger;font-weight:550">   Trailer</p>
+
         <iframe width="560" height="315" src="@Model.TrailerURL" title="YouTube video player" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
     </div>
 </div>
-    
-    <script>
-        $(document).ready(function () {
 
-            // Gets the video src from the data-src on each button
+<script>
+    $(document).ready(function () {
 
-            var $videoSrc;
-            $('.video-btn').click(function () {
-                $videoSrc = $(this).data("src");
-            });
-            console.log($videoSrc);
+        // Gets the video src from the data-src on each button
 
-
-
-            // when the modal is opened autoplay it
-            $('#trailerModal').on('shown.bs.modal', function (e) {
-
-                // set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
-                $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
-            })
-
-
-
-            // stop playing the youtube video when I close the modal
-            $('#trailerModal').on('hide.bs.modal', function (e) {
-                // a poor man's stop video
-                $("#video").attr('src', $videoSrc);
-            })
-
-
-
-
-
-
-            // document ready
+        var $videoSrc;
+        $('.video-btn').click(function () {
+            $videoSrc = $(this).data("src");
         });
+        console.log($videoSrc);
 
-    </script>
+
+
+        // when the modal is opened autoplay it
+        $('#trailerModal').on('shown.bs.modal', function (e) {
+
+            // set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
+            $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+        })
+
+
+
+        // stop playing the youtube video when I close the modal
+        $('#trailerModal').on('hide.bs.modal', function (e) {
+            // a poor man's stop video
+            $("#video").attr('src', $videoSrc);
+        })
+
+
+
+
+
+
+        // document ready
+    });
+
+</script>

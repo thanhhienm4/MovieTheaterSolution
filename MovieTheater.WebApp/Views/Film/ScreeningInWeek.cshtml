@@ -1,7 +1,7 @@
 ﻿@using MovieTheater.Models.Catalog.Screening
 @model ScreeningOfFilmInWeekVMD
 @{ ViewData["Title"] = "Index";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 <div class="container">
     <div class="card" style="background-color:#18043d">
         <div class="row">
@@ -12,21 +12,54 @@
                 <h1 style="color:red">@Model.Film.Name</h1>
                 <div class="row">
 
-                    <div class="col-11">
+                    <div class="col-11 text-justify">
                         <p>@Model.Film.Description</p>
                     </div>
 
                 </div>
-                <div class="col-4">
+                <div class="col-12">
                     <div class="row">
                         <p>Giới hạn: @Model.Film.Ban</p>
+                        <div class="col-1"></div>
+
+                        <p>Thể loại:</p>
+                        <div class="col-3">
+                            @if (Model.Film.Genres != null)
+                            {
+                <p>@string.Join(" ", Model.Film.Genres)</p>}
+
+                        </div>
                     </div>
+
+                </div>
+
+                <div class="col-12">
                     <div class="row">
-                        @if (Model.Film.Genres != null)
+
+                        <p>Diễn viên:&nbsp;</p>
+
+                        @if (Model.Film.Actors != null)
                         {
-            <p>@string.Join(" ", Model.Film.Genres)</p>}
+            <p>@string.Join(" ", Model.Film.Actors)</p>}
+
+
                     </div>
                 </div>
+
+                <div class="col-12">
+                    <div class="row">
+
+
+                        <p>Đạo diễn:&nbsp;</p>
+
+                        @if (Model.Film.Genres != null)
+                        {
+            <p>@string.Join(" ", Model.Film.Directors)</p>}
+
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
