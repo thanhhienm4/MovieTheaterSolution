@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="TopFilmGrossing" targetNamespace="http://tempuri.org/TopFilmGrossing.xsd" xmlns:mstns="http://tempuri.org/TopFilmGrossing.xsd" xmlns="http://tempuri.org/TopFilmGrossing.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="TopFilmGrossing" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="TopFilmGrossing" msprop:Generator_UserDSName="TopFilmGrossing">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="TopGrossingFilm" msprop:Generator_TableClassName="TopGrossingFilmDataTable" msprop:Generator_TableVarName="tableTopGrossingFilm" msprop:Generator_TablePropName="TopGrossingFilm" msprop:Generator_RowDeletingName="TopGrossingFilmRowDeleting" msprop:Generator_RowChangingName="TopGrossingFilmRowChanging" msprop:Generator_RowEvHandlerName="TopGrossingFilmRowChangeEventHandler" msprop:Generator_RowDeletedName="TopGrossingFilmRowDeleted" msprop:Generator_UserTableName="TopGrossingFilm" msprop:Generator_RowChangedName="TopGrossingFilmRowChanged" msprop:Generator_RowEvArgName="TopGrossingFilmRowChangeEvent" msprop:Generator_RowClassName="TopGrossingFilmRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Film" msprop:Generator_ColumnVarNameInTable="columnFilm" msprop:Generator_ColumnPropNameInRow="Film" msprop:Generator_ColumnPropNameInTable="FilmColumn" msprop:Generator_UserColumnName="Film" type="xs:string" minOccurs="0" />
+              <xs:element name="Grossing" msprop:Generator_ColumnVarNameInTable="columnGrossing" msprop:Generator_ColumnPropNameInRow="Grossing" msprop:Generator_ColumnPropNameInTable="GrossingColumn" msprop:Generator_UserColumnName="Grossing" type="xs:string" minOccurs="0" />
+              <xs:element name="Proportion" msprop:Generator_ColumnVarNameInTable="columnProportion" msprop:Generator_ColumnPropNameInRow="Proportion" msprop:Generator_ColumnPropNameInTable="ProportionColumn" msprop:Generator_UserColumnName="Proportion" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

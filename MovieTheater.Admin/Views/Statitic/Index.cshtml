@@ -86,8 +86,30 @@
 
 
             </div>
+            <div class="card-footer">
+                <a class="btn btn-primary" onclick="dowloadPdf()">Tải xuống file Pdf</a>
+                <a class="btn btn-primary">Tải xuống file Excel</a>
+            </div>
         </div>
     </div>
 </div>
   
-  
+ <script >
+     function dowloadPdf() {
+         $.ajax({
+         type: "POST",
+         url: "/Statitic/Print",
+        
+         success: function (res) {
+             var a = document.createElement('a');
+             var url = window.URL.createObjectURL(res);
+             a.href = url;
+             a.download = 'myfile.pdf';
+             document.body.append(a);
+             a.click();
+             a.remove();
+             window.URL.revokeObjectURL(url);
+         }
+     });
+    }
+ </script>

@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Api", "MovieTh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.WebApp", "MovieTheater.WebApp\MovieTheater.WebApp.csproj", "{13C86E53-65D9-453E-9773-CCD1FD2D2390}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheater.Utilities", "MovieTheater.Utilities\MovieTheater.Utilities.csproj", "{AF1B742C-4D85-4F9E-B33E-040140E49FBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Utilities", "MovieTheater.Utilities\MovieTheater.Utilities.csproj", "{AF1B742C-4D85-4F9E-B33E-040140E49FBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDLCDesign", "RDLCDesign\RDLCDesign.csproj", "{BFD4A214-B35D-4FE4-BA55-F22BD0877317}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{AF1B742C-4D85-4F9E-B33E-040140E49FBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF1B742C-4D85-4F9E-B33E-040140E49FBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1B742C-4D85-4F9E-B33E-040140E49FBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFD4A214-B35D-4FE4-BA55-F22BD0877317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFD4A214-B35D-4FE4-BA55-F22BD0877317}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFD4A214-B35D-4FE4-BA55-F22BD0877317}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFD4A214-B35D-4FE4-BA55-F22BD0877317}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{1C316358-54D3-4AC9-9E9B-CFC39B6B5144} = {FA4992E0-7DC6-4B64-8FA3-E7FEE5427FB9}
 		{13C86E53-65D9-453E-9773-CCD1FD2D2390} = {FA4992E0-7DC6-4B64-8FA3-E7FEE5427FB9}
 		{AF1B742C-4D85-4F9E-B33E-040140E49FBA} = {24FD7F3C-DAA1-46E1-95BC-CA3DF7A6A9C1}
+		{BFD4A214-B35D-4FE4-BA55-F22BD0877317} = {24FD7F3C-DAA1-46E1-95BC-CA3DF7A6A9C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {305D4BA3-6A74-4522-BD1A-C1315F9551EC}

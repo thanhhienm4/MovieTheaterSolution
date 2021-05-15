@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Reports\RprtFilm.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\Reports\RprtFilm.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Film\Create.cshtml" />
     <None Include="Views\Film\Edit.cshtml" />
     <None Include="Views\Film\Index.cshtml" />
@@ -22,21 +30,45 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.2.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="System.CodeDom" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MovieTheater.Data\MovieTheater.Data.csproj" />
     <ProjectReference Include="..\MovieTheater.Models\MovieTheater.Models.csproj" />
     <ProjectReference Include="..\MovieTheater.Service\MovieTheater.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ReportDataSets\TopFilmGrossing.Designer.cs">
+      <DependentUpon>TopFilmGrossing.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReportDataSets\TopFilmGrossing.xsc">
+      <DependentUpon>TopFilmGrossing.xsd</DependentUpon>
+    </None>
+    <None Update="ReportDataSets\TopFilmGrossing.xsd">
+      <SubType>Designer</SubType>
+      <LastGenOutput>TopFilmGrossing.Designer.cs</LastGenOutput>
+      <Generator>MSDataSetGenerator</Generator>
+    </None>
+    <None Update="ReportDataSets\TopFilmGrossing.xss">
+      <DependentUpon>TopFilmGrossing.xsd</DependentUpon>
+    </None>
   </ItemGroup>
 
 </Project>
