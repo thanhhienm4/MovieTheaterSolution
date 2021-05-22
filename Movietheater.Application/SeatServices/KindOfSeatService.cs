@@ -2,11 +2,6 @@
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat.KindOfSeat;
-using MovieTheater.Models.Infra.Seat.SeatRow;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.SeatServices
@@ -14,10 +9,12 @@ namespace Movietheater.Application.SeatServices
     public class KindOfSeatService : IKindOfSeatService
     {
         private readonly MovieTheaterDBContext _context;
+
         public KindOfSeatService(MovieTheaterDBContext context)
         {
             _context = context;
         }
+
         public async Task<ApiResultLite> CreateAsync(KindOfSeatCreateRequest request)
         {
             KindOfSeat kindOfSeat = new KindOfSeat()
@@ -33,7 +30,6 @@ namespace Movietheater.Application.SeatServices
             }
 
             return new ApiSuccessResultLite();
-
         }
 
         public async Task<ApiResultLite> UpdateAsync(KindOfSeatUpdateRequest request)
@@ -48,8 +44,8 @@ namespace Movietheater.Application.SeatServices
                 seat.Name = request.Name;
                 seat.Surcharge = request.Surcharge;
                 _context.Update(seat);
-                if(await _context.SaveChangesAsync()!=0)
-                     return new ApiSuccessResultLite("Cập nhật thành công");
+                if (await _context.SaveChangesAsync() != 0)
+                    return new ApiSuccessResultLite("Cập nhật thành công");
                 else
                     return new ApiErrorResultLite("Cập nhật thất bại mới thất bại");
             }
@@ -65,15 +61,14 @@ namespace Movietheater.Application.SeatServices
             else
             {
                 _context.KindOfSeats.Remove(seat);
-                if( await _context.SaveChangesAsync()!=0)
+                if (await _context.SaveChangesAsync() != 0)
                 {
                     return new ApiSuccessResultLite("Xóa thành công");
-                }else
+                }
+                else
                 {
                     return new ApiErrorResultLite("Xóa thất bại");
                 }
-                   
-                
             }
         }
     }

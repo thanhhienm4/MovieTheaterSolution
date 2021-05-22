@@ -3,10 +3,8 @@ using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.FilmServices
@@ -14,10 +12,12 @@ namespace Movietheater.Application.FilmServices
     public class FilmGenreService : IFilmGenreService
     {
         private readonly MovieTheaterDBContext _context;
+
         public FilmGenreService(MovieTheaterDBContext context)
         {
             _context = context;
         }
+
         public async Task<ApiResultLite> CreateAsync(string name)
         {
             FilmGenre filmgenre = new FilmGenre()
@@ -82,7 +82,6 @@ namespace Movietheater.Application.FilmServices
             }).ToListAsync();
 
             return new ApiSuccessResult<List<FilmGenreVMD>>(genres);
-
         }
     }
 }

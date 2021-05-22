@@ -17,8 +17,6 @@
                     <div class="col-11 text-justify">
                         <p>@Model.Description</p>
                     </div>
-
-
                 </div>
 
                 <div class="col-12">
@@ -27,15 +25,12 @@
                         <p>Giới hạn: @Model.Ban</p>
                         <div class="col-1"></div>
 
-
                         <p>Thể loại:</p>
                         <div class="col-3">
                             @if (Model.Genres != null)
                             {
                 <p>@string.Join(" ", Model.Genres)</p>}
-
                         </div>
-
                     </div>
                 </div>
                 <div class="col-12">
@@ -46,7 +41,6 @@
                         @if (Model.Actors != null)
                         {
             <p>@string.Join(" ", Model.Actors)</p>}
-
                     </div>
                 </div>
 
@@ -58,20 +52,14 @@
                         @if (Model.Genres != null)
                         {
             <p>@string.Join(" ", Model.Directors)</p>}
-
                     </div>
                 </div>
-
-
-
 
                 <div class="row d-flex justify-content-center">
                     <a class=" btn btn-danger mr-5 " style="margin-bottom:7px" href="/Film/ScreeningInWeek/@Model.Id">Đặt vé</a>
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
 <hr />
@@ -80,7 +68,6 @@
         <p style="color:black;font-size:larger;font-weight:550">   Trailer</p>
 
         <iframe width="560" height="315" src="@Model.TrailerURL" title="YouTube video player" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
     </div>
 </div>
 
@@ -95,8 +82,6 @@
         });
         console.log($videoSrc);
 
-
-
         // when the modal is opened autoplay it
         $('#trailerModal').on('shown.bs.modal', function (e) {
 
@@ -104,20 +89,12 @@
             $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
         })
 
-
-
         // stop playing the youtube video when I close the modal
         $('#trailerModal').on('hide.bs.modal', function (e) {
             // a poor man's stop video
             $("#video").attr('src', $videoSrc);
         })
 
-
-
-
-
-
         // document ready
     });
-
 </script>

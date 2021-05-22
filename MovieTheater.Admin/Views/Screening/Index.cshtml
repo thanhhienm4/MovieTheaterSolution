@@ -32,7 +32,6 @@
                             {
                                 <input type="date" name="date" value="" onchange="submit()" class="form-control" />
                             }
-
                         </div>
                         <div>
                             &nbsp;
@@ -47,7 +46,6 @@
                             <button type="submit" class="btn btn-primary">Tìm</button>
                             <button type="button" onclick="window.location.href='/Screening/Index'" class="btn btn-light"><img src="https://img.icons8.com/ios-filled/20/000000/rotate.png" /></button>
                         </div>
-
                     </div>
                 </form>
             </div>
@@ -75,7 +73,7 @@
                         Phòng
                     </th>
                     <th>
-                        Bắt đầu 
+                        Bắt đầu
                     </th>
                     <th>
                         Kết thúc
@@ -122,14 +120,12 @@
                     }
                 }
             </tbody>
-
         </table>
         <div class="d-flex">
             <div class="ml-auto p-2">
                 @await Component.InvokeAsync("Pager", Model)
             </div>
         </div>
-
     </div>
 </div>
 <!--model delete-->
@@ -150,7 +146,6 @@
             </div>
             <div class="modal-body">
                 <div id="deleteMeg"></div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -175,7 +170,6 @@
             name = $("#nameScreening").val();
 
         });
-
 
     });
 

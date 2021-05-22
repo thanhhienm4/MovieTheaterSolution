@@ -5,9 +5,6 @@ using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -70,12 +67,10 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task<ApiResultLite> DeleteAsync(Guid id)
         {
-            
             var result = await _userService.DeleteAsync(id);
             return result;
         }
 
-        
         [HttpPut("ChangePassword")]
         public async Task<ApiResultLite> ChangePasswordAsync([FromBody] ChangePWRequest request)
         {
@@ -103,19 +98,12 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _userService.RoleAssignAsync(request);
             return result;
         }
+
         [HttpGet("GetCustomerById/{id}")]
         public async Task<ApiResult<UserVMD>> GetCustomerById(string id)
         {
             var result = await _userService.GetUserByIdAsync(id);
             return result;
         }
-           
-
-
-
-
-
-
-
     }
 }

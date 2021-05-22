@@ -46,13 +46,10 @@ namespace MovieTheater.Admin
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
-                 
                         options.LoginPath = "/Login/Index";
                         options.AccessDeniedPath = "/User/Forbident";
                         options.LogoutPath = "/User/Logout";
-
                     });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,13 +61,13 @@ namespace MovieTheater.Admin
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");               
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-            
+
             app.UseSession();
             app.UseHttpsRedirection();
-            app.UseStaticFiles();            
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

@@ -22,11 +22,8 @@
                         <ul id="place">
                         </ul>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
         <div style="clear:both;width:100%" class="d-flex justify-content-center">
             <div class="row">
@@ -40,7 +37,6 @@
         <div style="clear:both;width:100%" class="d-flex justify-content-center">
             <button class="btn btn-success mr-2" id="btnReserve">Đặt vé</button>
         </div>
-
     </div>
     <div class="col-3">
         <div class="card">
@@ -57,23 +53,16 @@
                     <p style="color:red" class="p-2">Tổng tiền: </p>
                     <div class="ml-auto p-2">
                         <strong id="price">
-
                         </strong>
-
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
 <div style="float:left;">
-
 </div>
-
-
 
 <style type="text/css">
 
@@ -90,7 +79,6 @@
             list-style: none outside none;
             position: absolute;
         }
-
 
         #place .row-3, #place .row-4 {
             margin-top: 10px;
@@ -112,8 +100,6 @@
     };
     var listRow = [];
     $(document).ready(function () {
-
-
 
     $.ajax({
         type: "GET",
@@ -139,7 +125,6 @@
                 }
                 $('#place').html(str.join(''));
 
-
                  $.ajax({
                     type: "GET",
                     url: "/Room/GetSeatInRoom",
@@ -162,7 +147,6 @@
                             $(btn).attr('data-kindofseatid', res[i].kindOfSeatId);
                             //$(btn).html('<a title="' + res[i].name + '">' + ' ' + '</a>');
 
-
                         };
 
                         $.ajax({
@@ -176,15 +160,11 @@
 
                                 $(btn).addClass('taken');
 
-
                             }
                             }
                         });
                     }
                  });
-
-
-
 
             };
             //case I: Show from starting
@@ -206,11 +186,8 @@
                         tickets.push(ticket);
                      }
 
-
                 });
                 $("#seatsName").text(seatsName);
-
-
 
                 $.ajax({
                     type: "POST",
@@ -222,16 +199,13 @@
                             currency: 'VND',
                         }));
 
-
                     }
                 });
-
 
             });
 
         }
     })
-
 
 $('#btnReserve').click(function () {
     var tickets = [];
@@ -257,7 +231,4 @@ $('#btnReserve').click(function () {
         });
     })
     });
-
-
 </script>
-

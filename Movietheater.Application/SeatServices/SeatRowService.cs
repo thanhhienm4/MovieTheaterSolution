@@ -5,10 +5,8 @@ using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.Seat;
 using MovieTheater.Models.Infra.Seat.SeatRow;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.SeatServices
@@ -16,10 +14,12 @@ namespace Movietheater.Application.SeatServices
     public class SeatRowService : ISeatRowService
     {
         private readonly MovieTheaterDBContext _context;
+
         public SeatRowService(MovieTheaterDBContext context)
         {
             _context = context;
         }
+
         public async Task<ApiResultLite> CreateAsync(SeatRowCreateRequest request)
         {
             SeatRow seatRow = new SeatRow()
@@ -34,7 +34,6 @@ namespace Movietheater.Application.SeatServices
             }
 
             return new ApiSuccessResultLite();
-
         }
 
         public async Task<ApiResultLite> UpdateAsync(SeatRowUpdateRequest request)
@@ -64,7 +63,7 @@ namespace Movietheater.Application.SeatServices
             }
             else
             {
-                if(_context.Seats.Where(x => x.RowId == seatrow.Id).Count()==0)
+                if (_context.Seats.Where(x => x.RowId == seatrow.Id).Count() == 0)
                     _context.SeatRows.Remove(seatrow);
                 else
                 {
@@ -72,8 +71,6 @@ namespace Movietheater.Application.SeatServices
                 }
                 await _context.SaveChangesAsync();
                 return new ApiSuccessResultLite("Xóa thành công");
-
-
             }
         }
 
@@ -93,7 +90,7 @@ namespace Movietheater.Application.SeatServices
             var seatRow = _context.SeatRows.Select(x => x);
 
             int totalRow = await seatRow.CountAsync();
-            if(request.Keyword != null)
+            if (request.Keyword != null)
             {
                 seatRow = seatRow.Where(x => x.Name.Contains(request.Keyword)
                                                 || x.Id.ToString().Contains(request.Keyword));
@@ -107,7 +104,6 @@ namespace Movietheater.Application.SeatServices
 
             var pageResult = new PageResult<SeatRowVMD>()
             {
-
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,

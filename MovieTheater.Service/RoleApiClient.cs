@@ -3,9 +3,7 @@ using Microsoft.Extensions.Configuration;
 using MovieTheater.Models.Identity.Role;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MovieTheater.Api
@@ -16,10 +14,12 @@ namespace MovieTheater.Api
     IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
      httpContextAccessor)
         { }
-       public async Task<List<RoleVMD>> GetRolesAsync()
-       {
+
+        public async Task<List<RoleVMD>> GetRolesAsync()
+        {
             return await GetAsync<List<RoleVMD>>("/api/Role/GetAll");
-       }
+        }
+
         public async Task<List<RoleVMD>> GetRolesOfUserAsync(Guid userId)
         {
             return await GetAsync<List<RoleVMD>>($"/api/Role/User/{userId}");

@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.SeatServices;
 using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.Seat;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -15,6 +12,7 @@ namespace MovieTheater.BackEnd.Controllers
     public class SeatController : Controller
     {
         private readonly ISeatService _seatService;
+
         public SeatController(ISeatService seatService)
         {
             _seatService = seatService;
@@ -60,9 +58,6 @@ namespace MovieTheater.BackEnd.Controllers
         {
             var result = await _seatService.GetListSeatReserved(screeningId);
             return result;
-
         }
-
-      
     }
 }

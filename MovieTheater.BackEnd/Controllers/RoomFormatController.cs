@@ -2,9 +2,7 @@
 using Movietheater.Application.RoomServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.RoomModels.Format;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -14,6 +12,7 @@ namespace MovieTheater.BackEnd.Controllers
     public class RoomFormatController : Controller
     {
         private readonly IRoomFormatService _roomFormatService;
+
         public RoomFormatController(IRoomFormatService roomFormatService)
         {
             _roomFormatService = roomFormatService;

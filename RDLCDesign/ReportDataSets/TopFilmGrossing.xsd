@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
-<xs:schema id="TopFilmGrossing" 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="TopFilmGrossing"
                   targetNamespace="http://tempuri.org/TopFilmGrossing.xsd"
                   elementFormDefault="qualified"
                   attributeFormDefault="qualified"

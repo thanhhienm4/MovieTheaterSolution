@@ -4,11 +4,8 @@ using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.Seat;
 using MovieTheater.Models.Infra.Seat.SeatRow;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MovieTheater.Api
@@ -24,10 +21,12 @@ namespace MovieTheater.Api
         {
             return await PostAsync<ApiResultLite>("Api/SeatRow/Create", request);
         }
+
         public async Task<ApiResultLite> UpdateAsync(SeatRowUpdateRequest request)
         {
             return await PutAsync<ApiResultLite>("Api/SeatRow/Update", request);
         }
+
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
             return await DeleteAsync<ApiResultLite>($"Api/SeatRow/Delete/{id}");
@@ -42,6 +41,7 @@ namespace MovieTheater.Api
         {
             return await PostAsync<ApiResult<PageResult<SeatRowVMD>>>($"Api/SeatRow/GetSeatRowPaging", request);
         }
+
         public async Task<ApiResult<SeatRowVMD>> GetSeatRowByIdAsync(int id)
         {
             return await GetAsync<ApiResult<SeatRowVMD>>($"Api/SeatRow/GetSeatRowById/{id}");

@@ -2,10 +2,6 @@
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.ReservationServices
@@ -13,13 +9,15 @@ namespace Movietheater.Application.ReservationServices
     public class ReservationTypeService : IReservationTypeService
     {
         private readonly MovieTheaterDBContext _context;
+
         public ReservationTypeService(MovieTheaterDBContext context)
         {
             _context = context;
         }
+
         public async Task<ApiResultLite> CreateAsync(string name)
         {
-            ReservationType rvt  = new ReservationType()
+            ReservationType rvt = new ReservationType()
             {
                 Name = name
             };

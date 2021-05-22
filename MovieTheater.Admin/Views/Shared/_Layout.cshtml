@@ -22,7 +22,6 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet" />
     <link href="/css/style.css" rel="stylesheet" />
-
 </head>
 
 <body id="page-top">
@@ -74,14 +73,12 @@
                         </svg>
 
                         <span>&nbsp; Nhân viên</span>
-
                     </a>
                     <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
 
                             <a class="collapse-item" href="/User/Index">Danh sách</a>
                             <a class="collapse-item" href="/User/Create">Tạo mới</a>
-
                         </div>
                     </div>
                 </li>
@@ -99,12 +96,9 @@
 
                                             <a class="collapse-item" href="/Film/Index">Danh sách</a>
                                             <a class="collapse-item" href="/Film/Create">Tạo mới</a>
-
                                         </div>
                                     </div>
                                 </li>
-
-
 
                                                 <li class="nav-item">
                                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStatistic"
@@ -118,12 +112,9 @@
                                                         <div class="bg-white py-2 collapse-inner rounded">
 
                                                             <a class="collapse-item" href="/Statitic/Index">Danh sách</a>
-                                                          
-
                                                         </div>
                                                     </div>
                                                 </li>
-
 
                                                                 <li class="nav-item">
                                                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePeople"
@@ -138,7 +129,6 @@
 
                                                                             <a class="collapse-item" href="/People/Index">Danh sách</a>
                                                                             <a class="collapse-item" href="/People/Create">Tạo mới</a>
-
                                                                         </div>
                                                                     </div>
                                                                 </li>
@@ -154,7 +144,6 @@
 
                                                                                             <a class="collapse-item" href="/Room/Index">Danh sách</a>
                                                                                             <a class="collapse-item" href="/Room/Create">Tạo mới</a>
-
                                                                                         </div>
                                                                                     </div>
                                                                                 </li>
@@ -169,7 +158,6 @@
 
                                                                                                             <a class="collapse-item" href="/SeatRow/Index">Danh sách</a>
                                                                                                             <a class="collapse-item" href="/SeatRow/Create">Tạo mới</a>
-
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </li>
@@ -185,32 +173,27 @@
 
                                                                                                                             <a class="collapse-item" href="/Screening/Index">Danh sách</a>
                                                                                                                             <a class="collapse-item" href="/Screening/Create">Tạo mới</a>
-
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </li>            }
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/Reservation/Index" >
+                <a class="nav-link collapsed" href="/Reservation/Index">
                     <img src="https://img.icons8.com/material/15/ffffff/starred-ticket--v1.png" />
                     <span>&nbsp; Đặt vé</span>
                 </a>
-               
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/Retail/Index" >
+                <a class="nav-link collapsed" href="/Retail/Index">
                     <img src="https://img.icons8.com/material-outlined/15/ffffff/shopping-basket.png" />
                     <span>&nbsp; Bán vé</span>
                 </a>
-                
             </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-
-
         </ul>
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
@@ -267,8 +250,6 @@
                             </div>
                         </li>
 
-
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -282,34 +263,28 @@
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="/user/Edit/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
-                                    
+
                                     Thông tin cá nhân
                                 </a>
                                 <a class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
-                                   
+
                                     Đổi mật khẩu
                                 </a>
                                 <a class="dropdown-item" href="/User/Logout">
-                                   
+
                                     Đăng xuất
                                 </a>
-
-
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     @RenderBody();
-
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
             <!-- Footer -->
@@ -324,7 +299,6 @@
             @RenderSection("Scripts", required: false)
         </div>
         <!-- End of Content Wrapper -->
-
     </div>
     <!-- End of Page Wrapper -->
     <!-- Scroll to Top Button-->
@@ -352,7 +326,6 @@
         </div>
     </div>
 
-
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -362,6 +335,5 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
-
 </body>
 </html>

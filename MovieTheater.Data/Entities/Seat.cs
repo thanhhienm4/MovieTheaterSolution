@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MovieTheater.Data.Entities
 {
@@ -17,8 +16,6 @@ namespace MovieTheater.Data.Entities
         public Room Room { get; set; }
 
         public SeatRow SeatRow { get; set; }
-
-        
 
         public bool IsActive { get; set; }
         public List<Ticket> Tickets { get; set; }

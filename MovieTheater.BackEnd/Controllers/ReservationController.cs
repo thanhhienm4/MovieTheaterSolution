@@ -3,9 +3,7 @@ using Movietheater.Application.ReservationServices;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -15,6 +13,7 @@ namespace MovieTheater.BackEnd.Controllers
     public class ReservationController : Controller
     {
         private readonly IReservationService _reservationService;
+
         public ReservationController(IReservationService reservationService)
         {
             _reservationService = reservationService;
@@ -47,6 +46,7 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _reservationService.GetReservationPagingAsync(request);
             return result;
         }
+
         [HttpGet("GetReservationById/{id}")]
         public async Task<ApiResult<ReservationVMD>> GeReservationByIdAsync(int id)
         {

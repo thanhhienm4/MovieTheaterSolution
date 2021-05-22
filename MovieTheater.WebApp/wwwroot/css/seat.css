@@ -1,5 +1,4 @@
-﻿
-.seat {
+﻿.seat {
     background-color: #fff;
     border-radius: 10%;
     height: 40px;
@@ -8,6 +7,7 @@
     margin: 2px 2px 2px 2px;
     border: 0px;
 }
+
 .vipSeat {
     background-color: #d4b15f;
 }
@@ -15,6 +15,7 @@
 .normalSeat {
     background-color: #4e73df;
 }
+
 .seat.normalSeat.selectingSeat {
     background-color: #00b300;
 }
@@ -22,14 +23,17 @@
 .seat.vipSeat.selectingSeat {
     background-color: #00b300;
 }
+
 .seat.vipSeat.taken {
     cursor: not-allowed;
     background: repeating-linear-gradient( 45deg, rgba(212,177,95,.4), rgba(212,177,95,.4) 10px, rgba(212,177,95,.6) 0, rgba(212,177,95,.6) 20px)
 }
+
 .seat.normalSeat.taken {
     cursor: not-allowed;
     background: repeating-linear-gradient( 45deg, rgba(78, 115, 223,.4), rgba(78, 115, 223,0.4) 10px, rgba(78, 115, 223,.6) 0, rgba(78, 115, 223,.6) 20px)
 }
+
 .time {
     height: 70px;
     width: 50px;
@@ -38,7 +42,3 @@
     padding-left: 5px;
     padding-bottom: 5px;
 }
-
-
-
-

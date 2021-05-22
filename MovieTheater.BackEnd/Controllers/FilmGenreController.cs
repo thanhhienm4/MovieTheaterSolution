@@ -2,9 +2,7 @@
 using Movietheater.Application.FilmServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -13,12 +11,13 @@ namespace MovieTheater.BackEnd.Controllers
     [ApiController]
     public class FilmGenreController : Controller
     {
-        private readonly IFilmGenreService _filmGenreService; 
+        private readonly IFilmGenreService _filmGenreService;
+
         public FilmGenreController(IFilmGenreService filmGenreService)
         {
             _filmGenreService = filmGenreService;
-
         }
+
         [HttpGet("getAllFilmGenre")]
         public async Task<ApiResult<List<FilmGenreVMD>>> GetAllFilmGenreAsync()
         {

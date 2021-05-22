@@ -2,9 +2,7 @@
 using Movietheater.Application.ScreeningServices;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -14,6 +12,7 @@ namespace MovieTheater.BackEnd.Controllers
     public class KindOfScreeningController : Controller
     {
         private readonly IkindOfScreeningService _kindOfScreeningService;
+
         public KindOfScreeningController(IkindOfScreeningService kindOfScreeningService)
         {
             _kindOfScreeningService = kindOfScreeningService;

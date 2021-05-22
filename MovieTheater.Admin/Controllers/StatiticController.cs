@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.Common.ChartTable;
+using MovieTheater.Models.Report;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
@@ -17,7 +17,8 @@ namespace MovieTheater.Admin.Controllers
     {
         private readonly StatiticApiClient _statiticApiClient;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public StatiticController(StatiticApiClient statiticApiClient , IWebHostEnvironment webHostEnvironment)
+
+        public StatiticController(StatiticApiClient statiticApiClient, IWebHostEnvironment webHostEnvironment)
         {
             _statiticApiClient = statiticApiClient;
             _webHostEnvironment = webHostEnvironment;
@@ -25,18 +26,22 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(CalRevenueRequest request)
+        public async Task<IActionResult> Index(CalRevenueRequest? request)
         {
+            if(request.StartDate == DateTime.MinValue && request.EndDate == DateTime.MinValue)
+            {
+                request.EndDate = DateTime.Now;
+            }
 
             var topGroosingFilm = (await _statiticApiClient.GetTopGrossingFilmAsync(request)).ResultObj;
-            var groosing =  (await _statiticApiClient.GetGroosingTypeAsync(request)).ResultObj;
+            var groosing = (await _statiticApiClient.GetGroosingTypeAsync(request)).ResultObj;
             ViewData["TopGroosingFilm"] = topGroosingFilm;
             ViewData["Groosing"] = groosing;
 
-            
             return View(request);
         }
-        private async Task<DataTable> GetDataReport()
+
+        private async Task<DataTable> GetDataReport(CalRevenueRequest request)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("Film");
@@ -44,12 +49,9 @@ namespace MovieTheater.Admin.Controllers
             dt.Columns.Add("Proportion");
 
            
-            var request = new CalRevenueRequest();
-            request.StartDate = DateTime.Now.AddMonths(-1);
-            request.EndDate = DateTime.Now;
             var topGroosingFilm = (await _statiticApiClient.GetTopGrossingFilmAsync(request)).ResultObj;
             DataRow row;
-            for(int i=0;i< topGroosingFilm.Lables.Count;i++)
+            for (int i = 0; i < topGroosingFilm.Lables.Count; i++)
             {
                 row = dt.NewRow();
                 row["Film"] = topGroosingFilm.Lables[i];
@@ -58,18 +60,54 @@ namespace MovieTheater.Admin.Controllers
             }
             return dt;
         }
-        public async Task<IActionResult> Print()
+
+        public async Task<string> FilmRevenueReport(FilmReportRequest request)
         {
             string minetype = "";
             int extention = 1;
-            DataTable dt = await GetDataReport();
+            CalRevenueRequest calrevenueRequest = new CalRevenueRequest()
+            {
+                StartDate = request.StartDate,
+                EndDate = request.EndDate
+            };
+
+            DataTable dt = await GetDataReport(calrevenueRequest);
             var path = $"{this._webHostEnvironment.WebRootPath}\\Reports\\RprtFilm.rdlc";
             Dictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("prm", "RDLC Report");
+            parameters.Add("prm", $"Thống kê kết quả từ ngày {request.StartDate.ToString("dd/MM/yyyy")} đến ngày {request.EndDate.ToString("dd/MM/yyyy")}");
             LocalReport localReport = new LocalReport(path);
             localReport.AddDataSource("TopGrossingFilm", dt);
-            var result = localReport.Execute(RenderType.Pdf, extention, parameters, minetype);
-            return File(result.MainStream, "application/pdf");
+            ReportResult report;
+            FileContentResult file;
+
+            switch(request.RenderType)
+            {
+                case RenderType.Pdf:
+                    {
+                        report = localReport.Execute(RenderType.Pdf, extention, parameters, minetype);
+                        file = File(report.MainStream, "application/pdf");
+                        break;
+                    };
+                case RenderType.Excel:
+                    {
+                        report = localReport.Execute(RenderType.Excel, extention, parameters, minetype);
+                        file = File(report.MainStream, "application/excel");
+                        break;
+                    }
+                default:
+                    {
+                        report = localReport.Execute(RenderType.Pdf, extention, parameters, minetype);
+                        file = File(report.MainStream, "application/pdf");
+                        break;
+                    }
+
+
+            }
+
+          
+           
+            var data = Convert.ToBase64String(file.FileContents);
+            return data;
         }
 
         [HttpGet]
@@ -88,10 +126,10 @@ namespace MovieTheater.Admin.Controllers
             date = DateTime.Now;
             var request = new CalRevenueRequest()
             {
-                 StartDate = new DateTime(date.Year, date.Month, 1),
-                 EndDate = new DateTime(date.AddMonths(1).Year, date.AddMonths(1).Month, 1).AddDays(-1)
+                StartDate = new DateTime(date.Year, date.Month, 1),
+                EndDate = new DateTime(date.AddMonths(1).Year, date.AddMonths(1).Month, 1).AddDays(-1)
             };
-        
+
             var result = (await _statiticApiClient.GetRevenueAsync(request)).ResultObj;
             return result;
         }

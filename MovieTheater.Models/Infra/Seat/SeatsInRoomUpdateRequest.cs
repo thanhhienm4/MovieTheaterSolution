@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MovieTheater.Models.Infra.Seat
 {
     public class SeatsInRoomUpdateRequest
     {
         public List<SeatCreateRequest> Seats { get; set; }
-        public int RoomId {get; set;}
+        public int RoomId { get; set; }
     }
 }

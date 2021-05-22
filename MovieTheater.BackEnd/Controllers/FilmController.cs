@@ -20,14 +20,14 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync([FromForm]FilmCreateRequest model)
+        public async Task<ApiResultLite> CreateAsync([FromForm] FilmCreateRequest model)
         {
             var result = await _filmService.CreateAsync(model);
             return result;
         }
 
         [HttpPut("Update")]
-        public async Task<ApiResultLite> UpdateAsync([FromForm]FilmUpdateRequest request)
+        public async Task<ApiResultLite> UpdateAsync([FromForm] FilmUpdateRequest request)
         {
             var result = await _filmService.UpdateAsync(request);
             return result;
@@ -74,6 +74,7 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _filmService.GenreAssignAsync(request);
             return result;
         }
+
         [HttpGet("getAllPlayingFilm")]
         public async Task<ApiResult<List<FilmVMD>>> GetAllPlayingFilmAsync()
         {

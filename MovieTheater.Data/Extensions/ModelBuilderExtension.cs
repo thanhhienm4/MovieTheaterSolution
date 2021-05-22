@@ -26,7 +26,7 @@ namespace MovieTheater.Data.Extensions
                 },
                  new AppRole()
                  {
-                     Id = new Guid("0417C463-9AF0-46D9-9FF7-D3E63321DFCC"),                     
+                     Id = new Guid("0417C463-9AF0-46D9-9FF7-D3E63321DFCC"),
                      Name = "Customer",
                      NormalizedName = "Customer",
                      Description = "Customer role"
@@ -50,11 +50,10 @@ namespace MovieTheater.Data.Extensions
                     AccessFailedCount = 0,
                     TwoFactorEnabled = false,
                     LockoutEnd = new DateTimeOffset(),
-                   
                 },
                  new User()
                  {
-                     Id = new Guid("BFDB878D-F543-4A69-B140-F05378ECB17C") ,
+                     Id = new Guid("BFDB878D-F543-4A69-B140-F05378ECB17C"),
                      UserName = "Hien",
                      NormalizedUserName = "Hien",
                      Email = "Hien@gmail.com",
@@ -69,24 +68,23 @@ namespace MovieTheater.Data.Extensions
                      AccessFailedCount = 0,
                      TwoFactorEnabled = false,
                      LockoutEnd = new DateTimeOffset(),
-
                  }
                 );
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasData
                 (
                     new IdentityUserRole<Guid>()
                     {
-                        RoleId = new Guid("C02AB224-EBDD-44E3-B691-5ACEC03DA039"),  
+                        RoleId = new Guid("C02AB224-EBDD-44E3-B691-5ACEC03DA039"),
                         UserId = new Guid("99ECA8CE-E954-4ED9-AB12-1A1FB010A9F8")
                     },
                      new IdentityUserRole<Guid>()
                      {
-                        RoleId = new Guid("0417C463-9AF0-46D9-9FF7-D3E63321DFCC") ,
+                         RoleId = new Guid("0417C463-9AF0-46D9-9FF7-D3E63321DFCC"),
                          UserId = new Guid("BFDB878D-F543-4A69-B140-F05378ECB17C")
                      }
 
-                ); 
-            
+                );
+
             modelBuilder.Entity<UserInfor>().HasData(
                  new UserInfor()
                  {
@@ -95,7 +93,7 @@ namespace MovieTheater.Data.Extensions
                      FirstName = "Hien",
                      LastName = "Nguyen Thanh",
                      Dob = new DateTime(2020, 01, 31),
-                 })  ;
+                 });
             modelBuilder.Entity<RoomFormat>().HasData(
                 new RoomFormat()
                 {
@@ -144,8 +142,8 @@ namespace MovieTheater.Data.Extensions
                      Id = 3,
                      Name = 'C'.ToString()
                  }
-                ) ;
-           
+                );
+
             modelBuilder.Entity<Seat>().HasData(
               new Seat()
               {
@@ -155,7 +153,7 @@ namespace MovieTheater.Data.Extensions
                   RoomId = 1,
                   RowId = 1
               });
-            
+
             modelBuilder.Entity<Ban>().HasData(
                 new Ban()
                 {
@@ -178,7 +176,7 @@ namespace MovieTheater.Data.Extensions
                     Id = 2,
                     Name = "Haì"
                 });
-            
+
             modelBuilder.Entity<People>().HasData(
                 new People()
                 {
@@ -208,7 +206,7 @@ namespace MovieTheater.Data.Extensions
                     Id = 2,
                     Name = "Bình thường",
                     Surcharge = 0
-                }) ;
+                });
             modelBuilder.Entity<Screening>().HasData(
               new Screening()
               {
@@ -216,7 +214,7 @@ namespace MovieTheater.Data.Extensions
                   FilmId = 1,
                   KindOfScreeningId = 1,
                   RoomId = 1,
-                 // Surcharge = 20000,
+                  // Surcharge = 20000,
                   StartTime = DateTime.UtcNow
               });
             modelBuilder.Entity<ReservationType>().HasData(
@@ -237,8 +235,6 @@ namespace MovieTheater.Data.Extensions
                     ReservationTypeId = 1,
                     EmployeeId = new Guid("99ECA8CE-E954-4ED9-AB12-1A1FB010A9F8"),
                     CustomerId = null
-                    
-
                 });
             modelBuilder.Entity<Ticket>().HasData(
                 new Ticket()
@@ -246,8 +242,6 @@ namespace MovieTheater.Data.Extensions
                     ScreeningId = 1,
                     SeatId = 1,
                     ReservationId = 1
-
-
                 }
                 );
             modelBuilder.Entity<Position>().HasData(
@@ -255,18 +249,13 @@ namespace MovieTheater.Data.Extensions
                 {
                     Id = 1,
                     Name = "Diễn viên"
-
-
                 },
                 new Position()
                 {
                     Id = 2,
                     Name = "Đạo diễn"
-
-
                 }
                 );
-
         }
     }
 }

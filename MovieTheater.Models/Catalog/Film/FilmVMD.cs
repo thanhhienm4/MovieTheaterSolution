@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieTheater.Models.Catalog.Film
 {
@@ -18,6 +15,6 @@ namespace MovieTheater.Models.Catalog.Film
         public string Poster { get; set; }
         public List<string> Genres { get; set; }
         public List<string> Actors { get; set; }
-        public List<string> Directors { get; set;}
+        public List<string> Directors { get; set; }
     }
 }

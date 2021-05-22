@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
@@ -20,14 +19,14 @@ namespace MovieTheater.Admin.Controllers
         private readonly ScreeningApiClient _screeningApiClient;
         private readonly RoomApiClient _roomApiClient;
         private readonly FilmApiClient _filmApiClient;
-        public ScreeningController(SeatApiClient seatApiClient, ScreeningApiClient screeningApiClient, 
+
+        public ScreeningController(SeatApiClient seatApiClient, ScreeningApiClient screeningApiClient,
             RoomApiClient roomApiClient, FilmApiClient filmApiClient)
         {
             _seatApiClient = seatApiClient;
             _screeningApiClient = screeningApiClient;
             _roomApiClient = roomApiClient;
             _filmApiClient = filmApiClient;
-
         }
 
         [Authorize(Roles = "Admin,Employee")]
@@ -37,18 +36,16 @@ namespace MovieTheater.Admin.Controllers
             var result = (await _seatApiClient.GetListSeatReserved(id)).ResultObj;
             return result;
         }
+
         public async Task<IActionResult> Index(string keyword, DateTime? date = null, int pageIndex = 1, int pageSize = 10)
         {
-
             var request = new ScreeningPagingRequest()
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
                 Date = date
-
             };
-            
 
             ViewBag.Date = date;
             ViewBag.KeyWord = keyword;
@@ -60,7 +57,6 @@ namespace MovieTheater.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-
             await SetViewBagAsync();
             return View();
         }
@@ -91,7 +87,6 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                
                 return View();
             }
             var result = await _screeningApiClient.GetScreeningMDByIdAsync(id);
@@ -105,7 +100,6 @@ namespace MovieTheater.Admin.Controllers
                     KindOfScreeningId = result.ResultObj.KindOfScreeningId,
                     RoomId = result.ResultObj.RoomId,
                     StartTime = result.ResultObj.StartTime
-
                 };
                 ViewBag.Date = result.ResultObj.StartTime;
                 await SetViewBagAsync();
@@ -138,15 +132,14 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
-       
         [HttpPost]
         public async Task<ApiResultLite> Delete(int id)
         {
-
             var result = await _screeningApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;
             return result;
         }
+
         private async Task SetViewBagAsync()
         {
             var rooms = (await _roomApiClient.GetAllRoomAsync()).ResultObj;
@@ -168,6 +161,5 @@ namespace MovieTheater.Admin.Controllers
                 Value = x.Id.ToString()
             });
         }
-
     }
 }

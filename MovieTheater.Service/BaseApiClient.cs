@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -67,6 +66,7 @@ namespace MovieTheater.Api
             var response = await client.PutAsync(url, httpContent);
             return await GetResultAsync<TResponse>(response);
         }
+
         public HttpClient GetHttpClient()
         {
             var BearerToken = _httpContextAccessor
@@ -81,6 +81,7 @@ namespace MovieTheater.Api
 
             return client;
         }
+
         public static async Task<TResponse> GetResultAsync<TResponse>(HttpResponseMessage response)
         {
             var body = await response.Content.ReadAsStringAsync();

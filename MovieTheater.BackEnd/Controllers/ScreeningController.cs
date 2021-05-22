@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.ScreeningServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
@@ -7,7 +6,6 @@ using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -17,6 +15,7 @@ namespace MovieTheater.BackEnd.Controllers
     public class ScreeningController : Controller
     {
         private readonly IScreeningService _screeningService;
+
         public ScreeningController(IScreeningService screeningService)
         {
             _screeningService = screeningService;
@@ -57,7 +56,6 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-
         [HttpGet("GetScreeningVMDById/{id}")]
         public async Task<ApiResult<ScreeningVMD>> GetScreeningVMDByIdAsync(int id)
         {
@@ -78,7 +76,5 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _screeningService.GetListCreeningOfFilmInWeek(filmId);
             return result;
         }
-        
-
     }
 }

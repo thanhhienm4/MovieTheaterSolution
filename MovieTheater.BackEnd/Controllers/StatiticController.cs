@@ -2,9 +2,6 @@
 using Movietheater.Application.Statitic;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.ChartTable;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -14,16 +11,17 @@ namespace MovieTheater.BackEnd.Controllers
     public class StatiticController : Controller
     {
         private readonly IStatiticService _statiticService;
+
         public StatiticController(IStatiticService statiticService)
         {
             _statiticService = statiticService;
         }
+
         [HttpPost("GetTopGrossingFilm")]
         public async Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(CalRevenueRequest request)
         {
             var result = await _statiticService.GetTopGrossingFilmAsync(request);
             return result;
-
         }
 
         [HttpPost("GetRevenueAsync")]
@@ -31,7 +29,6 @@ namespace MovieTheater.BackEnd.Controllers
         {
             var result = await _statiticService.GetRevenueAsync(request);
             return result;
-
         }
 
         [HttpPost("GetGroosingTypeAsync")]
@@ -39,9 +36,13 @@ namespace MovieTheater.BackEnd.Controllers
         {
             var result = await _statiticService.GetGroosingTypeAsync(request);
             return result;
-
         }
-
-
+        [HttpPost("GetRevenueInNMonthAsync")]
+        public async Task<ApiResult<ChartData>> GetRevenueInNMonthAsync(int n)
+        {
+            var result = await _statiticService.GetRevenueInNMonthAsync(n);
+            return result;
+        }
+      
     }
 }

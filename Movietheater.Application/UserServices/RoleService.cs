@@ -6,7 +6,6 @@ using MovieTheater.Models.Identity.Role;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.UserServices
@@ -14,10 +13,12 @@ namespace Movietheater.Application.UserServices
     public class RoleService : IRoleService
     {
         private readonly RoleManager<AppRole> _roleManager;
+
         public RoleService(RoleManager<AppRole> roleManager)
         {
             _roleManager = roleManager;
         }
+
         public async Task<ApiResultLite> CreateAsync(RoleCreateRequest model)
         {
             var role = new AppRole()
@@ -35,6 +36,7 @@ namespace Movietheater.Application.UserServices
                 return new ApiErrorResultLite("Tạo mới thất bại");
             }
         }
+
         public async Task<ApiResultLite> DeleteAsync(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -55,9 +57,10 @@ namespace Movietheater.Application.UserServices
                 return new ApiErrorResultLite("Role không tồn tại");
             }
         }
+
         public async Task<ApiResultLite> UpdateAsync(RoleUpdateRequest model)
         {
-            var role =await _roleManager.FindByIdAsync(model.Id.ToString());
+            var role = await _roleManager.FindByIdAsync(model.Id.ToString());
             if (role == null)
                 return new ApiErrorResultLite("Role không tồn tại");
 
@@ -68,12 +71,12 @@ namespace Movietheater.Application.UserServices
             if (!result.Succeeded)
                 return new ApiErrorResultLite("Cập nhật không thành công");
             return new ApiSuccessResultLite();
-            
         }
+
         public async Task<List<RoleVMD>> GetAllRoles()
         {
             var roles = new List<RoleVMD>();
-            roles =await _roleManager.Roles.Where(x=> x.Id != new Guid("0417C463-9AF0-46D9-9FF7-D3E63321DFCC")).Select(x => new RoleVMD()
+            roles = await _roleManager.Roles.Where(x => x.Id != new Guid("0417C463-9AF0-46D9-9FF7-D3E63321DFCC")).Select(x => new RoleVMD()
             {
                 Id = x.Id,
                 Description = x.Description,
@@ -81,7 +84,5 @@ namespace Movietheater.Application.UserServices
             }).ToListAsync();
             return new List<RoleVMD>(roles);
         }
-
-        
     }
 }

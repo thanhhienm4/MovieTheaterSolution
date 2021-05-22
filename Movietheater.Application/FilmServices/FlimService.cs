@@ -12,9 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace Movietheater.Application.FilmServices
 {
@@ -23,14 +21,13 @@ namespace Movietheater.Application.FilmServices
         private readonly MovieTheaterDBContext _context;
         private readonly IStorageService _storageService;
         private readonly IConfiguration _configuration;
+
         public FlimService(MovieTheaterDBContext context, IStorageService storageService, IConfiguration configuration)
         {
-
             _context = context;
             _storageService = storageService;
             _configuration = configuration;
         }
-
 
         public async Task<ApiResultLite> CreateAsync(FilmCreateRequest request)
         {
@@ -52,8 +49,8 @@ namespace Movietheater.Application.FilmServices
                 return new ApiErrorResultLite("Không thể thêm phim");
             }
             return new ApiSuccessResultLite("Thêm thành công");
-
         }
+
         public async Task<ApiResultLite> UpdateAsync(FilmUpdateRequest request)
         {
             Film film = await _context.Films.FindAsync(request.Id);
@@ -70,30 +67,30 @@ namespace Movietheater.Application.FilmServices
                 film.PublishDate = request.PublishDate;
                 film.TrailerURL = request.TrailerURL;
 
-                if(request.Poster != null)
-                {   
+                if (request.Poster != null)
+                {
                     try
                     {
                         await _storageService.DeleteFileAsync(film.Poster);
-                    }catch(Exception e)
+                    }
+                    catch (Exception e)
                     {
-
-                    }              
+                    }
                     string newPosterPath = await this.SaveFile(request.Poster);
                     film.Poster = newPosterPath;
                 }
-                
+
                 _context.Films.Update(film);
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)
                 {
                     return new ApiErrorResultLite("Cập nhật thất bại");
                 }
-                
-                return new ApiSuccessResultLite("Cập nhật thành công");
 
+                return new ApiSuccessResultLite("Cập nhật thành công");
             }
         }
+
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
             using var transaction = _context.Database.BeginTransaction();
@@ -104,12 +101,11 @@ namespace Movietheater.Application.FilmServices
             }
             else
             {
-                if(_context.Screenings.Where(x => x.FilmId == film.Id).Count()!=0)
+                if (_context.Screenings.Where(x => x.FilmId == film.Id).Count() != 0)
                     return new ApiSuccessResultLite("Xóa thất bại");
 
                 try
                 {
-                    
                     _context.Joinings.RemoveRange(_context.Joinings.Where(x => x.FilmId == id));
                     _context.SaveChanges();
 
@@ -121,15 +117,13 @@ namespace Movietheater.Application.FilmServices
                     await _storageService.DeleteFileAsync(poster);
                     return new ApiSuccessResultLite("Xóa thành công");
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     return new ApiSuccessResultLite("Xóa thất bại");
                 }
-                
-
-
             }
         }
+
         public async Task<ApiResult<List<FilmVMD>>> GetAllFilmAsync()
         {
             var query = from f in _context.Films
@@ -137,28 +131,27 @@ namespace Movietheater.Application.FilmServices
                         select new { f, b };
 
             var films = await query.Select(x => new FilmVMD()
-                {
-                    Id = x.f.Id,
-                    Name = x.f.Name,
-                    PublishDate = x.f.PublishDate,
-                    Ban = x.b.Name,
-                    Poster = $"{_configuration["BackEndServer"]}/" +
+            {
+                Id = x.f.Id,
+                Name = x.f.Name,
+                PublishDate = x.f.PublishDate,
+                Ban = x.b.Name,
+                Poster = $"{_configuration["BackEndServer"]}/" +
                    $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
-                    Description = x.f.Description,
-                    TrailerURL = x.f.TrailerURL
-
-                }).ToListAsync();
+                Description = x.f.Description,
+                TrailerURL = x.f.TrailerURL
+            }).ToListAsync();
 
             return new ApiSuccessResult<List<FilmVMD>>(films);
         }
+
         public async Task<ApiResult<List<FilmVMD>>> GetAllPlayingFilmAsync()
         {
             var query = from f in _context.Films
                         join b in _context.Bans on f.BanId equals b.Id
-                        join s in _context.Screenings on f.Id equals s.FilmId 
+                        join s in _context.Screenings on f.Id equals s.FilmId
                         where s.StartTime.Date == DateTime.Now.Date
 
-                      
                         select new { f, b };
 
             var films = await query.Distinct().Select(x => new FilmVMD()
@@ -171,11 +164,11 @@ namespace Movietheater.Application.FilmServices
                    $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
                 Description = x.f.Description,
                 TrailerURL = x.f.TrailerURL
-
             }).ToListAsync();
 
             return new ApiSuccessResult<List<FilmVMD>>(films);
         }
+
         public async Task<ApiResult<List<FilmVMD>>> GetAllUpcomingFilmAsync()
         {
             var query = from f in _context.Films
@@ -193,7 +186,6 @@ namespace Movietheater.Application.FilmServices
                    $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
                 Description = x.f.Description,
                 TrailerURL = x.f.TrailerURL
-
             }).ToListAsync();
 
             return new ApiSuccessResult<List<FilmVMD>>(films);
@@ -201,34 +193,32 @@ namespace Movietheater.Application.FilmServices
 
         public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
-            var query = from f in _context.Films 
-                        join b in _context.Bans on f.BanId equals b.Id 
-                        select new {f,b };
+            var query = from f in _context.Films
+                        join b in _context.Bans on f.BanId equals b.Id
+                        select new { f, b };
 
             if (!string.IsNullOrWhiteSpace(request.Keyword))
                 query = query.Where(x => x.f.Name.Contains(request.Keyword)
                                         || x.f.Id.ToString().Contains(request.Keyword)
                                         || x.b.Name.Contains(request.Keyword));
 
-
             int totalRow = await query.CountAsync();
             var films = query.OrderBy(x => x.f.Name).Skip((request.PageIndex - 1) * request.PageSize)
-                .Take(request.PageSize).Select( x => new FilmVMD()
+                .Take(request.PageSize).Select(x => new FilmVMD()
                 {
                     Id = x.f.Id,
                     Name = x.f.Name,
                     PublishDate = x.f.PublishDate,
                     Ban = x.b.Name,
                     Poster = $"{_configuration["BackEndServer"]}/" +
-                    $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
+                   $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
                     Description = x.f.Description,
                     TrailerURL = x.f.TrailerURL
-
                 }).ToList();
 
-            if(films != null)
+            if (films != null)
             {
-                foreach(var film in films)
+                foreach (var film in films)
                 {
                     film.Genres = GetGenres(film.Id);
                 }
@@ -236,7 +226,6 @@ namespace Movietheater.Application.FilmServices
 
             var pageResult = new PageResult<FilmVMD>()
             {
-
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
@@ -266,11 +255,11 @@ namespace Movietheater.Application.FilmServices
                     TrailerURL = film.TrailerURL,
                     Poster = $"{_configuration["BackEndServer"]}/" +
                     $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{film.Poster}"
-
                 };
                 return new ApiSuccessResult<FilmMD>(result);
             }
         }
+
         public async Task<ApiResult<FilmVMD>> GetFilmVMDById(int id)
         {
             Film film = await _context.Films.FindAsync(id);
@@ -293,9 +282,8 @@ namespace Movietheater.Application.FilmServices
                     Ban = x.b.Name,
                     Poster = $"{_configuration["BackEndServer"]}/" +
                     $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
-                    Description  = x.f.Description,
+                    Description = x.f.Description,
                     TrailerURL = x.f.TrailerURL
-
                 }).FirstOrDefaultAsync();
                 filmVMD.Genres = GetGenres(filmVMD.Id);
                 filmVMD.Directors = GetDirectors(filmVMD.Id);
@@ -312,29 +300,28 @@ namespace Movietheater.Application.FilmServices
                 return new ApiErrorResultLite("Phim không tồn tại");
             }
 
-            // check genres available 
-            List<int> genres = request.Genres.Select(x =>Int32.Parse(x.Id)).ToList();
+            // check genres available
+            List<int> genres = request.Genres.Select(x => Int32.Parse(x.Id)).ToList();
             if (!CheckGenres(genres))
             {
                 return new ApiErrorResultLite("Yêu cầu không hợp lệ");
             }
 
-            var filmInGenres = _context.FilmInGenres.Where(X => X.FilmId == request.FilmId).Select(x=>x);
+            var filmInGenres = _context.FilmInGenres.Where(X => X.FilmId == request.FilmId).Select(x => x);
             _context.FilmInGenres.RemoveRange(filmInGenres);
 
             var activeGenres = request.Genres.Where(x => x.Selected == true).Select(x => new FilmInGenre()
             {
-                FilmId = request.FilmId, 
+                FilmId = request.FilmId,
                 FilmGenreId = Int32.Parse(x.Id)
-            }) ;
+            });
             _context.FilmInGenres.AddRange(activeGenres);
 
             await _context.SaveChangesAsync();
 
             return new ApiSuccessResultLite("Gán danh mục thành công");
-           
-            
         }
+
         public async Task<ApiResultLite> PosAssignAsync(PosAssignRequest request)
         {
             if ((await _context.Films.FindAsync(request.FilmId)) == null)
@@ -344,7 +331,7 @@ namespace Movietheater.Application.FilmServices
             if ((await _context.Positions.FindAsync(request.PosId)) == null)
                 return new ApiErrorResultLite("Không tìm vai trò");
 
-            var joining =await _context.Joinings.FindAsync(request.FilmId, request.PeopleId, request.PosId);
+            var joining = await _context.Joinings.FindAsync(request.FilmId, request.PeopleId, request.PosId);
             if (joining != null)
                 return new ApiErrorResultLite("Đã tồn tại");
 
@@ -357,21 +344,21 @@ namespace Movietheater.Application.FilmServices
                     PositionId = request.PosId
                 };
 
-              
-
                 await _context.Joinings.AddAsync(jn);
                 await _context.SaveChangesAsync();
                 return new ApiSuccessResultLite("Thêm thành công");
-            }catch(DbUpdateException e)
+            }
+            catch (DbUpdateException e)
             {
                 return new ApiErrorResultLite("Thêm thất bại");
             }
         }
+
         public async Task<ApiResultLite> DeletePosAssignAsync(PosAssignRequest request)
         {
-            var joining =await _context.Joinings.Where(x => x.FilmId == request.FilmId &&
-                                                        x.PositionId == request.PosId &&
-                                                        x.PeppleId == request.PeopleId).FirstOrDefaultAsync();
+            var joining = await _context.Joinings.Where(x => x.FilmId == request.FilmId &&
+                                                         x.PositionId == request.PosId &&
+                                                         x.PeppleId == request.PeopleId).FirstOrDefaultAsync();
             if (joining == null)
                 return new ApiErrorResultLite("Yêu cầu không hợp lệ");
             else
@@ -380,8 +367,8 @@ namespace Movietheater.Application.FilmServices
                 _context.SaveChanges();
                 return new ApiSuccessResultLite("Xóa thành công");
             }
-
         }
+
         public async Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id)
         {
             var query = from j in _context.Joinings
@@ -391,8 +378,8 @@ namespace Movietheater.Application.FilmServices
 
             var res = new List<JoiningPosVMD>();
 
-            var positions =await _context.Positions.ToListAsync();
-            foreach(var position in positions)
+            var positions = await _context.Positions.ToListAsync();
+            foreach (var position in positions)
             {
                 JoiningPosVMD joiningPos = new JoiningPosVMD();
                 joiningPos.Name = position.Name;
@@ -407,11 +394,12 @@ namespace Movietheater.Application.FilmServices
                 res.Add(joiningPos);
             }
 
-            return new ApiSuccessResult<List<JoiningPosVMD>>(res);   
+            return new ApiSuccessResult<List<JoiningPosVMD>>(res);
         }
-        private bool CheckGenres (List<int> genres)
+
+        private bool CheckGenres(List<int> genres)
         {
-            var query =  genres.Join(_context.FilmGenre,
+            var query = genres.Join(_context.FilmGenre,
                 x => x,
                 fg => fg.Id,
                 (x, fg) => x).ToList();
@@ -421,9 +409,8 @@ namespace Movietheater.Application.FilmServices
                 return true;
             else
                 return false;
-
-
         }
+
         private async Task<string> SaveFile(IFormFile file)
         {
             string originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
@@ -431,15 +418,13 @@ namespace Movietheater.Application.FilmServices
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return fileName;
         }
-        
 
         private List<string> GetGenres(int id)
         {
-            return   _context.FilmInGenres.Join(_context.FilmGenre,
+            return _context.FilmInGenres.Join(_context.FilmGenre,
                                                             fig => fig.FilmGenreId,
                                                             fg => fg.Id,
                                                             (fig, fg) => fg.Name).ToList();
-            
         }
 
         private List<string> GetActors(int id)
@@ -448,7 +433,6 @@ namespace Movietheater.Application.FilmServices
                                                             fig => fig.FilmId,
                                                             p => p.Id,
                                                             (fig, p) => p.Name).ToList();
-
         }
 
         private List<string> GetDirectors(int id)
@@ -457,7 +441,6 @@ namespace Movietheater.Application.FilmServices
                                                              fig => fig.FilmId,
                                                              p => p.Id,
                                                              (fig, p) => p.Name).ToList();
-
         }
     }
 }

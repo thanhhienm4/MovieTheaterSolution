@@ -4,10 +4,8 @@ using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.FilmServices
@@ -15,10 +13,12 @@ namespace Movietheater.Application.FilmServices
     public class PeopleService : IPeopleService
     {
         private MovieTheaterDBContext _context;
+
         public PeopleService(MovieTheaterDBContext context)
         {
             _context = context;
         }
+
         public async Task<ApiResultLite> CreateAsync(PeopleCreateRequest request)
         {
             People people = new People()
@@ -80,10 +80,11 @@ namespace Movietheater.Application.FilmServices
                 return new ApiSuccessResultLite("Cập nhật thành công");
             }
         }
+
         public async Task<ApiResult<PageResult<PeopleVMD>>> GetPeoplePagingAsync(PeoplePagingRequest request)
         {
             var peoples = _context.Peoples.Select(x => x);
-            if(request.Keyword != null)
+            if (request.Keyword != null)
             {
                 peoples = peoples.Where(x => x.Id.ToString().Contains(request.Keyword) ||
                                                 x.Name.Contains(request.Keyword) ||
@@ -101,7 +102,6 @@ namespace Movietheater.Application.FilmServices
 
             var pageResult = new PageResult<PeopleVMD>()
             {
-
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
@@ -110,18 +110,19 @@ namespace Movietheater.Application.FilmServices
 
             return new ApiSuccessResult<PageResult<PeopleVMD>>(pageResult);
         }
+
         public async Task<ApiResult<List<PeopleVMD>>> GetAllPeopleAsync()
         {
-            var peoples =await _context.Peoples.Select(x => new PeopleVMD()
+            var peoples = await _context.Peoples.Select(x => new PeopleVMD()
             {
                 Description = x.Description,
                 DOB = x.DOB,
                 Id = x.Id,
                 Name = x.Name
-                
             }).ToListAsync();
             return new ApiSuccessResult<List<PeopleVMD>>(peoples);
         }
+
         public async Task<ApiResult<PeopleVMD>> GetPeopleById(int id)
         {
             People people = await _context.Peoples.FindAsync(id);
@@ -141,6 +142,5 @@ namespace Movietheater.Application.FilmServices
                 return new ApiSuccessResult<PeopleVMD>(result);
             }
         }
-
     }
 }

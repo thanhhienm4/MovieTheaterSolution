@@ -12,7 +12,7 @@ namespace MovieTheater.Data.EFConfigurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Name).IsRequired();
-           builder.HasIndex(x => x.Name).IsUnique();
+            builder.HasIndex(x => x.Name).IsUnique();
         }
     }
 }

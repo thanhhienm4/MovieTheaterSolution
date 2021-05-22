@@ -41,7 +41,6 @@ namespace MovieTheater.Data.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new CustomerInforConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
@@ -63,8 +62,6 @@ namespace MovieTheater.Data.EF
             modelBuilder.ApplyConfiguration(new FilmInGenreConfiguration());
             modelBuilder.ApplyConfiguration(new FilmConfiguration());
             modelBuilder.ApplyConfiguration(new KindOfScreeningConfiguration());
-
-
 
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles").HasKey(x => new { x.UserId, x.RoleId });
             //modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins").HasKey(x => x.UserId);

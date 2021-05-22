@@ -37,7 +37,6 @@
                             <button type="submit" class="btn btn-primary">Tìm</button>
                             <button type="button" onclick="window.location.href='/Film/Index'" class="btn btn-light"><img src="https://img.icons8.com/ios-filled/20/000000/rotate.png" /></button>
                         </div>
-
                     </div>
                 </form>
             </div>
@@ -46,9 +45,9 @@
     <div>
         @if (ViewBag.SuccessMsg != null)
         {
-<div id="SuccessMeg" class="alert alert-success" role="alert">
-    @ViewBag.SuccessMsg
-</div>            }
+            <div id="SuccessMeg" class="alert alert-success" role="alert">
+                @ViewBag.SuccessMsg
+            </div>      }
     </div>
     <div class="table-responsive">
         <table class="table table-bordered">
@@ -75,29 +74,30 @@
             <tbody>
                 @foreach (var item in Model.Item)
                 {
-    <tr>
+                    <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ban)
-        </td>
-        <td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ban)
+                        </td>
+                        <td>
 
-            @Convert.ToDateTime(item.PublishDate).ToString("dd/MM/yyyy")
-        </td>
-        <td>
-            @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
-            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteFilm" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|
-            @Html.ActionLink("Gán danh mục", "AssignGenre", new { id = item.Id }) &nbsp;|&nbsp;
-            @Html.ActionLink("Tham gia", "PosAssign", new { id = item.Id })
-        </td>
-    </tr>}
+                            @Convert.ToDateTime(item.PublishDate).ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
+                            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteFilm" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|
+                            @Html.ActionLink("Gán danh mục", "AssignGenre", new { id = item.Id }) &nbsp;|&nbsp;
+                            @Html.ActionLink("Tham gia", "PosAssign", new { id = item.Id })
+                        </td>
+                    </tr>
+}
             </tbody>
         </table>
         <div class="d-flex">
@@ -105,7 +105,6 @@
                 @await Component.InvokeAsync("Pager", Model)
             </div>
         </div>
-
     </div>
 </div>
 <!--model delete-->
@@ -126,7 +125,6 @@
             </div>
             <div class="modal-body">
                 <div id="deleteMeg"></div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -152,7 +150,6 @@
 
         });
 
-
     });
 
     function deleteFilm() {
@@ -177,4 +174,3 @@
     //    }
     //});
 </script>
-

@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
@@ -14,10 +11,12 @@ namespace MovieTheater.Admin.Controllers
     public class PeopleController : Controller
     {
         private readonly PeopleApiClient _peopleApiClient;
+
         public PeopleController(PeopleApiClient PeopleApiClient)
         {
             _peopleApiClient = PeopleApiClient;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
@@ -26,13 +25,13 @@ namespace MovieTheater.Admin.Controllers
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-
             };
             ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
             var result = await _peopleApiClient.GetPeoplePagingAsync(request);
             return View(result.ResultObj);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -100,13 +99,9 @@ namespace MovieTheater.Admin.Controllers
         [HttpPost]
         public async Task<ApiResultLite> Delete(int id)
         {
-
             var result = await _peopleApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;
             return result;
         }
-
-        
-
     }
 }

@@ -4,9 +4,7 @@ using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.RoomModels;
 using MovieTheater.Models.Infra.RoomModels.Format;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -16,6 +14,7 @@ namespace MovieTheater.BackEnd.Controllers
     public class RoomController : Controller
     {
         private readonly IRoomService _roomService;
+
         public RoomController(IRoomService roomService)
         {
             _roomService = roomService;
@@ -59,7 +58,6 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpPost]
         public async Task<ApiResultLite> Delete(int id)
         {
-
             var result = await _roomService.DeleteAsync(id);
 
             return result;
@@ -71,8 +69,5 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _roomService.GetAllRoomAsync();
             return result;
         }
-
-
     }
-    
 }

@@ -1,9 +1,5 @@
 ﻿using FluentValidation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 namespace MovieTheater.Models.User
@@ -11,14 +7,18 @@ namespace MovieTheater.Models.User
     public class ChangePWRequest
     {
         [Display(Name = "Tên đăng nhập")]
-        public string  UserName { get; set; }
+        public string UserName { get; set; }
+
         [Display(Name = "Mật khẩu")]
-        public string  OldPassword { get; set; }
+        public string OldPassword { get; set; }
+
         [Display(Name = "Mật khẩu mới")]
-        public string  NewPassword { get; set; }
+        public string NewPassword { get; set; }
+
         [Display(Name = "Nhập lại mật khẩu mới")]
-        public string  NewConfirmPassword { get; set; }
+        public string NewConfirmPassword { get; set; }
     }
+
     public class ChangePWRequestValidator : AbstractValidator<ChangePWRequest>
     {
         public ChangePWRequestValidator()

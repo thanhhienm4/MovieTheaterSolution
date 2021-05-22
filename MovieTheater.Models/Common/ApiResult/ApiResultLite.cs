@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MovieTheater.Models.Common.ApiResult
+﻿namespace MovieTheater.Models.Common.ApiResult
 {
     public class ApiResultLite
     {
@@ -18,6 +12,7 @@ namespace MovieTheater.Models.Common.ApiResult
         {
             IsSuccessed = true;
         }
+
         public ApiSuccessResultLite(string message)
         {
             IsSuccessed = true;

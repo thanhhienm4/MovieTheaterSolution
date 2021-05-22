@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Reservation;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.WebApp.Controllers
@@ -15,6 +12,7 @@ namespace MovieTheater.WebApp.Controllers
         private readonly ScreeningApiClient _screeningApiClient;
         private readonly FilmApiClient _filmApiClient;
         private readonly ReservationApiClient _reservationApiClient;
+
         public TicketController(ScreeningApiClient screeningApiClient, ReservationApiClient reservationApiClient,
             FilmApiClient filmApiClient)
         {
@@ -22,6 +20,7 @@ namespace MovieTheater.WebApp.Controllers
             _reservationApiClient = reservationApiClient;
             _filmApiClient = filmApiClient;
         }
+
         [Authorize]
         public async Task<IActionResult> ChooseSeat(int id)
         {
@@ -29,8 +28,9 @@ namespace MovieTheater.WebApp.Controllers
             ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(screening.FilmId)).ResultObj;
             return View(screening);
         }
+
         [Authorize]
-        [HttpPost] 
+        [HttpPost]
         public async Task<int> CalPrePrice(List<TicketCreateRequest> tickets)
         {
             if (tickets == null)

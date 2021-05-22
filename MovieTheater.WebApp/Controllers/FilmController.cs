@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.WebApp.Controllers
@@ -12,6 +8,7 @@ namespace MovieTheater.WebApp.Controllers
     {
         private readonly FilmApiClient _filmApiClient;
         private readonly ScreeningApiClient _screeningApiClient;
+
         public FilmController(FilmApiClient filmApiClient, ScreeningApiClient screeningApiClient)
         {
             _filmApiClient = filmApiClient;
@@ -24,13 +21,10 @@ namespace MovieTheater.WebApp.Controllers
             return View(result);
         }
 
-       
-
         public async Task<IActionResult> ScreeningInWeek(int id)
         {
-            var res =(await _screeningApiClient.GetListCreeningOfFilmInWeekAsync(id)).ResultObj;
+            var res = (await _screeningApiClient.GetListCreeningOfFilmInWeekAsync(id)).ResultObj;
             return View(res);
         }
-
     }
 }

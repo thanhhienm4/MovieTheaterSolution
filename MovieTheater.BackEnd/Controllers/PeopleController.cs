@@ -3,9 +3,7 @@ using Movietheater.Application.FilmServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -15,6 +13,7 @@ namespace MovieTheater.BackEnd.Controllers
     public class PeopleController : Controller
     {
         private readonly IPeopleService _PeopleService;
+
         public PeopleController(IPeopleService PeopleService)
         {
             _PeopleService = PeopleService;
@@ -47,13 +46,14 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _PeopleService.GetPeoplePagingAsync(request);
             return result;
         }
+
         [HttpGet("GetPeopleById/{id}")]
         public async Task<ApiResult<PeopleVMD>> GetPeopleByIdAsync(int id)
         {
             var result = await _PeopleService.GetPeopleById(id);
             return result;
         }
-       
+
         [HttpGet("GetAllPeople")]
         public async Task<ApiResult<List<PeopleVMD>>> GetAllPeopleAsync()
         {

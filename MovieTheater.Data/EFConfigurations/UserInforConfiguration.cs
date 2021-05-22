@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieTheater.Data.Entities;
-using MovieTheater.Data.Enums;
 
 namespace MovieTheater.Data.EFConfig
 {
@@ -15,8 +14,6 @@ namespace MovieTheater.Data.EFConfig
             builder.Property(x => x.LastName).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Dob).IsRequired();
             builder.HasOne(x => x.User).WithOne(x => x.UserInfor).HasForeignKey<UserInfor>(x => x.Id);
-
-
         }
     }
 }

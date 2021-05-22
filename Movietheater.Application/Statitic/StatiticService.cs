@@ -5,14 +5,14 @@ using MovieTheater.Models.Common.ChartTable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.Statitic
 {
-    public class StatiticService :IStatiticService
+    public class StatiticService : IStatiticService
     {
         private readonly MovieTheaterDBContext _context;
+
         public StatiticService(MovieTheaterDBContext context)
         {
             _context = context;
@@ -25,22 +25,21 @@ namespace Movietheater.Application.Statitic
                         join t in _context.Tickets on s.Id equals t.ScreeningId
                         join r in _context.Reservations on t.ReservationId equals r.Id
                         where s.StartTime.Date >= request.StartDate.Date && s.StartTime.Date <= request.EndDate.Date && s.Active == true && r.Active == true
-                        select new { s,f,t};
+                        select new { s, f, t };
 
-            var grossing = await query.GroupBy(x => new { x.f.Name,x.f.Id}).Select(x => new 
-                {
-                    Name = x.Key.Name,
-                    Grossing = (decimal)x.Sum(sft => sft.t.Price)
-                }).OrderByDescending(x => x.Grossing).ToListAsync();
+            var grossing = await query.GroupBy(x => new { x.f.Name, x.f.Id }).Select(x => new
+            {
+                Name = x.Key.Name,
+                Grossing = (decimal)x.Sum(sft => sft.t.Price)
+            }).OrderByDescending(x => x.Grossing).ToListAsync();
 
             ChartData chartData = new ChartData();
             chartData.Lables = grossing.Select(x => x.Name).ToList();
             chartData.DataRows[0] = grossing.Select(x => x.Grossing).ToList();
 
             return new ApiSuccessResult<ChartData>(chartData);
-                        
-
         }
+
         public async Task<ApiResult<long>> GetRevenueAsync(CalRevenueRequest request)
         {
             var query = from s in _context.Screenings
@@ -52,16 +51,17 @@ namespace Movietheater.Application.Statitic
             long revenue = await query.SumAsync(x => x.Price);
             return new ApiSuccessResult<long>(revenue);
         }
+
         public async Task<ApiResult<ChartData>> GetGroosingTypeAsync(CalRevenueRequest request)
         {
             var query = from s in _context.Screenings
                         join t in _context.Tickets on s.Id equals t.ScreeningId
-                        join r in _context.Reservations on t.ReservationId  equals r.Id
+                        join r in _context.Reservations on t.ReservationId equals r.Id
                         join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
                         where s.StartTime.Date > request.StartDate && s.StartTime.Date < request.EndDate
-                        && s.Active == true && r.Active ==true
+                        && s.Active == true && r.Active == true
                         select new { rt, t };
-            
+
             var grossing = await query.GroupBy(x => new { x.rt.Name }).Select(x => new
             {
                 Name = x.Key.Name,
@@ -73,7 +73,41 @@ namespace Movietheater.Application.Statitic
             chartData.DataRows[0] = grossing.Select(x => x.Grossing).ToList();
 
             return new ApiSuccessResult<ChartData>(chartData);
-
         }
+
+        public async Task<ApiResult<ChartData>> GetRevenueInNMonthAsync(int n)
+        {
+            var temp = DateTime.Now.AddMonths(-n+1);
+            DateTime startDate = GetDateStartMonth(temp);
+
+            ChartData chartData = new ChartData();
+            for (DateTime date = startDate;date <= DateTime.Now ;date = date.AddMonths(1))
+            {
+                chartData.Lables.Add(date.ToString("MM/yyyy"));
+                chartData.DataRows[0].Add((await GetRevenueAsync( new CalRevenueRequest() 
+                {
+                    StartDate = GetDateStartMonth(date),
+                    EndDate = GetDateEndMonth(date)
+                } )).ResultObj);
+            }
+           
+           
+           
+
+            return new ApiSuccessResult<ChartData>(chartData);
+        }
+        private DateTime GetDateEndMonth(DateTime date)
+        {
+            var temp = date.AddMonths(1);
+            var startNextMounth = new DateTime(temp.Year, temp.Month, 1);
+            DateTime endDate = temp.AddDays(-1);
+            return endDate;
+        }
+        private DateTime GetDateStartMonth(DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, 1);
+        }
+
+
     }
 }

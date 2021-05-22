@@ -16,7 +16,6 @@ namespace MovieTheater.Data.EFConfigurations
 
             builder.HasOne(x => x.Employee).WithMany(x => x.ReservationsEmployee).HasForeignKey(x => x.EmployeeId);
             builder.HasOne(x => x.Customer).WithMany(x => x.ReservationsCustomer).HasForeignKey(x => x.CustomerId);
-           
         }
     }
 }

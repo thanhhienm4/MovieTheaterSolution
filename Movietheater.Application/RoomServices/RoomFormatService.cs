@@ -3,28 +3,27 @@ using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.RoomModels.Format;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.RoomServices
 {
-    public class RoomFormatService :IRoomFormatService
+    public class RoomFormatService : IRoomFormatService
     {
         private readonly MovieTheaterDBContext _context;
+
         public RoomFormatService(MovieTheaterDBContext context)
         {
             _context = context;
         }
+
         public async Task<ApiResultLite> CreateAsync(RoomFormatCreateRequest model)
         {
             var room = new RoomFormat()
             {
                 Name = model.Name,
                 Price = model.Price,
-                
             };
 
             await _context.AddAsync(room);
@@ -33,8 +32,8 @@ namespace Movietheater.Application.RoomServices
                 return new ApiErrorResultLite("Không thể thêm định dạng");
             }
             return new ApiSuccessResultLite("Thêm thành công");
-
         }
+
         public async Task<ApiResultLite> UpdateAsync(RoomFormatUpdateRequest model)
         {
             RoomFormat room = await _context.RoomFormats.FindAsync(model.Id);
@@ -50,9 +49,9 @@ namespace Movietheater.Application.RoomServices
                 await _context.SaveChangesAsync();
 
                 return new ApiSuccessResultLite("Cập nhật thành công");
-
             }
         }
+
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
             RoomFormat room = await _context.RoomFormats.FindAsync(id);
@@ -73,7 +72,7 @@ namespace Movietheater.Application.RoomServices
 
         public async Task<ApiResult<List<RoomFormatVMD>>> GetAllRoomFormatAsync()
         {
-            var roomFormats =await _context.RoomFormats.Select(x => new RoomFormatVMD()
+            var roomFormats = await _context.RoomFormats.Select(x => new RoomFormatVMD()
             {
                 Id = x.Id,
                 Name = x.Name,

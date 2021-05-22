@@ -6,7 +6,6 @@ using MovieTheater.Models.Infra.Seat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.SeatServices
@@ -14,6 +13,7 @@ namespace Movietheater.Application.SeatServices
     public class SeatService : ISeatService
     {
         private readonly MovieTheaterDBContext _context;
+
         public SeatService(MovieTheaterDBContext context)
         {
             _context = context;
@@ -47,9 +47,8 @@ namespace Movietheater.Application.SeatServices
             }
             else
             {
-
                 _context.Seats.Remove(seat);
-                
+
                 if (await _context.SaveChangesAsync() != 0)
                 {
                     return new ApiSuccessResultLite("Xóa thành công");
@@ -89,8 +88,6 @@ namespace Movietheater.Application.SeatServices
 
         public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(int roomId)
         {
-
-
             var seats = await _context.Seats.Where(x => x.RoomId == roomId && x.IsActive == true).Select(x => new SeatVMD()
             {
                 Id = x.Id,
@@ -98,12 +95,10 @@ namespace Movietheater.Application.SeatServices
                 RowId = x.RowId,
                 RoomId = x.RoomId,
                 KindOfSeatId = x.KindOfSeatId,
-                Name = x.Name 
+                Name = x.Name
             }).ToListAsync();
 
-
             return new ApiSuccessResult<List<SeatVMD>>(seats);
-
         }
 
         public async Task<ApiResultLite> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
@@ -111,7 +106,6 @@ namespace Movietheater.Application.SeatServices
             var room = await _context.Rooms.FindAsync(request.RoomId);
             if (room == null)
                 return new ApiErrorResultLite("Phòng chiếu không hợp lệ");
-
 
             var seats = await _context.Seats.Where(x => x.RoomId == request.RoomId).ToListAsync();
             foreach (Seat seat in seats)
@@ -125,16 +119,14 @@ namespace Movietheater.Application.SeatServices
             }
             List<int> rowIds = request.Seats.Select(x => x.RowId).ToList();
             if (CheckListRow(rowIds) == false)
-                return new  ApiErrorResultLite("Vị trí không hợp lệ");
+                return new ApiErrorResultLite("Vị trí không hợp lệ");
 
-            
-
-            foreach(SeatCreateRequest seatCR in request.Seats)
+            foreach (SeatCreateRequest seatCR in request.Seats)
             {
-                var seat  = await _context.Seats.Where(x=> x.RoomId == seatCR.RoomId
-                                                        && x.Number == seatCR.Number
-                                                        && x.RowId == seatCR.RowId).FirstOrDefaultAsync();
-                if(seat == null)
+                var seat = await _context.Seats.Where(x => x.RoomId == seatCR.RoomId
+                                                       && x.Number == seatCR.Number
+                                                       && x.RowId == seatCR.RowId).FirstOrDefaultAsync();
+                if (seat == null)
                 {
                     Seat newSeat = new Seat()
                     {
@@ -145,43 +137,41 @@ namespace Movietheater.Application.SeatServices
                         IsActive = true,
                     };
                     _context.Seats.Add(newSeat);
-                   // await _context.SaveChangesAsync();
+                    // await _context.SaveChangesAsync();
                 }
                 else
                 {
                     seat.KindOfSeatId = seatCR.KindOfSeatId;
                     seat.IsActive = true;
                     _context.Seats.Update(seat);
-                   // await _context.SaveChangesAsync();
+                    // await _context.SaveChangesAsync();
                 }
-
             }
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch(DbUpdateException e )
+            catch (DbUpdateException e)
             {
                 return new ApiErrorResultLite("Không thể chỉnh sửa ghế đã đặt vé, vui lòng kiểm tra lại thông tin");
             }
-            
+
             return new ApiSuccessResultLite("Cập nhật thành công ");
-
-
         }
+
         public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
         {
             var screening = await _context.Screenings.FindAsync(screeningId);
             if (screening == null)
                 return new ApiErrorResult<List<SeatVMD>>("Không tìm thấy xuất chiếu");
 
-            var query = from t in _context.Tickets                        
+            var query = from t in _context.Tickets
                         join s in _context.Seats on t.SeatId equals s.Id
                         where t.ScreeningId == screeningId
                         select s;
 
-            var seats = await  query.Select(x => new SeatVMD()
+            var seats = await query.Select(x => new SeatVMD()
             {
                 Id = x.Id,
                 KindOfSeatId = x.KindOfSeatId,
@@ -191,10 +181,7 @@ namespace Movietheater.Application.SeatServices
             }).ToListAsync();
 
             return new ApiSuccessResult<List<SeatVMD>>(seats);
-           
-            
         }
-
 
         private bool CheckListRow(List<int> listSeatRow)
         {
@@ -207,7 +194,6 @@ namespace Movietheater.Application.SeatServices
                 return false;
             else
                 return true;
-            
         }
     }
 }

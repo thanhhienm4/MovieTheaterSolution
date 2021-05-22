@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieTheater.Models.Infra.Seat.SeatRow
 {
@@ -13,6 +8,7 @@ namespace MovieTheater.Models.Infra.Seat.SeatRow
         [Display(Name = "Hàng ghế")]
         public string Name { get; set; }
     }
+
     public class SeatRowCreateValidator : AbstractValidator<SeatRowCreateRequest>
     {
         public SeatRowCreateValidator()

@@ -31,7 +31,6 @@
                         <select id="input2" asp-for="FormatId" asp-items="@ViewBag.RoomFormats" class="form-control"></select>
                     </div>
                 </div>
-
             </div>
 
             <div id="btnSave" class="form-group d-flex justify-content-center invisible">
@@ -39,7 +38,6 @@
             </div>
         </form>
     </div>
-
 </div>
 
 <script>
@@ -49,8 +47,6 @@
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
     }</script>
-
-
 
 @if (ViewBag.IsEdit != null)
 {

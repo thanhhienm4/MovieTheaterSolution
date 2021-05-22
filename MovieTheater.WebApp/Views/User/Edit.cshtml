@@ -3,7 +3,6 @@
 @{ ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item"><a href="/User">Người dùng</a></li>
@@ -13,7 +12,6 @@
 <div id="btnEdit" class="p-2">
     <a class="btn btn-success" href="javascript:enableElements()">Chỉnh sửa</a>
 </div>
-
 
 <div class="card">
     <div class="card-body">
@@ -57,7 +55,6 @@
                         <span asp-validation-for="Status" class="text-danger"></span>
                     </div>
                 </div>
-
             </div>
 
             <div class="form-row">
@@ -76,7 +73,6 @@
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
-
             </div>
 
             <div id="
@@ -86,7 +82,6 @@
         </form>
     </div>
 </div>
-
 
 <script>
     function enableElements() {
@@ -107,4 +102,3 @@
         enableElements();
     </script>
 }
-

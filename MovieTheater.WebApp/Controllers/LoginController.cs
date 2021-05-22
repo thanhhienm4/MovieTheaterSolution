@@ -9,9 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using MovieTheater.Api;
 using MovieTheater.Models.User;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,16 +17,17 @@ using System.Threading.Tasks;
 namespace MovieTheater.WebApp.Controllers
 {
     [AllowAnonymous]
-    public class LoginController :Controller
+    public class LoginController : Controller
     {
-
         private readonly UserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
+
         public LoginController(UserApiClient userApiClient, IConfiguration configuration)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -46,17 +45,15 @@ namespace MovieTheater.WebApp.Controllers
             {
                 ModelState.AddModelError("", respond.Message);
                 return View();
-            }    
-               
+            }
+
             var userPrincipal = ValidateToken(respond.ResultObj);
             var authProperties = new AuthenticationProperties()
             {
                 ExpiresUtc = DateTimeOffset.Now.AddMonths(1),
                 IsPersistent = request.RememberMe,
-
             };
 
-            
             Response.Cookies.Append("Token", respond.ResultObj, new CookieOptions() { Expires = DateTimeOffset.Now.AddMonths(1) });
             await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
@@ -64,10 +61,7 @@ namespace MovieTheater.WebApp.Controllers
                         authProperties);
 
             return RedirectToAction("Index", "Home");
-          
         }
-
-        
 
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {

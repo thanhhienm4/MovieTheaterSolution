@@ -51,7 +51,6 @@
                     <th>
                         Ghế
                     </th>
-
                 </tr>
             </thead>
             <tbody>
@@ -77,55 +76,41 @@
 
                             @item.Seat
                         </td>
-
-
                     </tr>
                 }
             </tbody>
         </table>
-
-
     </div>
     <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-row d-flex justify-content-around">
-            <div >
+            <div>
                 <div class="form-group">
                     <div class="form-group">
                         <label>
                             Thanh toán
-                            <input type="checkbox" asp-for="Paid" disabled/>
-                            
+                            <input type="checkbox" asp-for="Paid" disabled />
                         </label>
                     </div>
-                    
                 </div>
             </div>
-            <div >
+            <div>
                 <div class="form-group">
                     <div class="form-group">
                         <label>
                             Trạng thái
-                            <input type="checkbox" asp-for="Active" disabled/>
-
+                            <input type="checkbox" asp-for="Active" disabled />
                         </label>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="form-group d-flex justify-content-center">
             <input type="submit" value="Cập nhật" class="btn btn-primary" />
         </div>
     </form>
-
 </div>
-
-
-
-
-
 
 @if (ViewBag.IsEdit != null)
 {

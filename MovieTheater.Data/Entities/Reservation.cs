@@ -15,7 +15,6 @@ namespace MovieTheater.Data.Entities
         public Guid? CustomerId { get; set; }
         public CustomerInfor Customer { get; set; }
 
-
         public Guid? EmployeeId { get; set; }
         public UserInfor Employee { get; set; }
 

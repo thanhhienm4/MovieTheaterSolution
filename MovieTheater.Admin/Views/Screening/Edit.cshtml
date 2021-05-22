@@ -28,7 +28,6 @@
                             <div class="col-md">
                                 <select id="selectFilm" asp-for="FilmId" asp-items="@ViewBag.Films" class="form-control chosen-select" disabled></select>
                             </div>
-
                         </div>
 
                         <span asp-validation-for="FilmId" class="text-danger"></span>
@@ -59,24 +58,17 @@
                 </div>
             </div>
 
-
-
-
             <div id="btnSave" class="form-group d-flex justify-content-center invisible">
                 <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
             </div>
-
         </form>
     </div>
-
-
 </div>
 <script src="/docsupport/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script src="/chosen.jquery.js" type="text/javascript"></script>
 <script src="/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
 <script src="/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
 <script>
-
 
     function enableElements() {
         document.getElementById("selectFilm").disabled = false;

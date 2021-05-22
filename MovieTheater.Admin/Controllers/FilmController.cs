@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
-using MovieTheater.Data.Enums;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common;
 using MovieTheater.Models.Common.ApiResult;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,21 +14,20 @@ namespace MovieTheater.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class FilmController : Controller
     {
-        
         private readonly FilmApiClient _filmApiClient;
         private readonly BanApiClient _banApiClient;
         private readonly PositionApiClient _positionApiClient;
         private readonly PeopleApiClient _peopleApiClient;
+
         public FilmController(FilmApiClient filmApiClient, BanApiClient banApiClient,
-            PositionApiClient positionApiClient, PeopleApiClient peopleApiClient) 
+            PositionApiClient positionApiClient, PeopleApiClient peopleApiClient)
         {
             _filmApiClient = filmApiClient;
             _banApiClient = banApiClient;
             _positionApiClient = positionApiClient;
             _peopleApiClient = peopleApiClient;
-
-               
         }
+
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
@@ -39,7 +36,6 @@ namespace MovieTheater.Admin.Controllers
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-
             };
             ViewBag.SuccessMsg = TempData["Result"];
 
@@ -47,6 +43,7 @@ namespace MovieTheater.Admin.Controllers
             var result = await _filmApiClient.GetFilmPagingAsync(request);
             return View(result.ResultObj);
         }
+
         [HttpGet]
         public async Task<IActionResult> CreateAsync()
         {
@@ -96,7 +93,6 @@ namespace MovieTheater.Admin.Controllers
             {
                 var updateRequest = new FilmUpdateRequest()
                 {
-
                     Id = result.ResultObj.Id,
                     Name = result.ResultObj.Name,
                     PublishDate = result.ResultObj.PublishDate,
@@ -104,8 +100,6 @@ namespace MovieTheater.Admin.Controllers
                     Description = result.ResultObj.Description,
                     TrailerURL = result.ResultObj.TrailerURL,
                     Length = result.ResultObj.Length
-                    
-
                 };
                 var bans = (await _banApiClient.GetAllBanAsync()).ResultObj;
                 ViewBag.Bans = bans.Select(x => new SelectListItem()
@@ -143,11 +137,9 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
-
         [HttpPost]
         public async Task<ApiResultLite> Delete(int id)
         {
-
             var result = await _filmApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;
             return result;
@@ -163,6 +155,7 @@ namespace MovieTheater.Admin.Controllers
             var genreAssignRequest = await GetGenreAssignRequest(id);
             return View(genreAssignRequest);
         }
+
         [HttpPost]
         public async Task<IActionResult> GenreAssign(GenreAssignRequest request)
         {
@@ -180,7 +173,7 @@ namespace MovieTheater.Admin.Controllers
             var genreAssignRequest = await GetGenreAssignRequest(request.FilmId);
             return View(genreAssignRequest);
         }
-        
+
         private async Task<GenreAssignRequest> GetGenreAssignRequest(int id)
         {
             var filmObject = await _filmApiClient.GetFilmVMDByIdAsync(id);
@@ -203,16 +196,15 @@ namespace MovieTheater.Admin.Controllers
         [HttpPost]
         public async Task<ApiResultLite> PosAssign(PosAssignRequest request)
         {
-            var res = (await _filmApiClient.PosAssignAsync(request ));
+            var res = (await _filmApiClient.PosAssignAsync(request));
             return res;
-           
         }
+
         [HttpPost]
         public async Task<ApiResultLite> DeletePosAssign(PosAssignRequest request)
         {
             var res = (await _filmApiClient.DeletePosAssignAsync(request));
             return res;
-
         }
 
         [HttpGet]
@@ -229,8 +221,6 @@ namespace MovieTheater.Admin.Controllers
         {
             var res = (await _filmApiClient.GetJoiningAsync(id)).ResultObj;
             return res;
-
-
         }
 
         private async Task SetViewBagForPosAssignAsync()
@@ -248,8 +238,6 @@ namespace MovieTheater.Admin.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
-            
         }
-
     }
 }

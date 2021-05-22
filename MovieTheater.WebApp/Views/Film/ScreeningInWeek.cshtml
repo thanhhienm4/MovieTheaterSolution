@@ -15,7 +15,6 @@
                     <div class="col-11 text-justify">
                         <p>@Model.Film.Description</p>
                     </div>
-
                 </div>
                 <div class="col-12">
                     <div class="row">
@@ -27,10 +26,8 @@
                             @if (Model.Film.Genres != null)
                             {
                 <p>@string.Join(" ", Model.Film.Genres)</p>}
-
                         </div>
                     </div>
-
                 </div>
 
                 <div class="col-12">
@@ -41,25 +38,19 @@
                         @if (Model.Film.Actors != null)
                         {
             <p>@string.Join(" ", Model.Film.Actors)</p>}
-
-
                     </div>
                 </div>
 
                 <div class="col-12">
                     <div class="row">
 
-
                         <p>Đạo diễn:&nbsp;</p>
 
                         @if (Model.Film.Genres != null)
                         {
             <p>@string.Join(" ", Model.Film.Directors)</p>}
-
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -82,6 +73,4 @@ else
 }
     </div>
 </div>      }
-
 </div>
-

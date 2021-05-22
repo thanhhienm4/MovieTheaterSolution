@@ -2,10 +2,6 @@
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.ReservationServices
@@ -13,17 +9,18 @@ namespace Movietheater.Application.ReservationServices
     public class TicketService : ITicketService
     {
         private readonly MovieTheaterDBContext _context;
+
         public TicketService(MovieTheaterDBContext context)
         {
             _context = context;
         }
+
         public async Task<ApiResultLite> CreateAsync(TicketCreateRequest request)
         {
             Ticket ticket = new Ticket()
             {
                 ScreeningId = request.ScreeningId,
                 SeatId = request.SeatId
-
             };
             _context.Tickets.Add(ticket);
             int result = await _context.SaveChangesAsync();

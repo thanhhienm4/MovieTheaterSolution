@@ -1,30 +1,24 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
-using MovieTheater.Data.Enums;
-using MovieTheater.Models.Common;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
 using MovieTheater.Models.Infra.Seat.SeatRow;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-     [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class SeatRowController : BaseController
     {
         private readonly SeatRowApiClient _seatRowApiClient;
+
         public SeatRowController(SeatRowApiClient seatRowApiClient, RoleApiClient roleApiClient)
         {
             _seatRowApiClient = seatRowApiClient;
         }
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<List<SeatRowVMD>> GetAllSeatRows()
@@ -32,6 +26,7 @@ namespace MovieTheater.Admin.Controllers
             var result = (await _seatRowApiClient.GetAllSeatRowsAsync()).ResultObj;
             return result;
         }
+
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
             var request = new SeatRowPagingRequest()
@@ -39,13 +34,13 @@ namespace MovieTheater.Admin.Controllers
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-
             };
             ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
             var result = await _seatRowApiClient.GetSeatRowPagingAsync(request);
             return View(result.ResultObj);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -108,15 +103,13 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
-
         [HttpPost]
         public async Task<ApiResultLite> Delete(int id)
         {
             var result = await _seatRowApiClient.DeleteAsync(id);
-            if(result.IsSuccessed)
+            if (result.IsSuccessed)
                 TempData["Result"] = result.Message;
             return result;
         }
     }
-
 }

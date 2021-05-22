@@ -14,7 +14,6 @@ namespace MovieTheater.Data.EFConfigurations
             builder.HasIndex(x => x.Name).IsUnique();
             builder.Property(x => x.Name).IsRequired();
             builder.Property(x => x.Price).IsRequired();
-
         }
     }
 }

@@ -3,7 +3,6 @@
 @{ ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item"><a href="/User">Người dùng</a></li>
@@ -14,7 +13,6 @@
     <a class="btn btn-success" href="javascript:enableElements()">Chỉnh sửa</a>
 </div>
 
-
 <div class="card">
     <div class="card-body">
         <form asp-action="Edit">
@@ -24,7 +22,7 @@
             </div>
             <div class="form-row">
                 <label asp-for="UserName" class="control-label"></label>
-                <input id="input1" asp-for="UserName" class="form-control" disabled />
+                <input id="input0" asp-for="UserName" class="form-control" disabled />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
                 <div class="form-row">
@@ -61,7 +59,6 @@
                             <span asp-validation-for="Status" class="text-danger"></span>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="form-row">
@@ -80,7 +77,6 @@
                             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
                     </div>
-
                 </div>
 
                 <div id="btnSave" class="form-group d-flex justify-content-center invisible">
@@ -90,11 +86,9 @@
     </div>
 </div>
 
-
 <script>
     function enableElements() {
         document.getElementById("input1").disabled = false;
-       
         document.getElementById("input2").disabled = false;
         document.getElementById("input3").disabled = false;
         document.getElementById("input4").disabled = false;
@@ -110,4 +104,3 @@
         enableElements();
     </script>
 }
-

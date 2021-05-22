@@ -1,5 +1,6 @@
 ﻿@model MovieTheater.Models.Common.ChartTable.CalRevenueRequest
-@using MovieTheater.Models.Common.ChartTable 
+@using MovieTheater.Models.Common.ChartTable
+@using AspNetCore.Reporting 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,29 +14,26 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
-            
+
             <div class="ml-auto p-2">
                 <form asp-action="Index" method="get">
                     <div class="row">
 
                         <div>
-                            <input asp-for="StartDate" class="form-control" type="date" />
-                            
+                            <input id = "startDate" asp-for="StartDate" class="form-control" type="date" />
                         </div>
                         <div>
                             &nbsp;
                         </div>
                         <div>
-                            <input asp-for="EndDate" class="form-control" type="date" />
+                            <input id= "endDate" asp-for="EndDate" class="form-control" type="date" />
                         </div>
                         <div>
                             &nbsp;
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Tìm</button>
-                          
                         </div>
-
                     </div>
                 </form>
             </div>
@@ -76,40 +74,55 @@
 
                                 }
                             </tbody>
-
-
                         </table>
                     </div>
                 }
-
-
-
-
             </div>
             <div class="card-footer">
-                <a class="btn btn-primary" onclick="dowloadPdf()">Tải xuống file Pdf</a>
-                <a class="btn btn-primary">Tải xuống file Excel</a>
+                <a class="btn btn-primary" onclick="dowloadPdf(@((int)RenderType.Pdf))">Tải xuống file Pdf</a>
+                <a class="btn btn-primary" onclick="dowloadPdf(@((int)RenderType.Excel))">Tải xuống file Excel</a>
             </div>
         </div>
     </div>
 </div>
-  
- <script >
-     function dowloadPdf() {
-         $.ajax({
-         type: "POST",
-         url: "/Statitic/Print",
-        
-         success: function (res) {
-             var a = document.createElement('a');
-             var url = window.URL.createObjectURL(res);
-             a.href = url;
-             a.download = 'myfile.pdf';
-             document.body.append(a);
-             a.click();
-             a.remove();
-             window.URL.revokeObjectURL(url);
-         }
-     });
+
+<script>
+    function dowloadPdf(mode) {
+        var fileName = "report";
+        var startDate = document.getElementById('startDate').value;
+        var endDate = document.getElementById('endDate').value;
+        $.ajax({
+            type: "POST",
+            url: "/Statitic/FilmRevenueReport",
+            data: { startDate: startDate,endDate : endDate, renderType: mode },
+            success: function (data) {
+                var linkSource;
+                var downloadLink;
+                var fileName;
+
+                switch (mode) {
+                    case @((int)(RenderType.Pdf)) :
+                        {
+                            linkSource = `data:application/pdf;base64,${data}`;
+                            downloadLink = document.createElement("a");
+                            fileName = "TopDanhThu.pdf";
+                            break;
+                        }
+                      case @((int)(RenderType.Excel)) :
+                        {
+                            linkSource = `data:application/excel;base64,${data}`;
+                            downloadLink = document.createElement("a");
+                            fileName = "TopDanhThu.xls";
+                            break;
+                        }
+                }
+
+                downloadLink.href = linkSource;
+                downloadLink.download = fileName;
+                downloadLink.click();
+
+            }
+        });
     }
- </script>
+
+</script>

@@ -9,7 +9,6 @@ using MovieTheater.Data.Enums;
 using MovieTheater.Models.Common;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
-using MovieTheater.Models.Infra.Seat.SeatRow;
 using MovieTheater.Models.User;
 using System;
 using System.Collections.Generic;
@@ -18,23 +17,24 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-    
     public class UserController : BaseController
     {
-
         private readonly UserApiClient _userApiClient;
         private readonly RoleApiClient _roleApiClient;
+
         public UserController(UserApiClient userApiClient, RoleApiClient roleApiClient)
         {
             _userApiClient = userApiClient;
             _roleApiClient = roleApiClient;
         }
+
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Login");
         }
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, Status? status, string roleId, int pageIndex = 1, int pageSize = 10)
@@ -62,7 +62,6 @@ namespace MovieTheater.Admin.Controllers
             roles.AddRange(listRoles);
             ViewBag.Roles = roles;
 
-
             ViewBag.KeyWord = keyword;
             var result = await _userApiClient.GetUserPagingAsync(request);
             return View(result.ResultObj);
@@ -74,6 +73,7 @@ namespace MovieTheater.Admin.Controllers
         {
             return View();
         }
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(UserCreateRequest request)
@@ -119,6 +119,7 @@ namespace MovieTheater.Admin.Controllers
             }
             return RedirectToAction("Error", "Home");
         }
+
         [Authorize(Roles = "Admin,Employee")]
         [HttpPost]
         public async Task<IActionResult> Edit(UserUpdateRequest request)
@@ -138,17 +139,15 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
-
-
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ApiResultLite> Delete(Guid id)
         {
-
             var result = await _userApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;
             return result;
         }
+
         public async Task<IActionResult> RoleAssign(Guid id)
         {
             if (!ModelState.IsValid)
@@ -158,7 +157,6 @@ namespace MovieTheater.Admin.Controllers
             var roleAssignRequest = await GetRoleAssignRequest(id);
             return View(roleAssignRequest);
         }
-
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -205,14 +203,14 @@ namespace MovieTheater.Admin.Controllers
         {
             ViewBag.User = (await _userApiClient.GetUserByIdAsync(id)).ResultObj;
             return View();
-                       
         }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> ChangPassword(ChangePWRequest request)
         {
             request.UserName = User.Identity.Name;
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(request);
             }
@@ -221,7 +219,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 var userId = GetUserId();
                 return Redirect($"/user/Edit/{userId}");
-            }               
+            }
             else
             {
                 ModelState.AddModelError("", res.Message);
@@ -229,16 +227,11 @@ namespace MovieTheater.Admin.Controllers
             }
         }
 
-
-        
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Forbident()
         {
             return View();
         }
-
-        
     }
-
 }

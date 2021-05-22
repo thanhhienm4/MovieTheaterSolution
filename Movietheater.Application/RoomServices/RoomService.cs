@@ -1,22 +1,18 @@
-﻿using MovieTheater.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.EF;
+using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.RoomModels;
+using MovieTheater.Models.Infra.RoomModels.Format;
+using MovieTheater.Models.Infra.Seat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using MovieTheater.Data.Entities;
-using MovieTheater.Models.Common.Paging;
-using MovieTheater.Models.Identity.Role;
-using MovieTheater.Models.Common;
-using Microsoft.EntityFrameworkCore;
-using MovieTheater.Models.Infra.RoomModels.Format;
-using MovieTheater.Models.Infra.Seat;
 
 namespace Movietheater.Application.RoomServices
 {
-
     public class RoomService : IRoomService
     {
         private readonly MovieTheaterDBContext _context;
@@ -43,8 +39,8 @@ namespace Movietheater.Application.RoomServices
                 return new ApiErrorResultLite("Không thể thêm phòng");
             }
             return new ApiSuccessResultLite("Thêm thành công");
-
         }
+
         public async Task<ApiResultLite> UpdateAsync(RoomUpdateRequest request)
         {
             Room room = await _context.Rooms.FindAsync(request.Id);
@@ -60,7 +56,6 @@ namespace Movietheater.Application.RoomServices
                 room.Name = request.Name;
                 room.FormatId = request.FormatId;
 
-
                 _context.Rooms.Update(room);
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)
@@ -68,9 +63,9 @@ namespace Movietheater.Application.RoomServices
                     return new ApiErrorResultLite("Cập nhật thất bại");
                 }
                 return new ApiSuccessResultLite("Cập nhật thành công");
-
             }
         }
+
         public async Task<ApiResultLite> DeleteAsync(int id)
         {
             Room room = await _context.Rooms.FindAsync(id);
@@ -80,10 +75,11 @@ namespace Movietheater.Application.RoomServices
             }
             else
             {
-                if (room.Screenings!=null)
+                if (room.Screenings != null)
                 {
                     return new ApiErrorResultLite("không thể xóa");
-                }else
+                }
+                else
                 {
                     try
                     {
@@ -95,16 +91,12 @@ namespace Movietheater.Application.RoomServices
                         _context.SaveChanges();
 
                         return new ApiSuccessResultLite("Xóa thành công");
-                    }catch(DbUpdateException e)
+                    }
+                    catch (DbUpdateException e)
                     {
                         return new ApiErrorResultLite("xóa thất bại");
                     }
-                   
-
-
                 }
-                
-            
             }
         }
 
@@ -119,7 +111,6 @@ namespace Movietheater.Application.RoomServices
                 query = query.Where(x => x.r.Name.Contains(request.Keyword) ||
                 x.r.Id.ToString().Contains(request.Keyword) ||
                 x.f.Name.Contains(request.Keyword));
-
             }
             if (request.FormatId != null)
             {
@@ -135,13 +126,10 @@ namespace Movietheater.Application.RoomServices
                 Id = x.r.Id,
                 Name = x.r.Name,
                 Format = x.f.Name
-
             }).OrderBy(x => x.Id).Skip((request.PageIndex - 1) * (request.PageSize)).Take(request.PageSize).ToList();
             result.Item = rooms;
 
             return result;
-
-
         }
 
         public Task<List<SeatVMD>> GetSeatsInRoom(int id)
@@ -174,26 +162,16 @@ namespace Movietheater.Application.RoomServices
                         join f in _context.RoomFormats on r.FormatId equals f.Id
                         select new { r, f };
 
-
-            var rooms =await query.Select(x => new RoomVMD()
+            var rooms = await query.Select(x => new RoomVMD()
             {
                 Id = x.r.Id,
                 Name = x.r.Name,
-                Format = x.f.Name 
-
+                Format = x.f.Name
             }).OrderBy(x => x.Id).ToListAsync();
-
 
             return new ApiSuccessResult<List<RoomVMD>>(rooms);
         }
 
-
-
-
-
-
-        // RoomFormat 
-
-
+        // RoomFormat
     }
 }

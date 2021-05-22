@@ -11,8 +11,9 @@ namespace MovieTheater.Data.Entities
         public string Description { get; set; }
         public DateTime PublishDate { get; set; }
 
-        [Range(0,Int32.MaxValue)]
+        [Range(0, Int32.MaxValue)]
         public int Length { get; set; }
+
         public string TrailerURL { get; set; }
         public string Poster { get; set; }
 

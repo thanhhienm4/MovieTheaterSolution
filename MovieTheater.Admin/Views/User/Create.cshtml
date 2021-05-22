@@ -11,8 +11,6 @@
     <li class="breadcrumb-item active">Tạo mới</li>
 </ol>
 
-
-
 <div class="card">
     <div class="card-body">
         <form asp-action="Create">
@@ -30,11 +28,10 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Dob" class="control-label"></label>
-                        <input asp-for="Dob" class="form-control" type="date"/>
+                        <input asp-for="Dob" class="form-control" type="date" />
                         <span asp-validation-for="Dob" class="text-danger"></span>
                     </div>
                 </div>
-
             </div>
 
             <div class="form-row">
@@ -46,7 +43,6 @@
                     </div>
                 </div>
 
-
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="FirstName" class="control-label"></label>
@@ -54,7 +50,6 @@
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
-
             </div>
 
             <div class="form-row">
@@ -73,14 +68,13 @@
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
-
             </div>
 
             <div class="form-row">
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" type="password"/>
+                        <input asp-for="Password" class="form-control" type="password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
@@ -88,19 +82,11 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for=" ConfirmPassword " class="control-label"></label>
-                        <input asp-for=" ConfirmPassword " class="form-control" type="password"/>
+                        <input asp-for=" ConfirmPassword " class="form-control" type="password" />
                         <span asp-validation-for=" ConfirmPassword " class="text-danger"></span>
                     </div>
                 </div>
-
             </div>
-
-
-
-
-
-
-
 
             <div class="form-group d-flex justify-content-center">
                 <input type="submit" value="Tạo mới" class="btn btn-primary" />
@@ -108,6 +94,3 @@
         </form>
     </div>
 </div>
-
-
-

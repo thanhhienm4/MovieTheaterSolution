@@ -3,10 +3,8 @@ using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.FilmServices
@@ -14,10 +12,12 @@ namespace Movietheater.Application.FilmServices
     public class PositionService : IPositionService
     {
         private readonly MovieTheaterDBContext _context;
+
         public PositionService(MovieTheaterDBContext context)
         {
             _context = context;
         }
+
         public async Task<ApiResultLite> CreateAsync(string name)
         {
             Position position = new Position()
@@ -74,7 +74,7 @@ namespace Movietheater.Application.FilmServices
 
         public async Task<ApiResult<List<PositionVMD>>> GetAllPositionAsync()
         {
-            var positions =  await _context.Positions.Select(x => new PositionVMD()
+            var positions = await _context.Positions.Select(x => new PositionVMD()
             {
                 Id = x.Id,
                 Name = x.Name

@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
-using MovieTheater.Data.Enums;
 using MovieTheater.Models.Catalog.Reservation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
@@ -14,10 +10,12 @@ namespace MovieTheater.Admin.Controllers
     public class ReservationController : BaseController
     {
         private readonly ReservationApiClient _reservationApiClient;
+
         public ReservationController(ReservationApiClient ReservationApiClient)
         {
             _reservationApiClient = ReservationApiClient;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
@@ -32,6 +30,7 @@ namespace MovieTheater.Admin.Controllers
             var result = await _reservationApiClient.GetReservationPagingAsync(request);
             return View(result.ResultObj);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -48,7 +47,7 @@ namespace MovieTheater.Admin.Controllers
             //can fix
             request.EmployeeId = GetUserId();
             request.ReservationTypeId = 1;
-    
+
             var result = await _reservationApiClient.CreateAsync(request);
             if (result.IsSuccessed)
             {
@@ -73,10 +72,9 @@ namespace MovieTheater.Admin.Controllers
                 ViewBag.Reservation = result.ResultObj;
                 var updateRequest = new ReservationUpdateRequest()
                 {
-                    Id = result.ResultObj.Id,                 
+                    Id = result.ResultObj.Id,
                     Paid = result.ResultObj.Paid,
                     Active = result.ResultObj.Active
-                   
                 };
                 return View(updateRequest);
             }
@@ -100,6 +98,5 @@ namespace MovieTheater.Admin.Controllers
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
-        
     }
 }

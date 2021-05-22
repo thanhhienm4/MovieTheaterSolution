@@ -48,14 +48,14 @@ namespace Movietheater.Application.UserServices
                 return new ApiErrorResult<string>("Tên đăng nhập không tồn tại");
 
             var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, false);
-            
-            if(result.IsLockedOut == true)
-               return new ApiErrorResult<string>("Tài khoản của bạn đã bị vô hiệu hóa");
+
+            if (result.IsLockedOut == true)
+                return new ApiErrorResult<string>("Tài khoản của bạn đã bị vô hiệu hóa");
 
             if (result.Succeeded == false)
                 return new ApiErrorResult<string>("Mật khẩu không chính xác");
 
-            if(await _context.UserInfors.FindAsync(user.Id) == null)
+            if (await _context.UserInfors.FindAsync(user.Id) == null)
                 return new ApiErrorResult<string>("Tài khoản không tồn tại");
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -64,7 +64,6 @@ namespace Movietheater.Application.UserServices
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name,user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
-
             };
             foreach (var role in roles)
             {
@@ -110,8 +109,6 @@ namespace Movietheater.Application.UserServices
             if (await _userManager.FindByNameAsync(model.UserName) != null)
                 return new ApiErrorResultLite("UserName đã tồn tại");
 
-
-
             User user = new User()
             {
                 PhoneNumber = model.PhoneNumber,
@@ -122,7 +119,6 @@ namespace Movietheater.Application.UserServices
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                 }
-
             };
 
             if ((await _userManager.CreateAsync(user, model.Password)).Succeeded)
@@ -130,7 +126,6 @@ namespace Movietheater.Application.UserServices
                 return new ApiSuccessResultLite("Tạo mới thành công");
             }
             return new ApiErrorResultLite("Tạo mới thất bại");
-
         }
 
         public async Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request)
@@ -156,7 +151,6 @@ namespace Movietheater.Application.UserServices
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name,user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
-
             };
             foreach (var role in roles)
             {
@@ -202,8 +196,6 @@ namespace Movietheater.Application.UserServices
             if (await _userManager.FindByNameAsync(model.UserName) != null)
                 return new ApiErrorResultLite("UserName đã tồn tại");
 
-
-
             User user = new User()
             {
                 PhoneNumber = model.PhoneNumber,
@@ -214,20 +206,16 @@ namespace Movietheater.Application.UserServices
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                 }
-
             };
-
-           
 
             if ((await _userManager.CreateAsync(user, model.Password)).Succeeded)
             {
-                var roleCus =await _roleManager.FindByNameAsync("Customer");
+                var roleCus = await _roleManager.FindByNameAsync("Customer");
                 _context.UserRoles.Add(new IdentityUserRole<Guid>() { UserId = user.Id, RoleId = roleCus.Id });
                 _context.SaveChanges();
                 return new ApiSuccessResultLite("Tạo mới thành công");
             }
             return new ApiErrorResultLite("Tạo mới thất bại");
-
         }
 
         public async Task<ApiResultLite> UpdateStaffAsync(UserUpdateRequest model)
@@ -239,8 +227,6 @@ namespace Movietheater.Application.UserServices
 
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
 
-
-           
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
             if (model.Status == Status.Active)
@@ -248,11 +234,8 @@ namespace Movietheater.Application.UserServices
             else
             {
                 await _userManager.SetLockoutEnabledAsync(user, true);
-                await _userManager.SetLockoutEndDateAsync(user,DateTime.Now.AddYears(1000));
-
+                await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(1000));
             }
-
-
 
             var userInfor = new UserInfor()
             {
@@ -260,9 +243,7 @@ namespace Movietheater.Application.UserServices
                 Dob = model.Dob,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-              
             };
-           
 
             var result = await _userManager.UpdateAsync(user);
             _context.UserInfors.Update(userInfor);
@@ -274,6 +255,7 @@ namespace Movietheater.Application.UserServices
             else
                 return new ApiErrorResultLite("Cập nhật không thành công");
         }
+
         public async Task<ApiResultLite> UpdateCustomerAsync(UserUpdateRequest model)
         {
             if (await _userManager.Users.AnyAsync(x => x.Email == model.Email && x.Id != model.Id))
@@ -283,8 +265,6 @@ namespace Movietheater.Application.UserServices
 
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
 
-
-
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
             if (model.Status == Status.Active)
@@ -293,20 +273,15 @@ namespace Movietheater.Application.UserServices
             {
                 await _userManager.SetLockoutEnabledAsync(user, true);
                 await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(1000));
-
             }
 
-
-            
             var customerInfor = new CustomerInfor()
             {
                 Id = user.Id,
                 Dob = model.Dob,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-
             };
-
 
             var result = await _userManager.UpdateAsync(user);
             _context.CustomerInfors.Update(customerInfor);
@@ -322,7 +297,6 @@ namespace Movietheater.Application.UserServices
 
         public async Task<ApiResultLite> DeleteAsync(Guid id)
         {
-
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
                 return new ApiErrorResultLite("Không tìm thấy người dùng");
@@ -333,34 +307,30 @@ namespace Movietheater.Application.UserServices
                     return new ApiErrorResultLite("Không thể tự xóa chính mình");
                 else
                 {
-                   
-                    
-                    if (_context.Reservations.Where(x =>x.CustomerId == id).Count() != 0)
+                    if (_context.Reservations.Where(x => x.CustomerId == id).Count() != 0)
                     {
                         await _userManager.SetLockoutEnabledAsync(user, true);
                         await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(100));
                         return new ApiSuccessResultLite("Tài khoản bị khóa vô thời hạn");
-                    }else
+                    }
+                    else
                     {
                         try
                         {
                             await _userManager.DeleteAsync(user);
                             return new ApiSuccessResultLite("Xóa thành công");
                         }
-                        catch(DbUpdateException e)
+                        catch (DbUpdateException e)
                         {
                             return new ApiErrorResultLite("Xảy ra lỗi trong quá trình xóa");
                         }
-                        
                     }
                 }
-                   
-               
             }
         }
+
         public async Task<ApiResultLite> ChangePasswordAsync(ChangePWRequest request)
         {
-
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
             {
@@ -378,10 +348,9 @@ namespace Movietheater.Application.UserServices
                     await _userManager.AddPasswordAsync(user, request.NewPassword);
                     return new ApiSuccessResultLite("Đổi password thành công");
                 }
-
             }
-
         }
+
         public async Task<ApiResultLite> RoleAssignAsync(RoleAssignRequest request)
         {
             var user = await _userManager.FindByIdAsync(request.UserId.ToString());
@@ -390,7 +359,7 @@ namespace Movietheater.Application.UserServices
                 return new ApiErrorResultLite("Tài khoản không tồn tại");
             }
 
-            // check role available 
+            // check role available
             List<Guid> roles = request.Roles.Select(x => Guid.Parse(x.Id)).ToList();
             if (!CheckRoles(roles))
             {
@@ -401,7 +370,7 @@ namespace Movietheater.Application.UserServices
             foreach (var roleId in removedRoles)
             {
                 var userRoles = _context.UserRoles.Where(x => x.RoleId.ToString() == roleId && x.UserId == user.Id);
-                if ( userRoles.Count() != 0)
+                if (userRoles.Count() != 0)
                 {
                     _context.UserRoles.RemoveRange(userRoles);
                 }
@@ -410,19 +379,20 @@ namespace Movietheater.Application.UserServices
             var addedRoles = request.Roles.Where(x => x.Selected).Select(x => x.Id).ToList();
             foreach (var roleId in addedRoles)
             {
-                if ( _context.UserRoles.Where(x =>x.RoleId.ToString() == roleId && x.UserId == user.Id).Count() == 0)
+                if (_context.UserRoles.Where(x => x.RoleId.ToString() == roleId && x.UserId == user.Id).Count() == 0)
                 {
-                    _context.UserRoles.Add(new IdentityUserRole<Guid>(){UserId = user.Id,RoleId = new Guid(roleId) });
+                    _context.UserRoles.Add(new IdentityUserRole<Guid>() { UserId = user.Id, RoleId = new Guid(roleId) });
                 }
             }
             _context.SaveChanges();
             return new ApiSuccessResultLite();
         }
-        public async Task<ApiResult<UserVMD>> GetUserByIdAsync (string id)
+
+        public async Task<ApiResult<UserVMD>> GetUserByIdAsync(string id)
         {
-            var user = await  _userManager.FindByIdAsync(id);
-            
-            if(user == null)
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
             {
                 return new ApiErrorResult<UserVMD>("Người dùng không tồn tại");
             }
@@ -436,14 +406,14 @@ namespace Movietheater.Application.UserServices
                 Email = user.Email,
                 Id = user.Id,
                 PhoneNumber = user.PhoneNumber,
-                Status = user.LockoutEnabled ? Status.InActive : Status.Active, 
+                Status = user.LockoutEnabled ? Status.InActive : Status.Active,
                 UserName = user.UserName,
                 Roles = (List<string>)await _userManager.GetRolesAsync(user)
             };
-           
 
             return new ApiSuccessResult<UserVMD>(userVMD);
         }
+
         public async Task<ApiResult<UserVMD>> GetCustomerByIdAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -467,7 +437,6 @@ namespace Movietheater.Application.UserServices
                 Roles = (List<string>)await _userManager.GetRolesAsync(user)
             };
 
-
             return new ApiSuccessResult<UserVMD>(userVMD);
         }
 
@@ -477,15 +446,13 @@ namespace Movietheater.Application.UserServices
                         join ui in _context.UserInfors on u.Id equals ui.Id
                         select new { u, ui };
 
-            if(!string.IsNullOrWhiteSpace(request.RoleId))
+            if (!string.IsNullOrWhiteSpace(request.RoleId))
             {
                 users = users.Join(_context.UserRoles,
                                u => u.u.Id,
                                ur => ur.UserId,
                                (u, ur) => new { u, ur }).Where(x => request.RoleId == x.ur.RoleId.ToString()).Select(x => x.u);
             }
-           
-
 
             if (!string.IsNullOrWhiteSpace(request.Keyword))
             {
@@ -493,7 +460,7 @@ namespace Movietheater.Application.UserServices
                                       || x.u.PhoneNumber.Contains(request.Keyword)
                                       || x.u.Email.Contains(request.Keyword)
                                       || x.ui.FirstName.Contains(request.Keyword)
-                                      || x.ui.LastName.Contains(request.Keyword)                                   
+                                      || x.ui.LastName.Contains(request.Keyword)
                                       || x.ui.Dob.ToString().Contains(request.Keyword));
             }
 
@@ -513,7 +480,6 @@ namespace Movietheater.Application.UserServices
 
             var pageResult = new PageResult<UserVMD>()
             {
-
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
@@ -521,8 +487,8 @@ namespace Movietheater.Application.UserServices
             };
 
             return new ApiSuccessResult<PageResult<UserVMD>>(pageResult);
-
         }
+
         private bool CheckRoles(List<Guid> roles)
         {
             var listRole = _roleManager.Roles.Select(x => x.Id).ToList();
@@ -538,29 +504,25 @@ namespace Movietheater.Application.UserServices
                         return false;
                     }
                 }
-
             }
             return true;
         }
+
         private bool CheckRole(Guid role, List<Guid> roles)
         {
-            for (int i = 0; i < roles.Count ; i++)
+            for (int i = 0; i < roles.Count; i++)
             {
                 if (role == roles[i])
                     return true;
             }
             return false;
         }
+
         public Guid GetUserId()
         {
             var claimsIdentity = _accessor.HttpContext.User.Identity as ClaimsIdentity;
             string id = claimsIdentity.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
             return new Guid(id);
         }
-
-
-
-
-
     }
 }

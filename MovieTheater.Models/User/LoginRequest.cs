@@ -7,11 +7,14 @@ namespace MovieTheater.Models.User
     {
         [Display(Name = "Tên đăng nhập")]
         public string UserName { get; set; }
+
         [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
+
         [Display(Name = "Nhớ mật khẩu")]
         public bool RememberMe { get; set; }
     }
+
     public class LoginValidator : AbstractValidator<LoginRequest>
     {
         public LoginValidator()

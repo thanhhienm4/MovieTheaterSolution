@@ -3,10 +3,8 @@ using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.ScreeningServices
@@ -14,10 +12,12 @@ namespace Movietheater.Application.ScreeningServices
     public class KindOfScreeningService : IkindOfScreeningService
     {
         private readonly MovieTheaterDBContext _context;
+
         public KindOfScreeningService(MovieTheaterDBContext context)
         {
             _context = context;
         }
+
         public async Task<ApiResultLite> CreateAsync(KindOfScreeningCreateRequest request)
         {
             KindOfScreening kindOfScreening = new KindOfScreening()
@@ -34,6 +34,7 @@ namespace Movietheater.Application.ScreeningServices
 
             return new ApiSuccessResultLite("Thêm thành công");
         }
+
         public async Task<ApiResultLite> UpdateAsync(KindOfScreeningUpdateRequest request)
         {
             KindOfScreening screening = await _context.KindOfScreenings.FindAsync(request.Id);
@@ -46,7 +47,7 @@ namespace Movietheater.Application.ScreeningServices
                 screening.Name = request.Name;
                 screening.Surcharge = request.Surcharge;
                 _context.Update(screening);
-                if( await _context.SaveChangesAsync() != 0)
+                if (await _context.SaveChangesAsync() != 0)
                 {
                     return new ApiSuccessResultLite("Cập nhật thành công");
                 }
@@ -54,7 +55,6 @@ namespace Movietheater.Application.ScreeningServices
                 {
                     return new ApiErrorResultLite("Cập nhật thất bại");
                 }
-                
             }
         }
 
@@ -78,6 +78,7 @@ namespace Movietheater.Application.ScreeningServices
                 }
             }
         }
+
         public async Task<ApiResult<List<KindOfScreeningVMD>>> GetAllKindOfScreeningAsync()
         {
             var kindOfScreenings = await _context.KindOfScreenings.Select(x => new KindOfScreeningVMD()
