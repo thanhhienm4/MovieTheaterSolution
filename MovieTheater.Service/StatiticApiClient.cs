@@ -14,9 +14,9 @@ namespace MovieTheater.Api
             httpContextAccessor)
         { }
 
-        public async Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(CalRevenueRequest request)
+        public async Task<ApiResult<ChartData>> GetTopRevenueFilmAsync(CalRevenueRequest request)
         {
-            return await PostAsync<ApiResult<ChartData>>("Api/Statitic/GetTopGrossingFilm", request);
+            return await PostAsync<ApiResult<ChartData>>("Api/Statitic/GetTopRevenueFilm", request);
         }
 
         public async Task<ApiResult<long>> GetRevenueAsync(CalRevenueRequest request)
@@ -24,9 +24,9 @@ namespace MovieTheater.Api
             return await PostAsync<ApiResult<long>>("Api/Statitic/GetRevenueAsync", request);
         }
 
-        public async Task<ApiResult<ChartData>> GetGroosingTypeAsync(CalRevenueRequest request)
+        public async Task<ApiResult<ChartData>> GetRevenueTypeAsync(CalRevenueRequest request)
         {
-            return await PostAsync<ApiResult<ChartData>>("Api/Statitic/GetGroosingTypeAsync", request);
+            return await PostAsync<ApiResult<ChartData>>("Api/Statitic/GetRevenueTypeAsync", request);
         }
     }
 }

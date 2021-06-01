@@ -16,26 +16,24 @@
         <div class="d-flex">
 
             <div class="ml-auto p-2">
-                <form asp-action="Index" method="get">
-                    <div class="row">
+                <div class="row">
 
-                        <div>
-                            <input id = "startDate" asp-for="StartDate" class="form-control" type="date" />
-                        </div>
-                        <div>
-                            &nbsp;
-                        </div>
-                        <div>
-                            <input id= "endDate" asp-for="EndDate" class="form-control" type="date" />
-                        </div>
-                        <div>
-                            &nbsp;
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Tìm</button>
-                        </div>
+                    <div>
+                        <input id="startDate" class="form-control" type="date" />
                     </div>
-                </form>
+                    <div>
+                        &nbsp;
+                    </div>
+                    <div>
+                        <input id="endDate" class="form-control" type="date" />
+                    </div>
+                    <div>
+                        &nbsp;
+                    </div>
+                    <div>
+                        <button onclick="loadFilmRevenue()" class="btn btn-primary">Tìm</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -45,49 +43,59 @@
                 Top doanh thu
             </div>
             <div class="card-body">
-                @if ((ViewData["TopGroosingFilm"] as ChartData) != null)
-                {
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Phim
-                                    </th>
-                                    <th>
-                                        Doanh thu
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{ChartData TopGroosingFilm = ViewData["TopGroosingFilm"] as ChartData;}
-                                @for (int i = 0; i < (ViewData["TopGroosingFilm"] as ChartData).Lables.Count; i++)
-                                {
-                                    <tr>
-                                        <td>
-                                            @TopGroosingFilm.Lables[i]
-                                        </td>
-                                        <td>
-                                            @TopGroosingFilm.DataRows[1][i];
-                                        </td>
-                                    </tr>
-
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Phim
+                                </th>
+                                <th>
+                                    Doanh thu
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbbodyFilmRevenue">
+                          
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="card-footer">
-                <a class="btn btn-primary" onclick="dowloadPdf(@((int)RenderType.Pdf))">Tải xuống file Pdf</a>
-                <a class="btn btn-primary" onclick="dowloadPdf(@((int)RenderType.Excel))">Tải xuống file Excel</a>
+                <a class="btn btn-primary" onclick="dowloadFilmRevenue(@((int)RenderType.Pdf))">Tải xuống file Pdf</a>
+                <a class="btn btn-primary" onclick="dowloadFilmRevenue(@((int)RenderType.Excel))">Tải xuống file Excel</a>
             </div>
         </div>
     </div>
 </div>
 
+
+
+
 <script>
-    function dowloadPdf(mode) {
+    function loadFilmRevenue() {
+        var startDate = document.getElementById('startDate').value;
+        var endDate = document.getElementById('endDate').value;
+        $.ajax({
+            type: "GET",
+            url: "/Statitic/GetTopRevenueFilm",
+            data: { startDate: startDate, endDate: endDate },
+            success: function (data) {
+                document.getElementById("tbbodyFilmRevenue").innerHTML = "";
+                str = "";
+                for (var i = 0; i < data.lables.length; i++)
+                {
+                     str = "<tr><td>" + data.lables[i] + "</td><td>"
+                           + data.dataRows[1][i].toString()+ "</td></tr>";
+                }
+                document.getElementById("tbbodyFilmRevenue").innerHTML = str;
+                
+
+
+            }
+        });
+    }
+    function dowloadFilmRevenue(mode) {
         var fileName = "report";
         var startDate = document.getElementById('startDate').value;
         var endDate = document.getElementById('endDate').value;

@@ -1,6 +1,7 @@
 ﻿using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,5 +20,7 @@ namespace Movietheater.Application.ReservationServices
         Task<ApiResult<PageResult<ReservationVMD>>> GetReservationPagingAsync(ReservationPagingRequest request);
 
         Task<int> CalPrePriceAsync(List<TicketCreateRequest> tickets);
+
+        Task<ApiResult<List<ReservationVMD>>> GetReservationByUserId(Guid userId);
     }
 }

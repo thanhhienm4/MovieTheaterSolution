@@ -14,11 +14,13 @@ namespace MovieTheater.WebApp.Controllers
     {
         private readonly UserApiClient _userApiClient;
         private readonly RoleApiClient _roleApiClient;
+        private readonly ReservationApiClient _reservationApiClient;
 
-        public UserController(UserApiClient userApiClient, RoleApiClient roleApiClient)
+        public UserController(UserApiClient userApiClient, RoleApiClient roleApiClient, ReservationApiClient reservationApiClient)
         {
             _userApiClient = userApiClient;
             _roleApiClient = roleApiClient;
+            _reservationApiClient = reservationApiClient;
         }
 
         [HttpGet]
@@ -95,6 +97,14 @@ namespace MovieTheater.WebApp.Controllers
             }
             ModelState.AddModelError("", result.Message);
             return View(request);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Order()
+        {
+            Guid id = GetUserId();
+            var response = _reservationApiClient.GetReservationByUserIdAsync(id).Result;
+            return View(response);
         }
 
         [HttpGet]

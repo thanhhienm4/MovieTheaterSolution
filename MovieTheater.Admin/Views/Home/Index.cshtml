@@ -70,7 +70,7 @@
                             <p class="m-0 font-weight-bold text-primary">Top doanh thu</p>
                         </div>
                         <div class="card-body">
-                            <canvas id="TopGrossingBar" class="chart-line"></canvas>
+                            <canvas id="TopRevenueBar" class="chart-line"></canvas>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                             <p class="m-0 font-weight-bold text-primary">Hình thức</p>
                         </div>
                         <div class="card-body">
-                            <canvas id="GrossingType" class="fa-chart-pie"></canvas>
+                            <canvas id="RevenueType" class="fa-chart-pie"></canvas>
                         </div>
                     </div>
                 </div>
@@ -95,10 +95,10 @@
         $.ajax({
             type: "GET",
 
-            url: "/Statitic/GetTopGrossingFilm",
+            url: "/Statitic/GetTopRevenueFilm",
             success: function (res) {
 
-                var chBar = document.getElementById("TopGrossingBar");
+                var chBar = document.getElementById("TopRevenueBar");
 
                 if (chBar) {
                     new Chart(chBar, {
@@ -128,10 +128,10 @@
         $.ajax({
             type: "GET",
 
-            url: "/Statitic/GetGroosingType",
+            url: "/Statitic/GetRevenueType",
             success: function (res) {
 
-                var ctx = $("#GrossingType");
+                var ctx = $("#RevenueType");
                 var myLineChart = new Chart(ctx, {
                     type: 'pie',
                     data: {

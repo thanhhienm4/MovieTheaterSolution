@@ -18,7 +18,7 @@ namespace Movietheater.Application.Statitic
             _context = context;
         }
 
-        public async Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(CalRevenueRequest request)
+        public async Task<ApiResult<ChartData>> GetTopRevenueFilmAsync(CalRevenueRequest request)
         {
             var query = from s in _context.Screenings
                         join f in _context.Films on s.FilmId equals f.Id
@@ -27,15 +27,15 @@ namespace Movietheater.Application.Statitic
                         where s.StartTime.Date >= request.StartDate.Date && s.StartTime.Date <= request.EndDate.Date && s.Active == true && r.Active == true
                         select new { s, f, t };
 
-            var grossing = await query.GroupBy(x => new { x.f.Name, x.f.Id }).Select(x => new
+            var Revenue = await query.GroupBy(x => new { x.f.Name, x.f.Id }).Select(x => new
             {
                 Name = x.Key.Name,
-                Grossing = (decimal)x.Sum(sft => sft.t.Price)
-            }).OrderByDescending(x => x.Grossing).ToListAsync();
+                Revenue = (decimal)x.Sum(sft => sft.t.Price)
+            }).OrderByDescending(x => x.Revenue).ToListAsync();
 
             ChartData chartData = new ChartData();
-            chartData.Lables = grossing.Select(x => x.Name).ToList();
-            chartData.DataRows[0] = grossing.Select(x => x.Grossing).ToList();
+            chartData.Lables = Revenue.Select(x => x.Name).ToList();
+            chartData.DataRows[0] = Revenue.Select(x => x.Revenue).ToList();
 
             return new ApiSuccessResult<ChartData>(chartData);
         }
@@ -52,7 +52,7 @@ namespace Movietheater.Application.Statitic
             return new ApiSuccessResult<long>(revenue);
         }
 
-        public async Task<ApiResult<ChartData>> GetGroosingTypeAsync(CalRevenueRequest request)
+        public async Task<ApiResult<ChartData>> GetRevenueTypeAsync(CalRevenueRequest request)
         {
             var query = from s in _context.Screenings
                         join t in _context.Tickets on s.Id equals t.ScreeningId
@@ -62,15 +62,15 @@ namespace Movietheater.Application.Statitic
                         && s.Active == true && r.Active == true
                         select new { rt, t };
 
-            var grossing = await query.GroupBy(x => new { x.rt.Name }).Select(x => new
+            var Revenue = await query.GroupBy(x => new { x.rt.Name }).Select(x => new
             {
                 Name = x.Key.Name,
-                Grossing = (decimal)x.Sum(sft => sft.t.Price)
+                Revenue = (decimal)x.Sum(sft => sft.t.Price)
             }).ToListAsync();
 
             ChartData chartData = new ChartData();
-            chartData.Lables = grossing.Select(x => x.Name).ToList();
-            chartData.DataRows[0] = grossing.Select(x => x.Grossing).ToList();
+            chartData.Lables = Revenue.Select(x => x.Name).ToList();
+            chartData.DataRows[0] = Revenue.Select(x => x.Revenue).ToList();
 
             return new ApiSuccessResult<ChartData>(chartData);
         }

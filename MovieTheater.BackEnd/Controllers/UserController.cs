@@ -86,7 +86,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpGet("GetUserById/{id}")]
-        public async Task<ApiResult<UserVMD>> GetUserById(string id)
+        public async Task<ApiResult<UserVMD>> GetUserById(Guid id)
         {
             var result = await _userService.GetUserByIdAsync(id);
             return result;
@@ -100,9 +100,9 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpGet("GetCustomerById/{id}")]
-        public async Task<ApiResult<UserVMD>> GetCustomerById(string id)
+        public async Task<ApiResult<UserVMD>> GetCustomerById(Guid id)
         {
-            var result = await _userService.GetUserByIdAsync(id);
+            var result = await _userService.GetCustomerByIdAsync(id);
             return result;
         }
     }

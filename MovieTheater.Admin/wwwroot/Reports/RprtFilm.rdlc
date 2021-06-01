@@ -2,7 +2,7 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="TopFilmGrossing">
+    <DataSource Name="TopFilmRevenue">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
@@ -11,9 +11,9 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="TopGrossingFilm">
+    <DataSet Name="TopRevenueFilm">
       <Query>
-        <DataSourceName>TopFilmGrossing</DataSourceName>
+        <DataSourceName>TopFilmRevenue</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -21,8 +21,8 @@
           <DataField>Film</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Grossing">
-          <DataField>Grossing</DataField>
+        <Field Name="Revenue">
+          <DataField>Revenue</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Proportion">
@@ -31,9 +31,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>TopFilmGrossing</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\aa\Source\Repos\MovieTheaterSolution\MovieTheater.Admin\ReportDataSets\TopFilmGrossing.xsd</rd:SchemaPath>
-        <rd:TableName>TopGrossingFilm</rd:TableName>
+        <rd:DataSetName>TopFilmRevenue</rd:DataSetName>
+        <rd:SchemaPath>C:\Users\aa\Source\Repos\MovieTheaterSolution\MovieTheater.Admin\ReportDataSets\TopFilmRevenue.xsd</rd:SchemaPath>
+        <rd:TableName>TopRevenueFilm</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />
@@ -168,7 +168,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Grossing.Value</Value>
+                                  <Value>=Fields!Revenue.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -211,7 +211,7 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>TopGrossingFilm</DataSetName>
+            <DataSetName>TopRevenueFilm</DataSetName>
             <Top>1.0925in</Top>
             <Left>1.655in</Left>
             <Height>0.5in</Height>

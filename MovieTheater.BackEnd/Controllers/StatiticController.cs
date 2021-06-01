@@ -17,10 +17,10 @@ namespace MovieTheater.BackEnd.Controllers
             _statiticService = statiticService;
         }
 
-        [HttpPost("GetTopGrossingFilm")]
-        public async Task<ApiResult<ChartData>> GetTopGrossingFilmAsync(CalRevenueRequest request)
+        [HttpPost("GetTopRevenueFilm")]
+        public async Task<ApiResult<ChartData>> GetTopRevenueFilmAsync(CalRevenueRequest request)
         {
-            var result = await _statiticService.GetTopGrossingFilmAsync(request);
+            var result = await _statiticService.GetTopRevenueFilmAsync(request);
             return result;
         }
 
@@ -31,10 +31,10 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPost("GetGroosingTypeAsync")]
-        public async Task<ApiResult<ChartData>> GetGroosingTypeAsync(CalRevenueRequest request)
+        [HttpPost("GetRevenueTypeAsync")]
+        public async Task<ApiResult<ChartData>> GetRevenueTypeAsync(CalRevenueRequest request)
         {
-            var result = await _statiticService.GetGroosingTypeAsync(request);
+            var result = await _statiticService.GetRevenueTypeAsync(request);
             return result;
         }
         [HttpPost("GetRevenueInNMonthAsync")]

@@ -33,10 +33,10 @@ namespace MovieTheater.Admin.Controllers
                 request.EndDate = DateTime.Now;
             }
 
-            var topGroosingFilm = (await _statiticApiClient.GetTopGrossingFilmAsync(request)).ResultObj;
-            var groosing = (await _statiticApiClient.GetGroosingTypeAsync(request)).ResultObj;
-            ViewData["TopGroosingFilm"] = topGroosingFilm;
-            ViewData["Groosing"] = groosing;
+            var topRevenueFilm = (await _statiticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
+            var Revenue = (await _statiticApiClient.GetRevenueTypeAsync(request)).ResultObj;
+            ViewData["TopRevenueFilm"] = topRevenueFilm;
+            ViewData["Revenue"] = Revenue;
 
             return View(request);
         }
@@ -45,17 +45,17 @@ namespace MovieTheater.Admin.Controllers
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("Film");
-            dt.Columns.Add("Grossing");
+            dt.Columns.Add("Revenue");
             dt.Columns.Add("Proportion");
 
            
-            var topGroosingFilm = (await _statiticApiClient.GetTopGrossingFilmAsync(request)).ResultObj;
+            var topRevenueFilm = (await _statiticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
             DataRow row;
-            for (int i = 0; i < topGroosingFilm.Lables.Count; i++)
+            for (int i = 0; i < topRevenueFilm.Lables.Count; i++)
             {
                 row = dt.NewRow();
-                row["Film"] = topGroosingFilm.Lables[i];
-                row["Grossing"] = topGroosingFilm.DataRows[1][i];
+                row["Film"] = topRevenueFilm.Lables[i];
+                row["Revenue"] = topRevenueFilm.DataRows[1][i];
                 dt.Rows.Add(row);
             }
             return dt;
@@ -76,7 +76,7 @@ namespace MovieTheater.Admin.Controllers
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("prm", $"Thống kê kết quả từ ngày {request.StartDate.ToString("dd/MM/yyyy")} đến ngày {request.EndDate.ToString("dd/MM/yyyy")}");
             LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("TopGrossingFilm", dt);
+            localReport.AddDataSource("TopRevenueFilm", dt);
             ReportResult report;
             FileContentResult file;
 
@@ -111,12 +111,16 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<ChartData> GetTopGrossingFilm(CalRevenueRequest request)
+        public async Task<ChartData> GetTopRevenueFilm(CalRevenueRequest ? request)
         {
-            request = new CalRevenueRequest();
-            request.StartDate = DateTime.Now.AddMonths(-1);
-            request.EndDate = DateTime.Now;
-            var result = (await _statiticApiClient.GetTopGrossingFilmAsync(request)).ResultObj;
+            if(request.StartDate == DateTime.MinValue && request.EndDate == DateTime.MinValue)
+            {
+                request = new CalRevenueRequest();
+                request.StartDate = DateTime.Now.AddMonths(-1);
+                request.EndDate = DateTime.Now;
+            }
+          
+            var result = (await _statiticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
             return result;
         }
 
@@ -149,7 +153,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<ChartData> GetGroosingType(DateTime date)
+        public async Task<ChartData> GetRevenueType(DateTime date)
         {
             date = DateTime.Now;
             var request = new CalRevenueRequest()
@@ -157,7 +161,7 @@ namespace MovieTheater.Admin.Controllers
                 StartDate = new DateTime(date.Year, 1, 1),
                 EndDate = new DateTime(date.AddYears(1).Year, 1, 1).AddDays(-1)
             };
-            var result = (await _statiticApiClient.GetGroosingTypeAsync(request)).ResultObj;
+            var result = (await _statiticApiClient.GetRevenueTypeAsync(request)).ResultObj;
             return result;
         }
     }

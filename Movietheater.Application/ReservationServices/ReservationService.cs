@@ -121,12 +121,12 @@ namespace Movietheater.Application.ReservationServices
                         join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
                         select new { r, c, rt, e, u };
 
-            //if(string.IsNullOrWhiteSpace(request.Keyword))
-            //{
-            //    query = query.Where(x => x.r.Id.ToString().Contains(request.Keyword) ||
-            //                            x.u.PhoneNumber.Contains(request.Keyword) ||
-            //                            x.u.Email.Contains(request.Keyword));
-            //}
+            if (string.IsNullOrWhiteSpace(request.Keyword))
+            {
+                query = query.Where(x => x.c != null).Where(x => x.r.Id.ToString().Contains(request.Keyword) ||
+                                        x.u.PhoneNumber.Contains(request.Keyword) ||
+                                        x.u.Email.Contains(request.Keyword));
+            }
 
             int totalRow = await query.CountAsync();
             var item = query.OrderBy(x => x.r.Time).Skip((request.PageIndex - 1) * request.PageSize)
@@ -238,6 +238,38 @@ namespace Movietheater.Application.ReservationServices
             int c = query.Select(x => x.kse.Surcharge).FirstOrDefault();
             int price = await query.Select(x => x.fr.Price + x.ks.Surcharge + x.kse.Surcharge).FirstOrDefaultAsync();
             return price;
+        }
+
+        public async Task<ApiResult<List<ReservationVMD>>> GetReservationByUserId(Guid userId)
+        {
+            var query = from r in _context.Reservations
+                        join c in _context.CustomerInfors on r.CustomerId equals c.Id into rc
+                        from c in rc.DefaultIfEmpty()
+                        join e in _context.UserInfors on r.EmployeeId equals e.Id into rec
+                        from e in rec.DefaultIfEmpty()
+                        join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
+                        where c.Id == userId
+                        select new { r, c, rt, e };
+
+            int totalRow = await query.CountAsync();
+            var res = query.Select(x => new ReservationVMD()
+            {
+                Id = x.r.Id,
+                Paid = x.r.Paid,
+                Active = x.r.Active,
+                ReservationType = x.rt.Name,
+                Time = x.r.Time,
+                Employee = x.e.LastName + " " + x.e.FirstName,
+                Customer = x.c.LastName + " " + x.c.FirstName
+            }).ToList();
+
+            foreach(var reservation in res)
+            {
+                reservation.Tickets = await GetTicketsAsync(reservation.Id);
+            }
+           
+            
+            return new ApiSuccessResult<List<ReservationVMD>>(res);
         }
     }
 }

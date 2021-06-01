@@ -50,24 +50,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ReportDataSets\TopFilmGrossing.Designer.cs">
-      <DependentUpon>TopFilmGrossing.xsd</DependentUpon>
+    <Compile Update="ReportDataSets\TopFilmRevenue.Designer.cs">
+      <DependentUpon>TopFilmRevenue.xsd</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ReportDataSets\TopFilmGrossing.xsc">
-      <DependentUpon>TopFilmGrossing.xsd</DependentUpon>
+    <None Update="ReportDataSets\TopFilmRevenue.xsc">
+      <DependentUpon>TopFilmRevenue.xsd</DependentUpon>
     </None>
-    <None Update="ReportDataSets\TopFilmGrossing.xsd">
+    <None Update="ReportDataSets\TopFilmRevenue.xsd">
       <SubType>Designer</SubType>
-      <LastGenOutput>TopFilmGrossing.Designer.cs</LastGenOutput>
+      <LastGenOutput>TopFilmRevenue.Designer.cs</LastGenOutput>
       <Generator>MSDataSetGenerator</Generator>
     </None>
-    <None Update="ReportDataSets\TopFilmGrossing.xss">
-      <DependentUpon>TopFilmGrossing.xsd</DependentUpon>
+    <None Update="ReportDataSets\TopFilmRevenue.xss">
+      <DependentUpon>TopFilmRevenue.xsd</DependentUpon>
     </None>
   </ItemGroup>
 

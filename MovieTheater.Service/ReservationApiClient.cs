@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -39,6 +40,11 @@ namespace MovieTheater.Api
         public async Task<ApiResult<ReservationVMD>> GetReservationByIdAsync(int id)
         {
             return await GetAsync<ApiResult<ReservationVMD>>($"Api/Reservation/GetReservationById/{id}");
+        }
+
+        public async Task<ApiResult<List<ReservationVMD>>> GetReservationByUserIdAsync(Guid id)
+        {
+            return await GetAsync<ApiResult<List<ReservationVMD>>>($"Api/Reservation/GetReservationUserById/{id}");
         }
 
         public async Task<int> CalPrePriceAsync(List<TicketCreateRequest> tickets)

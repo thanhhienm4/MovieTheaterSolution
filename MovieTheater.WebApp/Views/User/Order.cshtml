@@ -1,0 +1,62 @@
+﻿@using MovieTheater.Models.Catalog.Reservation
+
+@model List<ReservationVMD>
+<h1>Lich su dat ve</h1>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+
+                <th>
+                    ID
+                </th>
+                <th>
+                    Thanh toán
+                </th>
+                <th>
+                    Trạng thái
+                </th>
+                <th>
+                    Kiểu đặt vé
+                </th>
+                <th>
+                    Thời gian
+                </th>
+                
+                <th>Khác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model != null)
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Paid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.ReservationType)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.Time)
+                    </td>
+                  
+                    <td>
+                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+   
+</div>

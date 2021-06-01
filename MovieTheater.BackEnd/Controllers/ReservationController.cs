@@ -3,6 +3,7 @@ using Movietheater.Application.ReservationServices;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -51,6 +52,13 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResult<ReservationVMD>> GeReservationByIdAsync(int id)
         {
             var result = await _reservationService.GetReservationById(id);
+            return result;
+        }
+
+        [HttpGet("GetReservationByUserId/{id}")]
+        public async Task<ApiResult<List<ReservationVMD>>> GeReservationByUserIdAsync(Guid id)
+        {
+            var result = await _reservationService.GetReservationByUserId(id);
             return result;
         }
 

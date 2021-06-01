@@ -388,15 +388,16 @@ namespace Movietheater.Application.UserServices
             return new ApiSuccessResultLite();
         }
 
-        public async Task<ApiResult<UserVMD>> GetUserByIdAsync(string id)
+        public async Task<ApiResult<UserVMD>> GetUserByIdAsync(Guid id)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            var userInfor =await _context.UserInfors.FindAsync(id);
 
-            if (user == null)
+            if (user == null || userInfor == null)
             {
                 return new ApiErrorResult<UserVMD>("Người dùng không tồn tại");
             }
-            var userInfor = _context.UserInfors.Where(x => x.Id == user.Id).FirstOrDefault();
+            
 
             var userVMD = new UserVMD()
             {
@@ -407,28 +408,30 @@ namespace Movietheater.Application.UserServices
                 Id = user.Id,
                 PhoneNumber = user.PhoneNumber,
                 Status = user.LockoutEnabled ? Status.InActive : Status.Active,
-                UserName = user.UserName,
-                Roles = (List<string>)await _userManager.GetRolesAsync(user)
+                UserName = user.UserName
+               
             };
+            userVMD.Roles = (List<string>)await _userManager.GetRolesAsync(user);
 
             return new ApiSuccessResult<UserVMD>(userVMD);
         }
 
-        public async Task<ApiResult<UserVMD>> GetCustomerByIdAsync(string id)
+        public async Task<ApiResult<UserVMD>> GetCustomerByIdAsync(Guid id)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            var customerInfor = await _context.CustomerInfors.FindAsync(id);
 
-            if (user == null)
+            if (user == null || customerInfor==null)
             {
                 return new ApiErrorResult<UserVMD>("Người dùng không tồn tại");
             }
-            var userInfor = _context.CustomerInfors.Where(x => x.Id == user.Id).FirstOrDefault();
+           
 
             var userVMD = new UserVMD()
             {
-                Dob = userInfor.Dob,
-                FirstName = userInfor.FirstName,
-                LastName = userInfor.LastName,
+                Dob = customerInfor.Dob,
+                FirstName = customerInfor.FirstName,
+                LastName = customerInfor.LastName,
                 Email = user.Email,
                 Id = user.Id,
                 PhoneNumber = user.PhoneNumber,

@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xs:schema id="TopFilmGrossing"
-                  targetNamespace="http://tempuri.org/TopFilmGrossing.xsd"
+<xs:schema id="TopFilmRevenue"
+                  targetNamespace="http://tempuri.org/TopFilmRevenue.xsd"
                   elementFormDefault="qualified"
                   attributeFormDefault="qualified"
-                  xmlns="http://tempuri.org/TopFilmGrossing.xsd"
-                  xmlns:mstns="http://tempuri.org/TopFilmGrossing.xsd"
+                  xmlns="http://tempuri.org/TopFilmRevenue.xsd"
+                  xmlns:mstns="http://tempuri.org/TopFilmRevenue.xsd"
                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
                   xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
                   xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
-    <xs:element name="TopFilmGrossing" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true">
+    <xs:element name="TopFilmRevenue" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true">
         <xs:complexType>
             <xs:choice minOccurs="0" maxOccurs="unbounded"></xs:choice>
         </xs:complexType>

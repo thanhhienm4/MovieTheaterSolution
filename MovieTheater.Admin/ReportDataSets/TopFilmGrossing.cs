@@ -38,9 +38,13 @@ namespace MovieTheater.Admin.ReportDataSets
 {
 }
 
-partial class TopFilmGrossing
+namespace MovieTheater.Admin.ReportDataSets
 {
-    partial class TopGrossingFilmDataTable
+}
+
+partial class TopFilmRevenue
+{
+    partial class TopRevenueFilmDataTable
     {
     }
 }

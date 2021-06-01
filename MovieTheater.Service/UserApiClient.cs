@@ -64,7 +64,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<UserVMD>> GetCustomerByIdAsync(Guid id)
         {
-            return await GetAsync<ApiResult<UserVMD>>($"Api/User/CustomerById/{id}");
+            return await GetAsync<ApiResult<UserVMD>>($"Api/User/GetCustomerById/{id}");
         }
 
         public async Task<ApiResultLite> RoleAssignAsync(RoleAssignRequest request)

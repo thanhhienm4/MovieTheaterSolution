@@ -20,17 +20,17 @@ namespace MovieTheater.Admin.ReportDataSets {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("TopFilmGrossing")]
+    [global::System.Xml.Serialization.XmlRootAttribute("TopFilmRevenue")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class TopFilmGrossing : global::System.Data.DataSet {
+    public partial class TopFilmRevenue : global::System.Data.DataSet {
         
-        private TopGrossingFilmDataTable tableTopGrossingFilm;
+        private TopRevenueFilmDataTable tableTopRevenueFilm;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public TopFilmGrossing() {
+        public TopFilmRevenue() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace MovieTheater.Admin.ReportDataSets {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        protected TopFilmGrossing(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected TopFilmRevenue(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -54,8 +54,8 @@ namespace MovieTheater.Admin.ReportDataSets {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["TopGrossingFilm"] != null)) {
-                    base.Tables.Add(new TopGrossingFilmDataTable(ds.Tables["TopGrossingFilm"]));
+                if ((ds.Tables["TopRevenueFilm"] != null)) {
+                    base.Tables.Add(new TopRevenueFilmDataTable(ds.Tables["TopRevenueFilm"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -79,9 +79,9 @@ namespace MovieTheater.Admin.ReportDataSets {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public TopGrossingFilmDataTable TopGrossingFilm {
+        public TopRevenueFilmDataTable TopRevenueFilm {
             get {
-                return this.tableTopGrossingFilm;
+                return this.tableTopRevenueFilm;
             }
         }
         
@@ -127,7 +127,7 @@ namespace MovieTheater.Admin.ReportDataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            TopFilmGrossing cln = ((TopFilmGrossing)(base.Clone()));
+            TopFilmRevenue cln = ((TopFilmRevenue)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -152,8 +152,8 @@ namespace MovieTheater.Admin.ReportDataSets {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["TopGrossingFilm"] != null)) {
-                    base.Tables.Add(new TopGrossingFilmDataTable(ds.Tables["TopGrossingFilm"]));
+                if ((ds.Tables["TopRevenueFilm"] != null)) {
+                    base.Tables.Add(new TopRevenueFilmDataTable(ds.Tables["TopRevenueFilm"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -188,10 +188,10 @@ namespace MovieTheater.Admin.ReportDataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableTopGrossingFilm = ((TopGrossingFilmDataTable)(base.Tables["TopGrossingFilm"]));
+            this.tableTopRevenueFilm = ((TopRevenueFilmDataTable)(base.Tables["TopRevenueFilm"]));
             if ((initTable == true)) {
-                if ((this.tableTopGrossingFilm != null)) {
-                    this.tableTopGrossingFilm.InitVars();
+                if ((this.tableTopRevenueFilm != null)) {
+                    this.tableTopRevenueFilm.InitVars();
                 }
             }
         }
@@ -199,18 +199,18 @@ namespace MovieTheater.Admin.ReportDataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "TopFilmGrossing";
+            this.DataSetName = "TopFilmRevenue";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/TopFilmGrossing.xsd";
+            this.Namespace = "http://tempuri.org/TopFilmRevenue.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableTopGrossingFilm = new TopGrossingFilmDataTable();
-            base.Tables.Add(this.tableTopGrossingFilm);
+            this.tableTopRevenueFilm = new TopRevenueFilmDataTable();
+            base.Tables.Add(this.tableTopRevenueFilm);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private bool ShouldSerializeTopGrossingFilm() {
+        private bool ShouldSerializeTopRevenueFilm() {
             return false;
         }
         
@@ -225,7 +225,7 @@ namespace MovieTheater.Admin.ReportDataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            TopFilmGrossing ds = new TopFilmGrossing();
+            TopFilmRevenue ds = new TopFilmRevenue();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -270,25 +270,25 @@ namespace MovieTheater.Admin.ReportDataSets {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void TopGrossingFilmRowChangeEventHandler(object sender, TopGrossingFilmRowChangeEvent e);
+        public delegate void TopRevenueFilmRowChangeEventHandler(object sender, TopRevenueFilmRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class TopGrossingFilmDataTable : global::System.Data.TypedTableBase<TopGrossingFilmRow> {
+        public partial class TopRevenueFilmDataTable : global::System.Data.TypedTableBase<TopRevenueFilmRow> {
             
             private global::System.Data.DataColumn columnFilm;
             
-            private global::System.Data.DataColumn columnGrossing;
+            private global::System.Data.DataColumn columnRevenue;
             
             private global::System.Data.DataColumn columnProportion;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TopGrossingFilmDataTable() {
-                this.TableName = "TopGrossingFilm";
+            public TopRevenueFilmDataTable() {
+                this.TableName = "TopRevenueFilm";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -296,7 +296,7 @@ namespace MovieTheater.Admin.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal TopGrossingFilmDataTable(global::System.Data.DataTable table) {
+            internal TopRevenueFilmDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -313,7 +313,7 @@ namespace MovieTheater.Admin.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            protected TopGrossingFilmDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected TopRevenueFilmDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -328,9 +328,9 @@ namespace MovieTheater.Admin.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn GrossingColumn {
+            public global::System.Data.DataColumn RevenueColumn {
                 get {
-                    return this.columnGrossing;
+                    return this.columnRevenue;
                 }
             }
             
@@ -353,47 +353,47 @@ namespace MovieTheater.Admin.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TopGrossingFilmRow this[int index] {
+            public TopRevenueFilmRow this[int index] {
                 get {
-                    return ((TopGrossingFilmRow)(this.Rows[index]));
+                    return ((TopRevenueFilmRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event TopGrossingFilmRowChangeEventHandler TopGrossingFilmRowChanging;
+            public event TopRevenueFilmRowChangeEventHandler TopRevenueFilmRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event TopGrossingFilmRowChangeEventHandler TopGrossingFilmRowChanged;
+            public event TopRevenueFilmRowChangeEventHandler TopRevenueFilmRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event TopGrossingFilmRowChangeEventHandler TopGrossingFilmRowDeleting;
+            public event TopRevenueFilmRowChangeEventHandler TopRevenueFilmRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event TopGrossingFilmRowChangeEventHandler TopGrossingFilmRowDeleted;
+            public event TopRevenueFilmRowChangeEventHandler TopRevenueFilmRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void AddTopGrossingFilmRow(TopGrossingFilmRow row) {
+            public void AddTopRevenueFilmRow(TopRevenueFilmRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TopGrossingFilmRow AddTopGrossingFilmRow(string Film, string Grossing, string Proportion) {
-                TopGrossingFilmRow rowTopGrossingFilmRow = ((TopGrossingFilmRow)(this.NewRow()));
+            public TopRevenueFilmRow AddTopRevenueFilmRow(string Film, string Revenue, string Proportion) {
+                TopRevenueFilmRow rowTopRevenueFilmRow = ((TopRevenueFilmRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Film,
-                        Grossing,
+                        Revenue,
                         Proportion};
-                rowTopGrossingFilmRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowTopGrossingFilmRow);
-                return rowTopGrossingFilmRow;
+                rowTopRevenueFilmRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTopRevenueFilmRow);
+                return rowTopRevenueFilmRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                TopGrossingFilmDataTable cln = ((TopGrossingFilmDataTable)(base.Clone()));
+                TopRevenueFilmDataTable cln = ((TopRevenueFilmDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -401,14 +401,14 @@ namespace MovieTheater.Admin.ReportDataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new TopGrossingFilmDataTable();
+                return new TopRevenueFilmDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
                 this.columnFilm = base.Columns["Film"];
-                this.columnGrossing = base.Columns["Grossing"];
+                this.columnRevenue = base.Columns["Revenue"];
                 this.columnProportion = base.Columns["Proportion"];
             }
             
@@ -417,36 +417,36 @@ namespace MovieTheater.Admin.ReportDataSets {
             private void InitClass() {
                 this.columnFilm = new global::System.Data.DataColumn("Film", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFilm);
-                this.columnGrossing = new global::System.Data.DataColumn("Grossing", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnGrossing);
+                this.columnRevenue = new global::System.Data.DataColumn("Revenue", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRevenue);
                 this.columnProportion = new global::System.Data.DataColumn("Proportion", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnProportion);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TopGrossingFilmRow NewTopGrossingFilmRow() {
-                return ((TopGrossingFilmRow)(this.NewRow()));
+            public TopRevenueFilmRow NewTopRevenueFilmRow() {
+                return ((TopRevenueFilmRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new TopGrossingFilmRow(builder);
+                return new TopRevenueFilmRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(TopGrossingFilmRow);
+                return typeof(TopRevenueFilmRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.TopGrossingFilmRowChanged != null)) {
-                    this.TopGrossingFilmRowChanged(this, new TopGrossingFilmRowChangeEvent(((TopGrossingFilmRow)(e.Row)), e.Action));
+                if ((this.TopRevenueFilmRowChanged != null)) {
+                    this.TopRevenueFilmRowChanged(this, new TopRevenueFilmRowChangeEvent(((TopRevenueFilmRow)(e.Row)), e.Action));
                 }
             }
             
@@ -454,8 +454,8 @@ namespace MovieTheater.Admin.ReportDataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.TopGrossingFilmRowChanging != null)) {
-                    this.TopGrossingFilmRowChanging(this, new TopGrossingFilmRowChangeEvent(((TopGrossingFilmRow)(e.Row)), e.Action));
+                if ((this.TopRevenueFilmRowChanging != null)) {
+                    this.TopRevenueFilmRowChanging(this, new TopRevenueFilmRowChangeEvent(((TopRevenueFilmRow)(e.Row)), e.Action));
                 }
             }
             
@@ -463,8 +463,8 @@ namespace MovieTheater.Admin.ReportDataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.TopGrossingFilmRowDeleted != null)) {
-                    this.TopGrossingFilmRowDeleted(this, new TopGrossingFilmRowChangeEvent(((TopGrossingFilmRow)(e.Row)), e.Action));
+                if ((this.TopRevenueFilmRowDeleted != null)) {
+                    this.TopRevenueFilmRowDeleted(this, new TopRevenueFilmRowChangeEvent(((TopRevenueFilmRow)(e.Row)), e.Action));
                 }
             }
             
@@ -472,14 +472,14 @@ namespace MovieTheater.Admin.ReportDataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.TopGrossingFilmRowDeleting != null)) {
-                    this.TopGrossingFilmRowDeleting(this, new TopGrossingFilmRowChangeEvent(((TopGrossingFilmRow)(e.Row)), e.Action));
+                if ((this.TopRevenueFilmRowDeleting != null)) {
+                    this.TopRevenueFilmRowDeleting(this, new TopRevenueFilmRowChangeEvent(((TopRevenueFilmRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void RemoveTopGrossingFilmRow(TopGrossingFilmRow row) {
+            public void RemoveTopRevenueFilmRow(TopRevenueFilmRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -488,7 +488,7 @@ namespace MovieTheater.Admin.ReportDataSets {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                TopFilmGrossing ds = new TopFilmGrossing();
+                TopFilmRevenue ds = new TopFilmRevenue();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -506,7 +506,7 @@ namespace MovieTheater.Admin.ReportDataSets {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "TopGrossingFilmDataTable";
+                attribute2.FixedValue = "TopRevenueFilmDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -550,15 +550,15 @@ namespace MovieTheater.Admin.ReportDataSets {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class TopGrossingFilmRow : global::System.Data.DataRow {
+        public partial class TopRevenueFilmRow : global::System.Data.DataRow {
             
-            private TopGrossingFilmDataTable tableTopGrossingFilm;
+            private TopRevenueFilmDataTable tableTopRevenueFilm;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal TopGrossingFilmRow(global::System.Data.DataRowBuilder rb) : 
+            internal TopRevenueFilmRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableTopGrossingFilm = ((TopGrossingFilmDataTable)(this.Table));
+                this.tableTopRevenueFilm = ((TopRevenueFilmDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -566,30 +566,30 @@ namespace MovieTheater.Admin.ReportDataSets {
             public string Film {
                 get {
                     try {
-                        return ((string)(this[this.tableTopGrossingFilm.FilmColumn]));
+                        return ((string)(this[this.tableTopRevenueFilm.FilmColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Film\' in table \'TopGrossingFilm\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Film\' in table \'TopRevenueFilm\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTopGrossingFilm.FilmColumn] = value;
+                    this[this.tableTopRevenueFilm.FilmColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Grossing {
+            public string Revenue {
                 get {
                     try {
-                        return ((string)(this[this.tableTopGrossingFilm.GrossingColumn]));
+                        return ((string)(this[this.tableTopRevenueFilm.RevenueColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Grossing\' in table \'TopGrossingFilm\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Revenue\' in table \'TopRevenueFilm\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTopGrossingFilm.GrossingColumn] = value;
+                    this[this.tableTopRevenueFilm.RevenueColumn] = value;
                 }
             }
             
@@ -598,51 +598,51 @@ namespace MovieTheater.Admin.ReportDataSets {
             public string Proportion {
                 get {
                     try {
-                        return ((string)(this[this.tableTopGrossingFilm.ProportionColumn]));
+                        return ((string)(this[this.tableTopRevenueFilm.ProportionColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Proportion\' in table \'TopGrossingFilm\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Proportion\' in table \'TopRevenueFilm\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTopGrossingFilm.ProportionColumn] = value;
+                    this[this.tableTopRevenueFilm.ProportionColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsFilmNull() {
-                return this.IsNull(this.tableTopGrossingFilm.FilmColumn);
+                return this.IsNull(this.tableTopRevenueFilm.FilmColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetFilmNull() {
-                this[this.tableTopGrossingFilm.FilmColumn] = global::System.Convert.DBNull;
+                this[this.tableTopRevenueFilm.FilmColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsGrossingNull() {
-                return this.IsNull(this.tableTopGrossingFilm.GrossingColumn);
+            public bool IsRevenueNull() {
+                return this.IsNull(this.tableTopRevenueFilm.RevenueColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetGrossingNull() {
-                this[this.tableTopGrossingFilm.GrossingColumn] = global::System.Convert.DBNull;
+            public void SetRevenueNull() {
+                this[this.tableTopRevenueFilm.RevenueColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsProportionNull() {
-                return this.IsNull(this.tableTopGrossingFilm.ProportionColumn);
+                return this.IsNull(this.tableTopRevenueFilm.ProportionColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetProportionNull() {
-                this[this.tableTopGrossingFilm.ProportionColumn] = global::System.Convert.DBNull;
+                this[this.tableTopRevenueFilm.ProportionColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -650,22 +650,22 @@ namespace MovieTheater.Admin.ReportDataSets {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public class TopGrossingFilmRowChangeEvent : global::System.EventArgs {
+        public class TopRevenueFilmRowChangeEvent : global::System.EventArgs {
             
-            private TopGrossingFilmRow eventRow;
+            private TopRevenueFilmRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TopGrossingFilmRowChangeEvent(TopGrossingFilmRow row, global::System.Data.DataRowAction action) {
+            public TopRevenueFilmRowChangeEvent(TopRevenueFilmRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TopGrossingFilmRow Row {
+            public TopRevenueFilmRow Row {
                 get {
                     return this.eventRow;
                 }
