@@ -21,21 +21,21 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync(RoomCreateRequest model)
+        public async Task<ApiResult<bool>> CreateAsync(RoomCreateRequest model)
         {
             var result = await _roomService.CreateAsync(model);
             return result;
         }
 
         [HttpPost("Update")]
-        public async Task<ApiResultLite> UpdateAsync(RoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(RoomUpdateRequest request)
         {
             var result = await _roomService.UpdateAsync(request);
             return result;
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             var result = await _roomService.DeleteAsync(id);
             return result;
@@ -56,7 +56,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResultLite> Delete(int id)
+        public async Task<ApiResult<bool>> Delete(int id)
         {
             var result = await _roomService.DeleteAsync(id);
 

@@ -22,10 +22,10 @@ namespace Movietheater.Application.RoomServices
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync(RoomCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(RoomCreateRequest request)
         {
             if (_context.Rooms.Where(x => x.Name == request.Name).Count() != 0)
-                return new ApiErrorResultLite("Tên phòng đã bị trùng");
+                return new ApiErrorResult<bool>("Tên phòng đã bị trùng");
 
             var room = new Room()
             {
@@ -36,22 +36,22 @@ namespace Movietheater.Application.RoomServices
             await _context.Rooms.AddAsync(room);
             if (await _context.SaveChangesAsync() == 0)
             {
-                return new ApiErrorResultLite("Không thể thêm phòng");
+                return new ApiErrorResult<bool>("Không thể thêm phòng");
             }
-            return new ApiSuccessResultLite("Thêm thành công");
+            return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<ApiResultLite> UpdateAsync(RoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(RoomUpdateRequest request)
         {
             Room room = await _context.Rooms.FindAsync(request.Id);
             if (room == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy phòng");
+                return new ApiErrorResult<bool>("Không tìm thấy phòng");
             }
             else
             {
                 if (_context.Rooms.Where(x => (x.Id != request.Id) && (x.Name == request.Name)).Count() != 0)
-                    return new ApiErrorResultLite("Tên phòng đã bị trùng");
+                    return new ApiErrorResult<bool>("Tên phòng đã bị trùng");
 
                 room.Name = request.Name;
                 room.FormatId = request.FormatId;
@@ -60,24 +60,24 @@ namespace Movietheater.Application.RoomServices
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)
                 {
-                    return new ApiErrorResultLite("Cập nhật thất bại");
+                    return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResultLite("Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true);
             }
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             Room room = await _context.Rooms.FindAsync(id);
             if (room == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy phòng");
+                return new ApiErrorResult<bool>("Không tìm thấy phòng");
             }
             else
             {
                 if (room.Screenings != null)
                 {
-                    return new ApiErrorResultLite("không thể xóa");
+                    return new ApiErrorResult<bool>("không thể xóa");
                 }
                 else
                 {
@@ -90,11 +90,11 @@ namespace Movietheater.Application.RoomServices
                         _context.Rooms.Remove(room);
                         _context.SaveChanges();
 
-                        return new ApiSuccessResultLite("Xóa thành công");
+                        return new ApiSuccessResult<bool>(true);
                     }
                     catch (DbUpdateException e)
                     {
-                        return new ApiErrorResultLite("xóa thất bại");
+                        return new ApiErrorResult<bool>("xóa thất bại");
                     }
                 }
             }

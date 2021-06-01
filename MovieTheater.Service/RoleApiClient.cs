@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,12 @@ namespace MovieTheater.Api
      httpContextAccessor)
         { }
 
-        public async Task<List<RoleVMD>> GetRolesAsync()
+        public async Task<ApiResult<List<RoleVMD>>> GetRolesAsync()
         {
             return await GetAsync<List<RoleVMD>>("/api/Role/GetAll");
         }
 
-        public async Task<List<RoleVMD>> GetRolesOfUserAsync(Guid userId)
+        public async Task<ApiResult<List<RoleVMD>>> GetRolesOfUserAsync(Guid userId)
         {
             return await GetAsync<List<RoleVMD>>($"/api/Role/User/{userId}");
         }

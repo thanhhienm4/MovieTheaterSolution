@@ -7,11 +7,11 @@ namespace Movietheater.Application.FilmServices
 {
     public interface IBanService
     {
-        Task<ApiResultLite> CreateAsync(string name);
+        Task<ApiResult<bool>> CreateAsync(string name);
 
-        Task<ApiResultLite> UpdateAsync(BanUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(BanUpdateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<List<BanVMD>>> GetAllBanAsync();
     }

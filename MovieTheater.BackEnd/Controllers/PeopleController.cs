@@ -20,21 +20,21 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync(PeopleCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(PeopleCreateRequest request)
         {
             var result = await _PeopleService.CreateAsync(request);
             return result;
         }
 
         [HttpPut("Update")]
-        public async Task<ApiResultLite> UpdateAsync(PeopleUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(PeopleUpdateRequest request)
         {
             var result = await _PeopleService.UpdateAsync(request);
             return result;
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             var result = await _PeopleService.DeleteAsync(id);
             return result;

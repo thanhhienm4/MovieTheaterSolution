@@ -8,11 +8,11 @@ namespace Movietheater.Application.FilmServices
 {
     public interface IFilmService
     {
-        Task<ApiResultLite> CreateAsync(FilmCreateRequest model);
+        Task<ApiResult<bool>> CreateAsync(FilmCreateRequest model);
 
-        Task<ApiResultLite> UpdateAsync(FilmUpdateRequest model);
+        Task<ApiResult<bool>> UpdateAsync(FilmUpdateRequest model);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request);
 
@@ -22,15 +22,15 @@ namespace Movietheater.Application.FilmServices
 
         Task<ApiResult<List<FilmVMD>>> GetAllFilmAsync();
 
-        Task<ApiResultLite> GenreAssignAsync(GenreAssignRequest request);
+        Task<ApiResult<bool>> GenreAssignAsync(GenreAssignRequest request);
 
         Task<ApiResult<List<FilmVMD>>> GetAllPlayingFilmAsync();
 
         Task<ApiResult<List<FilmVMD>>> GetAllUpcomingFilmAsync();
 
-        Task<ApiResultLite> PosAssignAsync(PosAssignRequest request);
+        Task<ApiResult<bool>> PosAssignAsync(PosAssignRequest request);
 
-        Task<ApiResultLite> DeletePosAssignAsync(PosAssignRequest request);
+        Task<ApiResult<bool>> DeletePosAssignAsync(PosAssignRequest request);
 
         Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id);
 

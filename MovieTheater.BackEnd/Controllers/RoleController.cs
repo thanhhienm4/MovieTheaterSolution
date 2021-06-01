@@ -20,28 +20,28 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync(RoleCreateRequest model)
+        public async Task<ApiResult<bool>> CreateAsync(RoleCreateRequest model)
         {
             var result = await _roleService.CreateAsync(model);
             return result;
         }
 
         [HttpPost("Update")]
-        public async Task<ApiResultLite> UpdateAsync(RoleUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(RoleUpdateRequest request)
         {
             var result = await _roleService.UpdateAsync(request);
             return result;
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ApiResultLite> DeleteAsync(string id)
+        public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             var result = await _roleService.DeleteAsync(id);
             return result;
         }
 
         [HttpGet("GetAll")]
-        public async Task<List<RoleVMD>> GetAll()
+        public async Task<ApiResult<List<RoleVMD>>> GetAll()
         {
             var result = await _roleService.GetAllRoles();
             return result;

@@ -18,7 +18,7 @@ namespace Movietheater.Application.RoomServices
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync(RoomFormatCreateRequest model)
+        public async Task<ApiResult<bool>> CreateAsync(RoomFormatCreateRequest model)
         {
             var room = new RoomFormat()
             {
@@ -29,17 +29,17 @@ namespace Movietheater.Application.RoomServices
             await _context.AddAsync(room);
             if ((await _context.SaveChangesAsync()) == 0)
             {
-                return new ApiErrorResultLite("Không thể thêm định dạng");
+                return new ApiErrorResult<bool>("Không thể thêm định dạng");
             }
-            return new ApiSuccessResultLite("Thêm thành công");
+            return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<ApiResultLite> UpdateAsync(RoomFormatUpdateRequest model)
+        public async Task<ApiResult<bool>> UpdateAsync(RoomFormatUpdateRequest model)
         {
             RoomFormat room = await _context.RoomFormats.FindAsync(model.Id);
             if (room == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy định dạng");
+                return new ApiErrorResult<bool>("Không tìm thấy định dạng");
             }
             else
             {
@@ -48,25 +48,25 @@ namespace Movietheater.Application.RoomServices
                 _context.Update(room);
                 await _context.SaveChangesAsync();
 
-                return new ApiSuccessResultLite("Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true);
             }
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             RoomFormat room = await _context.RoomFormats.FindAsync(id);
             if (room == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy định dạng");
+                return new ApiErrorResult<bool>("Không tìm thấy định dạng");
             }
             else
             {
                 _context.RoomFormats.Remove(room);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResultLite("Xóa thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
-                else return new ApiSuccessResultLite("Không xóa được");
+                else return new ApiErrorResult<bool>("Không xóa được");
             }
         }
 

@@ -8,11 +8,11 @@ namespace Movietheater.Application.FilmServices
 {
     public interface IPeopleService
     {
-        Task<ApiResultLite> CreateAsync(PeopleCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(PeopleCreateRequest request);
 
-        Task<ApiResultLite> UpdateAsync(PeopleUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(PeopleUpdateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<PageResult<PeopleVMD>>> GetPeoplePagingAsync(PeoplePagingRequest request);
 

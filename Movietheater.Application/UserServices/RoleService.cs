@@ -19,7 +19,7 @@ namespace Movietheater.Application.UserServices
             _roleManager = roleManager;
         }
 
-        public async Task<ApiResultLite> CreateAsync(RoleCreateRequest model)
+        public async Task<ApiResult<bool>> CreateAsync(RoleCreateRequest model)
         {
             var role = new AppRole()
             {
@@ -29,15 +29,15 @@ namespace Movietheater.Application.UserServices
             IdentityResult result = await _roleManager.CreateAsync(role);
             if (result.Succeeded)
             {
-                return new ApiSuccessResultLite("Tạo mới thành công");
+                return new ApiSuccessResult<bool>(true);
             }
             else
             {
-                return new ApiErrorResultLite("Tạo mới thất bại");
+                return new ApiErrorResult<bool>("Tạo mới thất bại");
             }
         }
 
-        public async Task<ApiResultLite> DeleteAsync(string id)
+        public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
             if (role != null)
@@ -45,35 +45,35 @@ namespace Movietheater.Application.UserServices
                 IdentityResult result = await _roleManager.DeleteAsync(role);
                 if (result.Succeeded)
                 {
-                    return new ApiSuccessResultLite("Cập nhật thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
                 else
                 {
-                    return new ApiErrorResultLite("Không thể xóa");
+                    return new ApiErrorResult<bool>("Không thể xóa");
                 }
             }
             else
             {
-                return new ApiErrorResultLite("Role không tồn tại");
+                return new ApiErrorResult<bool>("Role không tồn tại");
             }
         }
 
-        public async Task<ApiResultLite> UpdateAsync(RoleUpdateRequest model)
+        public async Task<ApiResult<bool>> UpdateAsync(RoleUpdateRequest model)
         {
             var role = await _roleManager.FindByIdAsync(model.Id.ToString());
             if (role == null)
-                return new ApiErrorResultLite("Role không tồn tại");
+                return new ApiErrorResult<bool>("Role không tồn tại");
 
             role.Name = model.Name;
             role.Description = model.Description;
             var result = await _roleManager.UpdateAsync(role);
 
             if (!result.Succeeded)
-                return new ApiErrorResultLite("Cập nhật không thành công");
-            return new ApiSuccessResultLite();
+                return new ApiErrorResult<bool>("Cập nhật không thành công");
+            return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<List<RoleVMD>> GetAllRoles()
+        public async Task<ApiResult<List<RoleVMD>>> GetAllRoles()
         {
             var roles = new List<RoleVMD>();
             roles = await _roleManager.Roles.Where(x => x.Id != new Guid("0417C463-9AF0-46D9-9FF7-D3E63321DFCC")).Select(x => new RoleVMD()
@@ -82,7 +82,7 @@ namespace Movietheater.Application.UserServices
                 Description = x.Description,
                 Name = x.Name
             }).ToListAsync();
-            return new List<RoleVMD>(roles);
+            return new ApiSuccessResult<List<RoleVMD>>(roles);
         }
     }
 }

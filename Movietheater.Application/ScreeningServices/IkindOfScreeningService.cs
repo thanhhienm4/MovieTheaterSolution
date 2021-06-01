@@ -7,11 +7,11 @@ namespace Movietheater.Application.ScreeningServices
 {
     public interface IkindOfScreeningService
     {
-        Task<ApiResultLite> CreateAsync(KindOfScreeningCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(KindOfScreeningCreateRequest request);
 
-        Task<ApiResultLite> UpdateAsync(KindOfScreeningUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(KindOfScreeningUpdateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<List<KindOfScreeningVMD>>> GetAllKindOfScreeningAsync();
     }

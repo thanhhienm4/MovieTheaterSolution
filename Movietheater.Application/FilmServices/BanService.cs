@@ -19,7 +19,7 @@ namespace Movietheater.Application.FilmServices
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync(String name)
+        public async Task<ApiResult<bool>> CreateAsync(String name)
         {
             Ban ban = new Ban()
             {
@@ -29,36 +29,36 @@ namespace Movietheater.Application.FilmServices
             int result = await _context.SaveChangesAsync();
             if (result == 0)
             {
-                return new ApiErrorResultLite("Thêm thất bại");
+                return new ApiErrorResult<bool>("Thêm thất bại");
             }
 
-            return new ApiSuccessResultLite("Thêm thành công");
+            return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             Ban ban = await _context.Bans.FindAsync(id);
             if (ban == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
                 _context.Bans.Remove(ban);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResultLite("Xóa thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
-                else return new ApiSuccessResultLite("Không xóa được");
+                else return new ApiErrorResult<bool>("Không xóa được");
             }
         }
 
-        public async Task<ApiResultLite> UpdateAsync(BanUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(BanUpdateRequest request)
         {
             Ban ban = await _context.Bans.FindAsync(request.Id);
             if (ban == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
@@ -68,9 +68,9 @@ namespace Movietheater.Application.FilmServices
                 int result = await _context.SaveChangesAsync();
                 if (result == 0)
                 {
-                    return new ApiErrorResultLite("Cập nhật thất bại");
+                    return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResultLite("Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true);
             }
         }
 

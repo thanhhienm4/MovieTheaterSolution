@@ -24,11 +24,11 @@ namespace Movietheater.Application.ScreeningServices
             _filmService = filmService;
         }
 
-        public async Task<ApiResultLite> CreateAsync(ScreeningCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(ScreeningCreateRequest request)
         {
             DateTime publishDate = _context.Films.Where(x => x.Id == request.FilmId).Select(x => x.PublishDate).FirstOrDefault();
             if (publishDate.Date > request.StartTime.Date)
-                return new ApiErrorResultLite("Thời gian chiếu không được trước ngày công chiếu " + publishDate.ToString("dd/MM/yyyy"));
+                return new ApiErrorResult<bool>("Thời gian chiếu không được trước ngày công chiếu " + publishDate.ToString("dd/MM/yyyy"));
 
             Screening screening = new Screening()
             {
@@ -46,22 +46,22 @@ namespace Movietheater.Application.ScreeningServices
                 int result = await _context.SaveChangesAsync();
                 if (result == 0)
                 {
-                    return new ApiErrorResultLite("Thêm thất bại");
+                    return new ApiErrorResult<bool>("Thêm thất bại");
                 }
-                return new ApiSuccessResultLite("Thêm thành công");
+                return new ApiSuccessResult<bool>(true);
             }
             catch (DbUpdateException e)
             {
-                return new ApiErrorResultLite("Thêm thất bại");
+                return new ApiErrorResult<bool>("Thêm thất bại");
             }
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             Screening screening = await _context.Screenings.FindAsync(id);
             if (screening == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
 
@@ -79,11 +79,11 @@ namespace Movietheater.Application.ScreeningServices
                     }
 
                     await _context.SaveChangesAsync();
-                    return new ApiSuccessResultLite("Xóa thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
                 catch (DbUpdateException e)
                 {
-                    return new ApiErrorResultLite("Xóa thất bại");
+                    return new ApiErrorResult<bool>("Xóa thất bại");
                 }
             }
         }
@@ -129,18 +129,18 @@ namespace Movietheater.Application.ScreeningServices
             throw new NotImplementedException();
         }
 
-        public async Task<ApiResultLite> UpdateAsync(ScreeningUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(ScreeningUpdateRequest request)
         {
             Screening screening = await _context.Screenings.FindAsync(request.Id);
             if (screening == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
                 DateTime publishDate = _context.Films.Where(x => x.Id == request.FilmId).Select(x => x.PublishDate).FirstOrDefault();
                 if (publishDate.Date > request.StartTime.Date)
-                    return new ApiErrorResultLite("Thời gian chiếu không được trước ngày công chiếu " + publishDate.ToString("dd/MM/yyyy"));
+                    return new ApiErrorResult<bool>("Thời gian chiếu không được trước ngày công chiếu " + publishDate.ToString("dd/MM/yyyy"));
 
                 screening.Id = request.Id;
                 screening.StartTime = request.StartTime;
@@ -156,13 +156,13 @@ namespace Movietheater.Application.ScreeningServices
                     int rs = await _context.SaveChangesAsync();
                     if (rs == 0)
                     {
-                        return new ApiErrorResultLite("Cập nhật thất bại");
+                        return new ApiErrorResult<bool>("Cập nhật thất bại");
                     }
-                    return new ApiSuccessResultLite("Cập nhật thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
                 catch (DbUpdateException e)
                 {
-                    return new ApiErrorResultLite("Cập nhật thất bại");
+                    return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
             }
         }

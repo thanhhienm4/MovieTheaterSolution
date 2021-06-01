@@ -17,7 +17,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<List<PositionVMD>>> GetAllPositionAsync()
         {
-            return await GetAsync<ApiResult<List<PositionVMD>>>("/api/Position/GetAllPosition");
+            return await GetAsync<List<PositionVMD>>("/api/Position/GetAllPosition");
         }
     }
 }

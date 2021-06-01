@@ -50,7 +50,7 @@ namespace MovieTheater.Admin.Controllers
 
             List<SelectListItem> roles = new List<SelectListItem>();
             roles.Add(new SelectListItem() { Text = "Tất cả", Value = "" });
-            var listRoles = (await _roleApiClient.GetRolesAsync())
+            var listRoles = (await _roleApiClient.GetRolesAsync()).ResultObj
                 .Select(x => new SelectListItem()
                 {
                     Text = x.Name,
@@ -141,7 +141,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ApiResultLite> Delete(Guid id)
+        public async Task<ApiResult<bool>> Delete(Guid id)
         {
             var result = await _userApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;
@@ -184,7 +184,7 @@ namespace MovieTheater.Admin.Controllers
             var result = await _roleApiClient.GetRolesAsync();
             var roleAssignRequest = new RoleAssignRequest();
             roleAssignRequest.UserId = id;
-            foreach (var role in result)
+            foreach (var role in result.ResultObj)
             {
                 roleAssignRequest.Roles.Add(new SelectedItem()
                 {

@@ -128,7 +128,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ApiResultLite> Delete(int id)
+        public async Task<ApiResult<bool>> Delete(int id)
         {
             var result = await _roomApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;
@@ -152,7 +152,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ApiResultLite> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
         {
             var result = await _seatApiCient.UpdateSeatInRoomAsync(request);
             TempData["Result"] = result.Message;

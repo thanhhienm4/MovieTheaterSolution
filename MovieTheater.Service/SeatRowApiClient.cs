@@ -17,34 +17,34 @@ namespace MovieTheater.Api
            httpContextAccessor)
         { }
 
-        public async Task<ApiResultLite> CreateAsync(SeatRowCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(SeatRowCreateRequest request)
         {
-            return await PostAsync<ApiResultLite>("Api/SeatRow/Create", request);
+            return await PostAsync<bool>("Api/SeatRow/Create", request);
         }
 
-        public async Task<ApiResultLite> UpdateAsync(SeatRowUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(SeatRowUpdateRequest request)
         {
-            return await PutAsync<ApiResultLite>("Api/SeatRow/Update", request);
+            return await PutAsync<bool>("Api/SeatRow/Update", request);
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-            return await DeleteAsync<ApiResultLite>($"Api/SeatRow/Delete/{id}");
+            return await DeleteAsync<bool>($"Api/SeatRow/Delete/{id}");
         }
 
         public async Task<ApiResult<List<SeatRowVMD>>> GetAllSeatRowsAsync()
         {
-            return await GetAsync<ApiResult<List<SeatRowVMD>>>("Api/SeatRow/GetAllSeatRows");
+            return await GetAsync<List<SeatRowVMD>>("Api/SeatRow/GetAllSeatRows");
         }
 
         public async Task<ApiResult<PageResult<SeatRowVMD>>> GetSeatRowPagingAsync(SeatRowPagingRequest request)
         {
-            return await PostAsync<ApiResult<PageResult<SeatRowVMD>>>($"Api/SeatRow/GetSeatRowPaging", request);
+            return await PostAsync<PageResult<SeatRowVMD>>($"Api/SeatRow/GetSeatRowPaging", request);
         }
 
         public async Task<ApiResult<SeatRowVMD>> GetSeatRowByIdAsync(int id)
         {
-            return await GetAsync<ApiResult<SeatRowVMD>>($"Api/SeatRow/GetSeatRowById/{id}");
+            return await GetAsync<SeatRowVMD>($"Api/SeatRow/GetSeatRowById/{id}");
         }
     }
 }

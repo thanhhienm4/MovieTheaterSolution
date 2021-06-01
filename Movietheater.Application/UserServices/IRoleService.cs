@@ -7,12 +7,12 @@ namespace Movietheater.Application.UserServices
 {
     public interface IRoleService
     {
-        Task<ApiResultLite> CreateAsync(RoleCreateRequest model);
+        Task<ApiResult<bool>> CreateAsync(RoleCreateRequest model);
 
-        Task<ApiResultLite> DeleteAsync(string id);
+        Task<ApiResult<bool>> DeleteAsync(string id);
 
-        Task<ApiResultLite> UpdateAsync(RoleUpdateRequest model);
+        Task<ApiResult<bool>> UpdateAsync(RoleUpdateRequest model);
 
-        Task<List<RoleVMD>> GetAllRoles();
+        Task<ApiResult<List<RoleVMD>>> GetAllRoles();
     }
 }

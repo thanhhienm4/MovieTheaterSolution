@@ -19,62 +19,62 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<string>> LoginStaffAsync(LoginRequest request)
         {
-            return await PostAsync<ApiResult<string>>("/api/User/LoginStaff", request);
+            return await PostAsync<string>("/api/User/LoginStaff", request);
         }
 
-        public async Task<ApiResultLite> CreateStaffAsync(UserCreateRequest request)
+        public async Task<ApiResult<bool>> CreateStaffAsync(UserCreateRequest request)
         {
-            return await PostAsync<ApiResultLite>("Api/User/CreateStaff", request);
+            return await PostAsync<bool>("Api/User/CreateStaff", request);
         }
 
-        public async Task<ApiResultLite> UpdateStaffAsync(UserUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateStaffAsync(UserUpdateRequest request)
         {
-            return await PutAsync<ApiResultLite>("Api/User/UpdateStaff", request);
+            return await PutAsync<bool>("Api/User/UpdateStaff", request);
         }
 
         public async Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request)
         {
-            return await PostAsync<ApiResult<string>>("/api/User/LoginCustomer", request);
+            return await PostAsync<string>("/api/User/LoginCustomer", request);
         }
 
-        public async Task<ApiResultLite> CreateCustomerAsync(UserCreateRequest request)
+        public async Task<ApiResult<bool>> CreateCustomerAsync(UserCreateRequest request)
         {
-            return await PostAsync<ApiResultLite>("Api/User/CreateCustomer", request);
+            return await PostAsync<bool>("Api/User/CreateCustomer", request);
         }
 
-        public async Task<ApiResultLite> UpdateCustomerAsync(UserUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateCustomerAsync(UserUpdateRequest request)
         {
-            return await PutAsync<ApiResultLite>("Api/User/UpdateCustomer", request);
+            return await PutAsync<bool>("Api/User/UpdateCustomer", request);
         }
 
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
-            return await PostAsync<ApiResult<PageResult<UserVMD>>>("/api/User/GetUserPaging", request);
+            return await PostAsync<PageResult<UserVMD>>("/api/User/GetUserPaging", request);
         }
 
-        public async Task<ApiResultLite> DeleteAsync(Guid id)
+        public async Task<ApiResult<bool>> DeleteAsync(Guid id)
         {
-            return await DeleteAsync<ApiResultLite>($"Api/User/Delete/{id}");
+            return await DeleteAsync<bool>($"Api/User/Delete/{id}");
         }
 
         public async Task<ApiResult<UserVMD>> GetUserByIdAsync(Guid id)
         {
-            return await GetAsync<ApiResult<UserVMD>>($"Api/User/GetUserById/{id}");
+            return await GetAsync<UserVMD>($"Api/User/GetUserById/{id}");
         }
 
         public async Task<ApiResult<UserVMD>> GetCustomerByIdAsync(Guid id)
         {
-            return await GetAsync<ApiResult<UserVMD>>($"Api/User/GetCustomerById/{id}");
+            return await GetAsync<UserVMD>($"Api/User/GetCustomerById/{id}");
         }
 
-        public async Task<ApiResultLite> RoleAssignAsync(RoleAssignRequest request)
+        public async Task<ApiResult<bool>> RoleAssignAsync(RoleAssignRequest request)
         {
-            return await PutAsync<ApiResultLite>("Api/User/RoleAssign", request);
+            return await PutAsync<bool>("Api/User/RoleAssign", request);
         }
 
-        public async Task<ApiResultLite> ChangePasswordAsync(ChangePWRequest request)
+        public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePWRequest request)
         {
-            return await PutAsync<ApiResultLite>("Api/User/ChangePassword", request);
+            return await PutAsync<bool>("Api/User/ChangePassword", request);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using MovieTheater.Models.Common.ApiResult;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,45 +26,55 @@ namespace MovieTheater.Api
         }
 
         // http get data form Api
-        protected async Task<TResponse> GetAsync<TResponse>(string url)
+        protected async Task<ApiResult<TResponse>> GetAsync<TResponse>(string url)
         {
             HttpClient client = GetHttpClient();
             var response = await client.GetAsync(url);
+            if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                return await GetReLoginResultAsync<TResponse>();
+            }
             return await GetResultAsync<TResponse>(response);
         }
 
-        protected async Task<List<List<TResponse>>> GetMatrixAsync<TResponse>(string url)
-        {
-            HttpClient client = GetHttpClient();
-            var response = await client.GetAsync(url);
-            return await GetResultAsync<List<List<TResponse>>>(response);
-        }
-
+      
         // post data to Api
-        protected async Task<TResponse> PostAsync<TResponse>(string url, object obj)
+        protected async Task<ApiResult<TResponse>> PostAsync<TResponse>(string url, object obj)
         {
             HttpClient client = GetHttpClient();
             var json = JsonConvert.SerializeObject(obj);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(url, httpContent);
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                return await GetReLoginResultAsync<TResponse>();
+            }
             return await GetResultAsync<TResponse>(response);
         }
 
         // send delete request to API
-        protected async Task<TResponse> DeleteAsync<TResponse>(string url)
+        protected async Task<ApiResult<TResponse>> DeleteAsync<TResponse>(string url)
         {
             HttpClient client = GetHttpClient();
             var response = await client.DeleteAsync(url);
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                return await GetReLoginResultAsync<TResponse>();
+            }
             return await GetResultAsync<TResponse>(response);
         }
 
         // send update request to Api
-        protected async Task<TResponse> PutAsync<TResponse>(string url, object obj)
+        protected async Task<ApiResult<TResponse>> PutAsync<TResponse>(string url, object obj)
         {
             HttpClient client = GetHttpClient();
             var json = JsonConvert.SerializeObject(obj);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PutAsync(url, httpContent);
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                return await GetReLoginResultAsync<TResponse>();
+            }
             return await GetResultAsync<TResponse>(response);
         }
 
@@ -81,17 +92,22 @@ namespace MovieTheater.Api
 
             return client;
         }
-
-        public static async Task<TResponse> GetResultAsync<TResponse>(HttpResponseMessage response)
+        public static async Task<ApiResult<TResponse>> GetReLoginResultAsync<TResponse>()
+        {
+            var res = new ApiResult<TResponse>();
+            res.IsReLogin = true;
+            return res;
+        }
+        public static async Task<ApiResult<TResponse>> GetResultAsync<TResponse>(HttpResponseMessage response)
         {
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                TResponse myDeserializedObjList = (TResponse)JsonConvert
-                    .DeserializeObject(body, typeof(TResponse));
+                ApiResult<TResponse> myDeserializedObjList = (ApiResult<TResponse>)JsonConvert
+                    .DeserializeObject(body, typeof(ApiResult<TResponse>));
                 return myDeserializedObjList;
             }
-            return JsonConvert.DeserializeObject<TResponse>(body);
+            return JsonConvert.DeserializeObject<ApiResult<TResponse>>(body);
         }
     }
 }

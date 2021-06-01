@@ -17,37 +17,37 @@ namespace MovieTheater.Api
              httpContextAccessor)
         { }
 
-        public async Task<ApiResultLite> CreateAsync(ReservationCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(ReservationCreateRequest request)
         {
-            return await PostAsync<ApiResultLite>("/api/Reservation/Create", request);
+            return await PostAsync<bool>("/api/Reservation/Create", request);
         }
 
-        public async Task<ApiResultLite> UpdateAsync(ReservationUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(ReservationUpdateRequest request)
         {
-            return await PutAsync<ApiResultLite>("/api/Reservation/Update", request);
+            return await PutAsync<bool>("/api/Reservation/Update", request);
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-            return await DeleteAsync<ApiResultLite>($"Api/Reservation/Delete/{id}");
+            return await DeleteAsync<bool>($"Api/Reservation/Delete/{id}");
         }
 
         public async Task<ApiResult<PageResult<ReservationVMD>>> GetReservationPagingAsync(ReservationPagingRequest request)
         {
-            return await PostAsync<ApiResult<PageResult<ReservationVMD>>>($"Api/Reservation/GetReservationPaging", request);
+            return await PostAsync<PageResult<ReservationVMD>>($"Api/Reservation/GetReservationPaging", request);
         }
 
         public async Task<ApiResult<ReservationVMD>> GetReservationByIdAsync(int id)
         {
-            return await GetAsync<ApiResult<ReservationVMD>>($"Api/Reservation/GetReservationById/{id}");
+            return await GetAsync<ReservationVMD>($"Api/Reservation/GetReservationById/{id}");
         }
 
         public async Task<ApiResult<List<ReservationVMD>>> GetReservationByUserIdAsync(Guid id)
         {
-            return await GetAsync<ApiResult<List<ReservationVMD>>>($"Api/Reservation/GetReservationUserById/{id}");
+            return await GetAsync<List<ReservationVMD>>($"Api/Reservation/GetReservationUserById/{id}");
         }
 
-        public async Task<int> CalPrePriceAsync(List<TicketCreateRequest> tickets)
+        public async Task<ApiResult<int>> CalPrePriceAsync(List<TicketCreateRequest> tickets)
         {
             return await PostAsync<int>($"Api/Reservation/CalPrePrice", tickets);
         }

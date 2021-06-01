@@ -11,26 +11,27 @@ namespace Movietheater.Application.UserServices
     {
         Task<ApiResult<string>> LoginStaffAsync(LoginRequest request);
 
-        Task<ApiResultLite> CreateStaffAsync(UserCreateRequest model);
+        Task<ApiResult<bool>> CreateStaffAsync(UserCreateRequest model);
 
-        Task<ApiResultLite> UpdateStaffAsync(UserUpdateRequest model);
+        Task<ApiResult<bool>> UpdateStaffAsync(UserUpdateRequest model);
 
         Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request);
 
-        Task<ApiResultLite> CreateCustomerAsync(UserCreateRequest model);
+        Task<ApiResult<bool>> CreateCustomerAsync(UserCreateRequest model);
 
-        Task<ApiResultLite> UpdateCustomerAsync(UserUpdateRequest model);
+        Task<ApiResult<bool>> UpdateCustomerAsync(UserUpdateRequest model);
 
-        Task<ApiResultLite> DeleteAsync(Guid id);
+        Task<ApiResult<bool>> DeleteAsync(Guid id);
 
-        Task<ApiResultLite> ChangePasswordAsync(ChangePWRequest request);
+        Task<ApiResult<bool>> ChangePasswordAsync(ChangePWRequest request);
 
-        Task<ApiResultLite> RoleAssignAsync(RoleAssignRequest request);
+        Task<ApiResult<bool>> RoleAssignAsync(RoleAssignRequest request);
 
         Task<ApiResult<UserVMD>> GetUserByIdAsync(Guid id);
 
         Task<ApiResult<UserVMD>> GetCustomerByIdAsync(Guid id);
 
         Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request);
+        ApiResult<bool> CheckToken(Guid userId, string token);
     }
 }

@@ -20,10 +20,10 @@ namespace Movietheater.Application.ReservationServices
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync(ReservationCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(ReservationCreateRequest request)
         {
             if (CheckTickets(request.Tickets) == false)
-                return new ApiErrorResultLite("Tạo mới thất bại");
+                return new ApiErrorResult<bool>("Tạo mới thất bại");
 
             var reservattion = new Reservation()
             {
@@ -45,41 +45,41 @@ namespace Movietheater.Application.ReservationServices
             {
                 if (await _context.SaveChangesAsync() == 0)
                 {
-                    return new ApiErrorResultLite("Thêm thất bại");
+                    return new ApiErrorResult<bool>("Thêm thất bại");
                 }
 
-                return new ApiSuccessResultLite("Thêm thành công");
+                return new ApiSuccessResult<bool>(true);
             }
             catch (Exception e)
             {
-                return new ApiErrorResultLite("Thêm thất bại");
+                return new ApiErrorResult<bool>("Thêm thất bại");
             }
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             Reservation rv = await _context.Reservations.FindAsync(id);
             if (rv == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
                 _context.Reservations.Remove(rv);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResultLite("Xóa thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
-                else return new ApiSuccessResultLite("Không xóa được");
+                else return new ApiErrorResult<bool>("Không xóa được");
             }
         }
 
-        public async Task<ApiResultLite> UpdateAsync(ReservationUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(ReservationUpdateRequest request)
         {
             Reservation rv = await _context.Reservations.FindAsync(request.Id);
             if (rv == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
@@ -90,9 +90,9 @@ namespace Movietheater.Application.ReservationServices
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)
                 {
-                    return new ApiErrorResultLite("Cập nhật thất bại");
+                    return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResultLite("Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true);
             }
         }
 
@@ -208,20 +208,20 @@ namespace Movietheater.Application.ReservationServices
             return tickets;
         }
 
-        public async Task<int> CalPrePriceAsync(List<TicketCreateRequest> tickets)
+        public async Task<ApiResult<int>> CalPrePriceAsync(List<TicketCreateRequest> tickets)
         {
             int total = 0;
             if (tickets != null)
             {
                 foreach (var ticket in tickets)
                 {
-                    total += await CalPriceAsync(ticket);
+                    total += (await CalPriceAsync(ticket)).ResultObj;
                 }
             }
-            return total;
+            return new ApiSuccessResult<int>(total);
         }
 
-        public async Task<int> CalPriceAsync(TicketCreateRequest ticket)
+        public async Task<ApiResult<int>> CalPriceAsync(TicketCreateRequest ticket)
         {
             var query = from s in _context.Screenings
                         join ks in _context.KindOfScreenings on s.KindOfScreeningId equals ks.Id
@@ -237,7 +237,7 @@ namespace Movietheater.Application.ReservationServices
             int b = query.Select(x => x.ks.Surcharge).FirstOrDefault();
             int c = query.Select(x => x.kse.Surcharge).FirstOrDefault();
             int price = await query.Select(x => x.fr.Price + x.ks.Surcharge + x.kse.Surcharge).FirstOrDefaultAsync();
-            return price;
+            return new ApiSuccessResult<int>(price);
         }
 
         public async Task<ApiResult<List<ReservationVMD>>> GetReservationByUserId(Guid userId)

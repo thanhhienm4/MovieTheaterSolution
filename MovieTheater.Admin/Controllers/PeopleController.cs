@@ -97,7 +97,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResultLite> Delete(int id)
+        public async Task<ApiResult<bool>> Delete(int id)
         {
             var result = await _peopleApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;

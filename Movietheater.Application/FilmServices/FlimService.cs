@@ -29,7 +29,7 @@ namespace Movietheater.Application.FilmServices
             _configuration = configuration;
         }
 
-        public async Task<ApiResultLite> CreateAsync(FilmCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(FilmCreateRequest request)
         {
             string posterPath = await SaveFile(request.Poster);
             var room = new Film()
@@ -46,17 +46,17 @@ namespace Movietheater.Application.FilmServices
             await _context.AddAsync(room);
             if (await _context.SaveChangesAsync() == 0)
             {
-                return new ApiErrorResultLite("Không thể thêm phim");
+                return new ApiErrorResult<bool>("Không thể thêm phim");
             }
-            return new ApiSuccessResultLite("Thêm thành công");
+            return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<ApiResultLite> UpdateAsync(FilmUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(FilmUpdateRequest request)
         {
             Film film = await _context.Films.FindAsync(request.Id);
             if (film == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy phim");
+                return new ApiErrorResult<bool>("Không tìm thấy phim");
             }
             else
             {
@@ -84,26 +84,25 @@ namespace Movietheater.Application.FilmServices
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)
                 {
-                    return new ApiErrorResultLite("Cập nhật thất bại");
+                    return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
 
-                return new ApiSuccessResultLite("Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true);
             }
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             using var transaction = _context.Database.BeginTransaction();
             Film film = await _context.Films.FindAsync(id);
             if (film == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy phim");
+                return new ApiErrorResult<bool>("Không tìm thấy phim");
             }
             else
             {
                 if (_context.Screenings.Where(x => x.FilmId == film.Id).Count() != 0)
-                    return new ApiSuccessResultLite("Xóa thất bại");
-
+                    return new ApiErrorResult<bool>("Xóa thất bại");
                 try
                 {
                     _context.Joinings.RemoveRange(_context.Joinings.Where(x => x.FilmId == id));
@@ -115,11 +114,11 @@ namespace Movietheater.Application.FilmServices
                     transaction.Commit();
 
                     await _storageService.DeleteFileAsync(poster);
-                    return new ApiSuccessResultLite("Xóa thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
                 catch (Exception e)
                 {
-                    return new ApiSuccessResultLite("Xóa thất bại");
+                    return new ApiErrorResult<bool>("Xóa thất bại");
                 }
             }
         }
@@ -292,19 +291,19 @@ namespace Movietheater.Application.FilmServices
             }
         }
 
-        public async Task<ApiResultLite> GenreAssignAsync(GenreAssignRequest request)
+        public async Task<ApiResult<bool>> GenreAssignAsync(GenreAssignRequest request)
         {
             var film = await _context.Films.FindAsync(request.FilmId);
             if (film == null)
             {
-                return new ApiErrorResultLite("Phim không tồn tại");
+                return new ApiErrorResult<bool>("Phim không tồn tại");
             }
 
             // check genres available
             List<int> genres = request.Genres.Select(x => Int32.Parse(x.Id)).ToList();
             if (!CheckGenres(genres))
             {
-                return new ApiErrorResultLite("Yêu cầu không hợp lệ");
+                return new ApiErrorResult<bool>("Yêu cầu không hợp lệ");
             }
 
             var filmInGenres = _context.FilmInGenres.Where(X => X.FilmId == request.FilmId).Select(x => x);
@@ -319,21 +318,21 @@ namespace Movietheater.Application.FilmServices
 
             await _context.SaveChangesAsync();
 
-            return new ApiSuccessResultLite("Gán danh mục thành công");
+            return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<ApiResultLite> PosAssignAsync(PosAssignRequest request)
+        public async Task<ApiResult<bool>> PosAssignAsync(PosAssignRequest request)
         {
             if ((await _context.Films.FindAsync(request.FilmId)) == null)
-                return new ApiErrorResultLite("Không tìm thấy phim");
+                return new ApiErrorResult<bool>("Không tìm thấy phim");
             if ((await _context.Peoples.FindAsync(request.PeopleId)) == null)
-                return new ApiErrorResultLite("Không tìm thấy nghệ sĩ");
+                return new ApiErrorResult<bool>("Không tìm thấy nghệ sĩ");
             if ((await _context.Positions.FindAsync(request.PosId)) == null)
-                return new ApiErrorResultLite("Không tìm vai trò");
+                return new ApiErrorResult<bool>("Không tìm vai trò");
 
             var joining = await _context.Joinings.FindAsync(request.FilmId, request.PeopleId, request.PosId);
             if (joining != null)
-                return new ApiErrorResultLite("Đã tồn tại");
+                return new ApiErrorResult<bool>("Đã tồn tại");
 
             try
             {
@@ -346,26 +345,26 @@ namespace Movietheater.Application.FilmServices
 
                 await _context.Joinings.AddAsync(jn);
                 await _context.SaveChangesAsync();
-                return new ApiSuccessResultLite("Thêm thành công");
+                return new ApiSuccessResult<bool>(true);
             }
             catch (DbUpdateException e)
             {
-                return new ApiErrorResultLite("Thêm thất bại");
+                return new ApiErrorResult<bool>("Thêm thất bại");
             }
         }
 
-        public async Task<ApiResultLite> DeletePosAssignAsync(PosAssignRequest request)
+        public async Task<ApiResult<bool>> DeletePosAssignAsync(PosAssignRequest request)
         {
             var joining = await _context.Joinings.Where(x => x.FilmId == request.FilmId &&
                                                          x.PositionId == request.PosId &&
                                                          x.PeppleId == request.PeopleId).FirstOrDefaultAsync();
             if (joining == null)
-                return new ApiErrorResultLite("Yêu cầu không hợp lệ");
+                return new ApiErrorResult<bool>("Yêu cầu không hợp lệ");
             else
             {
                 _context.Joinings.Remove(joining);
                 _context.SaveChanges();
-                return new ApiSuccessResultLite("Xóa thành công");
+                return new ApiSuccessResult<bool>(true);
             }
         }
 

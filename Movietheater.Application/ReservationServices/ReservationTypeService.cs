@@ -15,7 +15,7 @@ namespace Movietheater.Application.ReservationServices
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync(string name)
+        public async Task<ApiResult<bool>> CreateAsync(string name)
         {
             ReservationType rvt = new ReservationType()
             {
@@ -25,36 +25,36 @@ namespace Movietheater.Application.ReservationServices
             int result = await _context.SaveChangesAsync();
             if (result == 0)
             {
-                return new ApiErrorResultLite("Thêm thất bại");
+                return new ApiErrorResult<bool>("Thêm thất bại");
             }
 
-            return new ApiSuccessResultLite("Thêm thành công");
+            return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             ReservationType rvt = await _context.ReservationTypes.FindAsync(id);
             if (rvt == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
                 _context.ReservationTypes.Remove(rvt);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResultLite("Xóa thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
-                else return new ApiSuccessResultLite("Không xóa được");
+                else return new ApiErrorResult<bool>("Không xóa được");
             }
         }
 
-        public async Task<ApiResultLite> UpdateAsync(ReservationTypeUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(ReservationTypeUpdateRequest request)
         {
             ReservationType rvt = await _context.ReservationTypes.FindAsync(request.Id);
             if (rvt == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
@@ -64,9 +64,9 @@ namespace Movietheater.Application.ReservationServices
                 int result = await _context.SaveChangesAsync();
                 if (result == 0)
                 {
-                    return new ApiErrorResultLite("Cập nhật thất bại");
+                    return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResultLite("Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true);
             }
         }
     }

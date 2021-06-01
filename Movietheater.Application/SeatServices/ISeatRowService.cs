@@ -9,11 +9,11 @@ namespace Movietheater.Application.SeatServices
 {
     public interface ISeatRowService
     {
-        Task<ApiResultLite> CreateAsync(SeatRowCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(SeatRowCreateRequest request);
 
-        Task<ApiResultLite> UpdateAsync(SeatRowUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(SeatRowUpdateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<List<SeatRowVMD>>> GetAllSeatRows();
 

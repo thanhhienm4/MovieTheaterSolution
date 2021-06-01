@@ -17,39 +17,39 @@ namespace MovieTheater.Api
              httpContextAccessor)
         { }
 
-        public async Task<ApiResultLite> CreateAsync(RoomCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(RoomCreateRequest request)
         {
-            return await PostAsync<ApiResultLite>("/api/Room/Create", request);
+            return await PostAsync<bool>("/api/Room/Create", request);
         }
 
-        public async Task<ApiResultLite> UpdateAsync(RoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(RoomUpdateRequest request)
         {
-            return await PostAsync<ApiResultLite>("/api/Room/Update", request);
+            return await PostAsync<bool>("/api/Room/Update", request);
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-            return await DeleteAsync<ApiResultLite>($"Api/Room/Delete/{id}");
+            return await DeleteAsync<bool>($"Api/Room/Delete/{id}");
         }
 
-        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request)
+        public async Task<ApiResult<PageResult<RoomVMD>>> GetRoomPagingAsync(RoomPagingRequest request)
         {
             return await PostAsync<PageResult<RoomVMD>>($"Api/Room/GetRoomPaging", request);
         }
 
         public async Task<ApiResult<RoomMD>> GetRoomByIdAsync(int id)
         {
-            return await GetAsync<ApiResult<RoomMD>>($"Api/Room/GetRoomById/{id}");
+            return await GetAsync<RoomMD>($"Api/Room/GetRoomById/{id}");
         }
 
         public async Task<ApiResult<List<RoomVMD>>> GetAllRoomAsync()
         {
-            return await GetAsync<ApiResult<List<RoomVMD>>>($"Api/Room/GetAllRoom");
+            return await GetAsync<List<RoomVMD>>($"Api/Room/GetAllRoom");
         }
 
         public async Task<ApiResult<List<RoomFormatVMD>>> GetAllRoomFormatAsync()
         {
-            return await GetAsync<ApiResult<List<RoomFormatVMD>>>($"Api/RoomFormat/GetAllRoomFormat");
+            return await GetAsync<List<RoomFormatVMD>>($"Api/RoomFormat/GetAllRoomFormat");
         }
     }
 }

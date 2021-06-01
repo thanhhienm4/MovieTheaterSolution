@@ -10,11 +10,11 @@ namespace Movietheater.Application.RoomServices
 {
     public interface IRoomService
     {
-        Task<ApiResultLite> CreateAsync(RoomCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(RoomCreateRequest request);
 
-        Task<ApiResultLite> UpdateAsync(RoomUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(RoomUpdateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request);
 

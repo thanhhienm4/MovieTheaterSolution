@@ -21,21 +21,21 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync(SeatRowCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(SeatRowCreateRequest request)
         {
             var result = await _seatRowService.CreateAsync(request);
             return result;
         }
 
         [HttpPut("Update")]
-        public async Task<ApiResultLite> UpdateAsync(SeatRowUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(SeatRowUpdateRequest request)
         {
             var result = await _seatRowService.UpdateAsync(request);
             return result;
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             var result = await _seatRowService.DeleteAsync(id);
             return result;
@@ -63,7 +63,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResultLite> Delete(int id)
+        public async Task<ApiResult<bool>> Delete(int id)
         {
             var result = await _seatRowService.DeleteAsync(id);
 

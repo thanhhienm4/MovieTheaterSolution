@@ -19,7 +19,7 @@ namespace Movietheater.Application.SeatServices
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync(SeatCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(SeatCreateRequest request)
         {
             Seat seat = new Seat()
             {
@@ -32,18 +32,18 @@ namespace Movietheater.Application.SeatServices
             int result = await _context.SaveChangesAsync();
             if (result == 0)
             {
-                return new ApiErrorResultLite("Thêm thất bại");
+                return new ApiErrorResult<bool>("Thêm thất bại");
             }
 
-            return new ApiSuccessResultLite("Thêm thành công");
+            return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             Seat seat = await _context.Seats.FindAsync(id);
             if (seat == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
@@ -51,9 +51,9 @@ namespace Movietheater.Application.SeatServices
 
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResultLite("Xóa thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
-                else return new ApiSuccessResultLite("Không xóa được");
+                else return new ApiErrorResult<bool>("Không xóa được");
             }
         }
 
@@ -62,12 +62,12 @@ namespace Movietheater.Application.SeatServices
             throw new NotImplementedException();
         }
 
-        public async Task<ApiResultLite> UpdateAsync(SeatUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(SeatUpdateRequest request)
         {
             Seat seat = await _context.Seats.FindAsync(request.Id);
             if (seat == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
@@ -80,9 +80,9 @@ namespace Movietheater.Application.SeatServices
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)
                 {
-                    return new ApiErrorResultLite("Cập nhật thất bại");
+                    return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResultLite("Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true);
             }
         }
 
@@ -101,11 +101,11 @@ namespace Movietheater.Application.SeatServices
             return new ApiSuccessResult<List<SeatVMD>>(seats);
         }
 
-        public async Task<ApiResultLite> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
         {
             var room = await _context.Rooms.FindAsync(request.RoomId);
             if (room == null)
-                return new ApiErrorResultLite("Phòng chiếu không hợp lệ");
+                return new ApiErrorResult<bool>("Phòng chiếu không hợp lệ");
 
             var seats = await _context.Seats.Where(x => x.RoomId == request.RoomId).ToListAsync();
             foreach (Seat seat in seats)
@@ -115,11 +115,11 @@ namespace Movietheater.Application.SeatServices
             }
             if (request.Seats == null)
             {
-                return new ApiSuccessResultLite("Cập nhật thành công ");
+                return new ApiErrorResult<bool>("Cập nhật không thành công ");
             }
             List<int> rowIds = request.Seats.Select(x => x.RowId).ToList();
             if (CheckListRow(rowIds) == false)
-                return new ApiErrorResultLite("Vị trí không hợp lệ");
+                return new ApiErrorResult<bool>("Vị trí không hợp lệ");
 
             foreach (SeatCreateRequest seatCR in request.Seats)
             {
@@ -154,10 +154,10 @@ namespace Movietheater.Application.SeatServices
             }
             catch (DbUpdateException e)
             {
-                return new ApiErrorResultLite("Không thể chỉnh sửa ghế đã đặt vé, vui lòng kiểm tra lại thông tin");
+                return new ApiErrorResult<bool>("Không thể chỉnh sửa ghế đã đặt vé, vui lòng kiểm tra lại thông tin");
             }
 
-            return new ApiSuccessResultLite("Cập nhật thành công ");
+            return new ApiSuccessResult<bool>(true);
         }
 
         public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)

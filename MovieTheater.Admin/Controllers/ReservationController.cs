@@ -28,6 +28,8 @@ namespace MovieTheater.Admin.Controllers
 
             ViewBag.KeyWord = keyword;
             var result = await _reservationApiClient.GetReservationPagingAsync(request);
+            if(result.IsReLogin == true)
+               return  RedirectToAction("Index", "Login");
             return View(result.ResultObj);
         }
 

@@ -22,21 +22,21 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync(ScreeningCreateRequest model)
+        public async Task<ApiResult<bool>> CreateAsync(ScreeningCreateRequest model)
         {
             var result = await _screeningService.CreateAsync(model);
             return result;
         }
 
         [HttpPut("Update")]
-        public async Task<ApiResultLite> UpdateAsync(ScreeningUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(ScreeningUpdateRequest request)
         {
             var result = await _screeningService.UpdateAsync(request);
             return result;
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             var result = await _screeningService.DeleteAsync(id);
             return result;

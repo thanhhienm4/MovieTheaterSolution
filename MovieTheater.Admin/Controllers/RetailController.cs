@@ -42,7 +42,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (tickets == null)
                 return 0;
-            return await _reservationApiClient.CalPrePriceAsync(tickets);
+            return (await _reservationApiClient.CalPrePriceAsync(tickets)).ResultObj;
         }
     }
 }

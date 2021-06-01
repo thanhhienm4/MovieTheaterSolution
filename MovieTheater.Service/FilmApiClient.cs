@@ -17,7 +17,7 @@ namespace MovieTheater.Api
             httpContextAccessor)
         { }
 
-        public async Task<ApiResultLite> CreateAsync(FilmCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(FilmCreateRequest request)
         {
             var requestContent = new MultipartFormDataContent();
 
@@ -41,10 +41,10 @@ namespace MovieTheater.Api
 
             var response = await client.PostAsync($"Api/Film/Create", requestContent);
 
-            return await GetResultAsync<ApiResultLite>(response);
+            return await GetResultAsync<bool>(response);
         }
 
-        public async Task<ApiResultLite> UpdateAsync(FilmUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(FilmUpdateRequest request)
         {
             var requestContent = new MultipartFormDataContent();
 
@@ -65,72 +65,72 @@ namespace MovieTheater.Api
             requestContent.Add(new StringContent(request.Name.ToString()), "Name");
             requestContent.Add(new StringContent(request.PublishDate.ToString()), "PublishDate");
             requestContent.Add(new StringContent(request.TrailerURL.ToString()), "TrailerURL");
-            //return await PutAsync<ApiResultLite>("Api/Film/Update", requestContent);
+            //return await PutAsync<bool>("Api/Film/Update", requestContent);
 
             HttpClient client = GetHttpClient();
             var response = await client.PutAsync($"Api/Film/Update", requestContent);
 
-            return await GetResultAsync<ApiResultLite>(response);
+            return await GetResultAsync<bool>(response);
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-            return await DeleteAsync<ApiResultLite>($"Api/Film/Delete/{id}");
+            return await DeleteAsync<bool>($"Api/Film/Delete/{id}");
         }
 
         public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
-            return await PostAsync<ApiResult<PageResult<FilmVMD>>>($"Api/Film/GetFilmPaging", request);
+            return await PostAsync<PageResult<FilmVMD>>($"Api/Film/GetFilmPaging", request);
         }
 
         public async Task<ApiResult<FilmVMD>> GetFilmVMDByIdAsync(int id)
         {
-            return await GetAsync<ApiResult<FilmVMD>>($"Api/Film/GetFilmVMDById/{id}");
+            return await GetAsync<FilmVMD>($"Api/Film/GetFilmVMDById/{id}");
         }
 
         public async Task<ApiResult<FilmMD>> GetFilmMDByIdAsync(int id)
         {
-            return await GetAsync<ApiResult<FilmMD>>($"Api/Film/GetFilmMDById/{id}");
+            return await GetAsync<FilmMD>($"Api/Film/GetFilmMDById/{id}");
         }
 
         public async Task<ApiResult<List<FilmVMD>>> GetAllFilmAsync()
         {
-            return await GetAsync<ApiResult<List<FilmVMD>>>($"Api/Film/GetAllFilm");
+            return await GetAsync<List<FilmVMD>>($"Api/Film/GetAllFilm");
         }
 
-        public async Task<ApiResultLite> AssignGenre(GenreAssignRequest request)
+        public async Task<ApiResult<bool>> AssignGenre(GenreAssignRequest request)
         {
-            return await PostAsync<ApiResultLite>($"Api/Film/GenreAssign", request);
+            return await PostAsync<bool>($"Api/Film/GenreAssign", request);
         }
 
         public async Task<ApiResult<List<FilmVMD>>> GetAllPlayingFilmAsync()
         {
-            return await GetAsync<ApiResult<List<FilmVMD>>>($"Api/Film/getAllPlayingFilm");
+            return await GetAsync<List<FilmVMD>>($"Api/Film/getAllPlayingFilm");
         }
 
         public async Task<ApiResult<List<FilmVMD>>> GetAllUpcomingFilmAsync()
         {
-            return await GetAsync<ApiResult<List<FilmVMD>>>($"Api/Film/getAllUpcomingFilm");
+            return await GetAsync<List<FilmVMD>>($"Api/Film/getAllUpcomingFilm");
         }
 
         public async Task<ApiResult<List<FilmGenreVMD>>> GetAllFilmGenreAsync()
         {
-            return await GetAsync<ApiResult<List<FilmGenreVMD>>>($"Api/FilmGenre/GetAllFilmGenre");
+            return await GetAsync<List<FilmGenreVMD>>($"Api/FilmGenre/GetAllFilmGenre");
         }
 
-        public async Task<ApiResultLite> PosAssignAsync(PosAssignRequest request)
+        public async Task<ApiResult<bool>> PosAssignAsync(PosAssignRequest request)
         {
-            return await PostAsync<ApiResultLite>($"Api/Film/PosAssign", request);
+            return await PostAsync<bool>($"Api/Film/PosAssign", request);
         }
 
-        public async Task<ApiResultLite> DeletePosAssignAsync(PosAssignRequest request)
+        public async Task<ApiResult<bool>> DeletePosAssignAsync(PosAssignRequest request)
         {
-            return await PostAsync<ApiResultLite>($"Api/Film/DeletePosAssign", request);
+            return await PostAsync<bool>($"Api/Film/DeletePosAssign", request);
         }
 
         public async Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id)
         {
-            return await GetAsync<ApiResult<List<JoiningPosVMD>>>($"Api/Film/GetJoining/{id}");
+            return await GetAsync<List<JoiningPosVMD>>($"Api/Film/GetJoining/{id}");
         }
     }
 }

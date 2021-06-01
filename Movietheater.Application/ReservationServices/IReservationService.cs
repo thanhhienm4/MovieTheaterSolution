@@ -9,17 +9,17 @@ namespace Movietheater.Application.ReservationServices
 {
     public interface IReservationService
     {
-        Task<ApiResultLite> CreateAsync(ReservationCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(ReservationCreateRequest request);
 
-        Task<ApiResultLite> UpdateAsync(ReservationUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(ReservationUpdateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<ReservationVMD>> GetReservationById(int Id);
 
         Task<ApiResult<PageResult<ReservationVMD>>> GetReservationPagingAsync(ReservationPagingRequest request);
 
-        Task<int> CalPrePriceAsync(List<TicketCreateRequest> tickets);
+        Task<ApiResult<int>> CalPrePriceAsync(List<TicketCreateRequest> tickets);
 
         Task<ApiResult<List<ReservationVMD>>> GetReservationByUserId(Guid userId);
     }

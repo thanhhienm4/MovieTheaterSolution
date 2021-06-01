@@ -17,17 +17,17 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(int roomId)
         {
-            return await GetAsync<ApiResult<List<SeatVMD>>>($"Api/Seat/GetSeatInRoomAsync/{roomId}");
+            return await GetAsync<List<SeatVMD>>($"Api/Seat/GetSeatInRoomAsync/{roomId}");
         }
 
-        public async Task<ApiResultLite> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
         {
-            return await PutAsync<ApiResultLite>($"Api/Seat/UpdateSeatInRoomAsync", request);
+            return await PutAsync<bool>($"Api/Seat/UpdateSeatInRoomAsync", request);
         }
 
         public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
         {
-            return await GetAsync<ApiResult<List<SeatVMD>>>($"Api/Seat/GetListSeatReserved/{screeningId}");
+            return await GetAsync<List<SeatVMD>>($"Api/Seat/GetListSeatReserved/{screeningId}");
         }
     }
 }

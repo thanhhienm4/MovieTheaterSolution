@@ -102,12 +102,12 @@ namespace Movietheater.Application.UserServices
             return new ApiSuccessResult<string>(token);
         }
 
-        public async Task<ApiResultLite> CreateStaffAsync(UserCreateRequest model)
+        public async Task<ApiResult<bool>> CreateStaffAsync(UserCreateRequest model)
         {
             if (await _userManager.FindByEmailAsync(model.Email) != null)
-                return new ApiErrorResultLite("Email đã tồn tại");
+                return new ApiErrorResult<bool>("Email đã tồn tại");
             if (await _userManager.FindByNameAsync(model.UserName) != null)
-                return new ApiErrorResultLite("UserName đã tồn tại");
+                return new ApiErrorResult<bool>("UserName đã tồn tại");
 
             User user = new User()
             {
@@ -123,9 +123,9 @@ namespace Movietheater.Application.UserServices
 
             if ((await _userManager.CreateAsync(user, model.Password)).Succeeded)
             {
-                return new ApiSuccessResultLite("Tạo mới thành công");
+                return new ApiSuccessResult<bool>(true);
             }
-            return new ApiErrorResultLite("Tạo mới thất bại");
+            return new ApiErrorResult<bool>("Tạo mới thất bại");
         }
 
         public async Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request)
@@ -189,12 +189,12 @@ namespace Movietheater.Application.UserServices
             return new ApiSuccessResult<string>(token);
         }
 
-        public async Task<ApiResultLite> CreateCustomerAsync(UserCreateRequest model)
+        public async Task<ApiResult<bool>> CreateCustomerAsync(UserCreateRequest model)
         {
             if (await _userManager.FindByEmailAsync(model.Email) != null)
-                return new ApiErrorResultLite("Email đã tồn tại");
+                return new ApiErrorResult<bool>("Email đã tồn tại");
             if (await _userManager.FindByNameAsync(model.UserName) != null)
-                return new ApiErrorResultLite("UserName đã tồn tại");
+                return new ApiErrorResult<bool>("UserName đã tồn tại");
 
             User user = new User()
             {
@@ -213,16 +213,16 @@ namespace Movietheater.Application.UserServices
                 var roleCus = await _roleManager.FindByNameAsync("Customer");
                 _context.UserRoles.Add(new IdentityUserRole<Guid>() { UserId = user.Id, RoleId = roleCus.Id });
                 _context.SaveChanges();
-                return new ApiSuccessResultLite("Tạo mới thành công");
+                return new ApiSuccessResult<bool>(true);
             }
-            return new ApiErrorResultLite("Tạo mới thất bại");
+            return new ApiErrorResult<bool>("Tạo mới thất bại");
         }
 
-        public async Task<ApiResultLite> UpdateStaffAsync(UserUpdateRequest model)
+        public async Task<ApiResult<bool>> UpdateStaffAsync(UserUpdateRequest model)
         {
             if (await _userManager.Users.AnyAsync(x => x.Email == model.Email && x.Id != model.Id))
             {
-                return new ApiErrorResultLite("Emai đã tồn tại");
+                return new ApiErrorResult<bool>("Emai đã tồn tại");
             }
 
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
@@ -250,17 +250,17 @@ namespace Movietheater.Application.UserServices
             _context.SaveChanges();
             if (result.Succeeded)
             {
-                return new ApiSuccessResultLite("Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true);
             }
             else
-                return new ApiErrorResultLite("Cập nhật không thành công");
+                return new ApiErrorResult<bool>("Cập nhật không thành công");
         }
 
-        public async Task<ApiResultLite> UpdateCustomerAsync(UserUpdateRequest model)
+        public async Task<ApiResult<bool>> UpdateCustomerAsync(UserUpdateRequest model)
         {
             if (await _userManager.Users.AnyAsync(x => x.Email == model.Email && x.Id != model.Id))
             {
-                return new ApiErrorResultLite("Emai đã tồn tại");
+                return new ApiErrorResult<bool>("Emai đã tồn tại");
             }
 
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
@@ -289,81 +289,81 @@ namespace Movietheater.Application.UserServices
             _context.SaveChanges();
             if (result.Succeeded)
             {
-                return new ApiSuccessResultLite("Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true);
             }
             else
-                return new ApiErrorResultLite("Cập nhật không thành công");
+                return new ApiErrorResult<bool>("Cập nhật không thành công");
         }
 
-        public async Task<ApiResultLite> DeleteAsync(Guid id)
+        public async Task<ApiResult<bool>> DeleteAsync(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
-                return new ApiErrorResultLite("Không tìm thấy người dùng");
+                return new ApiErrorResult<bool>("Không tìm thấy người dùng");
             else
             {
                 Guid currentUserId = GetUserId();
                 if (id == currentUserId)
-                    return new ApiErrorResultLite("Không thể tự xóa chính mình");
+                    return new ApiErrorResult<bool>("Không thể tự xóa chính mình");
                 else
                 {
                     if (_context.Reservations.Where(x => x.CustomerId == id).Count() != 0)
                     {
                         await _userManager.SetLockoutEnabledAsync(user, true);
                         await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(100));
-                        return new ApiSuccessResultLite("Tài khoản bị khóa vô thời hạn");
+                        return new ApiSuccessResult<bool>(true);
                     }
                     else
                     {
                         try
                         {
                             await _userManager.DeleteAsync(user);
-                            return new ApiSuccessResultLite("Xóa thành công");
+                            return new ApiSuccessResult<bool>(true);
                         }
                         catch (DbUpdateException e)
                         {
-                            return new ApiErrorResultLite("Xảy ra lỗi trong quá trình xóa");
+                            return new ApiErrorResult<bool>("Xảy ra lỗi trong quá trình xóa");
                         }
                     }
                 }
             }
         }
 
-        public async Task<ApiResultLite> ChangePasswordAsync(ChangePWRequest request)
+        public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePWRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
             {
                 //Check confirm password
-                return new ApiErrorResultLite("Tên đăng nhập không tồn tại");
+                return new ApiErrorResult<bool>("Tên đăng nhập không tồn tại");
             }
             else
             {
                 var result = await _signInManager.CheckPasswordSignInAsync(user, request.OldPassword, false);
                 if (result.Succeeded == false)
-                    return new ApiErrorResultLite("Mật khẩu không chính xác");
+                    return new ApiErrorResult<bool>("Mật khẩu không chính xác");
                 else
                 {
                     await _userManager.RemovePasswordAsync(user);
                     await _userManager.AddPasswordAsync(user, request.NewPassword);
-                    return new ApiSuccessResultLite("Đổi password thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
             }
         }
 
-        public async Task<ApiResultLite> RoleAssignAsync(RoleAssignRequest request)
+        public async Task<ApiResult<bool>> RoleAssignAsync(RoleAssignRequest request)
         {
             var user = await _userManager.FindByIdAsync(request.UserId.ToString());
             if (user == null)
             {
-                return new ApiErrorResultLite("Tài khoản không tồn tại");
+                return new ApiErrorResult<bool>("Tài khoản không tồn tại");
             }
 
             // check role available
             List<Guid> roles = request.Roles.Select(x => Guid.Parse(x.Id)).ToList();
             if (!CheckRoles(roles))
             {
-                return new ApiErrorResultLite("Yêu cầu không hợp lệ");
+                return new ApiErrorResult<bool>("Yêu cầu không hợp lệ");
             }
 
             var removedRoles = request.Roles.Where(x => x.Selected == false).Select(x => x.Id).ToList();
@@ -384,8 +384,13 @@ namespace Movietheater.Application.UserServices
                     _context.UserRoles.Add(new IdentityUserRole<Guid>() { UserId = user.Id, RoleId = new Guid(roleId) });
                 }
             }
+
+            var userToken = _context.UserTokens.Find(request.UserId);
+            if(userToken != null)
+                _context.UserTokens.Remove(userToken);
+            
             _context.SaveChanges();
-            return new ApiSuccessResultLite();
+            return new ApiSuccessResult<bool>(true);
         }
 
         public async Task<ApiResult<UserVMD>> GetUserByIdAsync(Guid id)
@@ -526,6 +531,16 @@ namespace Movietheater.Application.UserServices
             var claimsIdentity = _accessor.HttpContext.User.Identity as ClaimsIdentity;
             string id = claimsIdentity.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
             return new Guid(id);
+        }
+
+        public ApiResult<bool> CheckToken(Guid userId,string token)
+        {
+            if (( _context.UserTokens.Where(x => x.UserId == userId && x.Value == token).Count()) > 0)
+            {
+                return new ApiSuccessResult<bool>(true);
+            }
+            else
+                return new ApiErrorResult<bool>("Không hợp lệ");
         }
     }
 }

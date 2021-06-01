@@ -7,11 +7,11 @@ namespace Movietheater.Application.RoomServices
 {
     public interface IRoomFormatService
     {
-        Task<ApiResultLite> CreateAsync(RoomFormatCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(RoomFormatCreateRequest request);
 
-        Task<ApiResultLite> UpdateAsync(RoomFormatUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(RoomFormatUpdateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<List<RoomFormatVMD>>> GetAllRoomFormatAsync();
     }

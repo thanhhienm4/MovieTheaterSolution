@@ -17,7 +17,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<List<BanVMD>>> GetAllBanAsync()
         {
-            return await GetAsync<ApiResult<List<BanVMD>>>($"Api/Ban/GetAllBan");
+            return await GetAsync<List<BanVMD>>($"Api/Ban/GetAllBan");
         }
     }
 }

@@ -37,7 +37,7 @@ namespace MovieTheater.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResultLite> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
         {
             var result = await _seatApiCient.UpdateSeatInRoomAsync(request);
             if (result.IsSuccessed == true)

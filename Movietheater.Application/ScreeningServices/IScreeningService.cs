@@ -10,11 +10,11 @@ namespace Movietheater.Application.ScreeningServices
 {
     public interface IScreeningService
     {
-        Task<ApiResultLite> CreateAsync(ScreeningCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(ScreeningCreateRequest request);
 
-        Task<ApiResultLite> UpdateAsync(ScreeningUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(ScreeningUpdateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id);
 

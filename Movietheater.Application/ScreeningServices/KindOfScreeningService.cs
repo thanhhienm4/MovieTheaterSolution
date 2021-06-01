@@ -18,7 +18,7 @@ namespace Movietheater.Application.ScreeningServices
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync(KindOfScreeningCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(KindOfScreeningCreateRequest request)
         {
             KindOfScreening kindOfScreening = new KindOfScreening()
             {
@@ -29,18 +29,18 @@ namespace Movietheater.Application.ScreeningServices
             int result = await _context.SaveChangesAsync();
             if (result == 0)
             {
-                return new ApiErrorResultLite("Thêm thất bại");
+                return new ApiErrorResult<bool>("Thêm thất bại");
             }
 
-            return new ApiSuccessResultLite("Thêm thành công");
+            return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<ApiResultLite> UpdateAsync(KindOfScreeningUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(KindOfScreeningUpdateRequest request)
         {
             KindOfScreening screening = await _context.KindOfScreenings.FindAsync(request.Id);
             if (screening == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
@@ -49,32 +49,32 @@ namespace Movietheater.Application.ScreeningServices
                 _context.Update(screening);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResultLite("Cập nhật thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
                 else
                 {
-                    return new ApiErrorResultLite("Cập nhật thất bại");
+                    return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
             }
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             KindOfScreening screening = await _context.KindOfScreenings.FindAsync(id);
             if (screening == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
                 _context.KindOfScreenings.Remove(screening);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResultLite("Xóa thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
                 else
                 {
-                    return new ApiErrorResultLite("Xóa thất bại");
+                    return new ApiErrorResult<bool>("Xóa thất bại");
                 }
             }
         }

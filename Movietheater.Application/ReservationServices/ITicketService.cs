@@ -6,10 +6,10 @@ namespace Movietheater.Application.ReservationServices
 {
     public interface ITicketService
     {
-        Task<ApiResultLite> CreateAsync(TicketCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(TicketCreateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
-        Task<ApiResultLite> UpdateAsync(TicketUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(TicketUpdateRequest request);
     }
 }

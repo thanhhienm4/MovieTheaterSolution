@@ -7,17 +7,17 @@ namespace Movietheater.Application.SeatServices
 {
     public interface ISeatService
     {
-        Task<ApiResultLite> CreateAsync(SeatCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(SeatCreateRequest request);
 
-        Task<ApiResultLite> UpdateAsync(SeatUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(SeatUpdateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<SeatVMD>> GetSeatById(int id);
 
         Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(int roomId);
 
-        Task<ApiResultLite> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request);
+        Task<ApiResult<bool>> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request);
 
         Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId);
     }

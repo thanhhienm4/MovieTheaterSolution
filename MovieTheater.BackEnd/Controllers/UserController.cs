@@ -30,14 +30,14 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("CreateStaff")]
-        public async Task<ApiResultLite> CreateStaffAsync([FromBody] UserCreateRequest request)
+        public async Task<ApiResult<bool>> CreateStaffAsync([FromBody] UserCreateRequest request)
         {
             var result = await _userService.CreateStaffAsync(request);
             return result;
         }
 
         [HttpPut("UpdateStaff")]
-        public async Task<ApiResultLite> UpdateStaffAsync([FromBody] UserUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateStaffAsync([FromBody] UserUpdateRequest request)
         {
             var result = await _userService.UpdateStaffAsync(request);
             return result;
@@ -51,28 +51,28 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("CreateCustomer")]
-        public async Task<ApiResultLite> CreateCustomerAsync([FromBody] UserCreateRequest request)
+        public async Task<ApiResult<bool>> CreateCustomerAsync([FromBody] UserCreateRequest request)
         {
             var result = await _userService.CreateCustomerAsync(request);
             return result;
         }
 
         [HttpPut("UpdateCustomer")]
-        public async Task<ApiResultLite> UpdateCustomerAsync([FromBody] UserUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateCustomerAsync([FromBody] UserUpdateRequest request)
         {
             var result = await _userService.UpdateCustomerAsync(request);
             return result;
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ApiResultLite> DeleteAsync(Guid id)
+        public async Task<ApiResult<bool>> DeleteAsync(Guid id)
         {
             var result = await _userService.DeleteAsync(id);
             return result;
         }
 
         [HttpPut("ChangePassword")]
-        public async Task<ApiResultLite> ChangePasswordAsync([FromBody] ChangePWRequest request)
+        public async Task<ApiResult<bool>> ChangePasswordAsync([FromBody] ChangePWRequest request)
         {
             var result = await _userService.ChangePasswordAsync(request);
             return result;
@@ -93,7 +93,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPut("RoleAssign")]
-        public async Task<ApiResultLite> RoleAssignAsync([FromBody] RoleAssignRequest request)
+        public async Task<ApiResult<bool>> RoleAssignAsync([FromBody] RoleAssignRequest request)
         {
             var result = await _userService.RoleAssignAsync(request);
             return result;

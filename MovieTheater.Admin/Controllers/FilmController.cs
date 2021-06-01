@@ -138,7 +138,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResultLite> Delete(int id)
+        public async Task<ApiResult<bool>> Delete(int id)
         {
             var result = await _filmApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;
@@ -194,14 +194,14 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResultLite> PosAssign(PosAssignRequest request)
+        public async Task<ApiResult<bool>> PosAssign(PosAssignRequest request)
         {
             var res = (await _filmApiClient.PosAssignAsync(request));
             return res;
         }
 
         [HttpPost]
-        public async Task<ApiResultLite> DeletePosAssign(PosAssignRequest request)
+        public async Task<ApiResult<bool>> DeletePosAssign(PosAssignRequest request)
         {
             var res = (await _filmApiClient.DeletePosAssignAsync(request));
             return res;

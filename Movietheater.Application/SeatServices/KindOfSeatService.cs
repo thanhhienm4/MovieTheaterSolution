@@ -15,7 +15,7 @@ namespace Movietheater.Application.SeatServices
             _context = context;
         }
 
-        public async Task<ApiResultLite> CreateAsync(KindOfSeatCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(KindOfSeatCreateRequest request)
         {
             KindOfSeat kindOfSeat = new KindOfSeat()
             {
@@ -26,18 +26,18 @@ namespace Movietheater.Application.SeatServices
             int result = await _context.SaveChangesAsync();
             if (result == 0)
             {
-                return new ApiErrorResultLite("Tạo mới thất bại");
+                return new ApiErrorResult<bool>("Tạo mới thất bại");
             }
 
-            return new ApiSuccessResultLite();
+            return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<ApiResultLite> UpdateAsync(KindOfSeatUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(KindOfSeatUpdateRequest request)
         {
             KindOfSeat seat = await _context.KindOfSeats.FindAsync(request.Id);
             if (seat == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
@@ -45,29 +45,29 @@ namespace Movietheater.Application.SeatServices
                 seat.Surcharge = request.Surcharge;
                 _context.Update(seat);
                 if (await _context.SaveChangesAsync() != 0)
-                    return new ApiSuccessResultLite("Cập nhật thành công");
+                    return new ApiSuccessResult<bool>(true);
                 else
-                    return new ApiErrorResultLite("Cập nhật thất bại mới thất bại");
+                    return new ApiErrorResult<bool>("Cập nhật thất bại ");
             }
         }
 
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             KindOfSeat seat = await _context.KindOfSeats.FindAsync(id);
             if (seat == null)
             {
-                return new ApiErrorResultLite("Không tìm thấy");
+                return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
                 _context.KindOfSeats.Remove(seat);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResultLite("Xóa thành công");
+                    return new ApiSuccessResult<bool>(true);
                 }
                 else
                 {
-                    return new ApiErrorResultLite("Xóa thất bại");
+                    return new ApiErrorResult<bool>("Xóa thất bại");
                 }
             }
         }

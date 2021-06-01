@@ -20,21 +20,21 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync([FromForm] FilmCreateRequest model)
+        public async Task<ApiResult<bool>> CreateAsync([FromForm] FilmCreateRequest model)
         {
             var result = await _filmService.CreateAsync(model);
             return result;
         }
 
         [HttpPut("Update")]
-        public async Task<ApiResultLite> UpdateAsync([FromForm] FilmUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync([FromForm] FilmUpdateRequest request)
         {
             var result = await _filmService.UpdateAsync(request);
             return result;
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             var result = await _filmService.DeleteAsync(id);
             return result;
@@ -69,7 +69,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("GenreAssign")]
-        public async Task<ApiResultLite> GenreAssignAsync(GenreAssignRequest request)
+        public async Task<ApiResult<bool>> GenreAssignAsync(GenreAssignRequest request)
         {
             var result = await _filmService.GenreAssignAsync(request);
             return result;
@@ -90,14 +90,14 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("PosAssign")]
-        public async Task<ApiResultLite> PosAssignAsync(PosAssignRequest request)
+        public async Task<ApiResult<bool>> PosAssignAsync(PosAssignRequest request)
         {
             var result = await _filmService.PosAssignAsync(request);
             return result;
         }
 
         [HttpPost("DeletePosAssign")]
-        public async Task<ApiResultLite> DeletePosAssignAsync(PosAssignRequest request)
+        public async Task<ApiResult<bool>> DeletePosAssignAsync(PosAssignRequest request)
         {
             var result = await _filmService.DeletePosAssignAsync(request);
             return result;

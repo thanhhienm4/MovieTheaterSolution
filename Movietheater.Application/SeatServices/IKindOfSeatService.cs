@@ -6,10 +6,10 @@ namespace Movietheater.Application.SeatServices
 {
     public interface IKindOfSeatService
     {
-        Task<ApiResultLite> CreateAsync(KindOfSeatCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(KindOfSeatCreateRequest request);
 
-        Task<ApiResultLite> UpdateAsync(KindOfSeatUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(KindOfSeatUpdateRequest request);
 
-        Task<ApiResultLite> DeleteAsync(int Id);
+        Task<ApiResult<bool>> DeleteAsync(int Id);
     }
 }

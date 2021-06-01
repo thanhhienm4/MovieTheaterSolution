@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.ReservationServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
@@ -11,31 +12,31 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReservationController : Controller
+    public class ReservationController : BaseController
     {
         private readonly IReservationService _reservationService;
 
-        public ReservationController(IReservationService reservationService)
+        public ReservationController(IReservationService reservationService,IUserService userService):base(userService)
         {
             _reservationService = reservationService;
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResultLite> CreateAsync(ReservationCreateRequest model)
+        public async Task<ApiResult<bool>> CreateAsync(ReservationCreateRequest model)
         {
             var result = await _reservationService.CreateAsync(model);
             return result;
         }
 
         [HttpPut("Update")]
-        public async Task<ApiResultLite> UpdateAsync(ReservationUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(ReservationUpdateRequest request)
         {
             var result = await _reservationService.UpdateAsync(request);
             return result;
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ApiResultLite> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             var result = await _reservationService.DeleteAsync(id);
             return result;
@@ -63,7 +64,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("CalPrePrice")]
-        public async Task<int> CalPrePriceAsync(List<TicketCreateRequest> tickets)
+        public async Task<ApiResult<int>> CalPrePriceAsync(List<TicketCreateRequest> tickets)
         {
             var result = await _reservationService.CalPrePriceAsync(tickets);
             return result;
