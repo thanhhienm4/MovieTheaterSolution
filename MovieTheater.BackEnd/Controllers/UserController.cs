@@ -105,5 +105,21 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _userService.GetCustomerByIdAsync(id);
             return result;
         }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<ApiResult<bool>> ForgotPassword([FromBody] string mail)
+        {
+            var result =  await _userService.ForgotPasswordAsync(mail);
+            return result;
+        }
+
+        
+        [HttpPost("ResetPassword")]
+        public async Task<ApiResult<bool>> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
+        {
+            var result = await _userService.ResetPasswordAsync(request);
+            return result;
+        }
     }
+    
 }

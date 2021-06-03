@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Movietheater.Application.Common;
 using Movietheater.Application.FilmServices;
+using Movietheater.Application.MailServices;
 using Movietheater.Application.ReservationServices;
 using Movietheater.Application.RoomServices;
 using Movietheater.Application.ScreeningServices;
@@ -18,6 +20,8 @@ using Movietheater.Application.Statitic;
 using Movietheater.Application.UserServices;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
+using MovieTheater.Models.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -57,6 +61,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IBanService, BanService>();
             services.AddTransient<IStatiticService, StatiticService>();
             services.AddTransient<IPositionService, PositionService>();
+            services.AddTransient<IMailService, MailService>();
             // For Identity
             services.AddIdentity<User, AppRole>(
                 option =>
@@ -65,6 +70,9 @@ namespace MovieTheater.BackEnd
                 })
                 .AddEntityFrameworkStores<MovieTheaterDBContext>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.AddDbContext<MovieTheaterDBContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("MovieTheaterDBContext")));
@@ -124,7 +132,8 @@ namespace MovieTheater.BackEnd
                     }
                 });
             });
-
+            var mailsettings = Configuration.GetSection("MailSettings"); 
+            services.Configure<MailSettings>(mailsettings);
             services.AddControllersWithViews();
         }
 
@@ -159,6 +168,30 @@ namespace MovieTheater.BackEnd
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapGet("/", async context => {
+                    await context.Response.WriteAsync("Hello World!");
+                });
+
+                endpoints.MapGet("/testmail", async context => {
+
+                    // Lấy dịch vụ sendmailservice
+                    var sendmailservice = context.RequestServices.GetService<IMailService>();
+
+                    MailContent content = new MailContent
+                    {
+                        To = "thanhhienm4@gmail.com",
+                        Subject = "Kiểm tra thử",
+                        Body = "<p><strong>Xin chào đại ca</strong></p>"
+                    };
+
+                    await sendmailservice.SendMail(content);
+                    await context.Response.WriteAsync("Send mail");
+                });
+
+            });
+
         }
     }
 }

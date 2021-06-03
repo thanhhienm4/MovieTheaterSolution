@@ -12,11 +12,11 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReservationController : BaseController
+    public class ReservationController : Controller
     {
         private readonly IReservationService _reservationService;
 
-        public ReservationController(IReservationService reservationService,IUserService userService):base(userService)
+        public ReservationController(IReservationService reservationService,IUserService userService)//:base(userService)
         {
             _reservationService = reservationService;
         }

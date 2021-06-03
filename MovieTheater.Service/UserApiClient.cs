@@ -76,5 +76,15 @@ namespace MovieTheater.Api
         {
             return await PutAsync<bool>("Api/User/ChangePassword", request);
         }
+        
+         public async Task<ApiResult<bool>> ForgotPasswordAsync(string mail)
+        {
+            return await PostAsync<bool>("Api/User/ForgotPassword", mail);
+        }
+        public async Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request)
+        {
+            return await PostAsync<bool>("Api/User/ResetPassword", request);
+        }
+        
     }
 }

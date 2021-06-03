@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Movietheater.Application.MailServices;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Data.Enums;
@@ -15,6 +17,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,10 +31,11 @@ namespace Movietheater.Application.UserServices
         private readonly IConfiguration _configuration;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IHttpContextAccessor _accessor;
+        private readonly IMailService _mailServive;
 
         public UserService(MovieTheaterDBContext context, UserManager<User> userManager
             , SignInManager<User> signInManager, IConfiguration configuration, RoleManager<AppRole> roleManager,
-            IHttpContextAccessor accessor)
+            IHttpContextAccessor accessor, IMailService mailService)
         {
             _context = context;
             _userManager = userManager;
@@ -39,6 +43,7 @@ namespace Movietheater.Application.UserServices
             _configuration = configuration;
             _roleManager = roleManager;
             _accessor = accessor;
+            _mailServive = mailService;
         }
 
         public async Task<ApiResult<string>> LoginStaffAsync(LoginRequest request)
@@ -541,6 +546,37 @@ namespace Movietheater.Application.UserServices
             }
             else
                 return new ApiErrorResult<bool>("Không hợp lệ");
+        }
+        public async Task<ApiResult<bool>> ForgotPasswordAsync(string mail)
+        {
+            var user = _context.Users.Where(x => x.Email == mail).FirstOrDefault();
+            if (user != null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var schema = _configuration["AdminServer"];
+                var url = $"{schema}/user/ResetPassword?Email={mail}&Token={token}";
+
+                string message = string.Format("<p>Nhấn vào đây để khôi phục mật khẩu</p><a href = \"{0}\" >Link </a>", url);
+                await _mailServive.SendEmailAsync(mail, "Khôi phục mật khẩu", message);
+                return new ApiSuccessResult<bool>(true);
+
+            }
+            else
+                return new ApiErrorResult<bool>("Email không tồn tại");
+
+        }
+        public async Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if(user!=null)
+            {
+               var res =await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
+                if (res.Succeeded)
+                    return new ApiSuccessResult<bool>(true);
+                else
+                    return new ApiErrorResult<bool>("Đổi mật khẩu thất bại");
+            }
+            return new ApiErrorResult<bool>("Không tìm thấy người dùng");
         }
     }
 }
