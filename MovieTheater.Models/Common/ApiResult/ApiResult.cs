@@ -15,6 +15,12 @@
             ResultObj = resultObj;
             IsSuccessed = true;
         }
+        public ApiSuccessResult(T resultObj, string message)
+        {
+            ResultObj = resultObj;
+            IsSuccessed = true;
+            Message = message;
+        }
     }
 
     public class ApiErrorResult<T> : ApiResult<T>

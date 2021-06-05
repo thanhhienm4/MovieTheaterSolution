@@ -128,7 +128,7 @@ namespace Movietheater.Application.UserServices
 
             if ((await _userManager.CreateAsync(user, model.Password)).Succeeded)
             {
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Tạo mới thành công");
             }
             return new ApiErrorResult<bool>("Tạo mới thất bại");
         }
@@ -218,7 +218,7 @@ namespace Movietheater.Application.UserServices
                 var roleCus = await _roleManager.FindByNameAsync("Customer");
                 _context.UserRoles.Add(new IdentityUserRole<Guid>() { UserId = user.Id, RoleId = roleCus.Id });
                 _context.SaveChanges();
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Tạo mới thành công");
             }
             return new ApiErrorResult<bool>("Tạo mới thất bại");
         }
@@ -255,7 +255,7 @@ namespace Movietheater.Application.UserServices
             _context.SaveChanges();
             if (result.Succeeded)
             {
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
             }
             else
                 return new ApiErrorResult<bool>("Cập nhật không thành công");
@@ -323,7 +323,7 @@ namespace Movietheater.Application.UserServices
                         try
                         {
                             await _userManager.DeleteAsync(user);
-                            return new ApiSuccessResult<bool>(true);
+                            return new ApiSuccessResult<bool>(true,"Xóa thành công");
                         }
                         catch (DbUpdateException e)
                         {
@@ -351,7 +351,7 @@ namespace Movietheater.Application.UserServices
                 {
                     await _userManager.RemovePasswordAsync(user);
                     await _userManager.AddPasswordAsync(user, request.NewPassword);
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Đổi mật khẩu thành công");
                 }
             }
         }
@@ -395,7 +395,7 @@ namespace Movietheater.Application.UserServices
                 _context.UserTokens.Remove(userToken);
             
             _context.SaveChanges();
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Gián quyền thành công");
         }
 
         public async Task<ApiResult<UserVMD>> GetUserByIdAsync(Guid id)
@@ -542,7 +542,7 @@ namespace Movietheater.Application.UserServices
         {
             if (( _context.UserTokens.Where(x => x.UserId == userId && x.Value == token).Count()) > 0)
             {
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Thành công");
             }
             else
                 return new ApiErrorResult<bool>("Không hợp lệ");
@@ -572,7 +572,7 @@ namespace Movietheater.Application.UserServices
             {
                var res =await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
                 if (res.Succeeded)
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"đổi mật khẩu thành công");
                 else
                     return new ApiErrorResult<bool>("Đổi mật khẩu thất bại");
             }
