@@ -16,7 +16,7 @@ namespace MovieTheater.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResult<bool>> Create(ReservationCreateRequest request)
+        public async Task<ApiResult<int>> Create(ReservationCreateRequest request)
         {
             //can fix
             request.CustomerId = GetUserId();

@@ -9,7 +9,7 @@ namespace Movietheater.Application.ReservationServices
 {
     public interface IReservationService
     {
-        Task<ApiResult<bool>> CreateAsync(ReservationCreateRequest request);
+        Task<ApiResult<int>> CreateAsync(ReservationCreateRequest request);
 
         Task<ApiResult<bool>> UpdateAsync(ReservationUpdateRequest request);
 

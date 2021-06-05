@@ -11,7 +11,7 @@ namespace Movietheater.Application.UserServices
     {
         Task<ApiResult<string>> LoginStaffAsync(LoginRequest request);
 
-        Task<ApiResult<bool>> CreateStaffAsync(UserCreateRequest model);
+        Task<ApiResult<Guid>> CreateStaffAsync(UserCreateRequest model);
 
         Task<ApiResult<bool>> UpdateStaffAsync(UserUpdateRequest model);
 

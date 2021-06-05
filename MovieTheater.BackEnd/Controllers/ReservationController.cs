@@ -22,7 +22,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResult<bool>> CreateAsync(ReservationCreateRequest model)
+        public async Task<ApiResult<int>> CreateAsync(ReservationCreateRequest model)
         {
             var result = await _reservationService.CreateAsync(model);
             return result;

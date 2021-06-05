@@ -25,10 +25,10 @@ namespace Movietheater.Application.ReservationServices
             int result = await _context.SaveChangesAsync();
             if (result == 0)
             {
-                return new ApiErrorResult<bool>("Thêm thất bại");
+                return new ApiErrorResult<bool>("Đặt vé thất bại");
             }
 
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Đặt vé thành công");
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)

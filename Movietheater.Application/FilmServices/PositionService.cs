@@ -31,7 +31,7 @@ namespace Movietheater.Application.FilmServices
                 return new ApiErrorResult<bool>("Thêm thất bại");
             }
 
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Thêm thành công");
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
@@ -46,7 +46,7 @@ namespace Movietheater.Application.FilmServices
                 _context.Positions.Remove(position);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
                 }
                 else return new ApiErrorResult<bool>("Không xóa được");
             }
@@ -68,7 +68,7 @@ namespace Movietheater.Application.FilmServices
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
             }
         }
 

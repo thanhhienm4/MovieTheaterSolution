@@ -42,7 +42,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("GetRoomPaging")]
-        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request)
+        public async Task<ApiResult<PageResult<RoomVMD>>> GetRoomPagingAsync(RoomPagingRequest request)
         {
             var result = await _roomService.GetRoomPagingAsync(request);
             return result;
@@ -67,6 +67,13 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResult<List<RoomVMD>>> GetAllRoomAsync()
         {
             var result = await _roomService.GetAllRoomAsync();
+            return result;
+        }
+
+        [HttpGet("GetCoordinate/{id}")]
+        public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(int id)
+        {
+            var result = await _roomService.GetCoordinateAsync(id);
             return result;
         }
     }

@@ -48,7 +48,7 @@ namespace Movietheater.Application.FilmServices
             {
                 return new ApiErrorResult<bool>("Không thể thêm phim");
             }
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Thêm phim thành công");
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(FilmUpdateRequest request)
@@ -87,7 +87,7 @@ namespace Movietheater.Application.FilmServices
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
 
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Cập nhật phim thành công");
             }
         }
 
@@ -114,7 +114,7 @@ namespace Movietheater.Application.FilmServices
                     transaction.Commit();
 
                     await _storageService.DeleteFileAsync(poster);
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true, "Xóa phim thành công");
                 }
                 catch (Exception e)
                 {
@@ -162,6 +162,7 @@ namespace Movietheater.Application.FilmServices
                 Poster = $"{_configuration["BackEndServer"]}/" +
                    $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
                 Description = x.f.Description,
+                Length = x.f.Length,
                 TrailerURL = x.f.TrailerURL
             }).ToListAsync();
 
@@ -276,13 +277,14 @@ namespace Movietheater.Application.FilmServices
                 var filmVMD = await query.Select(x => new FilmVMD()
                 {
                     Id = x.f.Id,
+                    Length = x.f.Length,
                     Name = x.f.Name,
                     PublishDate = x.f.PublishDate,
                     Ban = x.b.Name,
                     Poster = $"{_configuration["BackEndServer"]}/" +
                     $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
                     Description = x.f.Description,
-                    TrailerURL = x.f.TrailerURL
+                    TrailerURL = x.f.TrailerURL,
                 }).FirstOrDefaultAsync();
                 filmVMD.Genres = GetGenres(filmVMD.Id);
                 filmVMD.Directors = GetDirectors(filmVMD.Id);
@@ -318,7 +320,7 @@ namespace Movietheater.Application.FilmServices
 
             await _context.SaveChangesAsync();
 
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Gán danh mục phim thành công");
         }
 
         public async Task<ApiResult<bool>> PosAssignAsync(PosAssignRequest request)
@@ -364,7 +366,7 @@ namespace Movietheater.Application.FilmServices
             {
                 _context.Joinings.Remove(joining);
                 _context.SaveChanges();
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Xóa phim thành công");
             }
         }
 
@@ -429,7 +431,7 @@ namespace Movietheater.Application.FilmServices
         private List<string> GetActors(int id)
         {
             return _context.Joinings.Where(x => x.FilmId == id && x.PositionId == 1).Join(_context.Peoples,
-                                                            fig => fig.FilmId,
+                                                            fig => fig.PeppleId,
                                                             p => p.Id,
                                                             (fig, p) => p.Name).ToList();
         }
@@ -437,7 +439,7 @@ namespace Movietheater.Application.FilmServices
         private List<string> GetDirectors(int id)
         {
             return _context.Joinings.Where(x => x.FilmId == id && x.PositionId == 2).Join(_context.Peoples,
-                                                             fig => fig.FilmId,
+                                                             fig => fig.PeppleId,
                                                              p => p.Id,
                                                              (fig, p) => p.Name).ToList();
         }

@@ -89,7 +89,7 @@
                 for (i = 0; i < settings.rows; i++) {
                     str.push('<div class="row">');
                     str.push('<div class="btn-group">');
-                    for (j = 0; j < settings.cols; j++) {
+                    for (j = 1; j <= settings.cols; j++) {
                         seatNo = result[i].name + j.toString();
                         className = settings.seatCss;
 

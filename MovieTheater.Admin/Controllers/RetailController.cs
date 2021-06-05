@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-    [Authorize(Roles = "Admin,Employee")]
+    [Authorize]
     public class RetailController : Controller
     {
         private readonly ScreeningApiClient _screeningApiClient;

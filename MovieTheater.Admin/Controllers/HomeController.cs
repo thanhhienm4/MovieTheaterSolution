@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Admin.Models;
 using MovieTheater.Api;
 using System.Diagnostics;
+using System.Linq;
+using System.Security.Claims;
 
 namespace MovieTheater.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+
     public class HomeController : BaseController
     {
         private readonly StatiticApiClient _statiticApiClient;
@@ -18,6 +20,11 @@ namespace MovieTheater.Admin.Controllers
 
         public async System.Threading.Tasks.Task<IActionResult> Index()
         {
+            if (User.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value == "Admin").Count() == 0)
+            {
+                return RedirectToAction("Index", "Retail");
+            }    
+           
             return View();
         }
 

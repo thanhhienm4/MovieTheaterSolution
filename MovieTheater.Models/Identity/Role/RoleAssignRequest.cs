@@ -7,6 +7,8 @@ namespace MovieTheater.Models.Identity.Role
     public class RoleAssignRequest
     {
         public Guid UserId { get; set; }
+
+
         public List<SelectedItem> Roles { get; set; }
 
         public RoleAssignRequest()

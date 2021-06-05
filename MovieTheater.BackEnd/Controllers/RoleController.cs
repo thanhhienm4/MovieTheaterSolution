@@ -2,6 +2,7 @@
 using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
+using MovieTheater.Models.Infra.RoomModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -46,5 +47,7 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _roleService.GetAllRoles();
             return result;
         }
+       
+       
     }
 }

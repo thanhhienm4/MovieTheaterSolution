@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using MovieTheater.Api;
 using MovieTheater.Data.Enums;
 using MovieTheater.Models.Common;
@@ -86,7 +87,9 @@ namespace MovieTheater.Admin.Controllers
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
-                return RedirectToAction("Index", "User");
+                string url = $"{this.Request.Scheme}://{this.Request.Host}/User/RoleAssign/{result.ResultObj.ToString()}";
+
+                return Redirect(url);
             }
             ModelState.AddModelError("", result.Message);
             return View(request);
@@ -155,6 +158,9 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
             var roleAssignRequest = await GetRoleAssignRequest(id);
+            var userInfor = (await _userApiClient.GetUserByIdAsync(id)).ResultObj;
+            ViewBag.UserInfor = userInfor;
+
             return View(roleAssignRequest);
         }
 
@@ -162,6 +168,8 @@ namespace MovieTheater.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> RoleAssign(RoleAssignRequest request)
         {
+            var userInfor = await _userApiClient.GetUserByIdAsync(request.UserId);
+            ViewBag.UserInfor = userInfor;
             if (!ModelState.IsValid)
             {
                 return View(request);

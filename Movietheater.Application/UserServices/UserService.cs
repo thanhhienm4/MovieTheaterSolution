@@ -107,12 +107,12 @@ namespace Movietheater.Application.UserServices
             return new ApiSuccessResult<string>(token);
         }
 
-        public async Task<ApiResult<bool>> CreateStaffAsync(UserCreateRequest model)
+        public async Task<ApiResult<Guid>> CreateStaffAsync(UserCreateRequest model)
         {
             if (await _userManager.FindByEmailAsync(model.Email) != null)
-                return new ApiErrorResult<bool>("Email đã tồn tại");
+                return new ApiErrorResult<Guid>("Email đã tồn tại");
             if (await _userManager.FindByNameAsync(model.UserName) != null)
-                return new ApiErrorResult<bool>("UserName đã tồn tại");
+                return new ApiErrorResult<Guid>("UserName đã tồn tại");
 
             User user = new User()
             {
@@ -128,9 +128,9 @@ namespace Movietheater.Application.UserServices
 
             if ((await _userManager.CreateAsync(user, model.Password)).Succeeded)
             {
-                return new ApiSuccessResult<bool>(true,"Tạo mới thành công");
+                return new ApiSuccessResult<Guid>(user.Id,"Tạo mới thành công");
             }
-            return new ApiErrorResult<bool>("Tạo mới thất bại");
+            return new ApiErrorResult<Guid>("Tạo mới thất bại");
         }
 
         public async Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request)
@@ -549,12 +549,13 @@ namespace Movietheater.Application.UserServices
         }
         public async Task<ApiResult<bool>> ForgotPasswordAsync(string mail)
         {
-            var user = _context.Users.Where(x => x.Email == mail).FirstOrDefault();
+            var user = await _userManager.FindByEmailAsync(mail);
             if (user != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var schema = _configuration["AdminServer"];
                 var url = $"{schema}/user/ResetPassword?Email={mail}&Token={token}";
+                //var result = await VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, _userManager.ResetPasswordTokenPurpose, token));
 
                 string message = string.Format("<p>Nhấn vào đây để khôi phục mật khẩu</p><a href = \"{0}\" >Link </a>", url);
                 await _mailServive.SendEmailAsync(mail, "Khôi phục mật khẩu", message);
@@ -570,6 +571,7 @@ namespace Movietheater.Application.UserServices
             var user = await _userManager.FindByEmailAsync(request.Email);
             if(user!=null)
             {
+               request.Token = request.Token.Replace(" ", "+");
                var res =await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
                 if (res.Succeeded)
                     return new ApiSuccessResult<bool>(true,"đổi mật khẩu thành công");

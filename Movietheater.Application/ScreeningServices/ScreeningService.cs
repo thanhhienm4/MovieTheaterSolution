@@ -48,7 +48,7 @@ namespace Movietheater.Application.ScreeningServices
                 {
                     return new ApiErrorResult<bool>("Thêm thất bại");
                 }
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Thêm thành công");
             }
             catch (DbUpdateException e)
             {
@@ -79,7 +79,7 @@ namespace Movietheater.Application.ScreeningServices
                     }
 
                     await _context.SaveChangesAsync();
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
                 }
                 catch (DbUpdateException e)
                 {
@@ -158,7 +158,7 @@ namespace Movietheater.Application.ScreeningServices
                     {
                         return new ApiErrorResult<bool>("Cập nhật thất bại");
                     }
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
                 }
                 catch (DbUpdateException e)
                 {

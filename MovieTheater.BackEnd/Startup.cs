@@ -74,6 +74,8 @@ namespace MovieTheater.BackEnd
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromHours(2));
 
+
+
             services.AddDbContext<MovieTheaterDBContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("MovieTheaterDBContext")));
 

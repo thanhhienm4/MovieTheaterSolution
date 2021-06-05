@@ -47,10 +47,11 @@ namespace MovieTheater.Admin.Controllers
             }).OrderBy(x => x.Text));
             ViewBag.RoomFormats = formats;
 
+
             ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
             var result = await _roomApiClient.GetRoomPagingAsync(request);
-            return View(result);
+            return View(result.ResultObj);
         }
 
         [Authorize(Roles = "Admin")]
@@ -169,6 +170,13 @@ namespace MovieTheater.Admin.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<ApiResult<RoomCoordinate>> GetCoordinate(int id)
+        {
+            var result = await _roomApiClient.GetCoordinateAsync(id);
+            return result;
         }
     }
 }

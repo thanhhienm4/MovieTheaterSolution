@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class ScreeningController : Controller
     {
         private readonly SeatApiClient _seatApiClient;
@@ -29,7 +29,7 @@ namespace MovieTheater.Admin.Controllers
             _filmApiClient = filmApiClient;
         }
 
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize]
         [HttpGet]
         public async Task<List<SeatVMD>> GetListSeatReserved(int id)
         {

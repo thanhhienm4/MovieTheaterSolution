@@ -16,12 +16,14 @@ namespace Movietheater.Application.RoomServices
 
         Task<ApiResult<bool>> DeleteAsync(int id);
 
-        Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request);
+        Task<ApiResult<PageResult<RoomVMD>>> GetRoomPagingAsync(RoomPagingRequest request);
 
         Task<List<SeatVMD>> GetSeatsInRoom(int id);
 
         Task<ApiResult<RoomMD>> GetRoomById(int id);
 
         Task<ApiResult<List<RoomVMD>>> GetAllRoomAsync();
+
+        Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(int id);
     }
 }

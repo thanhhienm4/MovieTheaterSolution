@@ -35,7 +35,7 @@ namespace Movietheater.Application.SeatServices
                 return new ApiErrorResult<bool>("Thêm thất bại");
             }
 
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Thêm thành công");
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
@@ -51,7 +51,7 @@ namespace Movietheater.Application.SeatServices
 
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
                 }
                 else return new ApiErrorResult<bool>("Không xóa được");
             }
@@ -82,7 +82,7 @@ namespace Movietheater.Application.SeatServices
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
             }
         }
 
@@ -157,7 +157,7 @@ namespace Movietheater.Application.SeatServices
                 return new ApiErrorResult<bool>("Không thể chỉnh sửa ghế đã đặt vé, vui lòng kiểm tra lại thông tin");
             }
 
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
         }
 
         public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)

@@ -20,10 +20,10 @@ namespace Movietheater.Application.ReservationServices
             _context = context;
         }
 
-        public async Task<ApiResult<bool>> CreateAsync(ReservationCreateRequest request)
+        public async Task<ApiResult<int>> CreateAsync(ReservationCreateRequest request)
         {
             if (CheckTickets(request.Tickets) == false)
-                return new ApiErrorResult<bool>("Tạo mới thất bại");
+                return new ApiErrorResult<int>("Tạo mới thất bại");
 
             var reservattion = new Reservation()
             {
@@ -45,14 +45,14 @@ namespace Movietheater.Application.ReservationServices
             {
                 if (await _context.SaveChangesAsync() == 0)
                 {
-                    return new ApiErrorResult<bool>("Thêm thất bại");
+                    return new ApiErrorResult<int>("Thêm thất bại");
                 }
 
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<int>(reservattion.Id,"Thêm thành công");
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return new ApiErrorResult<bool>("Thêm thất bại");
+                return new ApiErrorResult<int>("Thêm thất bại");
             }
         }
 
@@ -68,7 +68,7 @@ namespace Movietheater.Application.ReservationServices
                 _context.Reservations.Remove(rv);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
                 }
                 else return new ApiErrorResult<bool>("Không xóa được");
             }
@@ -92,7 +92,7 @@ namespace Movietheater.Application.ReservationServices
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
             }
         }
 
@@ -116,16 +116,16 @@ namespace Movietheater.Application.ReservationServices
                         from c in rc.DefaultIfEmpty()
                         join e in _context.UserInfors on r.EmployeeId equals e.Id into rec
                         from e in rec.DefaultIfEmpty()
-                        join u in _context.Users on r.CustomerId equals u.Id into recu
+                        join u in _context.Users on r.EmployeeId equals u.Id into recu
                         from u in recu.DefaultIfEmpty()
                         join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
-                        select new { r, c, rt, e, u };
+                        select new { r, c,rt, e, u };
 
-            if (string.IsNullOrWhiteSpace(request.Keyword))
+            if (!string.IsNullOrWhiteSpace(request.Keyword))
             {
-                query = query.Where(x => x.c != null).Where(x => x.r.Id.ToString().Contains(request.Keyword) ||
-                                        x.u.PhoneNumber.Contains(request.Keyword) ||
-                                        x.u.Email.Contains(request.Keyword));
+               query = query.Where(x => x.r.Id.ToString().Contains(request.Keyword));
+                                         
+                                      
             }
 
             int totalRow = await query.CountAsync();

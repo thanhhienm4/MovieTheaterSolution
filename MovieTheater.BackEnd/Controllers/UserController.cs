@@ -30,7 +30,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("CreateStaff")]
-        public async Task<ApiResult<bool>> CreateStaffAsync([FromBody] UserCreateRequest request)
+        public async Task<ApiResult<Guid>> CreateStaffAsync([FromBody] UserCreateRequest request)
         {
             var result = await _userService.CreateStaffAsync(request);
             return result;

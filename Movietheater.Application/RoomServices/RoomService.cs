@@ -38,7 +38,7 @@ namespace Movietheater.Application.RoomServices
             {
                 return new ApiErrorResult<bool>("Không thể thêm phòng");
             }
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Thêm thành công");
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(RoomUpdateRequest request)
@@ -62,7 +62,7 @@ namespace Movietheater.Application.RoomServices
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
             }
         }
 
@@ -90,7 +90,7 @@ namespace Movietheater.Application.RoomServices
                         _context.Rooms.Remove(room);
                         _context.SaveChanges();
 
-                        return new ApiSuccessResult<bool>(true);
+                        return new ApiSuccessResult<bool>(true,"Xóa thành công");
                     }
                     catch (DbUpdateException e)
                     {
@@ -100,7 +100,7 @@ namespace Movietheater.Application.RoomServices
             }
         }
 
-        public async Task<PageResult<RoomVMD>> GetRoomPagingAsync(RoomPagingRequest request)
+        public async Task<ApiResult<PageResult<RoomVMD>>> GetRoomPagingAsync(RoomPagingRequest request)
         {
             var query = from r in _context.Rooms
                         join f in _context.RoomFormats on r.FormatId equals f.Id
@@ -129,7 +129,7 @@ namespace Movietheater.Application.RoomServices
             }).OrderBy(x => x.Id).Skip((request.PageIndex - 1) * (request.PageSize)).Take(request.PageSize).ToList();
             result.Item = rooms;
 
-            return result;
+            return new ApiSuccessResult<PageResult<RoomVMD>>(result);
         }
 
         public Task<List<SeatVMD>> GetSeatsInRoom(int id)
@@ -170,6 +170,31 @@ namespace Movietheater.Application.RoomServices
             }).OrderBy(x => x.Id).ToListAsync();
 
             return new ApiSuccessResult<List<RoomVMD>>(rooms);
+        }
+
+        public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(int id)
+        {
+
+            RoomCoordinate coordinate = new RoomCoordinate();
+
+            var queryRow = from sr in _context.SeatRows
+                           join s in _context.Seats on sr.Id equals s.RowId
+                           where s.IsActive == true && s.RoomId == id
+                           select sr;
+            coordinate.Bottom =await queryRow.MinAsync(x => x.Id);
+            coordinate.Top =await queryRow.MaxAsync(x => x.Id);
+
+            var queryCol = from s in _context.Seats
+                           where s.IsActive == true && s.RoomId == id
+                           select s;
+            coordinate.Right =await queryCol.MaxAsync(s => s.Number);
+            coordinate.Left =await queryCol.MinAsync(s => s.Number);
+
+            return new ApiSuccessResult<RoomCoordinate>(coordinate);
+
+            
+                
+
         }
 
         // RoomFormat

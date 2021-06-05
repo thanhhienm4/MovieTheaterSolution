@@ -22,9 +22,9 @@ namespace MovieTheater.Api
             return await PostAsync<string>("/api/User/LoginStaff", request);
         }
 
-        public async Task<ApiResult<bool>> CreateStaffAsync(UserCreateRequest request)
+        public async Task<ApiResult<Guid>> CreateStaffAsync(UserCreateRequest request)
         {
-            return await PostAsync<bool>("Api/User/CreateStaff", request);
+            return await PostAsync<Guid>("Api/User/CreateStaff", request);
         }
 
         public async Task<ApiResult<bool>> UpdateStaffAsync(UserUpdateRequest request)

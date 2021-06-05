@@ -13,7 +13,10 @@
 
 <div class="card mb-4">
     <div class="card-header">
-        <a asp-action="Index" asp-controller="User">Về danh sách</a>
+        <div class="row">
+            <p>Nhân viên :</p><a href="/User/Edit/@ViewBag.userInfor.Id"> @ViewBag.userInfor.UserName</a>
+        </div>
+    
     </div>
 
     <div class="card-body">

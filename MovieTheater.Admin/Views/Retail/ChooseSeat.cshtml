@@ -23,9 +23,9 @@
         </div>
         <div style="clear:both;width:100%" class="d-flex justify-content-center">
             <div class="row">
-                <button class="seat normalSeat mr-2" ></button>
+                <button class="seat normalSeat mr-2"></button>
                 <p class="mr-5"> Ghế thường</p>
-                <button class="seat vipSeat mr-2" ></button>
+                <button class="seat vipSeat mr-2"></button>
                 <p> Ghế vip</p>
             </div>
         </div>
@@ -103,25 +103,56 @@
         type: "GET",
         url: "/SeatRow/GetAllSeatRows",
         success: function (result) {
+
             var init = function () {
+
+                var left = 0;
+                var right = 0;
+                var top = 0;
+                var bottom = 0;
+                $.ajax({
+                    type: "GET",
+                    url: "/Room/GetCoordinate",
+                    data: { id: @Model.RoomId },
+                    success: function (res) {
+                        top = res.resultObj.top;
+                        right = res.resultObj.right;
+                        left = res.resultObj.left;
+                        bottom = res.resultObj.bottom;
+
+
                 var str = [], seatNo, className;
                 settings.rows = result.length;
                 for (i = 0; i < settings.rows; i++) {
-                    str.push('<div class="row">');
-                    str.push('<div class="btn-group">');
-                    for (j = 0; j < settings.cols; j++) {
-                        seatNo = result[i].name + j.toString();
-                        className = settings.seatCss;
+                    if ( result[i].id <=top) {
+                        str.push('<div class="row">');
+                        str.push('<div class="btn-group">');
+                        for (j = 0; j <= settings.cols; j++) {
 
-                        str.push('<button id = "' + result[i].id + '_' + j.toString() + '" class = "' + className + '"' + 'data-kindofseatid="' + result[i].kindOfSeatId +
-                            '"data-row="' + result[i].id +'"data-num="' + j.toString() +'" disabled > ' +
+                            if (j == 0) {
+                                str.push('<button style="color:green;font-size:30px; "class = "seat"><a>' +result[i].name + '</a></button>');
+                            }else
 
-                            '</button>');
+                            if (j <= right ) {
+                                seatNo = result[i].name + j.toString();
+                                className = settings.seatCss;
+
+                                str.push('<button id = "' + result[i].id + '_' + j.toString() + '" class = "' + className + '"' + 'data-kindofseatid="' + result[i].kindOfSeatId +
+                                    '"data-row="' + result[i].id + '"data-num="' + j.toString() + '" disabled > ' +
+
+                                    '</button>');
+                            }
+
+                        }
+                        str.push('</div>');
+                        str.push('</div>');
                     }
-                    str.push('</div>');
-                    str.push('</div>');
+
+
                 }
                 $('#place').html(str.join(''));
+
+
 
                  $.ajax({
                     type: "GET",
@@ -143,7 +174,9 @@
                                 $(btn).addClass(settings.vipSeatCss);
                             }
                             $(btn).attr('data-kindofseatid', res[i].kindOfSeatId);
-                            //$(btn).html('<a title="' + res[i].name + '">' + ' ' + '</a>');
+                           // $(btn).html('<a title="' + res[i].name + '">' + res[i].name + '</a>');
+                            console.log(res[i].name);
+
 
                         };
 
@@ -163,6 +196,12 @@
                         });
                     }
                  });
+
+                    }
+
+
+                });
+
 
             };
             //case I: Show from starting
@@ -223,10 +262,40 @@ $('#btnReserve').click(function () {
         url: "/Reservation/Create",
         data: { Active: true, Paid: false, Tickets: tickets },
         success: function (res) {
-            alert(res.message);
-            location.reload();
+            $("#notiMes").text(res.message);
+            if (res.isSuccessed) {
+
+            } else {
+                document.getElementById("btnPrintTicket").style.display = 'none';
+            }
+            $('#notifyModal').modal('show');
         }
         });
     })
     });
+
 </script>
+
+<div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-center">
+                    <h5 id="ModalLabel">Thông báo</h5>
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="notiMes"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnModal" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-success" id="btnPrintTicket">Thanh toán và suất vé</button>
+                <button type="button" class="btn btn-success" id="btnPrintTicket">Thanh toán và suất vé</button>
+            </div>
+        </div>
+    </div>
+</div>

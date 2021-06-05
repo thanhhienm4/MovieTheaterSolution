@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Reservation;
+using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
@@ -40,24 +41,15 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ReservationCreateRequest request)
+        public async Task<ApiResult<int>> Create(ReservationCreateRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(request);
-            }
             //can fix
             request.EmployeeId = GetUserId();
             request.ReservationTypeId = 1;
 
             var result = await _reservationApiClient.CreateAsync(request);
-            if (result.IsSuccessed)
-            {
-                TempData["Result"] = "Tạo mới thành công";
-                return RedirectToAction("Index", "Reservation");
-            }
-            ModelState.AddModelError("", result.Message);
-            return View(request);
+            return result;
+
         }
 
         [HttpGet]

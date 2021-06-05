@@ -17,9 +17,9 @@ namespace MovieTheater.Api
              httpContextAccessor)
         { }
 
-        public async Task<ApiResult<bool>> CreateAsync(ReservationCreateRequest request)
+        public async Task<ApiResult<int>> CreateAsync(ReservationCreateRequest request)
         {
-            return await PostAsync<bool>("/api/Reservation/Create", request);
+            return await PostAsync<int>("/api/Reservation/Create", request);
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(ReservationUpdateRequest request)
