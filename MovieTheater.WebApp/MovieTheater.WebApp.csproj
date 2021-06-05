@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\img\undraw_posting_photo.svg" />
+    <None Include="wwwroot\img\undraw_profile.svg" />
+    <None Include="wwwroot\img\undraw_profile_1.svg" />
+    <None Include="wwwroot\img\undraw_profile_2.svg" />
+    <None Include="wwwroot\img\undraw_profile_3.svg" />
+    <None Include="wwwroot\img\undraw_rocket.svg" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>
 

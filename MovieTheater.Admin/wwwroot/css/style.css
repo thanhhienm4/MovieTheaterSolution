@@ -2,17 +2,76 @@
 
 .login-box {
     width: 580px;
-    position: relative;
-    top: 70%;
+    position: absolute;
+    top: 30%;
     left: 50%;
     transform: translate(-50%,-50%);
     color: white;
 }
 
 .login-box-bk {
-    width: 580px;
+    width: 280px;
     position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     color: white;
+}
+
+.login-box h1 {
+    float: left;
+    font-size: 40px;
+    border-bottom: 6px solid #4caf50;
+    margin-bottom: 50px;
+    padding: 13px 0;
+}
+
+.textbox {
+    width: 100%;
+    overflow: hidden;
+    font-size: 20px;
+    padding: 8px 0;
+    margin: 8px 0;
+    border-bottom: 1px solid #4caf50;
+}
+
+    .textbox i {
+        width: 26px;
+        float: left;
+        text-align: center;
+    }
+
+    .textbox input {
+        border: none;
+        outline: none;
+        background: none;
+        color: white;
+        font-size: 18px;
+        width: 80%;
+        float: left;
+        margin: 0 10px;
+    }
+
+
+
+
+
+.modalVideo-body {
+    position: relative;
+    padding: 0px;
+}
+
+.closeVideo {
+    position: absolute;
+    right: -30px;
+    top: 0;
+    z-index: 999;
+    font-size: 2rem;
+    font-weight: normal;
+    color: #fff;
+    opacity: 1;
+}
+
 }
 
 .align-card {

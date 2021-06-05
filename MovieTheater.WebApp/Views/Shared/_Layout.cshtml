@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        Flix
+        Rạp chiếu phim
     </title>
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -27,6 +27,8 @@
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 
+
+
 <body>
 
     <!-- NAV -->
@@ -35,11 +37,12 @@
             <div class="nav">
 
                 <a href="#" class="logo">
-                    <i class='bx bx-movie-play bx-tada main-color'></i>GG<span class="main-color"></span>
+                    <i class='bx bx-movie-play bx-tada main-color'></i>RẠP CHIẾU PHIM<span class="main-color"></span>
                 </a>
-                <ul class="nav-menu" id="nav-menu">
+
+                <ul class="nav-menu" id="nav-menu" style="padding-top:11px;font-family:sans-serif">
                     <li><a href="/">Trang chủ</a></li>
-                    <li><a href="/home/index">Lich chiếu film</a></li>
+                    <li><a href="/home/index">Lịch chiếu phim</a></li>
 
                     <li>
                         @if (User.Identity.IsAuthenticated == true)
@@ -48,38 +51,36 @@
                                         <li>
                                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
+                                                <span class="mr-0 d-none d-lg-inline text-gray-600">@User.Identity.Name</span>
                                                 <i class="bi bi-people"></i>
                                             </a>
                                             <!-- Dropdown - User Information -->
                                             <div class="dropdown-menu  shadow"
-                                                 aria-labelledby="userDropdown" style="background-color:royalblue">
-                                                <a class="dropdown-item" href="/user/Edit/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
-                                                    <i class="fa fa-user-o" style="font-size:24px"></i>
+                                                 aria-labelledby="userDropdown" style="background-color:black">
+                                                <a style="text-transform:none" class="dropdown-item" href="/user/Edit/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
+                                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                                     Thông tin cá nhân
                                                 </a>
-                                                <a class="dropdown-item" href="/User/Order">
-                                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                <a style="text-transform:none" class="dropdown-item" href="/User/Order">
+                                                    <i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i>
                                                     Lịch sử mua hàng
                                                 </a>
-                                                <a class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
-                                                    <i class="fa fa-user-o" style="font-size:24px"></i>
+                                                <a style="text-transform:none" class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
+                                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
                                                     Đổi mật khẩu
                                                 </a>
-                                                <a class="dropdown-item" href="/User/Logout">
+                                                <a style="text-transform:none" class="dropdown-item" href="/User/Logout">
                                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                                     Đăng xuất
                                                 </a>
 
                                             </div>
-                                        </li>
- }
-                                    else
-                                    {
-                        <a href="/login/index" class="btn btn-hover">
-                            <span>Đăng nhập</span>
-                        </a>
-}
+                                        </li> }
+                                                    else
+                                                    {
+                                        <a href="/login/index">
+                                            <span>Đăng nhập</span>
+                                        </a>}
                         </li>
                     </ul>
                 </div>

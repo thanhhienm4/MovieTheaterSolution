@@ -166,7 +166,7 @@ namespace MovieTheater.Admin.Controllers
             var result = await _filmApiClient.AssignGenre(request);
             if (result.IsSuccessed)
             {
-                TempData["Result"] = "Gán quyền thành công";
+                TempData["Result"] = "Gán danh mục thành công";
                 return RedirectToAction("Index", "Film");
             }
             ModelState.AddModelError("", result.Message);
