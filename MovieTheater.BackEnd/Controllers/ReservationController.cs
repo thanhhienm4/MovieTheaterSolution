@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.ReservationServices;
 using Movietheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Reservation;
@@ -12,11 +13,13 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReservationController : Controller
+    [Authorize]
+    public class ReservationController : BaseController
     {
         private readonly IReservationService _reservationService;
+        private readonly IUserService _userService;
 
-        public ReservationController(IReservationService reservationService,IUserService userService)//:base(userService)
+        public ReservationController(IReservationService reservationService,IUserService userService):base(userService)
         {
             _reservationService = reservationService;
         }
@@ -42,6 +45,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+      
         [HttpPost("GetReservationPaging")]
         public async Task<ApiResult<PageResult<ReservationVMD>>> GetPeoplePaging(ReservationPagingRequest request)
         {

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.ScreeningServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
@@ -12,11 +14,13 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ScreeningController : Controller
+    [Authorize(Roles = "Admin")]
+    public class ScreeningController : BaseController
     {
         private readonly IScreeningService _screeningService;
+        private readonly IUserService _userService;
 
-        public ScreeningController(IScreeningService screeningService)
+        public ScreeningController(IScreeningService screeningService, IUserService userService) : base(userService)
         {
             _screeningService = screeningService;
         }
@@ -49,6 +53,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetScreeningMDById/{id}")]
         public async Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id)
         {
@@ -56,13 +61,14 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetScreeningVMDById/{id}")]
         public async Task<ApiResult<ScreeningVMD>> GetScreeningVMDByIdAsync(int id)
         {
             var result = await _screeningService.GetScreeningVMDByIdAsync(id);
             return result;
         }
-
+        [AllowAnonymous]
         [HttpGet("GetFilmScreeningIndate")]
         public async Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningIndate([FromQuery] DateTime? date)
         {
@@ -70,6 +76,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetListCreeningOfFilmInWeek/{filmId}")]
         public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeek(int filmId)
         {

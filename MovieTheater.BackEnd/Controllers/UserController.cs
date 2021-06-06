@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
@@ -13,22 +14,20 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
         private readonly IUserService _userService;
+        //private readonly IUserService _userService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService):base(userService)
         {
             _userService = userService;
         }
 
-        [HttpPost("LoginStaff")]
-        public async Task<ApiResult<string>> LoginStaffAsync([FromBody] LoginRequest request)
-        {
-            var result = await _userService.LoginStaffAsync(request);
-            return result;
-        }
+       
+      
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateStaff")]
         public async Task<ApiResult<Guid>> CreateStaffAsync([FromBody] UserCreateRequest request)
         {
@@ -36,6 +35,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("UpdateStaff")]
         public async Task<ApiResult<bool>> UpdateStaffAsync([FromBody] UserUpdateRequest request)
         {
@@ -43,12 +43,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPost("LoginCustomer")]
-        public async Task<ApiResult<string>> LoginCustomerAsync([FromBody] LoginRequest request)
-        {
-            var result = await _userService.LoginCustomerAsync(request);
-            return result;
-        }
+      
 
         [HttpPost("CreateCustomer")]
         public async Task<ApiResult<bool>> CreateCustomerAsync([FromBody] UserCreateRequest request)
@@ -57,6 +52,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [Authorize]
         [HttpPut("UpdateCustomer")]
         public async Task<ApiResult<bool>> UpdateCustomerAsync([FromBody] UserUpdateRequest request)
         {
@@ -64,6 +60,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{id}")]
         public async Task<ApiResult<bool>> DeleteAsync(Guid id)
         {
@@ -71,6 +68,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [Authorize]
         [HttpPut("ChangePassword")]
         public async Task<ApiResult<bool>> ChangePasswordAsync([FromBody] ChangePWRequest request)
         {
@@ -78,6 +76,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("GetUserPaging")]
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
@@ -85,6 +84,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [Authorize]
         [HttpGet("GetUserById/{id}")]
         public async Task<ApiResult<UserVMD>> GetUserById(Guid id)
         {
@@ -92,6 +92,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("RoleAssign")]
         public async Task<ApiResult<bool>> RoleAssignAsync([FromBody] RoleAssignRequest request)
         {
@@ -99,6 +100,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [Authorize]
         [HttpGet("GetCustomerById/{id}")]
         public async Task<ApiResult<UserVMD>> GetCustomerById(Guid id)
         {
@@ -106,6 +108,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [AllowAnonymous]
         [HttpPost("ForgotPassword")]
         public async Task<ApiResult<bool>> ForgotPassword([FromBody] string mail)
         {
@@ -113,7 +116,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        
+        [AllowAnonymous]
         [HttpPost("ResetPassword")]
         public async Task<ApiResult<bool>> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
         {

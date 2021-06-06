@@ -5,6 +5,7 @@ using MovieTheater.Api;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
@@ -18,7 +19,7 @@ namespace MovieTheater.Admin.Controllers
             _statiticApiClient = statiticApiClient;
         }
 
-        public async System.Threading.Tasks.Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             if (User.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value == "Admin").Count() == 0)
             {

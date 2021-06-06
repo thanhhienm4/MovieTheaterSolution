@@ -48,6 +48,7 @@ namespace MovieTheater.Admin.Controllers
             request.ReservationTypeId = 1;
 
             var result = await _reservationApiClient.CreateAsync(request);
+            
             return result;
 
         }
@@ -60,6 +61,8 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
             var result = await _reservationApiClient.GetReservationByIdAsync(id);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
 
             if (result.IsSuccessed)
             {
@@ -84,6 +87,8 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var result = await _reservationApiClient.UpdateAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = "Chỉnh sửa thành công";

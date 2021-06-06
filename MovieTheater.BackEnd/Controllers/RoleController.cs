@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
@@ -8,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
 {
-    //[Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : Controller
+    public class RoleController : BaseController
     {
         private readonly IRoleService _roleService;
+        private readonly IUserService _userService;
 
-        public RoleController(IRoleService roleService)
-        {
+        public RoleController(IRoleService roleService, IUserService userService) : base(userService)
+        { 
             _roleService = roleService;
         }
 

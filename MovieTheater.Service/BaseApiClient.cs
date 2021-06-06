@@ -61,6 +61,7 @@ namespace MovieTheater.Api
             {
                 return await GetReLoginResultAsync<TResponse>();
             }
+
             return await GetResultAsync<TResponse>(response);
         }
 
@@ -107,7 +108,9 @@ namespace MovieTheater.Api
                     .DeserializeObject(body, typeof(ApiResult<TResponse>));
                 return myDeserializedObjList;
             }
-            return JsonConvert.DeserializeObject<ApiResult<TResponse>>(body);
+            var res = JsonConvert.DeserializeObject<ApiResult<TResponse>>(body);
+            res.IsReLogin = false;
+            return res;
         }
     }
 }

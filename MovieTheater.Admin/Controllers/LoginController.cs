@@ -32,12 +32,14 @@ namespace MovieTheater.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            Response.Cookies.Delete("Token");
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(LoginRequest request)
         {
+            Response.Cookies.Delete("Token");
             if (ModelState.IsValid == false)
                 return View();
             var respond = await _userApiClient.LoginStaffAsync(request);

@@ -33,6 +33,9 @@ namespace MovieTheater.Admin.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //Response.Cookies["userId"].Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies.Delete("Token");
+
             return RedirectToAction("Index", "Login");
         }
 
@@ -65,6 +68,8 @@ namespace MovieTheater.Admin.Controllers
 
             ViewBag.KeyWord = keyword;
             var result = await _userApiClient.GetUserPagingAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             return View(result.ResultObj);
         }
 
@@ -84,6 +89,8 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var result = await _userApiClient.CreateStaffAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
@@ -104,6 +111,8 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
             var result = await _userApiClient.GetUserByIdAsync(id);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
 
             if (result.IsSuccessed)
             {
@@ -133,6 +142,8 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var result = await _userApiClient.UpdateStaffAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
@@ -158,7 +169,10 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
             var roleAssignRequest = await GetRoleAssignRequest(id);
-            var userInfor = (await _userApiClient.GetUserByIdAsync(id)).ResultObj;
+            var result = (await _userApiClient.GetUserByIdAsync(id));
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            var userInfor = result.ResultObj;
             ViewBag.UserInfor = userInfor;
 
             return View(roleAssignRequest);
@@ -175,6 +189,9 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var result = await _userApiClient.RoleAssignAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+
             if (result.IsSuccessed)
             {
                 TempData["Result"] = "Gán quyền thành công";
@@ -209,7 +226,10 @@ namespace MovieTheater.Admin.Controllers
         [Authorize]
         public async Task<IActionResult> ChangPassword(Guid id)
         {
-            ViewBag.User = (await _userApiClient.GetUserByIdAsync(id)).ResultObj;
+            var result = (await _userApiClient.GetUserByIdAsync(id));
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            ViewBag.User = result.ResultObj;
             return View();
         }
 
@@ -223,6 +243,8 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var res = (await _userApiClient.ChangePasswordAsync(request));
+            if (res.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (res.IsSuccessed)
             {
                 var userId = GetUserId();
@@ -272,11 +294,13 @@ namespace MovieTheater.Admin.Controllers
 
         }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetPassword()
         {
             return View();
         }
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
         {
             if(!ModelState.IsValid)

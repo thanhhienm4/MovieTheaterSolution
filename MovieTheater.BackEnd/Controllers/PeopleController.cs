@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.FilmServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
@@ -10,11 +12,12 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PeopleController : Controller
+    [Authorize(Roles = "Admin")]
+    public class PeopleController : BaseController
     {
         private readonly IPeopleService _PeopleService;
-
-        public PeopleController(IPeopleService PeopleService)
+        private readonly IUserService _userService;
+        public PeopleController(IPeopleService PeopleService, IUserService userService) : base(userService)
         {
             _PeopleService = PeopleService;
         }

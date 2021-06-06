@@ -41,14 +41,20 @@ namespace MovieTheater.Admin.Controllers
 
             ViewBag.KeyWord = keyword;
             var result = await _filmApiClient.GetFilmPagingAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             return View(result.ResultObj);
         }
 
         [HttpGet]
         public async Task<IActionResult> CreateAsync()
         {
-            var bans = (await _banApiClient.GetAllBanAsync()).ResultObj;
-            ViewBag.Bans = bans.Select(x => new SelectListItem()
+            var result = (await _banApiClient.GetAllBanAsync());
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+
+
+            ViewBag.Bans = result.ResultObj.Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Id.ToString()
@@ -70,6 +76,8 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var result = await _filmApiClient.CreateAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
@@ -88,6 +96,8 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
             var result = await _filmApiClient.GetFilmMDByIdAsync(id);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
 
             if (result.IsSuccessed)
             {
@@ -128,6 +138,8 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var result = await _filmApiClient.UpdateAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = "Chỉnh sửa thành công";
@@ -141,6 +153,7 @@ namespace MovieTheater.Admin.Controllers
         public async Task<ApiResult<bool>> Delete(int id)
         {
             var result = await _filmApiClient.DeleteAsync(id);
+
             TempData["Result"] = result.Message;
             return result;
         }
@@ -153,6 +166,7 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
             var genreAssignRequest = await GetGenreAssignRequest(id);
+
             return View(genreAssignRequest);
         }
 
@@ -164,6 +178,8 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var result = await _filmApiClient.AssignGenre(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = "Gán danh mục thành công";
@@ -177,10 +193,12 @@ namespace MovieTheater.Admin.Controllers
         private async Task<GenreAssignRequest> GetGenreAssignRequest(int id)
         {
             var filmObject = await _filmApiClient.GetFilmVMDByIdAsync(id);
-            var result = (await _filmApiClient.GetAllFilmGenreAsync()).ResultObj;
+            var result = (await _filmApiClient.GetAllFilmGenreAsync());
+
+
             var genreAssignRequest = new GenreAssignRequest();
             genreAssignRequest.FilmId = id;
-            foreach (var genre in result)
+            foreach (var genre in result.ResultObj)
             {
                 genreAssignRequest.Genres.Add(new SelectedItem()
                 {

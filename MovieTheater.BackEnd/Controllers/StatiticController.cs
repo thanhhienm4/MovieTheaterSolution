@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.Statitic;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.ChartTable;
 using System.Threading.Tasks;
@@ -8,11 +10,13 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StatiticController : Controller
+    [Authorize(Roles = "Admin")]
+    public class StatiticController : BaseController
     {
         private readonly IStatiticService _statiticService;
+        private readonly IUserService _userService;
 
-        public StatiticController(IStatiticService statiticService)
+        public StatiticController(IStatiticService statiticService, IUserService userService) : base(userService)
         {
             _statiticService = statiticService;
         }

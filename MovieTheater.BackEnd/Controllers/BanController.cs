@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.FilmServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
@@ -9,11 +11,14 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BanController : Controller
+    [Authorize(Roles = "Admin,Employee")]
+    public class BanController : BaseController
     {
         private readonly IBanService _banService;
+        private readonly IUserService _userService;
 
-        public BanController(IBanService banService)
+
+        public BanController(IBanService banService,IUserService userService):base(userService)
         {
             _banService = banService;
         }

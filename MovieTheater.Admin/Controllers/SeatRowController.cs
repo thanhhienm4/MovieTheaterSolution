@@ -38,6 +38,8 @@ namespace MovieTheater.Admin.Controllers
             ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
             var result = await _seatRowApiClient.GetSeatRowPagingAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             return View(result.ResultObj);
         }
 
@@ -55,6 +57,8 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var result = await _seatRowApiClient.CreateAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = "Tạo mới thành công";
@@ -72,6 +76,8 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
             var result = await _seatRowApiClient.GetSeatRowByIdAsync(id);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
 
             if (result.IsSuccessed)
             {
@@ -94,6 +100,8 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var result = await _seatRowApiClient.UpdateAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = "Chỉnh sửa thành công";

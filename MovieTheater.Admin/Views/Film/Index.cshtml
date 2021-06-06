@@ -158,7 +158,11 @@
             type: "POST",
             url: "/Film/Delete",
             data: { id: userId },
-            success: function () {
+            success: function (res) {
+                if (res.isReLogin == true) {
+                    window.location.href = "/login/index";
+                }
+               
                 location.reload();
             }
         })

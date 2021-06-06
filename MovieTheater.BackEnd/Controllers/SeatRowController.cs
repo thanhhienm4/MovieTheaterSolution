@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.SeatServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.Seat;
@@ -11,11 +13,13 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("Api/[Controller]")]
     [ApiController]
-    public class SeatRowController : Controller
+    [Authorize(Roles = "Admin")]
+    public class SeatRowController : BaseController
     {
         private readonly ISeatRowService _seatRowService;
+        private readonly IUserService _userService;
 
-        public SeatRowController(ISeatRowService seatRowService)
+        public SeatRowController(ISeatRowService seatRowService, IUserService userService) : base(userService)
         {
             _seatRowService = seatRowService;
         }
@@ -41,6 +45,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAllSeatRows")]
         public async Task<ApiResult<List<SeatRowVMD>>> GetAllSeatRows()
         {

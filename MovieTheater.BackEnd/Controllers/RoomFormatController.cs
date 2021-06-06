@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.RoomServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.RoomModels.Format;
 using System.Collections.Generic;
@@ -9,11 +11,13 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoomFormatController : Controller
+    [Authorize(Roles = "Admin")]
+    public class RoomFormatController : BaseController
     {
         private readonly IRoomFormatService _roomFormatService;
+        private readonly IUserService _userService;
 
-        public RoomFormatController(IRoomFormatService roomFormatService)
+        public RoomFormatController(IRoomFormatService roomFormatService, IUserService userService) : base(userService)
         {
             _roomFormatService = roomFormatService;
         }

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.FilmServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
@@ -10,11 +12,14 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FilmController : Controller
+
+    [Authorize(Roles = "Admin")]
+    public class FilmController : BaseController
     {
         private readonly IFilmService _filmService;
+        private readonly IUserService _userService;
 
-        public FilmController(IFilmService filmService)
+        public FilmController(IFilmService filmService, IUserService userService) : base(userService)
         {
             _filmService = filmService;
         }
@@ -54,6 +59,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetFilmVMDById/{id}")]
         public async Task<ApiResult<FilmVMD>> GetFilmVMDByIdAsync(int id)
         {
@@ -75,6 +81,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [AllowAnonymous]
         [HttpGet("getAllPlayingFilm")]
         public async Task<ApiResult<List<FilmVMD>>> GetAllPlayingFilmAsync()
         {
@@ -82,7 +89,9 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [AllowAnonymous]
         [HttpGet("getAllUpcomingFilm")]
+        
         public async Task<ApiResult<List<FilmVMD>>> GetAllUpcomingBanAsync()
         {
             var result = await _filmService.GetAllUpcomingFilmAsync();

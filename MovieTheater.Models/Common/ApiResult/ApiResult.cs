@@ -2,7 +2,7 @@
 {
     public class ApiResult<T>
     {
-        public bool IsReLogin = false;
+        public bool IsReLogin { get; set; }
         public bool IsSuccessed { get; set; }
         public string Message { get; set; }
         public T ResultObj { get; set; }

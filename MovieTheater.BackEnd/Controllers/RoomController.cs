@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.RoomServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.RoomModels;
@@ -11,11 +13,13 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoomController : Controller
+    [Authorize(Roles = "Admin")]
+    public class RoomController : BaseController
     {
         private readonly IRoomService _roomService;
+        private readonly IUserService _userService;
 
-        public RoomController(IRoomService roomService)
+        public RoomController(IRoomService roomService, IUserService userService) : base(userService)
         {
             _roomService = roomService;
         }
@@ -70,6 +74,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetCoordinate/{id}")]
         public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(int id)
         {

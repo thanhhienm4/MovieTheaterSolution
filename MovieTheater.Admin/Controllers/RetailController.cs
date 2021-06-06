@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-    [Authorize]
+    // [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin,Employee")]
     public class RetailController : Controller
     {
         private readonly ScreeningApiClient _screeningApiClient;
@@ -25,16 +26,21 @@ namespace MovieTheater.Admin.Controllers
 
         public async Task<IActionResult> ChooseSeat(int id)
         {
-            var screening = (await _screeningApiClient.GetScreeningMDByIdAsync(id)).ResultObj;
-            ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(screening.FilmId)).ResultObj;
-            return View(screening);
+            var result = (await _screeningApiClient.GetScreeningMDByIdAsync(id));
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+
+            ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(result.ResultObj.FilmId)).ResultObj;
+            return View(result.ResultObj);
         }
 
         public async Task<IActionResult> Index(DateTime? date)
         {
-            var listFlimScreening = (await _screeningApiClient.GetFilmScreeningIndateAsync(date)).ResultObj;
+            var result = (await _screeningApiClient.GetFilmScreeningIndateAsync(date));
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
 
-            return View(listFlimScreening);
+            return View(result.ResultObj);
         }
 
         [HttpPost]

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.FilmServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
@@ -9,11 +11,13 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PositionController : Controller
+    [Authorize(Roles = "Admin")]
+    public class PositionController : BaseController
     {
         private readonly IPositionService _positionService;
+        private readonly IUserService _userService;
 
-        public PositionController(IPositionService positionService)
+        public PositionController(IPositionService positionService, IUserService userService) : base(userService)
         {
             _positionService = positionService;
         }

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Movietheater.Application.ScreeningServices;
+using Movietheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
@@ -9,11 +11,13 @@ namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class KindOfScreeningController : Controller
+    [Authorize(Roles = "Admin")]
+    public class KindOfScreeningController : BaseController
     {
         private readonly IkindOfScreeningService _kindOfScreeningService;
+        private readonly IUserService _userService;
 
-        public KindOfScreeningController(IkindOfScreeningService kindOfScreeningService)
+        public KindOfScreeningController(IkindOfScreeningService kindOfScreeningService, IUserService userService) : base(userService)
         {
             _kindOfScreeningService = kindOfScreeningService;
         }

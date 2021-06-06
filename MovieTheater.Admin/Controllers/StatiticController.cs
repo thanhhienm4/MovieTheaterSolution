@@ -33,7 +33,11 @@ namespace MovieTheater.Admin.Controllers
                 request.EndDate = DateTime.Now;
             }
 
-            var topRevenueFilm = (await _statiticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
+            var result = (await _statiticApiClient.GetTopRevenueFilmAsync(request));
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            var topRevenueFilm = result.ResultObj;
+
             var Revenue = (await _statiticApiClient.GetRevenueTypeAsync(request)).ResultObj;
             ViewData["TopRevenueFilm"] = topRevenueFilm;
             ViewData["Revenue"] = Revenue;

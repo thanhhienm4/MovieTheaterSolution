@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class ScreeningController : Controller
     {
         private readonly SeatApiClient _seatApiClient;
@@ -29,7 +29,7 @@ namespace MovieTheater.Admin.Controllers
             _filmApiClient = filmApiClient;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<List<SeatVMD>> GetListSeatReserved(int id)
         {
@@ -39,6 +39,7 @@ namespace MovieTheater.Admin.Controllers
 
         public async Task<IActionResult> Index(string keyword, DateTime? date = null, int pageIndex = 1, int pageSize = 10)
         {
+
             var request = new ScreeningPagingRequest()
             {
                 Keyword = keyword,
@@ -50,8 +51,10 @@ namespace MovieTheater.Admin.Controllers
             ViewBag.Date = date;
             ViewBag.KeyWord = keyword;
             ViewBag.SuccessMsg = TempData["Result"];
-            var result = (await _screeningApiClient.GetScreeningPagingAsync(request)).ResultObj;
-            return View(result);
+            var result = (await _screeningApiClient.GetScreeningPagingAsync(request));
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            return View(result.ResultObj);
         }
 
         [HttpGet]
@@ -71,6 +74,8 @@ namespace MovieTheater.Admin.Controllers
             }
 
             var result = await _screeningApiClient.CreateAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
@@ -90,6 +95,8 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
             var result = await _screeningApiClient.GetScreeningMDByIdAsync(id);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
 
             if (result.IsSuccessed)
             {
@@ -119,6 +126,8 @@ namespace MovieTheater.Admin.Controllers
             }
 
             var result = await _screeningApiClient.UpdateAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;

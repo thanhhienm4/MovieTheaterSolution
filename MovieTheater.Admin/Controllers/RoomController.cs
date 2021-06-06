@@ -51,6 +51,8 @@ namespace MovieTheater.Admin.Controllers
             ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
             var result = await _roomApiClient.GetRoomPagingAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             return View(result.ResultObj);
         }
 
@@ -73,6 +75,8 @@ namespace MovieTheater.Admin.Controllers
             }
 
             var result = await _roomApiClient.CreateAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
@@ -92,6 +96,8 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
             var result = await _roomApiClient.GetRoomByIdAsync(id);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
 
             if (result.IsSuccessed)
             {
@@ -118,6 +124,8 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
             var result = await _roomApiClient.UpdateAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
@@ -132,6 +140,7 @@ namespace MovieTheater.Admin.Controllers
         public async Task<ApiResult<bool>> Delete(int id)
         {
             var result = await _roomApiClient.DeleteAsync(id);
+
             TempData["Result"] = result.Message;
             return result;
         }
@@ -156,6 +165,7 @@ namespace MovieTheater.Admin.Controllers
         public async Task<ApiResult<bool>> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
         {
             var result = await _seatApiCient.UpdateSeatInRoomAsync(request);
+
             TempData["Result"] = result.Message;
             return result;
         }
@@ -172,7 +182,7 @@ namespace MovieTheater.Admin.Controllers
             });
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<ApiResult<RoomCoordinate>> GetCoordinate(int id)
         {
             var result = await _roomApiClient.GetCoordinateAsync(id);

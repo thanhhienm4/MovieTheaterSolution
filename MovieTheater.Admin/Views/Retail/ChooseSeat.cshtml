@@ -175,7 +175,7 @@
                             }
                             $(btn).attr('data-kindofseatid', res[i].kindOfSeatId);
                            // $(btn).html('<a title="' + res[i].name + '">' + res[i].name + '</a>');
-                            console.log(res[i].name);
+                            //console.log(res[i].name);
 
 
                         };
@@ -192,6 +192,42 @@
                                 $(btn).addClass('taken');
 
                             }
+
+
+
+                             $('#place button.' + settings.seatCss).click(function () {
+                            $(this).toggleClass(settings.selectingSeatCss);
+                            var seatsName = '';
+                            var tickets = [];
+                             $.each($('#place button.' + settings.selectingSeatCss), function (index, value) {
+                                 if (!this.classList.contains('taken')) {
+                                      seatsName += $(this).attr('data-name') + ', ';
+                                     var ticket = {
+                                        ScreeningId: @Model.Id,
+                                        SeatId: $(this).attr('data-id'),
+                                    };
+                                    tickets.push(ticket);
+                                 }
+
+                            });
+                            $("#seatsName").text(seatsName);
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Retail/CalPrePrice",
+                                data: { tickets },
+                                success: function (res) {
+                                    $('#price').html(res.toLocaleString('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'VND',
+                                    }));
+
+                                }
+                            });
+
+                        });
+
+
                             }
                         });
                     }
@@ -209,37 +245,7 @@
             //Case II: If already booked
             init();
 
-            $('#place button.' + settings.seatCss).click(function () {
-                $(this).toggleClass(settings.selectingSeatCss);
-                var seatsName = '';
-                var tickets = [];
-                 $.each($('#place button.' + settings.selectingSeatCss), function (index, value) {
-                     if (!this.classList.contains('taken')) {
-                          seatsName += $(this).attr('data-name') + ', ';
-                         var ticket = {
-                            ScreeningId: @Model.Id,
-                            SeatId: $(this).attr('data-id'),
-                        };
-                        tickets.push(ticket);
-                     }
 
-                });
-                $("#seatsName").text(seatsName);
-
-                $.ajax({
-                    type: "POST",
-                    url: "/Retail/CalPrePrice",
-                    data: { tickets },
-                    success: function (res) {
-                        $('#price').html(res.toLocaleString('vi-VN', {
-                            style: 'currency',
-                            currency: 'VND',
-                        }));
-
-                    }
-                });
-
-            });
 
         }
     })
@@ -294,7 +300,7 @@ $('#btnReserve').click(function () {
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="btnModal" data-dismiss="modal">Đóng</button>
                 <button type="button" class="btn btn-success" id="btnPrintTicket">Thanh toán và suất vé</button>
-                <button type="button" class="btn btn-success" id="btnPrintTicket">Thanh toán và suất vé</button>
+              
             </div>
         </div>
     </div>
