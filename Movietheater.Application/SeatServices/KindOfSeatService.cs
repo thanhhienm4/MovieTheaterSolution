@@ -2,6 +2,7 @@
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat.KindOfSeat;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.SeatServices
@@ -71,5 +72,10 @@ namespace Movietheater.Application.SeatServices
                 }
             }
         }
+        //public ApiResult<List<KindOfSeat>> GetAllKindOfSeat()
+        //{
+        //    var res = _context.KindOfSeats.select(new )
+
+        //}    
     }
 }

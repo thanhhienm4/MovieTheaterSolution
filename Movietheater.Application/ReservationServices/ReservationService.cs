@@ -93,9 +93,9 @@ namespace Movietheater.Application.ReservationServices
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)
                 {
-                    return new ApiErrorResult<bool>("Cập nhật thất bại");
+                    return new ApiErrorResult<bool>("Lưu thất bại");
                 }
-                return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true,"Lưu thành công");
             }
         }
 

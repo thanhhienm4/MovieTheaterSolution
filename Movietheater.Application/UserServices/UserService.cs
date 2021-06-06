@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +16,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -119,7 +117,7 @@ namespace Movietheater.Application.UserServices
                 PhoneNumber = model.PhoneNumber,
                 UserName = model.UserName,
                 Email = model.Email,
-                
+
                 UserInfor = new UserInfor()
                 {
                     FirstName = model.FirstName,
@@ -130,7 +128,7 @@ namespace Movietheater.Application.UserServices
 
             if ((await _userManager.CreateAsync(user, model.Password)).Succeeded)
             {
-                return new ApiSuccessResult<Guid>(user.Id,"Tạo mới thành công");
+                return new ApiSuccessResult<Guid>(user.Id, "Tạo mới thành công");
             }
             return new ApiErrorResult<Guid>("Tạo mới thất bại");
         }
@@ -220,7 +218,7 @@ namespace Movietheater.Application.UserServices
                 var roleCus = await _roleManager.FindByNameAsync("Customer");
                 _context.UserRoles.Add(new IdentityUserRole<Guid>() { UserId = user.Id, RoleId = roleCus.Id });
                 _context.SaveChanges();
-                return new ApiSuccessResult<bool>(true,"Tạo mới thành công");
+                return new ApiSuccessResult<bool>(true, "Tạo mới thành công");
             }
             return new ApiErrorResult<bool>("Tạo mới thất bại");
         }
@@ -257,7 +255,7 @@ namespace Movietheater.Application.UserServices
             _context.SaveChanges();
             if (result.Succeeded)
             {
-                return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
             }
             else
                 return new ApiErrorResult<bool>("Cập nhật không thành công");
@@ -330,10 +328,9 @@ namespace Movietheater.Application.UserServices
                                 _context.UserInfors.Remove(staffInfor);
                                 _context.SaveChanges();
                             }
-                              
-                            
+
                             await _userManager.DeleteAsync(user);
-                            return new ApiSuccessResult<bool>(true,"Xóa thành công");
+                            return new ApiSuccessResult<bool>(true, "Xóa thành công");
                         }
                         catch (DbUpdateException e)
                         {
@@ -361,7 +358,7 @@ namespace Movietheater.Application.UserServices
                 {
                     await _userManager.RemovePasswordAsync(user);
                     await _userManager.AddPasswordAsync(user, request.NewPassword);
-                    return new ApiSuccessResult<bool>(true,"Đổi mật khẩu thành công");
+                    return new ApiSuccessResult<bool>(true, "Đổi mật khẩu thành công");
                 }
             }
         }
@@ -401,23 +398,22 @@ namespace Movietheater.Application.UserServices
             }
 
             var userToken = _context.UserTokens.Find(request.UserId);
-            if(userToken != null)
+            if (userToken != null)
                 _context.UserTokens.Remove(userToken);
-            
+
             _context.SaveChanges();
-            return new ApiSuccessResult<bool>(true,"Gián quyền thành công");
+            return new ApiSuccessResult<bool>(true, "Gián quyền thành công");
         }
 
         public async Task<ApiResult<UserVMD>> GetUserByIdAsync(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
-            var userInfor =await _context.UserInfors.FindAsync(id);
+            var userInfor = await _context.UserInfors.FindAsync(id);
 
             if (user == null || userInfor == null)
             {
                 return new ApiErrorResult<UserVMD>("Người dùng không tồn tại");
             }
-            
 
             var userVMD = new UserVMD()
             {
@@ -429,7 +425,6 @@ namespace Movietheater.Application.UserServices
                 PhoneNumber = user.PhoneNumber,
                 Status = user.LockoutEnabled ? Status.InActive : Status.Active,
                 UserName = user.UserName
-               
             };
             userVMD.Roles = (List<string>)await _userManager.GetRolesAsync(user);
 
@@ -441,11 +436,10 @@ namespace Movietheater.Application.UserServices
             var user = await _userManager.FindByIdAsync(id.ToString());
             var customerInfor = await _context.CustomerInfors.FindAsync(id);
 
-            if (user == null || customerInfor==null)
+            if (user == null || customerInfor == null)
             {
                 return new ApiErrorResult<UserVMD>("Người dùng không tồn tại");
             }
-           
 
             var userVMD = new UserVMD()
             {
@@ -548,43 +542,59 @@ namespace Movietheater.Application.UserServices
             return new Guid(id);
         }
 
-        public ApiResult<bool> CheckToken(Guid userId,string token)
+        public ApiResult<bool> CheckToken(Guid userId, string token)
         {
-            if (( _context.UserTokens.Where(x => x.UserId == userId && x.Value == token).Count()) > 0)
+            if ((_context.UserTokens.Where(x => x.UserId == userId && x.Value == token).Count()) > 0)
             {
-                return new ApiSuccessResult<bool>(true,"Thành công");
+                return new ApiSuccessResult<bool>(true, "Thành công");
             }
             else
                 return new ApiErrorResult<bool>("Không hợp lệ");
         }
-        public async Task<ApiResult<bool>> ForgotPasswordAsync(string mail)
+
+        public async Task<ApiResult<bool>> ForgotStaffPasswordAsync(string mail)
         {
             var user = await _userManager.FindByEmailAsync(mail);
             if (user != null)
-            {
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var schema = _configuration["AdminServer"];
-                var url = $"{schema}/login/ResetPassword?Email={mail}&Token={token}";
-                //var result = await VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, _userManager.ResetPasswordTokenPurpose, token));
+                if (_context.UserInfors.Find(user.Id) != null)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    string schema = _configuration["AdminServer"];
+                    var url = $"{schema}/login/ResetPassword?Email={mail}&Token={token}";
+                    string message = string.Format("<p>Nhấn vào đây để khôi phục mật khẩu</p><a href = \"{0}\" >Link </a>", url);
+                    await _mailServive.SendEmailAsync(mail, "Khôi phục mật khẩu", message);
+                    return new ApiSuccessResult<bool>(true);
+                }
 
-                string message = string.Format("<p>Nhấn vào đây để khôi phục mật khẩu</p><a href = \"{0}\" >Link </a>", url);
-                await _mailServive.SendEmailAsync(mail, "Khôi phục mật khẩu", message);
-                return new ApiSuccessResult<bool>(true);
-
-            }
-            else
-                return new ApiErrorResult<bool>("Email không tồn tại");
-
+            return new ApiErrorResult<bool>("Email không tồn tại");
         }
+
+        public async Task<ApiResult<bool>> ForgotCustomerPasswordAsync(string mail)
+        {
+            var user = await _userManager.FindByEmailAsync(mail);
+            if (user != null)
+                if (_context.CustomerInfors.Find(user.Id) != null)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    string schema = _configuration["UserServer"];
+                    var url = $"{schema}/login/ResetPassword?Email={mail}&Token={token}";
+                    string message = string.Format("<p>Nhấn vào đây để khôi phục mật khẩu</p><a href = \"{0}\" >Link </a>", url);
+                    await _mailServive.SendEmailAsync(mail, "Khôi phục mật khẩu", message);
+                    return new ApiSuccessResult<bool>(true);
+                }
+
+            return new ApiErrorResult<bool>("Email không tồn tại");
+        }
+
         public async Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
-            if(user!=null)
+            if (user != null)
             {
-               request.Token = request.Token.Replace(" ", "+");
-               var res =await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
+                request.Token = request.Token.Replace(" ", "+");
+                var res = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
                 if (res.Succeeded)
-                    return new ApiSuccessResult<bool>(true,"đổi mật khẩu thành công");
+                    return new ApiSuccessResult<bool>(true, "đổi mật khẩu thành công");
                 else
                     return new ApiErrorResult<bool>("Đổi mật khẩu thất bại");
             }

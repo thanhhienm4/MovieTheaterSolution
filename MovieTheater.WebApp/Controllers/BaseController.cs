@@ -10,10 +10,7 @@ namespace MovieTheater.WebApp.Controllers
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (HttpContext.Request.Cookies["Token"] == null)
-            {
-                context.Result = RedirectToAction("Index", "Login");
-            }
+           
         }
 
         public Guid GetUserId()

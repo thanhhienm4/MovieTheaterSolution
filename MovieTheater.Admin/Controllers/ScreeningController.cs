@@ -37,7 +37,7 @@ namespace MovieTheater.Admin.Controllers
             return result;
         }
 
-        public async Task<IActionResult> Index(string keyword, DateTime? date = null, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword, DateTime? date = null, int pageIndex = 1, int pageSize = 15)
         {
 
             var request = new ScreeningPagingRequest()
@@ -147,6 +147,15 @@ namespace MovieTheater.Admin.Controllers
             var result = await _screeningApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;
             return result;
+        }
+
+     
+        public async Task<IActionResult> KindOfScreening()
+        {
+            var result = await _screeningApiClient.GetAllKindOfScreeningAsync();
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            return View(result.ResultObj);
         }
 
         private async Task SetViewBagAsync()

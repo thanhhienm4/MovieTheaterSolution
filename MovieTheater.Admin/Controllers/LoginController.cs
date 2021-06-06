@@ -79,7 +79,7 @@ namespace MovieTheater.Admin.Controllers
                 return View(model);
             else
             {
-                var response = await _userApiClient.ForgotPasswordAsync(model.Email);
+                var response = await _userApiClient.ForgotStaffPasswordAsync(model.Email);
                 if (response.IsSuccessed == true)
                 {
 

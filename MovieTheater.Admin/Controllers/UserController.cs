@@ -40,7 +40,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Index(string keyword, Status? status, string roleId, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword, Status? status, string roleId, int pageIndex = 1, int pageSize = 15)
         {
             var request = new UserPagingRequest()
             {
@@ -53,7 +53,11 @@ namespace MovieTheater.Admin.Controllers
 
             List<SelectListItem> roles = new List<SelectListItem>();
             roles.Add(new SelectListItem() { Text = "Tất cả", Value = "" });
-            var listRoles = (await _roleApiClient.GetRolesAsync()).ResultObj
+            var response = await _roleApiClient.GetRolesAsync();
+            if(response.IsReLogin == true)
+                    return RedirectToAction("Index", "Login");
+
+            var listRoles = response.ResultObj
                 .Select(x => new SelectListItem()
                 {
                     Text = x.Name,
@@ -67,8 +71,7 @@ namespace MovieTheater.Admin.Controllers
 
             ViewBag.KeyWord = keyword;
             var result = await _userApiClient.GetUserPagingAsync(request);
-            if (result.IsReLogin == true)
-                return RedirectToAction("Index", "Login");
+      
             return View(result.ResultObj);
         }
 

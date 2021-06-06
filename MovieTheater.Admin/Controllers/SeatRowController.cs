@@ -27,7 +27,7 @@ namespace MovieTheater.Admin.Controllers
             return result;
         }
 
-        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 15)
         {
             var request = new SeatRowPagingRequest()
             {

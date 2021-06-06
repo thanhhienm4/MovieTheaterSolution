@@ -39,45 +39,54 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Chào mừng bạn đã quay trở lại!</h1>
+                                        <h1 style="padding-top:7rem" class="h4 text-gray-900 mb-4">Chào mừng bạn đã quay trở lại!</h1>
                                     </div>
                                     <form class="user" asp-action="Index" asp-controller="Login" method="post">
                                         <div class="form-group">
                                             <input class="form-control form-control-user"
                                                    aria-describedby="emailHelp"
-                                                   placeholder="Enter Email Address..." asp-for="UserName">
+                                                   placeholder="Tên đăng nhập" asp-for="UserName">
                                             <span asp-validation-for="UserName" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                   placeholder="Password" asp-for="Password">
+                                                   placeholder="Mật khẩu" asp-for="Password">
                                             <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
+
                                         <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" asp-for="RememberMe" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck" asp-for="RememberMe">
-                                                    Duy trì đăng nhập
-                                                </label>
+                                            <div class="row col-auto">
+
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" asp-for="RememberMe" id="customCheck">
+                                                    <label class="custom-control-label" for="customCheck" asp-for="RememberMe">
+                                                        Duy trì đăng nhập
+                                                    </label>
+                                                </div>
+
+                                                <div style="padding-left:6rem" class="text-center">
+                                                    <a class="small" href="/login/ForgotPassword">Quên mật khẩu?</a>
+                                                </div>
+
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="hidden" class="form-control form-control-user"
-                                                   placeholder="Password" asp-for="RedirectURL" value="@(ViewContext.HttpContext.Request.Query["RedirecURL"])">
-                                           
-                                        </div>
+
+
+
+
+
+
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Đăng nhập
                                         </button>
-                                        <hr>
+
+                                        <div style="padding-bottom:7rem"></div>
 
                                     </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="/login/ForgotPassword">Quên mật khẩu?</a>
-                                    </div>
-                                   
+
+
+
                                 </div>
                             </div>
                         </div>

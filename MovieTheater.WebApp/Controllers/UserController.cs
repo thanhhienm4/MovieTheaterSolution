@@ -105,5 +105,6 @@ namespace MovieTheater.WebApp.Controllers
         {
             return View();
         }
+
     }
 }

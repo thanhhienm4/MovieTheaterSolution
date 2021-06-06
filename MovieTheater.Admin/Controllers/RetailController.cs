@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-    // [Authorize(Roles ="Admin")]
+   
     [Authorize(Roles = "Admin,Employee")]
     public class RetailController : Controller
     {

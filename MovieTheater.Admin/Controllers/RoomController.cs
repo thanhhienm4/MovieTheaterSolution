@@ -27,7 +27,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Index(string keyword, int? formatId, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword, int? formatId, int pageIndex = 1, int pageSize = 15)
         {
             var request = new RoomPagingRequest()
             {
@@ -188,5 +188,25 @@ namespace MovieTheater.Admin.Controllers
             var result = await _roomApiClient.GetCoordinateAsync(id);
             return result;
         }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RoomFormat()
+        {
+            var result = await _roomApiClient.GetAllRoomFormatAsync();
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            return View(result.ResultObj);
+        }
+
+
+        //[Authorize(Roles = "Admin")]
+        //public async Task<IActionResult> KindOfSeat()
+        //{
+        //    var result = await _seatApiCient.Get;
+        //    if (result.IsReLogin == true)
+        //        return RedirectToAction("Index", "Login");
+        //    return View(result.ResultObj);
+        //}
+
     }
 }

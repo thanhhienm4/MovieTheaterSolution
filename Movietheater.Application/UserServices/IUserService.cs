@@ -33,7 +33,8 @@ namespace Movietheater.Application.UserServices
 
         Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request);
         ApiResult<bool> CheckToken(Guid userId, string token);
-        Task<ApiResult<bool>> ForgotPasswordAsync(string mail);
+        Task<ApiResult<bool>> ForgotStaffPasswordAsync(string mail);
+        Task<ApiResult<bool>> ForgotCustomerPasswordAsync(string mail);
         Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request);
     }
 }

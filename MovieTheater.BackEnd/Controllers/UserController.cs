@@ -109,10 +109,18 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("ForgotPassword")]
-        public async Task<ApiResult<bool>> ForgotPassword([FromBody] string mail)
+        [HttpPost("ForgotStaffPassword")]
+        public async Task<ApiResult<bool>> ForgotStaffPassword([FromBody] string mail)
         {
-            var result =  await _userService.ForgotPasswordAsync(mail);
+            var result =  await _userService.ForgotStaffPasswordAsync(mail);
+            return result;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("ForgotCustomerPassword")]
+        public async Task<ApiResult<bool>> ForgotCustomerPassword([FromBody] string mail)
+        {
+            var result = await _userService.ForgotCustomerPasswordAsync(mail);
             return result;
         }
 
