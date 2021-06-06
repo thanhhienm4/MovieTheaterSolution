@@ -28,6 +28,7 @@ namespace MovieTheater.Admin.Controllers
             };
 
             ViewBag.KeyWord = keyword;
+            ViewBag.SuccessMsg = TempData["Result"];
             var result = await _reservationApiClient.GetReservationPagingAsync(request);
             if(result.IsReLogin == true)
                return  RedirectToAction("Index", "Login");
@@ -96,6 +97,15 @@ namespace MovieTheater.Admin.Controllers
             }
             ModelState.AddModelError("", result.Message);
             return View(request);
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<bool>> Delete(int id)
+        {
+            var result = await _reservationApiClient.DeleteAsync(id);
+
+            TempData["Result"] = result.Message;
+            return result;
         }
     }
 }

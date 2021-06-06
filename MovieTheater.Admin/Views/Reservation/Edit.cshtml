@@ -29,6 +29,9 @@
         <div class="row">
             Hình thức  :@ViewBag.Reservation.ReservationType
         </div>
+        <div class="row">
+            Tổng tiền  :@ViewBag.Reservation.TotalPrice
+        </div>
     </div>
 
     <div class="table-responsive">
@@ -89,7 +92,7 @@
                     <div class="form-group">
                         <label>
                             Thanh toán
-                            <input type="checkbox" asp-for="Paid" disabled />
+                            <input type="checkbox" asp-for="Paid" />
                         </label>
                     </div>
                 </div>
@@ -105,10 +108,27 @@
                 </div>
             </div>
         </div>
+        @{
+            <a class="btn btn-danger"  data-toggle="modal"  data-target="#deleteReser"  >Xóa</a>
+            if (Model.Paid == true)
+            {
+                <div class="form-group d-flex justify-content-center">
+                    <input value=" Suất vé" class="btn btn-primary" />
+                </div>
+            }
+            else
+            {
+                <div class="form-group d-flex justify-content-center">
+                    <input type="submit" value="Lưu" class="btn btn-primary" />
+                </div>
 
-        <div class="form-group d-flex justify-content-center">
-            <input type="submit" value="Cập nhật" class="btn btn-primary" />
-        </div>
+                <div class="form-group d-flex justify-content-center">
+                    <input type="submit" value="Lưu và Suất vé" class="btn btn-primary" />
+                </div>
+            }
+        }
+
+
     </form>
 </div>
 
@@ -118,3 +138,39 @@
         enableElements();
     </script>
 }
+<div class="modal fade" id="deleteReser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-center">
+                    <h5 id="ModalLabel">Thông báo</h5>
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="deleteMeg">"Bạn có chắc muốn xóa đơn hàng"</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" onclick="deleteReser()">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function deleteReser() {
+        var reserId = @ViewBag.Reservation.Id
+        $.ajax({
+            type: "POST",
+            url: "/Reservation/Delete",
+            data: { id: reserId },
+            success: function (res) {
+
+                window.location.href = "/reservation/index";
+            }
+        })
+    }
+</script>

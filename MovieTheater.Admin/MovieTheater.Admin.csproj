@@ -64,6 +64,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Login\ResetPassword.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="ReportDataSets\TopFilmRevenue.xsc">
       <DependentUpon>TopFilmRevenue.xsd</DependentUpon>
     </None>

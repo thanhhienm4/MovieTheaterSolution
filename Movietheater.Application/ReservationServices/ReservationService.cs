@@ -65,6 +65,9 @@ namespace Movietheater.Application.ReservationServices
             }
             else
             {
+                var ticket = _context.Tickets.Where(x => x.ReservationId == id).ToList();
+                _context.Tickets.RemoveRange(ticket);
+                _context.SaveChanges();
                 _context.Reservations.Remove(rv);
                 if (await _context.SaveChangesAsync() != 0)
                 {
@@ -129,7 +132,7 @@ namespace Movietheater.Application.ReservationServices
             }
 
             int totalRow = await query.CountAsync();
-            var item = query.OrderBy(x => x.r.Time).Skip((request.PageIndex - 1) * request.PageSize)
+            var items = query.OrderBy(x => x.r.Time).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize).Select(x => new ReservationVMD()
                 {
                     Id = x.r.Id,
@@ -138,15 +141,19 @@ namespace Movietheater.Application.ReservationServices
                     ReservationType = x.rt.Name,
                     Time = x.r.Time,
                     Employee = x.e.LastName + " " + x.e.FirstName,
-                    Customer = x.c.LastName + " " + x.c.FirstName
+                    Customer = x.c.LastName + " " + x.c.FirstName,
+                  
                 }).ToList();
-
+            foreach(var item in items )
+            {
+                item.TotalPrice = CallTotal(item.Id);
+            }
             var pageResult = new PageResult<ReservationVMD>()
             {
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
-                Item = item,
+                Item = items,
             };
 
             return new ApiSuccessResult<PageResult<ReservationVMD>>(pageResult);
@@ -179,8 +186,10 @@ namespace Movietheater.Application.ReservationServices
                     ReservationType = x.rt.Name,
                     Time = x.r.Time,
                     Employee = x.e.LastName + " " + x.e.FirstName,
-                    Customer = x.c.LastName + " " + x.c.FirstName
+                    Customer = x.c.LastName + " " + x.c.FirstName,
+                    
                 }).FirstOrDefault();
+                res.TotalPrice = CallTotal(res.Id);
                 res.Tickets = await GetTicketsAsync(Id);
                 return new ApiSuccessResult<ReservationVMD>(res);
             }
@@ -270,6 +279,13 @@ namespace Movietheater.Application.ReservationServices
            
             
             return new ApiSuccessResult<List<ReservationVMD>>(res);
+        }
+        private long  CallTotal(int id)
+        {
+            if (_context.Tickets.Where(x => x.ReservationId == id).Count() == 0)
+                return 0;
+            long res = _context.Tickets.Where(x => x.ReservationId == id).Sum(x => x.Price);
+            return res;
         }
     }
 }

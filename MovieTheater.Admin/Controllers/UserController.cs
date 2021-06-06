@@ -264,63 +264,7 @@ namespace MovieTheater.Admin.Controllers
             return View();
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest model )
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-            else
-            {
-                var response = await _userApiClient.ForgotPasswordAsync(model.Email);
-                if(response.IsSuccessed == true)
-                {
-                   
-                    ViewBag.Message = "Đã gửi link xác nhận về địa chỉ mail của bạn";
-                }else
-                {
-                    ViewBag.Message = response.Message;
-                }    
-                return View(model);
-            }
-               
-
-        }
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword()
-        {
-            return View();
-        }
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
-        {
-            if(!ModelState.IsValid)
-            {
-                return View(request);
-            }else
-            {
-                var response = await _userApiClient.ResetPasswordAsync(request);
-                if (response.IsSuccessed == true)
-                {
-
-                    return RedirectToAction("Index", "Login");
-                }
-                else
-                {
-                    ViewBag.Message = response.Message;
-                }
-                return View(request);
-            }
-        }    
+        
 
     }
 }

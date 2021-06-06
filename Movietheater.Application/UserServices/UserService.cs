@@ -119,10 +119,12 @@ namespace Movietheater.Application.UserServices
                 PhoneNumber = model.PhoneNumber,
                 UserName = model.UserName,
                 Email = model.Email,
+               
                 UserInfor = new UserInfor()
                 {
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    Dob = model.Dob,
                 }
             };
 
@@ -554,7 +556,7 @@ namespace Movietheater.Application.UserServices
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var schema = _configuration["AdminServer"];
-                var url = $"{schema}/user/ResetPassword?Email={mail}&Token={token}";
+                var url = $"{schema}/login/ResetPassword?Email={mail}&Token={token}";
                 //var result = await VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, _userManager.ResetPasswordTokenPurpose, token));
 
                 string message = string.Format("<p>Nhấn vào đây để khôi phục mật khẩu</p><a href = \"{0}\" >Link </a>", url);

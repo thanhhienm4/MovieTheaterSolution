@@ -56,7 +56,7 @@
         </div>
     </div>
 </div>
-
+<input id="reserId" type="hidden"/>
 <div style="float:left;">
 </div>
 
@@ -270,15 +270,19 @@ $('#btnReserve').click(function () {
         success: function (res) {
             $("#notiMes").text(res.message);
             if (res.isSuccessed) {
-
+                $('#reserId').val(res.resultObj);
             } else {
                 document.getElementById("btnPrintTicket").style.display = 'none';
+               
             }
             $('#notifyModal').modal('show');
         }
         });
     })
     });
+    function reload() {
+        window.location.href = "/Reservation/edit/" + $('#reserId').val().toString();
+    }
 
 </script>
 
@@ -299,7 +303,7 @@ $('#btnReserve').click(function () {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="btnModal" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-success" id="btnPrintTicket">Thanh toán và suất vé</button>
+                <button type="button" class="btn btn-success" id="btnPrintTicket" onclick="reload()">Thanh toán và suất vé</button>
               
             </div>
         </div>

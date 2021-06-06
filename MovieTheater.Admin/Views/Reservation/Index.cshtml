@@ -8,7 +8,13 @@
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item active">Đặt vé</li>
 </ol>
-
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $("#SuccessMeg").fadeOut('slow');
+        }, 2000);
+    </script>
+}
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
@@ -23,7 +29,7 @@
                             <!--input type="text" value="@ViewBag.UserInfor" name="keyword" class="form-control" placeholder="SĐT Hoặc Email khách hàng" /-->
                         </div>
                         <div>
-                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" placeholder="Id đặt hàng"/>
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" placeholder="Id đặt hàng" />
                         </div>
                         <div>
                             &nbsp;
@@ -38,6 +44,11 @@
         </div>
     </div>
     <div class="table-responsive">
+        @if (ViewBag.SuccessMsg != null)
+        {
+            <div id="SuccessMeg" class="alert alert-success" role="alert">
+                @ViewBag.SuccessMsg
+            </div>}
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -69,39 +80,39 @@
             <tbody>
                 @foreach (var item in Model.Item)
                 {
-                <tr>
+                    <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Paid)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Active)
-                    </td>
-                    <td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Active)
+                        </td>
+                        <td>
 
-                        @Html.DisplayFor(modelItem => item.ReservationType)
-                    </td>
-                    <td>
+                            @Html.DisplayFor(modelItem => item.ReservationType)
+                        </td>
+                        <td>
 
-                        @Html.DisplayFor(modelItem => item.Time)
-                    </td>
-                    <td>
+                            @Html.DisplayFor(modelItem => item.Time)
+                        </td>
+                        <td>
 
-                        @Html.DisplayFor(modelItem => item.Employee)
-                    </td>
-                    <td>
+                            @Html.DisplayFor(modelItem => item.Employee)
+                        </td>
+                        <td>
 
-                        @Html.DisplayFor(modelItem => item.Customer)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
-                    </td>
-                </tr>
-}
+                            @Html.DisplayFor(modelItem => item.Customer)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
         <div class="d-flex">
