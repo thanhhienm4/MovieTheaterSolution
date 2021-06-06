@@ -1,0 +1,139 @@
+﻿@model MovieTheater.Models.Catalog.Reservation.ReservationUpdateRequest
+
+@{ ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-center">
+        Đơn Đặt hàng
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            Mã đơn : @ViewBag.Reservation.Id
+        </div>
+        <div class="row">
+            Khách hàng : @ViewBag.Reservation.Customer
+        </div>
+        <div class="row">
+            Nhân viên  :@ViewBag.Reservation.Employee
+        </div>
+        <div class="row">
+            Thời gian : @ViewBag.Reservation.Time
+        </div>
+        <div class="row">
+            Hình thức  :@ViewBag.Reservation.ReservationType
+        </div>
+        <div class="row">
+            Tổng tiền  :@ViewBag.Reservation.TotalPrice
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+
+                    <th>
+                        Film
+                    </th>
+                    <th>
+                        Thời gian
+                    </th>
+                    <th>
+                        Phòng
+                    </th>
+                    <th>
+                        Giá
+                    </th>
+                    <th>
+                        Ghế
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.Reservation.Tickets)
+                {
+                    <tr>
+
+                        <td>
+                            @item.Film
+                        </td>
+
+                        <td>
+                            @item.Time
+                        </td>
+                        <td>
+                            @item.Room
+                        </td>
+                        <td>
+
+                            @item.Price
+                        </td>
+                        <td>
+
+                            @item.Seat
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-row d-flex justify-content-around">
+            <div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <label>
+                            Thanh toán
+                            <input type="checkbox" asp-for="Paid" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <label>
+                            Trạng thái
+                            <input type="checkbox" asp-for="Active" disabled />
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+
+
+    </form>
+</div>
+
+@if (ViewBag.IsEdit != null)
+{
+    <script>
+        enableElements();
+    </script>
+}
+<div class="modal fade" id="deleteReser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-center">
+                    <h5 id="ModalLabel">Thông báo</h5>
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="deleteMeg">"Bạn có chắc muốn xóa đơn hàng"</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" onclick="deleteReser()">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>

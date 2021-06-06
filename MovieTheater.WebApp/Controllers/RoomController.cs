@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Infra.RoomModels;
 using MovieTheater.Models.Infra.Seat;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +57,11 @@ namespace MovieTheater.WebApp.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
+        }
+        public async Task<ApiResult<RoomCoordinate>> GetCoordinate(int id)
+        {
+            var result = await _roomApiClient.GetCoordinateAsync(id);
+            return result;
         }
     }
 }

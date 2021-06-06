@@ -98,15 +98,7 @@ namespace MovieTheater.WebApp.Controllers
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> Order()
-        {
-            Guid id = GetUserId();
-            var response = _reservationApiClient.GetReservationByUserIdAsync(id).Result;
-            return View(response);
-        }
-
+       
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Forbident()

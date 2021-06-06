@@ -124,6 +124,11 @@ namespace Movietheater.Application.ReservationServices
                         join rt in _context.ReservationTypes on r.ReservationTypeId equals rt.Id
                         select new { r, c,rt, e, u };
 
+            if(request.userId!=null)
+            {
+                query = query.Where(x => x.r.CustomerId == request.userId);
+            }
+
             if (!string.IsNullOrWhiteSpace(request.Keyword))
             {
                query = query.Where(x => x.r.Id.ToString().Contains(request.Keyword));

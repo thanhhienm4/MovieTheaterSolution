@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
+using System;
 using System.Threading.Tasks;
 
 namespace MovieTheater.WebApp.Controllers
@@ -25,6 +26,14 @@ namespace MovieTheater.WebApp.Controllers
         {
             var res = (await _screeningApiClient.GetListCreeningOfFilmInWeekAsync(id)).ResultObj;
             return View(res);
+        }
+        public async Task<IActionResult> Schedule(DateTime? date)
+        {
+            var result = (await _screeningApiClient.GetFilmScreeningIndateAsync(date));
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+
+            return View(result.ResultObj);
         }
     }
 }

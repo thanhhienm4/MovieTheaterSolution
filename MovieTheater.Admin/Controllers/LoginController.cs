@@ -114,6 +114,7 @@ namespace MovieTheater.Admin.Controllers
                 if (response.IsSuccessed == true)
                 {
 
+                    
                     return RedirectToAction("Index", "Login");
                 }
                 else

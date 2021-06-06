@@ -172,28 +172,7 @@ namespace MovieTheater.BackEnd
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseEndpoints(endpoints => {
-                endpoints.MapGet("/", async context => {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-
-                endpoints.MapGet("/testmail", async context => {
-
-                    // Lấy dịch vụ sendmailservice
-                    var sendmailservice = context.RequestServices.GetService<IMailService>();
-
-                    MailContent content = new MailContent
-                    {
-                        To = "thanhhienm4@gmail.com",
-                        Subject = "Kiểm tra thử",
-                        Body = "<p><strong>Xin chào đại ca</strong></p>"
-                    };
-
-                    await sendmailservice.SendMail(content);
-                    await context.Response.WriteAsync("Send mail");
-                });
-
-            });
+          
 
         }
     }

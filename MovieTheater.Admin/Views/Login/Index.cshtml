@@ -61,12 +61,17 @@
                                                 </label>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <input type="hidden" class="form-control form-control-user"
+                                                   placeholder="Password" asp-for="RedirectURL" value="@(ViewContext.HttpContext.Request.Query["RedirecURL"])">
+                                           
+                                        </div>
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Đăng nhập
                                         </button>
                                         <hr>
-                                      
+
                                     </form>
                                     <hr>
                                     <div class="text-center">

@@ -21,9 +21,15 @@ namespace MovieTheater.WebApp.Controllers
             _filmApiClient = filmApiClient;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> ChooseSeat(int id)
         {
+
+            if(User.Identity.IsAuthenticated == false)
+            {
+                return Redirect($"/login/Index?RedirectURL=/Ticket/ChooseSeat/{id}");
+            }
+
             var screening = (await _screeningApiClient.GetScreeningMDByIdAsync(id)).ResultObj;
             ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(screening.FilmId)).ResultObj;
             return View(screening);

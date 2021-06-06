@@ -119,12 +119,12 @@ namespace Movietheater.Application.UserServices
                 PhoneNumber = model.PhoneNumber,
                 UserName = model.UserName,
                 Email = model.Email,
-               
+                
                 UserInfor = new UserInfor()
                 {
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    Dob = model.Dob,
+                    Dob = model.Dob
                 }
             };
 
@@ -324,6 +324,14 @@ namespace Movietheater.Application.UserServices
                     {
                         try
                         {
+                            var staffInfor = _context.UserInfors.Find(id);
+                            if (staffInfor != null)
+                            {
+                                _context.UserInfors.Remove(staffInfor);
+                                _context.SaveChanges();
+                            }
+                              
+                            
                             await _userManager.DeleteAsync(user);
                             return new ApiSuccessResult<bool>(true,"Xóa thành công");
                         }

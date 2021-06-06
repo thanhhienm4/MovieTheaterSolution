@@ -56,7 +56,7 @@
         </div>
     </div>
 </div>
-<input id="reserId" type="hidden"/>
+<input id="reserId" type="hidden" />
 <div style="float:left;">
 </div>
 
@@ -120,7 +120,6 @@
                         left = res.resultObj.left;
                         bottom = res.resultObj.bottom;
 
-
                 var str = [], seatNo, className;
                 settings.rows = result.length;
                 for (i = 0; i < settings.rows; i++) {
@@ -148,11 +147,8 @@
                         str.push('</div>');
                     }
 
-
                 }
                 $('#place').html(str.join(''));
-
-
 
                  $.ajax({
                     type: "GET",
@@ -177,7 +173,6 @@
                            // $(btn).html('<a title="' + res[i].name + '">' + res[i].name + '</a>');
                             //console.log(res[i].name);
 
-
                         };
 
                         $.ajax({
@@ -192,8 +187,6 @@
                                 $(btn).addClass('taken');
 
                             }
-
-
 
                              $('#place button.' + settings.seatCss).click(function () {
                             $(this).toggleClass(settings.selectingSeatCss);
@@ -227,7 +220,6 @@
 
                         });
 
-
                             }
                         });
                     }
@@ -235,17 +227,13 @@
 
                     }
 
-
                 });
-
 
             };
             //case I: Show from starting
 
             //Case II: If already booked
             init();
-
-
 
         }
     })
@@ -273,7 +261,7 @@ $('#btnReserve').click(function () {
                 $('#reserId').val(res.resultObj);
             } else {
                 document.getElementById("btnPrintTicket").style.display = 'none';
-               
+
             }
             $('#notifyModal').modal('show');
         }
@@ -283,7 +271,6 @@ $('#btnReserve').click(function () {
     function reload() {
         window.location.href = "/Reservation/edit/" + $('#reserId').val().toString();
     }
-
 </script>
 
 <div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -304,7 +291,6 @@ $('#btnReserve').click(function () {
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="btnModal" data-dismiss="modal">Đóng</button>
                 <button type="button" class="btn btn-success" id="btnPrintTicket" onclick="reload()">Thanh toán và suất vé</button>
-              
             </div>
         </div>
     </div>

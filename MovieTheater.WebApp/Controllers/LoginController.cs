@@ -32,12 +32,14 @@ namespace MovieTheater.WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            Response.Cookies.Delete("Token");
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(LoginRequest request)
         {
+            Response.Cookies.Delete("Token");
             if (ModelState.IsValid == false)
                 return View();
             var respond = await _userApiClient.LoginCustomerAsync(request);
@@ -60,7 +62,13 @@ namespace MovieTheater.WebApp.Controllers
                         userPrincipal,
                         authProperties);
 
-            return RedirectToAction("Index", "Home");
+         
+            if (string.IsNullOrWhiteSpace(request.RedirectURL))
+            {
+                return RedirectToAction("Index", "Home");
+            } else
+                return Redirect(request.RedirectURL);
+            
         }
 
         private ClaimsPrincipal ValidateToken(string jwtToken)

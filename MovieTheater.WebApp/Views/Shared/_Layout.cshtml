@@ -42,7 +42,7 @@
 
                 <ul class="nav-menu" id="nav-menu" style="padding-top:11px;font-family:sans-serif">
                     <li><a href="/">Trang chủ</a></li>
-                    <li><a href="/home/index">Lịch chiếu phim</a></li>
+                    <li><a href="/Film/Schedule">Lịch chiếu phim</a></li>
 
                     <li>
                         @if (User.Identity.IsAuthenticated == true)
@@ -61,7 +61,7 @@
                                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                                     Thông tin cá nhân
                                                 </a>
-                                                <a style="text-transform:none" class="dropdown-item" href="/User/Order">
+                                                <a style="text-transform:none" class="dropdown-item" href="/Reservation/Index">
                                                     <i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i>
                                                     Lịch sử mua hàng
                                                 </a>
@@ -75,12 +75,14 @@
                                                 </a>
 
                                             </div>
-                                        </li> }
-                                                    else
-                                                    {
-                                        <a href="/login/index">
-                                            <span>Đăng nhập</span>
-                                        </a>}
+                                        </li>
+ }
+                                    else
+                                    {
+                        <a href="/login/index">
+                            <span>Đăng nhập</span>
+                        </a>
+}
                         </li>
                     </ul>
                 </div>
@@ -88,6 +90,7 @@
         </div>
 
         @RenderBody()
+        @RenderSection("Scripts", required: false)
 
         <!-- END COPYRIGHT SECTION -->
         <!-- SCRIPT -->
