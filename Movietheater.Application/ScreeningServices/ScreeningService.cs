@@ -160,7 +160,7 @@ namespace Movietheater.Application.ScreeningServices
                     }
                     return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
                 }
-                catch (DbUpdateException e)
+                catch (DbUpdateException)
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }

@@ -185,7 +185,8 @@ namespace Movietheater.Application.FilmServices
                 Poster = $"{_configuration["BackEndServer"]}/" +
                    $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
                 Description = x.f.Description,
-                TrailerURL = x.f.TrailerURL
+                TrailerURL = x.f.TrailerURL,
+                Length = x.f.Length
             }).ToListAsync();
 
             return new ApiSuccessResult<List<FilmVMD>>(films);

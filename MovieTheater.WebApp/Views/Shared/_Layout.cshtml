@@ -61,10 +61,11 @@
                                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                                     Thông tin cá nhân
                                                 </a>
-                                                <a style="text-transform:none" class="dropdown-item" href="/Reservation/Index">
+                                                <a style="text-transform:none" class="dropdown-item"href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
                                                     <i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i>
                                                     Lịch sử mua hàng
                                                 </a>
+                                                
                                                 <a style="text-transform:none" class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
                                                     <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
                                                     Đổi mật khẩu

@@ -98,7 +98,41 @@ namespace MovieTheater.WebApp.Controllers
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
-       
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ChangPassword(Guid id)
+        {
+            var result = (await _userApiClient.GetCustomerByIdAsync(id));
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            ViewBag.User = result.ResultObj;
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangPassword(ChangePWRequest request)
+        {
+            request.UserName = User.Identity.Name;
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
+            var res = (await _userApiClient.ChangePasswordAsync(request));
+            if (res.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            if (res.IsSuccessed)
+            {
+                var userId = GetUserId();
+                return Redirect($"/user/Edit/{userId}");
+            }
+            else
+            {
+                ModelState.AddModelError("", res.Message);
+                return View(request);
+            }
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Forbident()
