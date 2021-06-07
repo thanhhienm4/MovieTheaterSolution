@@ -57,5 +57,28 @@ namespace MovieTheater.Api
             
             return await GetAsync< RoomCoordinate > ($"Api/Room/GetCoordinate/{id}");
         }
+        public async Task<ApiResult<RoomFormatVMD>> GetRoomFormatByIdAsync(int id)
+        {
+            return await GetAsync<RoomFormatVMD>($"Api/RoomFormat/GetRoomFormatById/{id}");
+        }
+
+
+        public async Task<ApiResult<bool>> CreateRoomFormatAsync(RoomFormatCreateRequest request)
+        {
+            return await PostAsync<bool>("/api/RoomFormat/Create", request);
+        }
+
+        public async Task<ApiResult<bool>> UpdateRoomFormatAsync(RoomFormatUpdateRequest request)
+        {
+            return await PostAsync<bool>("/api/RoomFormat/Update", request);
+        }
+
+        public async Task<ApiResult<bool>> DeleteRoomFormatAsync(int id)
+        {
+            return await DeleteAsync<bool>($"Api/Room/Delete/{id}");
+        }
+
+
+
     }
 }

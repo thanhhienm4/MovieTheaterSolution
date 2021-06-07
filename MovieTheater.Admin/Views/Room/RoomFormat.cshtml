@@ -20,7 +20,7 @@
     <div class="card-header py-3">
         <div class="d-flex">
             <div class="p-2">
-                <a class="btn btn-success" asp-action="CreateRoomFormat" asp-controller="Room">Tạo mới</a>
+                <a class="btn btn-success" asp-action="FormatCreate" asp-controller="Room">Tạo mới</a>
             </div>
            
         </div>
@@ -46,6 +46,9 @@
                     <th>
                         Giá 
                     </th>
+                    <th>
+                        Khác
+                    </th>
                
                 </tr>
             </thead>
@@ -63,6 +66,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chi tiết", "FormatEdit", new { id = item.Id })
                     </td>
                 </tr>
                 }

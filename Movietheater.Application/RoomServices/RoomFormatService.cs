@@ -81,5 +81,21 @@ namespace Movietheater.Application.RoomServices
 
             return new ApiSuccessResult<List<RoomFormatVMD>>(roomFormats);
         }
+
+        public async Task<ApiResult<RoomFormatVMD>> GetRoomFormatByIdAsync(int id)
+        {
+            var roomFormats = await _context.RoomFormats.Select(x => new RoomFormatVMD()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price
+            }).FirstOrDefaultAsync();
+
+            if(roomFormats == null)
+            {
+                return new ApiErrorResult<RoomFormatVMD>("Không tìm thấy định dạng phòng");
+            }    
+            return new ApiSuccessResult<RoomFormatVMD>(roomFormats);
+        }
     }
 }

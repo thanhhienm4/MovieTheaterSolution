@@ -21,6 +21,26 @@ namespace MovieTheater.BackEnd.Controllers
         {
             _roomFormatService = roomFormatService;
         }
+        [HttpPost("Create")]
+        public async Task<ApiResult<bool>> CreateAsync(RoomFormatCreateRequest model)
+        {
+            var result = await _roomFormatService.CreateAsync(model);
+            return result;
+        }
+
+        [HttpPost("Update")]
+        public async Task<ApiResult<bool>> UpdateAsync(RoomFormatUpdateRequest request)
+        {
+            var result = await _roomFormatService.UpdateAsync(request);
+            return result;
+        }
+
+        [HttpDelete("Delete/{id}")]
+        public async Task<ApiResult<bool>> DeleteAsync(int id)
+        {
+            var result = await _roomFormatService.DeleteAsync(id);
+            return result;
+        }
 
         [HttpGet("getAllRoomFormat")]
         public async Task<ApiResult<List<RoomFormatVMD>>> GetAllRoomFormatAsync()
@@ -28,5 +48,13 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _roomFormatService.GetAllRoomFormatAsync();
             return result;
         }
+
+        [HttpGet("getRoomFormatById/{id}")]
+        public async Task<ApiResult<RoomFormatVMD>> GetRoomFormatByIdAsync(int id)
+        {
+            var result = await _roomFormatService.GetRoomFormatByIdAsync(id);
+            return result;
+        }
+
     }
 }

@@ -14,5 +14,6 @@ namespace Movietheater.Application.RoomServices
         Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<List<RoomFormatVMD>>> GetAllRoomFormatAsync();
+        Task<ApiResult<RoomFormatVMD>> GetRoomFormatByIdAsync(int id);
     }
 }

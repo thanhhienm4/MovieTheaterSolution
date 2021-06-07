@@ -198,6 +198,73 @@ namespace MovieTheater.Admin.Controllers
             return View(result.ResultObj);
         }
 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> FormatEdit(int id)
+        {
+            var result = await _roomApiClient.GetRoomFormatByIdAsync(id);
+            var roomformat = new RoomFormatUpdateRequest()
+            {
+                Id = result.ResultObj.Id,
+                Name = result.ResultObj.Name,
+                Price = result.ResultObj.Price
+            };
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            return View(roomformat);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> FormatEdit(RoomFormatUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.IsEdit = true;
+                //await SetViewBagAsync();
+                return View(request);
+            }
+            var result = await _roomApiClient.UpdateRoomFormatAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            if (result.IsSuccessed)
+            {
+                TempData["Result"] = result.Message;
+                return RedirectToAction("RoomFormat", "Room");
+            }
+            ModelState.AddModelError("", result.Message);
+            return View(request);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> FormatCreate()
+        {
+            //await SetViewBagAsync();
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> FormatCreate(RoomFormatCreateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                await SetViewBagAsync();
+                return View(request);
+            }
+
+            var result = await _roomApiClient.CreateRoomFormatAsync(request);
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            if (result.IsSuccessed)
+            {
+                TempData["Result"] = result.Message;
+                return RedirectToAction("RoomFormat", "Room");
+            }
+            await SetViewBagAsync();
+            ModelState.AddModelError("", result.Message);
+            return View(request);
+        }
 
         //[Authorize(Roles = "Admin")]
         //public async Task<IActionResult> KindOfSeat()
