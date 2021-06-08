@@ -32,7 +32,7 @@ namespace Movietheater.Application.ScreeningServices
                 return new ApiErrorResult<bool>("Thêm thất bại");
             }
 
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Thêm thành công");
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(KindOfScreeningUpdateRequest request)
@@ -49,7 +49,7 @@ namespace Movietheater.Application.ScreeningServices
                 _context.Update(screening);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace Movietheater.Application.ScreeningServices
                 _context.KindOfScreenings.Remove(screening);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
                 }
                 else
                 {
@@ -89,6 +89,25 @@ namespace Movietheater.Application.ScreeningServices
             }).ToListAsync();
 
             return new ApiSuccessResult<List<KindOfScreeningVMD>>(kindOfScreenings);
+        }
+
+        public async Task<ApiResult<KindOfScreeningVMD>> GetKindOfScreeningVMDByIdAsync(int id)
+        {
+            var kindOfScreening = await _context.KindOfScreenings.FindAsync(id);
+            if(kindOfScreening == null)
+            {
+                return new ApiErrorResult<KindOfScreeningVMD>("Không tìm thấy loại xuất chiếu");
+
+            }else
+            {
+                var res = new KindOfScreeningVMD()
+                {
+                    Id = kindOfScreening.Id,
+                    Name = kindOfScreening.Name,
+                    Surcharge = kindOfScreening.Surcharge
+                };
+                return new ApiSuccessResult<KindOfScreeningVMD>(res);
+            }    
         }
     }
 }

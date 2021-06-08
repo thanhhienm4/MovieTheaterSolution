@@ -75,7 +75,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<bool>> DeleteRoomFormatAsync(int id)
         {
-            return await DeleteAsync<bool>($"Api/Room/Delete/{id}");
+            return await DeleteAsync<bool>($"Api/RoomFormat/Delete/{id}");
         }
 
 

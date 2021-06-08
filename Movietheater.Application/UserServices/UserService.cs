@@ -332,7 +332,7 @@ namespace Movietheater.Application.UserServices
                             await _userManager.DeleteAsync(user);
                             return new ApiSuccessResult<bool>(true, "Xóa thành công");
                         }
-                        catch (DbUpdateException e)
+                        catch (DbUpdateException)
                         {
                             return new ApiErrorResult<bool>("Xảy ra lỗi trong quá trình xóa");
                         }

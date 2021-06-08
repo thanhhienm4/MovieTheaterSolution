@@ -50,7 +50,7 @@ namespace Movietheater.Application.ScreeningServices
                 }
                 return new ApiSuccessResult<bool>(true,"Thêm thành công");
             }
-            catch (DbUpdateException e)
+            catch (DbUpdateException)
             {
                 return new ApiErrorResult<bool>("Thêm thất bại");
             }
@@ -81,7 +81,7 @@ namespace Movietheater.Application.ScreeningServices
                     await _context.SaveChangesAsync();
                     return new ApiSuccessResult<bool>(true,"Xóa thành công");
                 }
-                catch (DbUpdateException e)
+                catch (DbUpdateException)
                 {
                     return new ApiErrorResult<bool>("Xóa thất bại");
                 }

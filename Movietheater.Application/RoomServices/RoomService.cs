@@ -92,7 +92,7 @@ namespace Movietheater.Application.RoomServices
 
                         return new ApiSuccessResult<bool>(true,"Xóa thành công");
                     }
-                    catch (DbUpdateException e)
+                    catch (DbUpdateException)
                     {
                         return new ApiErrorResult<bool>("xóa thất bại");
                     }

@@ -16,7 +16,7 @@ namespace MovieTheater.Admin.Controllers
     {
         private readonly SeatApiClient _seatApiCient;
         private readonly SeatRowApiClient _seatRowApiClient;
-        private readonly RoomApiClient _roomApiClient;
+        private readonly RoomApiClient _roomApiClient; 
 
         public RoomController(SeatApiClient seatApiClient, SeatRowApiClient seatRowApiClient, RoomApiClient roomApiClient)
         {
@@ -264,6 +264,17 @@ namespace MovieTheater.Admin.Controllers
             await SetViewBagAsync();
             ModelState.AddModelError("", result.Message);
             return View(request);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<ApiResult<bool>> DeleteRoomFormat(int id)
+        {
+            var result = await _roomApiClient.DeleteRoomFormatAsync(id);
+
+            TempData["Result"] = result.Message;
+            return result;
         }
 
         //[Authorize(Roles = "Admin")]

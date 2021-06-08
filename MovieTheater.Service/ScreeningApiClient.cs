@@ -62,5 +62,30 @@ namespace MovieTheater.Api
         {
             return await GetAsync<ScreeningOfFilmInWeekVMD>($"Api/Screening/GetListCreeningOfFilmInWeek/{filmId}");
         }
+
+
+        public async Task<ApiResult<bool>> CreateKindOfScreenigAsync(KindOfScreeningCreateRequest request)
+        {
+            return await PostAsync<bool>("Api/KindOfScreening/Create", request);
+        }
+
+        public async Task<ApiResult<bool>> UpdateKindOfScreeningAsync(KindOfScreeningUpdateRequest request)
+        {
+            return await PutAsync<bool>("Api/KindOfScreening/Update", request);
+        }
+
+        public async Task<ApiResult<bool>> DeleteKindOfScreeningAsync(int id)
+        {
+            return await DeleteAsync<bool>($"Api/KindOfScreening/Delete/{id}");
+        }
+
+       
+
+     
+        public async Task<ApiResult<KindOfScreeningVMD>> GetKindOfScreeningByIdAsync(int id)
+        {
+            return await GetAsync<KindOfScreeningVMD>($"Api/KindOfScreening/GetKindOfScreeningById/{id}");
+           
+        }
     }
 }

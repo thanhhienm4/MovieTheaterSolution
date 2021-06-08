@@ -350,7 +350,7 @@ namespace Movietheater.Application.FilmServices
                 await _context.SaveChangesAsync();
                 return new ApiSuccessResult<bool>(true);
             }
-            catch (DbUpdateException e)
+            catch (DbUpdateException)
             {
                 return new ApiErrorResult<bool>("Thêm thất bại");
             }

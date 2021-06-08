@@ -1,8 +1,10 @@
-﻿using MovieTheater.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat.KindOfSeat;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Movietheater.Application.SeatServices
@@ -30,7 +32,7 @@ namespace Movietheater.Application.SeatServices
                 return new ApiErrorResult<bool>("Tạo mới thất bại");
             }
 
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Thêm thành công");
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(KindOfSeatUpdateRequest request)
@@ -46,9 +48,9 @@ namespace Movietheater.Application.SeatServices
                 seat.Surcharge = request.Surcharge;
                 _context.Update(seat);
                 if (await _context.SaveChangesAsync() != 0)
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
                 else
-                    return new ApiErrorResult<bool>("Cập nhật thất bại ");
+                    return new ApiErrorResult<bool>("Cập nhật thất bại");
             }
         }
 
@@ -64,7 +66,7 @@ namespace Movietheater.Application.SeatServices
                 _context.KindOfSeats.Remove(seat);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
                 }
                 else
                 {
@@ -72,10 +74,35 @@ namespace Movietheater.Application.SeatServices
                 }
             }
         }
-        //public ApiResult<List<KindOfSeat>> GetAllKindOfSeat()
-        //{
-        //    var res = _context.KindOfSeats.select(new )
 
-        //}    
+        public async Task<ApiResult<List<KindOfSeatVMD>>> GetAllAsync()
+        {
+            var res =await _context.KindOfSeats.Select(x => new KindOfSeatVMD()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Surcharge = x.Surcharge
+            }).ToListAsync();
+            return new ApiSuccessResult<List<KindOfSeatVMD>>(res);
+        }
+        public async Task<ApiResult<KindOfSeatVMD>> GetKindOfSeatByIdAsync(int id)
+        {
+            var kindOfSeat = await _context.KindOfSeats.FindAsync(id);
+            if (kindOfSeat == null)
+                return new ApiErrorResult<KindOfSeatVMD>("Không tìm thấy loại ghế");
+            else
+            {
+                var res =new  KindOfSeatVMD()
+                {
+                    Id = kindOfSeat.Id,
+                    Name = kindOfSeat.Name,
+                    Surcharge = kindOfSeat.Surcharge
+
+                };
+                return new ApiSuccessResult<KindOfSeatVMD>(res);
+            }    
+           
+           
+        }
     }
 }

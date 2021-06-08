@@ -152,7 +152,7 @@ namespace Movietheater.Application.SeatServices
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException e)
+            catch (DbUpdateException)
             {
                 return new ApiErrorResult<bool>("Không thể chỉnh sửa ghế đã đặt vé, vui lòng kiểm tra lại thông tin");
             }

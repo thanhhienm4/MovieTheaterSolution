@@ -31,7 +31,7 @@ namespace Movietheater.Application.RoomServices
             {
                 return new ApiErrorResult<bool>("Không thể thêm định dạng");
             }
-            return new ApiSuccessResult<bool>(true);
+            return new ApiSuccessResult<bool>(true,"Thêm thành công");
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(RoomFormatUpdateRequest model)
@@ -48,7 +48,7 @@ namespace Movietheater.Application.RoomServices
                 _context.Update(room);
                 await _context.SaveChangesAsync();
 
-                return new ApiSuccessResult<bool>(true);
+                return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
             }
         }
 
@@ -64,7 +64,7 @@ namespace Movietheater.Application.RoomServices
                 _context.RoomFormats.Remove(room);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResult<bool>(true);
+                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
                 }
                 else return new ApiErrorResult<bool>("Không xóa được");
             }

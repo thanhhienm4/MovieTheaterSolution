@@ -1,28 +1,26 @@
-﻿
-
-
-@using  MovieTheater.Models.Infra.RoomModels.Format;
-@model List<RoomFormatVMD>
-@{ ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+﻿@using MovieTheater.Models.Infra.Seat.KindOfSeat
+@model List<KindOfSeatVMD>
+@{
+    ViewData["Title"] = "EditKindOfSeat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item"><a href="/Room">Phòng</a></li>
-    <li class="breadcrumb-item">Định dạng phòng</li>
+    <li class="breadcrumb-item active">Định dạng phòng</li>
 </ol>
 @section Scripts{
     <script>
-        setTimeout(function () {
+    setTimeout(function () {
             $("#SuccessMeg").fadeOut('slow');
-        }, 2000);
-    </script>
+        }, 2000);</script>
 }
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
             <div class="p-2">
-                <a class="btn btn-success" asp-action="FormatCreate" asp-controller="Room">Tạo mới</a>
+                <a class="btn btn-success" asp-action="CreateKindOfSeat" asp-controller="Seat">Tạo mới</a>
             </div>
 
         </div>
@@ -67,13 +65,13 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Price)
+            @Html.DisplayFor(modelItem => item.Surcharge)
         </td>
         <td>
-            @Html.ActionLink("Chi tiết", "FormatEdit", new { id = item.Id }) |
-            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteRoomFormat" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
+            @Html.ActionLink("Chi tiết", "EditKindOfSeat", new { id = item.Id })
         </td>
-    </tr>}
+    </tr>
+}
             </tbody>
         </table>
         <div class="d-flex">
@@ -85,10 +83,10 @@
 </div>
 
 <!--model delete-->
-<input id="nameRoomFormat" hidden />
-<input id="idRoomFormat" hidden />
+<input id="namePeople" hidden />
+<input id="idPeople" hidden />
 
-<div class="modal fade" id="deleteRoomFormat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deletePeople" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -105,7 +103,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-danger" onclick="deleteRoomFormat()">Xóa</button>
+                <button type="button" class="btn btn-danger" onclick="deletePeople()">Xóa</button>
             </div>
         </div>
     </div>
@@ -114,29 +112,28 @@
     function holdData(item) {
         var name = $(item).attr("data-name");
         var id = $(item).attr("data-id");
-        $("#nameRoomFormat").val(name);
-        $("#idRoomFormat").val(id);
-        $("#deleteMeg").text("Bạn thật sự muốn xóa " + name + "?");
+        $("#namePeople").val(name);
+        $("#idPeople").val(id);
+        $("#deleteMeg").text("Bạn muốn xóa " + name);
     }
 
     $(function () {
 
-        $("#deleteRoomFormatRoomFormat").on('show.bs.modal', function () {
-            name = $("#nameRoomFormat").val();
+        $("#deletePeoplePeople").on('show.bs.modal', function () {
+            name = $("#namePeople").val();
 
         });
 
     });
 
-    function deleteRoomFormat() {
-        var userId = $("#idRoomFormat").val();
+    function deletePeople() {
+        var userId = $("#idPeople").val();
         $.ajax({
             type: "POST",
-            url: "/Room/DeleteRoomFormat",
+            url: "/People/Delete",
             data: { id: userId },
             success: function () {
                 location.reload();
             }
         })
-    }
-</script>
+    }</script>

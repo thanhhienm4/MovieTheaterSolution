@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
+using MovieTheater.Models.Infra.Seat.KindOfSeat;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -29,5 +30,31 @@ namespace MovieTheater.Api
         {
             return await GetAsync<List<SeatVMD>>($"Api/Seat/GetListSeatReserved/{screeningId}");
         }
+
+        public async Task<ApiResult<bool>> CreateKindOfseatAsync(KindOfSeatCreateRequest request)
+        {
+            return await PostAsync<bool>("Api/KindOfSeat/Create", request);
+        }
+
+        public async Task<ApiResult<bool>> UpdateKindOfSeatAsync(KindOfSeatUpdateRequest request)
+        {
+            return await PutAsync<bool>("Api/KindOfSeat/Update", request);
+        }
+
+        public async Task<ApiResult<bool>> DeleteKindofSeatAsync(int id)
+        {
+            return await DeleteAsync<bool>($"Api/KindOfSeat/Delete/{id}");
+        }
+
+        public async Task<ApiResult<List<KindOfSeatVMD>>> GetAllKindOfSeatAsync()
+        {
+            return await GetAsync<List<KindOfSeatVMD>>($"Api/KindOfSeat/GetAllKindOfSeat");
+        }
+        public async Task<ApiResult<KindOfSeatVMD>> GetKindOfSeatByIdAsync(int id)
+        {
+            return await GetAsync<KindOfSeatVMD>($"Api/KindOfSeat/GetKindOfSeatById/{id}");
+        }
+   
+
     }
 }
