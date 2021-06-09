@@ -6,8 +6,8 @@
 
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/People">Phòng</a></li>
-    <li class="breadcrumb-item"><a href="/People">Định dạng phòng</a></li>
+    <li class="breadcrumb-item"><a href="/Screening">Suất chiếu</a></li>
+    <li class="breadcrumb-item active">Loại suất chiếu</li>
 </ol>
 @section Scripts{
     <script>
@@ -28,9 +28,9 @@
     <div>
         @if (ViewBag.SuccessMsg != null)
         {
-            <div id="SuccessMeg" class="alert alert-success" role="alert">
-                @ViewBag.SuccessMsg
-            </div>}
+<div id="SuccessMeg" class="alert alert-success" role="alert">
+    @ViewBag.SuccessMsg
+</div>}
     </div>
     <div class="table-responsive">
         <table class="table table-bordered">
@@ -44,7 +44,7 @@
                         Tên
                     </th>
                     <th>
-                       Phụ phí
+                        Phụ phí
                     </th>
                     <th>
                         Khác
@@ -55,23 +55,24 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
+    <tr>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Surcharge)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Chi tiết", "EditKindOfScreening", new { id = item.Id }) |
-                        </td>
-                    </tr>
-                }
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surcharge)
+        </td>
+        <td>
+            @Html.ActionLink("Chi tiết", "EditKindOfScreening", new { id = item.Id }) |
+            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteKindOfScreening" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
+        </td>
+    </tr>
+}
             </tbody>
         </table>
         <div class="d-flex">
@@ -83,10 +84,10 @@
 </div>
 
 <!--model delete-->
-<input id="namePeople" hidden />
-<input id="idPeople" hidden />
+<input id="nameKindOfScreening" hidden />
+<input id="idKindOfScreening" hidden />
 
-<div class="modal fade" id="deletePeople" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteKindOfScreening" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -103,7 +104,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-danger" onclick="deletePeople()">Xóa</button>
+                <button type="button" class="btn btn-danger" onclick="deleteKindOfScreening()">Xóa</button>
             </div>
         </div>
     </div>
@@ -112,25 +113,25 @@
     function holdData(item) {
         var name = $(item).attr("data-name");
         var id = $(item).attr("data-id");
-        $("#namePeople").val(name);
-        $("#idPeople").val(id);
+        $("#nameKindOfScreening").val(name);
+        $("#idKindOfScreening").val(id);
         $("#deleteMeg").text("Bạn muốn xóa " + name);
     }
 
     $(function () {
 
-        $("#deletePeoplePeople").on('show.bs.modal', function () {
-            name = $("#namePeople").val();
+        $("#deleteKindOfScreeningKindOfScreening").on('show.bs.modal', function () {
+            name = $("#nameKindOfScreening").val();
 
         });
 
     });
 
-    function deletePeople() {
-        var userId = $("#idPeople").val();
+    function deleteKindOfScreening() {
+        var userId = $("#idKindOfScreening").val();
         $.ajax({
             type: "POST",
-            url: "/People/Delete",
+            url: "/Screening/DeleteKindOfScreening",
             data: { id: userId },
             success: function () {
                 location.reload();

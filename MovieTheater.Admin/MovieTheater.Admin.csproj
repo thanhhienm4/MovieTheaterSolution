@@ -26,6 +26,9 @@
     <None Include="Views\SeatRow\Create.cshtml" />
     <None Include="Views\SeatRow\Edit.cshtml" />
     <None Include="Views\SeatRow\Index.cshtml" />
+    <None Include="Views\Seat\CreateKindOfSeat.cshtml" />
+    <None Include="Views\Seat\EditKindOfSeat.cshtml" />
+    <None Include="Views\Seat\KindOfSeat.cshtml" />
     <None Include="wwwroot\img\undraw_posting_photo.svg" />
     <None Include="wwwroot\img\undraw_profile.svg" />
     <None Include="wwwroot\img\undraw_profile_1.svg" />

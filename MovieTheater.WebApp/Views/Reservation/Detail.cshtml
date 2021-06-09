@@ -3,112 +3,111 @@
 @{ ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
+<div class="container">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-center" style="color:red;font-weight:700">
+            ĐƠN ĐẶT HÀNG
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                Mã đơn : @ViewBag.Reservation.Id
+            </div>
+            <div class="row">
+                Khách hàng : @ViewBag.Reservation.Customer
+            </div>
+            <div class="row">
+                Nhân viên  :@ViewBag.Reservation.Employee
+            </div>
+            <div class="row">
+                Thời gian : @ViewBag.Reservation.Time
+            </div>
+            <div class="row">
+                Hình thức  :@ViewBag.Reservation.ReservationType
+            </div>
+            <div class="row">
+                Tổng tiền  :@ViewBag.Reservation.TotalPrice
+            </div>
+        </div>
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3 d-flex justify-content-center">
-        Đơn Đặt hàng
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            Mã đơn : @ViewBag.Reservation.Id
-        </div>
-        <div class="row">
-            Khách hàng : @ViewBag.Reservation.Customer
-        </div>
-        <div class="row">
-            Nhân viên  :@ViewBag.Reservation.Employee
-        </div>
-        <div class="row">
-            Thời gian : @ViewBag.Reservation.Time
-        </div>
-        <div class="row">
-            Hình thức  :@ViewBag.Reservation.ReservationType
-        </div>
-        <div class="row">
-            Tổng tiền  :@ViewBag.Reservation.TotalPrice
-        </div>
-    </div>
-
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-
-                    <th>
-                        Film
-                    </th>
-                    <th>
-                        Thời gian
-                    </th>
-                    <th>
-                        Phòng
-                    </th>
-                    <th>
-                        Giá
-                    </th>
-                    <th>
-                        Ghế
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in ViewBag.Reservation.Tickets)
-                {
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
                     <tr>
 
-                        <td>
-                            @item.Film
-                        </td>
-
-                        <td>
-                            @item.Time
-                        </td>
-                        <td>
-                            @item.Room
-                        </td>
-                        <td>
-
-                            @item.Price
-                        </td>
-                        <td>
-
-                            @item.Seat
-                        </td>
+                        <th>
+                            Film
+                        </th>
+                        <th>
+                            Thời gian
+                        </th>
+                        <th>
+                            Phòng
+                        </th>
+                        <th>
+                            Giá
+                        </th>
+                        <th>
+                            Ghế
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <form asp-action="Edit">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-row d-flex justify-content-around">
-            <div>
-                <div class="form-group">
-                    <div class="form-group">
-                        <label>
-                            Thanh toán
-                            <input type="checkbox" asp-for="Paid" />
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="form-group">
-                    <div class="form-group">
-                        <label>
-                            Trạng thái
-                            <input type="checkbox" asp-for="Active" disabled />
-                        </label>
-                    </div>
-                </div>
-            </div>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Reservation.Tickets)
+                    {
+        <tr>
+
+            <td>
+                @item.Film
+            </td>
+
+            <td>
+                @item.Time
+            </td>
+            <td>
+                @item.Room
+            </td>
+            <td>
+
+                @item.Price
+            </td>
+            <td>
+
+                @item.Seat
+            </td>
+        </tr>}
+                </tbody>
+            </table>
         </div>
-     
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row d-flex justify-content-around">
+                <div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>
+                                Thanh toán
+                                <input type="checkbox" asp-for="Paid" disabled/>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>
+                                Trạng thái
+                                <input type="checkbox" asp-for="Active" disabled />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-    </form>
+
+        </form>
+    </div>
 </div>
-
 @if (ViewBag.IsEdit != null)
 {
     <script>

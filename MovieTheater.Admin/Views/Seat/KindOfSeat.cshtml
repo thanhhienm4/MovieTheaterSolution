@@ -7,8 +7,8 @@
 
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/Room">Phòng</a></li>
-    <li class="breadcrumb-item active">Định dạng phòng</li>
+    <li class="breadcrumb-item"><a href="/SeatRow">Hàng ghế</a></li>
+    <li class="breadcrumb-item active">Loại ghế</li>
 </ol>
 @section Scripts{
     <script>
@@ -68,7 +68,8 @@
             @Html.DisplayFor(modelItem => item.Surcharge)
         </td>
         <td>
-            @Html.ActionLink("Chi tiết", "EditKindOfSeat", new { id = item.Id })
+            @Html.ActionLink("Chi tiết", "EditKindOfSeat", new { id = item.Id }) |
+            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteKindOfSeat" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
         </td>
     </tr>
 }
@@ -83,10 +84,10 @@
 </div>
 
 <!--model delete-->
-<input id="namePeople" hidden />
-<input id="idPeople" hidden />
+<input id="nameKindOfSeat" hidden />
+<input id="idKindOfSeat" hidden />
 
-<div class="modal fade" id="deletePeople" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteKindOfSeat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -103,7 +104,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-danger" onclick="deletePeople()">Xóa</button>
+                <button type="button" class="btn btn-danger" onclick="deleteKindOfSeat()">Xóa</button>
             </div>
         </div>
     </div>
@@ -112,25 +113,25 @@
     function holdData(item) {
         var name = $(item).attr("data-name");
         var id = $(item).attr("data-id");
-        $("#namePeople").val(name);
-        $("#idPeople").val(id);
+        $("#nameKindOfSeat").val(name);
+        $("#idKindOfSeat").val(id);
         $("#deleteMeg").text("Bạn muốn xóa " + name);
     }
 
     $(function () {
 
-        $("#deletePeoplePeople").on('show.bs.modal', function () {
-            name = $("#namePeople").val();
+        $("#deleteKindOfSeatKindOfSeat").on('show.bs.modal', function () {
+            name = $("#nameKindOfSeat").val();
 
         });
 
     });
 
-    function deletePeople() {
-        var userId = $("#idPeople").val();
+    function deleteKindOfSeat() {
+        var userId = $("#idKindOfSeat").val();
         $.ajax({
             type: "POST",
-            url: "/People/Delete",
+            url: "/Seat/Delete",
             data: { id: userId },
             success: function () {
                 location.reload();

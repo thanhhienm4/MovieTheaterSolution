@@ -34,15 +34,14 @@
             <div class="form-group">
                 <input class="form-control form-control-user"
                        aria-describedby="emailHelp"
-                       placeholder="Enter Email Address..." asp-for="UserName">
+                       placeholder="Tên đăng nhập" asp-for="UserName">
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <input type="hidden" class="form-control form-control-user"
                    placeholder="Password" asp-for="RedirectURL" value="@(ViewContext.HttpContext.Request.Query["RedirectURL"])">
             <div class="form-group">
-                U
                 <input type="password" class="form-control form-control-user"
-                       placeholder="Password" asp-for="Password">
+                       placeholder="Mật khẩu" asp-for="Password">
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -60,10 +59,10 @@
         </form>
 
         <div class="text-center">
-            <a style="color:yellow" class="small" href="/login/forgotPassword">Quên mật khẩu</a>
+            <a style="color:yellow" class="small" href="/login/forgotPassword">Quên mật khẩu?</a>
         </div>
         <div class="text-center">
-            <a style="color:yellow" class="small" href="/user/create">Đăng kí!</a>
+            <a style="color:yellow" class="small" href="/user/create">Đăng ký!</a>
         </div>
     </div>
 

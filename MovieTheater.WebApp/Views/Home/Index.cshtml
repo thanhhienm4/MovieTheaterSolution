@@ -1,6 +1,6 @@
 ﻿@using MovieTheater.Models.Catalog.Film
 @{ ViewData["Title"] = "Index";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <!-- Playing Film SECTION -->
 <div class="section">
@@ -23,25 +23,23 @@
         <div class="movie-infos">
             <div class="movie-info">
                 <i class="bx bxs-star"></i>
-                <span style="color:white">9.5</span>
+                <span style="color:white">@film.Ban</span>
             </div>
             <div class="movie-info">
                 <i class="bx bxs-time"></i>
-                <span style="color:white">@film.Length mins</span>
+                <span style="color:white">@film.Length phút</span>
             </div>
             <div class="movie-info">
                 @if (film.Genres != null)
                 {
 <span style="color:white">@string.Join(' ', film.Genres)</span>}
             </div>
-            <div class="movie-info">
-                <span style="color:white">@film.Ban</span>
-            </div>
+
         </div>
     </div>
-</a>                }
+</a>            }
 
-            }
+}
 
             <!-- END MOVIE ITEM -->
         </div>
@@ -75,11 +73,11 @@
         <div class="movie-infos">
             <div class="movie-info">
                 <i class="bx bxs-star"></i>
-                <span style="color:white">9.5</span>
+                <span style="color:white">@film.Ban</span>
             </div>
             <div class="movie-info">
                 <i class="bx bxs-time"></i>
-                <span style="color:white">@film.Length mins</span>
+                <span style="color:white">@film.Length phút</span>
             </div>
 
             <div class="movie-info">
@@ -87,14 +85,12 @@
                 {
 <span style="color:white">@string.Join(' ', film.Genres)</span>}
             </div>
-            <div class="movie-info">
-                <span style="color:white">@film.Ban</span>
-            </div>
+
         </div>
     </div>
-</a>                }
+</a>            }
 
-            }
+}
 
             <!-- END MOVIE ITEM -->
         </div>

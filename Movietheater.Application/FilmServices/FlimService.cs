@@ -423,7 +423,7 @@ namespace Movietheater.Application.FilmServices
 
         private List<string> GetGenres(int id)
         {
-            return _context.FilmInGenres.Join(_context.FilmGenre,
+            return _context.FilmInGenres.Where(x => x.FilmId == id).Join(_context.FilmGenre,
                                                             fig => fig.FilmGenreId,
                                                             fg => fg.Id,
                                                             (fig, fg) => fg.Name).ToList();

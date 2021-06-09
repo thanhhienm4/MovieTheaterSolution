@@ -93,7 +93,7 @@ namespace MovieTheater.WebApp.Controllers
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", result.Message);
             return View(request);
@@ -124,13 +124,23 @@ namespace MovieTheater.WebApp.Controllers
             if (res.IsSuccessed)
             {
                 var userId = GetUserId();
-                return Redirect($"/user/Edit/{userId}");
+                return Redirect($"/");
             }
             else
             {
                 ModelState.AddModelError("", res.Message);
                 return View(request);
             }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Order()
+        {
+            var res = await _reservationApiClient.GetReservationByUserIdAsync(GetUserId());
+            if (res.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
+            else return View(res.ResultObj);
         }
 
         [HttpGet]

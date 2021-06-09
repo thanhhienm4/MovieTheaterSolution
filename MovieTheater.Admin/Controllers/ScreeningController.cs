@@ -263,7 +263,7 @@ namespace MovieTheater.Admin.Controllers
         [HttpPost]
         public async Task<ApiResult<bool>> DeleteKindOfScreening(int id)
         {
-            var result = await _screeningApiClient.DeleteAsync(id);
+            var result = await _screeningApiClient.DeleteKindOfScreeningAsync(id);
             TempData["Result"] = result.Message;
             return result;
         }

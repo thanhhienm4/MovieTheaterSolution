@@ -1,44 +1,65 @@
 ﻿@model MovieTheater.Models.Infra.Seat.KindOfSeat.KindOfSeatUpdateRequest
 
-@{
-    ViewData["Title"] = "EditKindOfSeat";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewData["Title"] = "EditKindOfSeat";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-<h1>EditKindOfSeat</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item"><a href="/SeatRow">Hàng ghế</a></li>
+    <li class="breadcrumb-item"><a href="/Seat/KindOfSeat">Loại ghế</a></li>
+    <li class="breadcrumb-item active">Chi tiết</li>
+</ol>
 
-<h4>KindOfSeatUpdateRequest</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div id="btnEdit" class="p-2">
+    <a class="btn btn-success" onclick="enableElements()">Chỉnh sửa</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
         <form asp-action="EditKindOfSeat">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+            <div class="form-row">
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" class="form-control" disabled />
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input id="input1" asp-for="Name" class="form-control" disabled />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="Surcharge" class="control-label"></label>
+                        <input id="input2" asp-for="Surcharge" class="form-control" disabled />
+                        <span asp-validation-for="Surcharge" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Surcharge" class="control-label"></label>
-                <input asp-for="Surcharge" class="form-control" />
-                <span asp-validation-for="Surcharge" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div id="btnSave" class="form-group d-flex justify-content-center invisible">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
+<script>
+    function enableElements() {
+        document.getElementById("input1").disabled = false;
+        document.getElementById("input2").disabled = false;
+        document.getElementById("btnEdit").style.display = 'none';
+        document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
+    }
+</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
