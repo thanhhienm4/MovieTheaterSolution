@@ -85,7 +85,7 @@
                 str = "";
                 for (var i = 0; i < data.lables.length; i++)
                 {
-                     str = "<tr><td>" + data.lables[i] + "</td><td>"
+                     str += "<tr><td>" + data.lables[i] + "</td><td>"
                            + data.dataRows[1][i].toString()+ "</td></tr>";
                 }
                 document.getElementById("tbbodyFilmRevenue").innerHTML = str;

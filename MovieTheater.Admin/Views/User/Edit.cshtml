@@ -62,6 +62,16 @@
                         </div>
                     </div>
                 }
+                else 
+                {
+                    <div class="col-md" hidden>
+                        <div class="form-group">
+                            <label asp-for="Status" class="control-label"></label>
+                            <select id="input4" asp-for="Status" asp-items="Html.GetEnumSelectList<Status>()" class="form-control" disabled></select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                    </div>
+                }
 
             </div>
 
@@ -95,7 +105,7 @@
         document.getElementById("input1").disabled = false;
         document.getElementById("input2").disabled = false;
         document.getElementById("input3").disabled = false;
-        document.getElementById("input4").disabled = false;
+    
         document.getElementById("input5").disabled = false;
         document.getElementById("input6").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';

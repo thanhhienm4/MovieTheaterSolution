@@ -65,6 +65,9 @@ namespace Movietheater.Application.ReservationServices
             }
             else
             {
+                if(rv.Paid == true)
+                    return new ApiErrorResult<bool>("Không xóa đơn mua do khách hàng đã thanh toán");
+
                 var ticket = _context.Tickets.Where(x => x.ReservationId == id).ToList();
                 _context.Tickets.RemoveRange(ticket);
                 _context.SaveChanges();

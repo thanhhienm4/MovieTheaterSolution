@@ -40,6 +40,7 @@ namespace Movietheater.Application.ReservationServices
             }
             else
             {
+                
                 _context.ReservationTypes.Remove(rvt);
                 if (await _context.SaveChangesAsync() != 0)
                 {

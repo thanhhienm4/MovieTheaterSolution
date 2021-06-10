@@ -52,7 +52,7 @@ namespace Movietheater.Application.ScreeningServices
             }
             catch (DbUpdateException)
             {
-                return new ApiErrorResult<bool>("Thêm thất bại");
+                return new ApiErrorResult<bool>("Thêm thất bại vui lòng kiểm tra lại thời gian bắt đầu");
             }
         }
 
@@ -83,7 +83,7 @@ namespace Movietheater.Application.ScreeningServices
                 }
                 catch (DbUpdateException)
                 {
-                    return new ApiErrorResult<bool>("Xóa thất bại");
+                    return new ApiErrorResult<bool>("Xóa thất bại do suất chiếu đã được khách mua vé");
                 }
             }
         }
@@ -141,7 +141,10 @@ namespace Movietheater.Application.ScreeningServices
                 DateTime publishDate = _context.Films.Where(x => x.Id == request.FilmId).Select(x => x.PublishDate).FirstOrDefault();
                 if (publishDate.Date > request.StartTime.Date)
                     return new ApiErrorResult<bool>("Thời gian chiếu không được trước ngày công chiếu " + publishDate.ToString("dd/MM/yyyy"));
-
+                if(screening.StartTime <= DateTime.Now)
+                {
+                    return new ApiErrorResult<bool>("Không thể cập nhật xuất chiếu đó xuất chiếu đã diễn ra");
+                }    
                 screening.Id = request.Id;
                 screening.StartTime = request.StartTime;
 

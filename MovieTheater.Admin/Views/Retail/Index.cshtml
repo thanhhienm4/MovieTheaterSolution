@@ -9,6 +9,18 @@
     <li class="breadcrumb-item active">Lịch chiếu phim </li>
 </ol>
 <br />
+@section Scripts{
+    <script>
+            setTimeout(function () {
+                $("#SuccessMeg").fadeOut('slow');
+            }, 2000);
+    </script>
+}
+@if (ViewBag.SuccessMsg != null)
+{
+    <div id="SuccessMeg" class="alert alert-success" role="alert">
+        @ViewBag.SuccessMsg
+    </div>}
 <div class="d-flex justify-content-between">
     @for (int i = 0; i < 7; i++)
     {
@@ -85,5 +97,4 @@
         .custom:hover {
             background-color: gold !important;
         }
-    
 </style>

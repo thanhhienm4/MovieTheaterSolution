@@ -13,6 +13,7 @@ using MovieTheater.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
@@ -149,6 +150,11 @@ namespace MovieTheater.Admin.Controllers
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
+
+                if (User.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value == "Admin").Count() == 0)
+                {
+                    return RedirectToAction("Index", "Retail");
+                }
                 return RedirectToAction("Index", "User");
             }
             ModelState.AddModelError("", result.Message);
@@ -250,8 +256,12 @@ namespace MovieTheater.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             if (res.IsSuccessed)
             {
-                var userId = GetUserId();
-                return Redirect($"/user/Edit/{userId}");
+                TempData["Result"] = res.Message;
+                if (User.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value == "Admin").Count() != 0)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                return RedirectToAction("Index", "Retail");
             }
             else
             {

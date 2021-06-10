@@ -36,6 +36,7 @@ namespace MovieTheater.Admin.Controllers
 
         public async Task<IActionResult> Index(DateTime? date)
         {
+            ViewBag.SuccessMsg = TempData["Result"];
             var result = (await _screeningApiClient.GetFilmScreeningIndateAsync(date));
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");

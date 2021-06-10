@@ -24,8 +24,8 @@ namespace MovieTheater.Admin.Controllers
             if (User.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value == "Admin").Count() == 0)
             {
                 return RedirectToAction("Index", "Retail");
-            }    
-           
+            }
+            ViewBag.SuccessMsg = TempData["Result"];
             return View();
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MovieTheater.Models.Catalog.Screening
@@ -19,5 +20,12 @@ namespace MovieTheater.Models.Catalog.Screening
 
         [Display(Name = "Loại xuất chiếu")]
         public int KindOfScreeningId { get; set; }
+        public class ScreeningUpdateValidator : AbstractValidator<ScreeningUpdateRequest>
+        {
+             public ScreeningUpdateValidator()
+            {
+                RuleFor(x => x.StartTime).GreaterThan(DateTime.Now).WithMessage("Thời gian bắt đầu luôn lớn hơn hiện tại");
+            } 
+        }
     }
 }
