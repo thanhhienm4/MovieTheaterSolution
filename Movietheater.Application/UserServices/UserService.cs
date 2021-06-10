@@ -304,7 +304,7 @@ namespace Movietheater.Application.UserServices
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
-                return new ApiErrorResult<bool>("Không tìm thấy người dùng");
+                return new ApiErrorResult<bool>("Không tìm thấy nhân viên");
             else
             {
                 Guid currentUserId = GetUserId();
@@ -316,7 +316,7 @@ namespace Movietheater.Application.UserServices
                     {
                         await _userManager.SetLockoutEnabledAsync(user, true);
                         await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(100));
-                        return new ApiSuccessResult<bool>(true);
+                        return new ApiSuccessResult<bool>(true,"Nhân viên chuyển sang trạng thái khóa tài khoản");
                     }
                     else
                     {
@@ -325,7 +325,13 @@ namespace Movietheater.Application.UserServices
                             var staffInfor = _context.UserInfors.Find(id);
                             if (staffInfor != null)
                             {
+                                var roles = _context.UserRoles.Where(x => x.UserId == id);
+                                _context.UserRoles.RemoveRange(roles);
+                                _context.SaveChanges();
+
                                 _context.UserInfors.Remove(staffInfor);
+                                _context.SaveChanges();
+                                var account = _context.Users.Find(id);
                                 _context.SaveChanges();
                             }
 

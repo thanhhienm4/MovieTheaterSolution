@@ -84,7 +84,7 @@ namespace Movietheater.Application.RoomServices
 
         public async Task<ApiResult<RoomFormatVMD>> GetRoomFormatByIdAsync(int id)
         {
-            var roomFormats = await _context.RoomFormats.Select(x => new RoomFormatVMD()
+            var roomFormats = await _context.RoomFormats.Where(x => x.Id == id).Select(x => new RoomFormatVMD()
             {
                 Id = x.Id,
                 Name = x.Name,

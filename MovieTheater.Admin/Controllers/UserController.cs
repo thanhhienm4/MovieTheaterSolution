@@ -231,7 +231,7 @@ namespace MovieTheater.Admin.Controllers
             var result = (await _userApiClient.GetUserByIdAsync(id));
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
-            ViewBag.User = result.ResultObj;
+            ViewBag.UserName = result.ResultObj.UserName;
             return View();
         }
 
@@ -240,6 +240,7 @@ namespace MovieTheater.Admin.Controllers
         public async Task<IActionResult> ChangPassword(ChangePWRequest request)
         {
             request.UserName = User.Identity.Name;
+            ViewBag.UserName = request.UserName;
             if (!ModelState.IsValid)
             {
                 return View(request);
@@ -254,6 +255,7 @@ namespace MovieTheater.Admin.Controllers
             }
             else
             {
+                
                 ModelState.AddModelError("", res.Message);
                 return View(request);
             }

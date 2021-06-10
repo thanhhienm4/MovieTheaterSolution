@@ -3,6 +3,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <!-- Playing Film SECTION -->
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $("#SuccessMeg").fadeOut('slow');
+        }, 2000);
+    </script>
+}
+@if (ViewBag.SuccessMsg != null)
+{
+    <div id="SuccessMeg" class="alert alert-success" role="alert">
+        @ViewBag.SuccessMsg
+    </div>}
 <div class="section">
     <div class="container">
         <div class="section-header">

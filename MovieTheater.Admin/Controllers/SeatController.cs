@@ -28,6 +28,7 @@ namespace MovieTheater.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             }else
             {
+                ViewBag.SuccessMsg = TempData["Result"];
                 return View(res.ResultObj);
             }
         }

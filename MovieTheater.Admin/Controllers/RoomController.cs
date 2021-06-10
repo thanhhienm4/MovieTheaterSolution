@@ -195,6 +195,7 @@ namespace MovieTheater.Admin.Controllers
             var result = await _roomApiClient.GetAllRoomFormatAsync();
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
+            ViewBag.SuccessMsg = TempData["Result"];
             return View(result.ResultObj);
         }
 

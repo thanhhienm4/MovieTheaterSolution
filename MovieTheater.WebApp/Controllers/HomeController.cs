@@ -17,6 +17,7 @@ namespace MovieTheater.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewBag.SuccessMsg = TempData["Result"];
             ViewData["PlayingFilms"] = (await _filmApiClient.GetAllPlayingFilmAsync()).ResultObj;
             ViewData["UpcomingFilms"] = (await _filmApiClient.GetAllUpcomingFilmAsync()).ResultObj;
             return View();
