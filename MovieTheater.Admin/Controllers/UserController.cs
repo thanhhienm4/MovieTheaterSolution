@@ -177,10 +177,12 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
             var roleAssignRequest = await GetRoleAssignRequest(id);
+           
             var result = (await _userApiClient.GetUserByIdAsync(id));
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
             var userInfor = result.ResultObj;
+            ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.UserInfor = userInfor;
 
             return View(roleAssignRequest);

@@ -10,13 +10,25 @@
     <li class="breadcrumb-item"><a href="/User">Người dùng</a></li>
     <li class="breadcrumb-item active">Gán quyền</li>
 </ol>
+@section Scripts{
+    <script>
+            setTimeout(function () {
+                $("#SuccessMeg").fadeOut('slow');
+            }, 2000);
+    </script>
+}
+@if (ViewBag.SuccessMsg != null)
+{
+    <div id="SuccessMeg" class="alert alert-success" role="alert">
+        @ViewBag.SuccessMsg
+    </div>}
 
 <div class="card mb-4">
     <div class="card-header">
         <div class="row">
             <p>Nhân viên :</p><a href="/User/Edit/@ViewBag.userInfor.Id"> @ViewBag.userInfor.UserName</a>
         </div>
-    
+
     </div>
 
     <div class="card-body">

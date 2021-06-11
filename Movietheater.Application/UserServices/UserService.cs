@@ -312,7 +312,7 @@ namespace Movietheater.Application.UserServices
                     return new ApiErrorResult<bool>("Không thể tự xóa chính mình");
                 else
                 {
-                    if (_context.Reservations.Where(x => x.CustomerId == id).Count() != 0)
+                    if (_context.Reservations.Where(x => x.EmployeeId == id).Count() != 0)
                     {
                         await _userManager.SetLockoutEnabledAsync(user, true);
                         await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(100));
