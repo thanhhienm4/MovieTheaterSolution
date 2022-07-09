@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.FilmServices
+namespace MovieTheater.Application.FilmServices
 {
     public class PeopleService : IPeopleService
     {

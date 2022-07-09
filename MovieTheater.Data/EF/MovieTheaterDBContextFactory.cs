@@ -5,7 +5,7 @@ using System;
 
 namespace MovieTheater.Data.EF
 {
-    public class MovieTheaterDBContextFactory : IDesignTimeDbContextFactory<MovieTheaterDBContext>
+    public class MovieTheaterDbContextFactory : IDesignTimeDbContextFactory<MovieTheaterDBContext>
     {
         public MovieTheaterDBContext CreateDbContext(string[] Args)
         {
@@ -14,10 +14,10 @@ namespace MovieTheater.Data.EF
                 .SetBasePath(workingDirectory)
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var ConnectionString = configuration.GetConnectionString("MovieTheaterDBContext");
+            var connectionString = configuration.GetConnectionString("MovieTheaterDBContext");
 
             var optionsBuilder = new DbContextOptionsBuilder<MovieTheaterDBContext>();
-            optionsBuilder.UseSqlServer(ConnectionString);
+            optionsBuilder.UseSqlServer(connectionString);
             return new MovieTheaterDBContext(optionsBuilder.Options);
         }
     }

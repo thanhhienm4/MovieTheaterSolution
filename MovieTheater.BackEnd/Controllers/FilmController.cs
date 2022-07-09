@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Movietheater.Application.FilmServices;
+using MovieTheater.Application.FilmServices;
 using Movietheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;

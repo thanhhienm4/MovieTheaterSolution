@@ -4,7 +4,7 @@ using MovieTheater.Models.Common.Paging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.FilmServices
+namespace MovieTheater.Application.FilmServices
 {
     public interface IFilmService
     {

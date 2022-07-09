@@ -14,7 +14,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.FilmServices
+namespace MovieTheater.Application.FilmServices
 {
     public class FlimService : IFilmService
     {
@@ -73,7 +73,7 @@ namespace Movietheater.Application.FilmServices
                     {
                         await _storageService.DeleteFileAsync(film.Poster);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                     }
                     string newPosterPath = await this.SaveFile(request.Poster);
@@ -116,7 +116,7 @@ namespace Movietheater.Application.FilmServices
                     await _storageService.DeleteFileAsync(poster);
                     return new ApiSuccessResult<bool>(true, "Xóa phim thành công");
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return new ApiErrorResult<bool>("Xóa thất bại");
                 }

@@ -154,7 +154,7 @@ namespace Movietheater.Application.SeatServices
             }
             catch (DbUpdateException)
             {
-                return new ApiErrorResult<bool>("Không thể chỉnh sửa ghế đã đặt vé, vui lòng kiểm tra lại thông tin");
+                return new ApiErrorResult<bool>("phòng đã có suất chiếu, chỉ được thêm ghế, vui lòng kiểm tra lại thông tin");
             }
 
             return new ApiSuccessResult<bool>(true,"Cập nhật thành công");

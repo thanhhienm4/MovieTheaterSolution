@@ -3,7 +3,7 @@ using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.FilmServices
+namespace MovieTheater.Application.FilmServices
 {
     public interface IPositionService
     {

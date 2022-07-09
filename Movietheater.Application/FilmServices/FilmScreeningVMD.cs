@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Movietheater.Application.FilmServices
+namespace MovieTheater.Application.FilmServices
 {
     partial class ScreeningVMDLite
     {

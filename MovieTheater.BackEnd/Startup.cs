@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Movietheater.Application.Common;
-using Movietheater.Application.FilmServices;
+using MovieTheater.Application.FilmServices;
 using Movietheater.Application.MailServices;
 using Movietheater.Application.ReservationServices;
 using Movietheater.Application.RoomServices;

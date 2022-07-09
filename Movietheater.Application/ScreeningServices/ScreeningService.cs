@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Movietheater.Application.FilmServices;
+using MovieTheater.Application.FilmServices;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;

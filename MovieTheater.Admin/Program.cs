@@ -17,7 +17,7 @@ namespace MovieTheater.Admin
                 {
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseWebRoot("wwwroot");
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>(); //UseKestrel(options => options.Listen(System.Net.IPAddress.Any,6666));
                 });
     }
 }

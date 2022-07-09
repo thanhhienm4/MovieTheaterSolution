@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.FilmServices
+namespace MovieTheater.Application.FilmServices
 {
     public class BanService : IBanService
     {
@@ -76,6 +76,7 @@ namespace Movietheater.Application.FilmServices
 
         public async Task<ApiResult<List<BanVMD>>> GetAllBanAsync()
         {
+            var test =  _context.Bans.Include(x => x.Films).ToList();
             var bans = await _context.Bans.Select(x => new BanVMD()
             {
                 Id = x.Id,
