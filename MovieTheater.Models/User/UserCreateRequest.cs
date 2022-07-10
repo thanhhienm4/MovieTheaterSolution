@@ -18,7 +18,6 @@ namespace MovieTheater.Models.User
 
         [Display(Name = "Ngày sinh")]
         public DateTime Dob { get; set; }
-
         public String Email { get; set; }
 
         [Display(Name = "Số điện thoại")]

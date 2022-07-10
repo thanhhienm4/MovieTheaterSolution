@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.Statitic
+namespace MovieTheater.Application.Statitic
 {
-    public class StatiticService : IStatiticService
+    public class StatisticService : IStatisticService
     {
         private readonly MovieTheaterDBContext _context;
 
-        public StatiticService(MovieTheaterDBContext context)
+        public StatisticService(MovieTheaterDBContext context)
         {
             _context = context;
         }

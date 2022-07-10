@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.ReservationServices
+namespace MovieTheater.Application.ReservationServices
 {
     public interface IReservationService
     {

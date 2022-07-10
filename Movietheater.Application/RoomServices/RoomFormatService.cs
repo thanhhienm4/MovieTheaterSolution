@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.RoomServices
+namespace MovieTheater.Application.RoomServices
 {
     public class RoomFormatService : IRoomFormatService
     {

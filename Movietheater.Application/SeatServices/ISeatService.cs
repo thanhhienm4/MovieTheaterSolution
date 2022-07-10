@@ -3,7 +3,7 @@ using MovieTheater.Models.Infra.Seat;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.SeatServices
+namespace MovieTheater.Application.SeatServices
 {
     public interface ISeatService
     {

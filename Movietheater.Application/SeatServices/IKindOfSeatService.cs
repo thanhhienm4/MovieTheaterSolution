@@ -3,7 +3,7 @@ using MovieTheater.Models.Infra.Seat.KindOfSeat;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.SeatServices
+namespace MovieTheater.Application.SeatServices
 {
     public interface IKindOfSeatService
     {
@@ -11,7 +11,7 @@ namespace Movietheater.Application.SeatServices
 
         Task<ApiResult<bool>> UpdateAsync(KindOfSeatUpdateRequest request);
 
-        Task<ApiResult<bool>> DeleteAsync(int Id);
+        Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<List<KindOfSeatVMD>>> GetAllAsync();
         Task<ApiResult<KindOfSeatVMD>> GetKindOfSeatByIdAsync(int id);

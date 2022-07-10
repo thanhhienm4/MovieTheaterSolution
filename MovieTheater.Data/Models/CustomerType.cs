@@ -11,6 +11,7 @@ namespace MovieTheater.Data.Models
         {
             ReservationPeople = new HashSet<ReservationPerson>();
             TicketPrices = new HashSet<TicketPrice>();
+            Tickets = new HashSet<Ticket>();
         }
 
         public string Id { get; set; }
@@ -19,5 +20,6 @@ namespace MovieTheater.Data.Models
 
         public virtual ICollection<ReservationPerson> ReservationPeople { get; set; }
         public virtual ICollection<TicketPrice> TicketPrices { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

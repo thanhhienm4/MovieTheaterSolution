@@ -14,7 +14,7 @@ namespace MovieTheater.Models.User
         [Display(Name = "Nhớ mật khẩu")]
         public bool RememberMe { get; set; }
 
-        public string RedirectURL { get; set; }
+        public string RedirectUrl { get; set; }
     }
 
     public class LoginValidator : AbstractValidator<LoginRequest>

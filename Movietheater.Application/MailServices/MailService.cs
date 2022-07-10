@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MovieTheater.Models.Utilities;
-namespace Movietheater.Application.MailServices
+namespace MovieTheater.Application.MailServices
 {
     public class MailService : IMailService
     {

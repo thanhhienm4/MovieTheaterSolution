@@ -11,7 +11,7 @@ namespace MovieTheater.Data.Models
         {
             Screenings = new HashSet<Screening>();
             Seats = new HashSet<Seat>();
-            Surchanges = new HashSet<Surchange>();
+            Surcharges = new HashSet<Surcharge>();
         }
 
         public string Id { get; set; }
@@ -21,6 +21,6 @@ namespace MovieTheater.Data.Models
         public virtual AuditoriumFormat Format { get; set; }
         public virtual ICollection<Screening> Screenings { get; set; }
         public virtual ICollection<Seat> Seats { get; set; }
-        public virtual ICollection<Surchange> Surchanges { get; set; }
+        public virtual ICollection<Surcharge> Surcharges { get; set; }
     }
 }

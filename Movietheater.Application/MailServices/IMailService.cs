@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.MailServices
+namespace MovieTheater.Application.MailServices
 {
     using MovieTheater.Models.Utilities;
     using System.Threading.Tasks;

@@ -3,7 +3,7 @@ using MovieTheater.Models.Infra.RoomModels.Format;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.RoomServices
+namespace MovieTheater.Application.RoomServices
 {
     public interface IRoomFormatService
     {

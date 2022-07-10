@@ -15,9 +15,9 @@ namespace MovieTheater.Data.Models
         public int RowId { get; set; }
         public int Number { get; set; }
         public string AuditoriumId { get; set; }
-        public int Id { get; set; }
         public string TypeId { get; set; }
         public bool IsActive { get; set; }
+        public int Id { get; set; }
 
         public virtual Auditorium Auditorium { get; set; }
         public virtual SeatRow Row { get; set; }

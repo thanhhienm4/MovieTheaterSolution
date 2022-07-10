@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.RoomServices
+namespace MovieTheater.Application.RoomServices
 {
     public class RoomService : IRoomService
     {
@@ -112,6 +112,7 @@ namespace Movietheater.Application.RoomServices
                 x.r.Id.ToString().Contains(request.Keyword) ||
                 x.f.Name.Contains(request.Keyword));
             }
+
             if (request.FormatId != null)
             {
                 query = query.Where(x => x.r.FormatId == request.FormatId);

@@ -72,7 +72,7 @@ namespace MovieTheater.Api
             return await PutAsync<bool>("Api/User/RoleAssign", request);
         }
 
-        public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePWRequest request)
+        public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)
         {
             return await PutAsync<bool>("Api/User/ChangePassword", request);
         }

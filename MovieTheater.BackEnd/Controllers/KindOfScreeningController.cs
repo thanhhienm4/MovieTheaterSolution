@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Movietheater.Application.ScreeningServices;
-using Movietheater.Application.UserServices;
+using MovieTheater.Application.ScreeningServices;
+using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;

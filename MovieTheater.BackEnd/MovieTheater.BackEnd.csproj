@@ -18,9 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Movietheater.Application\Movietheater.Application.csproj" />
+    <ProjectReference Include="..\Movietheater.Application\MovieTheater.Application.csproj" />
     <ProjectReference Include="..\MovieTheater.Data\MovieTheater.Data.csproj" />
     <ProjectReference Include="..\MovieTheater.Models\MovieTheater.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MailSave\" />
   </ItemGroup>
 
 </Project>

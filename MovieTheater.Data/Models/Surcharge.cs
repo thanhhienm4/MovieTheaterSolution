@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MovieTheater.Data.Models
 {
-    public partial class Surchange
+    public partial class Surcharge
     {
         public string SeatType { get; set; }
         public string AuditoriumId { get; set; }

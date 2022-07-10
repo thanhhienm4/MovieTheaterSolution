@@ -4,7 +4,7 @@ using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.ReservationServices
+namespace MovieTheater.Application.ReservationServices
 {
     public class ReservationTypeService : IReservationTypeService
     {

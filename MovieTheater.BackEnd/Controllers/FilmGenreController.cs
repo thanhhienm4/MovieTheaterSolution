@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Application.FilmServices;
-using Movietheater.Application.UserServices;
+using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
@@ -15,7 +15,6 @@ namespace MovieTheater.BackEnd.Controllers
     public class FilmGenreController : BaseController
     {
         private readonly IFilmGenreService _filmGenreService;
-        private readonly IUserService _userService;
 
         public FilmGenreController(IFilmGenreService filmGenreService, IUserService userService) : base(userService)
         {

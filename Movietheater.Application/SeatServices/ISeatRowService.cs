@@ -5,7 +5,7 @@ using MovieTheater.Models.Infra.Seat.SeatRow;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.SeatServices
+namespace MovieTheater.Application.SeatServices
 {
     public interface ISeatRowService
     {

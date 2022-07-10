@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30621.155
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Admin", "MovieTheater.Admin\MovieTheater.Admin.csproj", "{441C22E5-888A-40C7-845C-86017C6759C2}"
 EndProject
@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Infra", "1.Infra", "{24FD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Models", "MovieTheater.Models\MovieTheater.Models.csproj", "{2FD88ED1-9A34-4AB9-BF46-773C5456F4BF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movietheater.Application", "Movietheater.Application\Movietheater.Application.csproj", "{882D9B85-3328-44FE-920C-3737E0AF2B5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Application", "Movietheater.Application\MovieTheater.Application.csproj", "{882D9B85-3328-44FE-920C-3737E0AF2B5F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Api", "MovieTheater.Service\MovieTheater.Api.csproj", "{1C316358-54D3-4AC9-9E9B-CFC39B6B5144}"
 EndProject

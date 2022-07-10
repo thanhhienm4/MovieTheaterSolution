@@ -111,7 +111,7 @@ namespace MovieTheater.WebApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> ChangPassword(ChangePWRequest request)
+        public async Task<IActionResult> ChangPassword(ChangePwRequest request)
         {
           
             request.UserName = User.Identity.Name;

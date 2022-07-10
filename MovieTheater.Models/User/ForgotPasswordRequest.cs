@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Models.User
 {
-    public class ForgotPasswordRequest
+    public class ForgotPwRequest
     {
         [Display(Name = "Email khôi phục mật khẩu")]
         public string Email { get; set; }
         
         
     }
-    public class ForgotPasswordValidator : AbstractValidator<ForgotPasswordRequest>
+    public class ForgotPwValidator : AbstractValidator<ForgotPwRequest>
     {
-        public ForgotPasswordValidator()
+        public ForgotPwValidator()
         {
             RuleFor(x => x.Email).EmailAddress().WithMessage("Định dạng mail không hợp lệ");
         }

@@ -10,13 +10,13 @@ namespace MovieTheater.Data.Models
         public SeatType()
         {
             Seats = new HashSet<Seat>();
-            Surchanges = new HashSet<Surchange>();
+            Surcharges = new HashSet<Surcharge>();
         }
 
         public string Id { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<Seat> Seats { get; set; }
-        public virtual ICollection<Surchange> Surchanges { get; set; }
+        public virtual ICollection<Surcharge> Surcharges { get; set; }
     }
 }

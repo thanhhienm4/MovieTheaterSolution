@@ -2,9 +2,9 @@
 using MovieTheater.Models.Common.ChartTable;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.Statitic
+namespace MovieTheater.Application.Statitic
 {
-    public interface IStatiticService
+    public interface IStatisticService
     {
         Task<ApiResult<ChartData>> GetTopRevenueFilmAsync(CalRevenueRequest request);
 

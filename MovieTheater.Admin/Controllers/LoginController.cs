@@ -73,7 +73,7 @@ namespace MovieTheater.Admin.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest model)
+        public async Task<IActionResult> ForgotPassword(ForgotPwRequest model)
         {
             if (!ModelState.IsValid)
                 return View(model);

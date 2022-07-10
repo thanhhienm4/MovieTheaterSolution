@@ -9,7 +9,7 @@ namespace MovieTheater.Data.Models
     {
         public Customer()
         {
-            Reservations = new HashSet<Reservation>();
+            //Reservations = new HashSet<Reservation>();
         }
 
         public string UserName { get; set; }
@@ -20,6 +20,6 @@ namespace MovieTheater.Data.Models
         public string Mail { get; set; }
         public string Password { get; set; }
 
-        public virtual ICollection<Reservation> Reservations { get; set; }
+        //public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }

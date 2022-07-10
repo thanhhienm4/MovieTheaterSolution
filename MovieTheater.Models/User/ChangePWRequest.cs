@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MovieTheater.Models.User
 {
-    public class ChangePWRequest
+    public class ChangePwRequest
     {
         [Display(Name = "Tên đăng nhập")]
         public string UserName { get; set; }
@@ -19,9 +19,9 @@ namespace MovieTheater.Models.User
         public string NewConfirmPassword { get; set; }
     }
 
-    public class ChangePWRequestValidator : AbstractValidator<ChangePWRequest>
+    public class ChangePwRequestValidator : AbstractValidator<ChangePwRequest>
     {
-        public ChangePWRequestValidator()
+        public ChangePwRequestValidator()
         {
             RuleFor(x => x.NewPassword).NotEmpty().WithMessage("Mật khẩu không được để trống").Matches("^(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,15})$")
                .WithMessage("Mật khẩu phải bao gồm chữ hoa , chữ thường, số, từ  8 đến 15 kí tự");

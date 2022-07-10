@@ -9,21 +9,22 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Movietheater.Application.Common;
+using MovieTheater.Application.Common;
 using MovieTheater.Application.FilmServices;
-using Movietheater.Application.MailServices;
-using Movietheater.Application.ReservationServices;
-using Movietheater.Application.RoomServices;
-using Movietheater.Application.ScreeningServices;
-using Movietheater.Application.SeatServices;
-using Movietheater.Application.Statitic;
-using Movietheater.Application.UserServices;
+using MovieTheater.Application.MailServices;
+using MovieTheater.Application.ReservationServices;
+using MovieTheater.Application.RoomServices;
+using MovieTheater.Application.ScreeningServices;
+using MovieTheater.Application.SeatServices;
+using MovieTheater.Application.Statitic;
+using MovieTheater.Application.UserServices;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MovieTheater.Data.Models;
 
 namespace MovieTheater.BackEnd
 {
@@ -40,7 +41,6 @@ namespace MovieTheater.BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IBanService, BanService>();
             services.AddTransient<IFilmService, FlimService>();
             services.AddTransient<IFilmGenreService, FilmGenreService>();
@@ -49,7 +49,6 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IReservationTypeService, ReservationTypeService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IRoomService, RoomService>();
             services.AddTransient<IRoomFormatService, RoomFormatService>();
             services.AddTransient<IScreeningService, ScreeningService>();
@@ -59,7 +58,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<ISeatRowService, SeatRowService>();
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IBanService, BanService>();
-            services.AddTransient<IStatiticService, StatiticService>();
+            services.AddTransient<IStatisticService, StatisticService>();
             services.AddTransient<IPositionService, PositionService>();
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IMailService, MailService>();
@@ -70,6 +69,7 @@ namespace MovieTheater.BackEnd
                     option.Password.RequireNonAlphanumeric = false;
                 })
                 .AddEntityFrameworkStores<MovieTheaterDBContext>()
+                .AddEntityFrameworkStores<MoviesContext>()
                 .AddDefaultTokenProviders();
 
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
@@ -79,6 +79,9 @@ namespace MovieTheater.BackEnd
 
             services.AddDbContext<MovieTheaterDBContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("MovieTheaterDBContext")));
+
+            services.AddDbContext<MoviesContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContext")));
 
             // Add JWT Authenticate
             services.AddAuthentication(options =>

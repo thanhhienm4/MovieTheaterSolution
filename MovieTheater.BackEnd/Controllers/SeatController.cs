@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Movietheater.Application.SeatServices;
-using Movietheater.Application.UserServices;
+using MovieTheater.Application.SeatServices;
+using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
 using System.Collections.Generic;

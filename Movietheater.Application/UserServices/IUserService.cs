@@ -4,8 +4,9 @@ using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
 using System.Threading.Tasks;
+using MovieTheater.Data.Models;
 
-namespace Movietheater.Application.UserServices
+namespace MovieTheater.Application.UserServices
 {
     public interface IUserService
     {
@@ -23,7 +24,7 @@ namespace Movietheater.Application.UserServices
 
         Task<ApiResult<bool>> DeleteAsync(Guid id);
 
-        Task<ApiResult<bool>> ChangePasswordAsync(ChangePWRequest request);
+        Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request);
 
         Task<ApiResult<bool>> RoleAssignAsync(RoleAssignRequest request);
 
@@ -36,5 +37,6 @@ namespace Movietheater.Application.UserServices
         Task<ApiResult<bool>> ForgotStaffPasswordAsync(string mail);
         Task<ApiResult<bool>> ForgotCustomerPasswordAsync(string mail);
         Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request);
+        
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Movietheater.Application.Common;
+using MovieTheater.Application.Common;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
@@ -101,7 +101,7 @@ namespace MovieTheater.Application.FilmServices
             }
             else
             {
-                if (_context.Screenings.Where(x => x.FilmId == film.Id).Count() != 0)
+                if (_context.Screenings.Count(x => x.FilmId == film.Id) != 0)
                     return new ApiErrorResult<bool>("Xóa thất bại");
                 try
                 {

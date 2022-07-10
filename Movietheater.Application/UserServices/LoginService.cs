@@ -14,7 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.UserServices
+namespace MovieTheater.Application.UserServices
 {
     public class LoginService : ILoginService
     {

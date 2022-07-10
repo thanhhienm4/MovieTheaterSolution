@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Movietheater.Application.MailServices;
+using MovieTheater.Application.MailServices;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Data.Enums;
@@ -19,7 +19,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.UserServices
+namespace MovieTheater.Application.UserServices
 {
     public class UserService : IUserService
     {
@@ -347,7 +347,7 @@ namespace Movietheater.Application.UserServices
             }
         }
 
-        public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePWRequest request)
+        public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)

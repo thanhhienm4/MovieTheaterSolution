@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.ScreeningServices
+namespace MovieTheater.Application.ScreeningServices
 {
     public interface IScreeningService
     {

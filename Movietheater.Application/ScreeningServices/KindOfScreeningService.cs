@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.ScreeningServices
+namespace MovieTheater.Application.ScreeningServices
 {
     public class KindOfScreeningService : IkindOfScreeningService
     {

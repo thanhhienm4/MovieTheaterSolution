@@ -63,11 +63,11 @@ namespace MovieTheater.WebApp.Controllers
                         authProperties);
 
          
-            if (string.IsNullOrWhiteSpace(request.RedirectURL))
+            if (string.IsNullOrWhiteSpace(request.RedirectUrl))
             {
                 return RedirectToAction("Index", "Home");
             } else
-                return Redirect(request.RedirectURL);
+                return Redirect(request.RedirectUrl);
             
         }
         [HttpGet]
@@ -79,7 +79,7 @@ namespace MovieTheater.WebApp.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest model)
+        public async Task<IActionResult> ForgotPassword(ForgotPwRequest model)
         {
             if (!ModelState.IsValid)
                 return View(model);

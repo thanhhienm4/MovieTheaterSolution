@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Movietheater.Application.UserServices;
+using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
 using System.Threading.Tasks;
+using MovieTheater.Data.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -70,7 +71,7 @@ namespace MovieTheater.BackEnd.Controllers
 
         [Authorize]
         [HttpPut("ChangePassword")]
-        public async Task<ApiResult<bool>> ChangePasswordAsync([FromBody] ChangePWRequest request)
+        public async Task<ApiResult<bool>> ChangePasswordAsync([FromBody] ChangePwRequest request)
         {
             var result = await _userService.ChangePasswordAsync(request);
             return result;
@@ -129,6 +130,13 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResult<bool>> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
         {
             var result = await _userService.ResetPasswordAsync(request);
+            return result;
+        }
+        [AllowAnonymous]
+        [HttpGet("GetCustomer")]
+        public Customer GetCustomer()
+        {
+            var result =  _userService.GetCustomer();
             return result;
         }
     }

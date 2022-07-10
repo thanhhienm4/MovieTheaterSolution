@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.Common
+namespace MovieTheater.Application.Common
 {
     public interface IStorageService
     {

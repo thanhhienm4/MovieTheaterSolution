@@ -4,7 +4,7 @@ using MovieTheater.Models.User;
 using System;
 using System.Threading.Tasks;
 
-namespace Movietheater.Application.UserServices
+namespace MovieTheater.Application.UserServices
 {
     public interface ILoginService 
     {

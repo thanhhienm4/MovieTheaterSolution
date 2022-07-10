@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace MovieTheater.Data.Models
 {
-    public partial class PaymentStastu
+    public partial class PaymentStatus
     {
-        public PaymentStastu()
+        public PaymentStatus()
         {
             Reservations = new HashSet<Reservation>();
         }
