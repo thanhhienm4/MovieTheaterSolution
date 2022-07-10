@@ -136,7 +136,7 @@ namespace MovieTheater.Application.FilmServices
                 PublishDate = x.f.PublishDate,
                 Ban = x.b.Name,
                 Poster = $"{_configuration["BackEndServer"]}/" +
-                   $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
+                   $"{FileStorageService.UserContentFolderName}/{x.f.Poster}",
                 Description = x.f.Description,
                 TrailerURL = x.f.TrailerURL
             }).ToListAsync();
@@ -160,7 +160,7 @@ namespace MovieTheater.Application.FilmServices
                 PublishDate = x.f.PublishDate,
                 Ban = x.b.Name,
                 Poster = $"{_configuration["BackEndServer"]}/" +
-                   $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
+                   $"{FileStorageService.UserContentFolderName}/{x.f.Poster}",
                 Description = x.f.Description,
                 Length = x.f.Length,
                 TrailerURL = x.f.TrailerURL
@@ -183,7 +183,7 @@ namespace MovieTheater.Application.FilmServices
                 PublishDate = x.f.PublishDate,
                 Ban = x.b.Name,
                 Poster = $"{_configuration["BackEndServer"]}/" +
-                   $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
+                   $"{FileStorageService.UserContentFolderName}/{x.f.Poster}",
                 Description = x.f.Description,
                 TrailerURL = x.f.TrailerURL,
                 Length = x.f.Length
@@ -212,7 +212,7 @@ namespace MovieTheater.Application.FilmServices
                     PublishDate = x.f.PublishDate,
                     Ban = x.b.Name,
                     Poster = $"{_configuration["BackEndServer"]}/" +
-                   $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
+                   $"{FileStorageService.UserContentFolderName}/{x.f.Poster}",
                     Description = x.f.Description,
                     TrailerURL = x.f.TrailerURL
                 }).ToList();
@@ -255,7 +255,7 @@ namespace MovieTheater.Application.FilmServices
                     PublishDate = film.PublishDate,
                     TrailerURL = film.TrailerURL,
                     Poster = $"{_configuration["BackEndServer"]}/" +
-                    $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{film.Poster}"
+                    $"{FileStorageService.UserContentFolderName}/{film.Poster}"
                 };
                 return new ApiSuccessResult<FilmMD>(result);
             }
@@ -283,7 +283,7 @@ namespace MovieTheater.Application.FilmServices
                     PublishDate = x.f.PublishDate,
                     Ban = x.b.Name,
                     Poster = $"{_configuration["BackEndServer"]}/" +
-                    $"{FileStorageService.USER_CONTENT_FOLDER_NAME}/{x.f.Poster}",
+                    $"{FileStorageService.UserContentFolderName}/{x.f.Poster}",
                     Description = x.f.Description,
                     TrailerURL = x.f.TrailerURL,
                 }).FirstOrDefaultAsync();

@@ -1,5 +1,4 @@
-﻿using DevExpress.Xpo;
-using MovieTheater.Models.Common.ApiResult;
+﻿using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.User;
 using System;
 using System.Threading.Tasks;

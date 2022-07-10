@@ -33,58 +33,59 @@ namespace MovieTheater.Application.CustomerServices
 
         public async Task<ApiResult<string>> LoginAsync(LoginRequest request)
         {
-            var user = await _userManager.FindByNameAsync(request.UserName);
-            if (user == null)
-                return new ApiErrorResult<string>("Tên đăng nhập không tồn tại");
+            throw new NotImplementedException();
+            //var user = await _userManager.FindByNameAsync(request.UserName);
+            //if (user == null)
+            //    return new ApiErrorResult<string>("Tên đăng nhập không tồn tại");
 
-            var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, false);
+            //var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, false);
 
-            if (result.IsLockedOut == true)
-                return new ApiErrorResult<string>("Tài khoản của bạn đã bị vô hiệu hóa");
+            //if (result.IsLockedOut == true)
+            //    return new ApiErrorResult<string>("Tài khoản của bạn đã bị vô hiệu hóa");
 
-            if (result.Succeeded == false)
-                return new ApiErrorResult<string>("Mật khẩu không chính xác");
+            //if (result.Succeeded == false)
+            //    return new ApiErrorResult<string>("Mật khẩu không chính xác");
 
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.Email, user.Email),
-            };
+            //var claims = new List<Claim>
+            //{
+            //    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            //    new Claim(ClaimTypes.Name,user.UserName),
+            //    new Claim(ClaimTypes.Email, user.Email),
+            //};
             
 
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            //var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            //var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var jwtSecurityToken = new JwtSecurityToken(_configuration["JWT:ValidIssuer"],
-                _configuration["JWT:validAudience"],
-              claims,
-              expires: DateTime.Now.AddMonths(1),
-              signingCredentials: credentials);
+            //var jwtSecurityToken = new JwtSecurityToken(_configuration["JWT:ValidIssuer"],
+            //    _configuration["JWT:validAudience"],
+            //  claims,
+            //  expires: DateTime.Now.AddMonths(1),
+            //  signingCredentials: credentials);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            string token = tokenHandler.WriteToken(jwtSecurityToken);
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //string token = tokenHandler.WriteToken(jwtSecurityToken);
 
-            // Save Token
-            var userToken = await _context.UserTokens.FindAsync(user.Id);
-            if (userToken == null)
-            {
-                await _context.UserTokens.AddAsync(new IdentityUserToken<Guid>()
-                {
-                    UserId = user.Id,
-                    Value = token
-                });
-            }
-            else
-            {
-                userToken.Value = token;
-                _context.UserTokens.Update(userToken);
-            }
-            _context.SaveChanges();
+            //// Save Token
+            //var userToken = await _context.UserTokens.FindAsync(user.Id);
+            //if (userToken == null)
+            //{
+            //    await _context.UserTokens.AddAsync(new IdentityUserToken<Guid>()
+            //    {
+            //        UserId = user.Id,
+            //        Value = token
+            //    });
+            //}
+            //else
+            //{
+            //    userToken.Value = token;
+            //    _context.UserTokens.Update(userToken);
+            //}
+            //_context.SaveChanges();
 
-            return new ApiSuccessResult<string>(token);
+            //return new ApiSuccessResult<string>(token);
         }
 
         public Task<ApiResult<bool>> CreateAsync(UserCreateRequest request)

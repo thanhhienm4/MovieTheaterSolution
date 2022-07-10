@@ -15,7 +15,6 @@ namespace MovieTheater.BackEnd.Controllers
     public class BanController : BaseController
     {
         private readonly IBanService _banService;
-        private readonly IUserService _userService;
 
 
         public BanController(IBanService banService,IUserService userService):base(userService)

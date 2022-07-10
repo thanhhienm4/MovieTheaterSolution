@@ -1,27 +1,29 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MovieTheater.Utilities.Helper
 {
-    public class JwtAuthenticationManager : JwtAuthenticationManager.IJWTAuthenticationManager
+    public class JwtAuthenticationManager : JwtAuthenticationManager.IJwtAuthenticationManager
     {
-        public interface IJWTAuthenticationManager
+        public interface IJwtAuthenticationManager
         {
             string Authenticate(string username, string password);
         }
 
-        private readonly string tokenKey;
+        private readonly string _tokenKey;
 
         public JwtAuthenticationManager(string tokenKey)
         {
-            this.tokenKey = tokenKey;
+            this._tokenKey = tokenKey;
         }
 
         public string Authenticate(string username, string password)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(tokenKey);
+            var key = Encoding.ASCII.GetBytes(_tokenKey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

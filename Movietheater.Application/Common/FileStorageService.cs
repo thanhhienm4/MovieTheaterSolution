@@ -7,16 +7,16 @@ namespace MovieTheater.Application.Common
     public class FileStorageService : IStorageService
     {
         private readonly string _userContentFolder;
-        public const string USER_CONTENT_FOLDER_NAME = "user-content";
+        public const string UserContentFolderName = "user-content";
 
         public FileStorageService(IWebHostEnvironment webHostEnvironment)
         {
-            _userContentFolder = Path.Combine(webHostEnvironment.WebRootPath, USER_CONTENT_FOLDER_NAME);
+            _userContentFolder = Path.Combine(webHostEnvironment.WebRootPath, UserContentFolderName);
         }
 
         public string GetFileUrl(string fileName)
         {
-            return $"/{USER_CONTENT_FOLDER_NAME}/{fileName}";
+            return $"/{UserContentFolderName}/{fileName}";
         }
 
         public async Task SaveFileAsync(Stream mediaBinaryStream, string fileName)

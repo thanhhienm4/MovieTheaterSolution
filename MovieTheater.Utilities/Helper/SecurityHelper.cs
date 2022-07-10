@@ -4,21 +4,23 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 
-namespace Backend_Done.Authenticate
+namespace MovieTheater.Utilities.Helper
 {
     public class SecurityHelper
     {
-        //public static string encryptedText = new ConfigurationBuilder()
-        //        .SetBasePath(Directory.GetCurrentDirectory())
-        //        .AddJsonFile("appsettings.json").Build()["AppSettings:Secret"];
-        public static string encryptedText = "";
+        public static string EncryptedText = "vvvaasrffffsafasfs";
+            //= new ConfigurationBuilder()
+            //.SetBasePath(Directory.GetCurrentDirectory())
+            //.AddJsonFile("appsettings.json").Build()["AppSettings:Secret"];
+
+
         public static string Encrypt(string data)
         {
-            return Encrypt(encryptedText, data);
+            return Encrypt(EncryptedText, data);
         }
         public static string Decrypt(string data)
         {
-            return Decrypt(encryptedText, data);
+            return Decrypt(EncryptedText, data);
         }
         public static string Encrypt(string key, string data)
         {

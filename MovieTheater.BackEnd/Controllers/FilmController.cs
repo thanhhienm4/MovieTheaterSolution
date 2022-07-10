@@ -17,7 +17,6 @@ namespace MovieTheater.BackEnd.Controllers
     public class FilmController : BaseController
     {
         private readonly IFilmService _filmService;
-        private readonly IUserService _userService;
 
         public FilmController(IFilmService filmService, IUserService userService) : base(userService)
         {

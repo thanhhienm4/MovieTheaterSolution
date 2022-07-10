@@ -1,5 +1,4 @@
-﻿using DevExpress.Xpo;
-using System;
+﻿using System;
 
 namespace MovieTheater.Models.Infra.Seat.KindOfSeat
 {

@@ -132,13 +132,8 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _userService.ResetPasswordAsync(request);
             return result;
         }
-        [AllowAnonymous]
-        [HttpGet("GetCustomer")]
-        public Customer GetCustomer()
-        {
-            var result =  _userService.GetCustomer();
-            return result;
-        }
+       
+        
     }
     
 }

@@ -15,52 +15,53 @@ namespace MovieTheater.BackEnd.Controllers
     [Authorize(Roles = "Admin")]
     public class PeopleController : BaseController
     {
-        private readonly IPeopleService _PeopleService;
+        private readonly IPeopleService _peopleService;
         private readonly IUserService _userService;
         public PeopleController(IPeopleService PeopleService, IUserService userService) : base(userService)
         {
-            _PeopleService = PeopleService;
+            _peopleService = PeopleService;
+            _userService = userService;
         }
 
         [HttpPost("Create")]
         public async Task<ApiResult<bool>> CreateAsync(PeopleCreateRequest request)
         {
-            var result = await _PeopleService.CreateAsync(request);
+            var result = await _peopleService.CreateAsync(request);
             return result;
         }
 
         [HttpPut("Update")]
         public async Task<ApiResult<bool>> UpdateAsync(PeopleUpdateRequest request)
         {
-            var result = await _PeopleService.UpdateAsync(request);
+            var result = await _peopleService.UpdateAsync(request);
             return result;
         }
 
         [HttpDelete("Delete/{id}")]
         public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-            var result = await _PeopleService.DeleteAsync(id);
+            var result = await _peopleService.DeleteAsync(id);
             return result;
         }
 
         [HttpPost("GetPeoplePaging")]
         public async Task<ApiResult<PageResult<PeopleVMD>>> GetPeoplePaging(PeoplePagingRequest request)
         {
-            var result = await _PeopleService.GetPeoplePagingAsync(request);
+            var result = await _peopleService.GetPeoplePagingAsync(request);
             return result;
         }
 
         [HttpGet("GetPeopleById/{id}")]
         public async Task<ApiResult<PeopleVMD>> GetPeopleByIdAsync(int id)
         {
-            var result = await _PeopleService.GetPeopleById(id);
+            var result = await _peopleService.GetPeopleById(id);
             return result;
         }
 
         [HttpGet("GetAllPeople")]
         public async Task<ApiResult<List<PeopleVMD>>> GetAllPeopleAsync()
         {
-            var result = await _PeopleService.GetAllPeopleAsync();
+            var result = await _peopleService.GetAllPeopleAsync();
             return result;
         }
     }
