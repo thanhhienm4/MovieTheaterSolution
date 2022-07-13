@@ -6,7 +6,7 @@ namespace MovieTheater.Models.User
     public class LoginRequest
     {
         [Display(Name = "Tên đăng nhập")]
-        public string UserName { get; set; }
+        public string Email { get; set; }
 
         [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
@@ -21,7 +21,7 @@ namespace MovieTheater.Models.User
     {
         public LoginValidator()
         {
-            RuleFor(x => x.UserName).NotEmpty().WithMessage("Vui lòng nhập tên đăng nhập");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Vui lòng nhập tên đăng nhập");
             RuleFor(x => x.Password).NotEmpty().WithMessage("Vui lòng nhập mật khẩu");
         }
     }

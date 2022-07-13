@@ -12,7 +12,7 @@ namespace MovieTheater.Application.CustomerServices
 
         Task<ApiResult<string>> LoginAsync(LoginRequest request);
 
-        Task<ApiResult<bool>> CreateAsync(UserCreateRequest request);
+        Task<ApiResult<bool>> RegisterAsync(UserRegisterRequest request);
 
         Task<ApiResult<bool>> UpdateAsync(UserUpdateRequest request);
 

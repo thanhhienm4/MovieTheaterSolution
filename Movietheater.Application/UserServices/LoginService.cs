@@ -38,11 +38,11 @@ namespace MovieTheater.Application.UserServices
 
         public async Task<ApiResult<string>> LoginStaffAsync(LoginRequest request)
         {
-            var user = await _userManager.FindByNameAsync(request.UserName);
+            var user = await _userManager.FindByNameAsync(request.Email);
             if (user == null)
                 return new ApiErrorResult<string>("Tên đăng nhập không tồn tại");
 
-            var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, false);
+            var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, false);
 
             if (result.IsLockedOut == true)
                 return new ApiErrorResult<string>("Tài khoản của bạn đã bị vô hiệu hóa");
@@ -99,11 +99,11 @@ namespace MovieTheater.Application.UserServices
 
         public async Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request)
         {
-            var user = await _userManager.FindByNameAsync(request.UserName);
+            var user = await _userManager.FindByNameAsync(request.Email);
             if (user == null)
                 return new ApiErrorResult<string>("Tên đăng nhập không tồn tại");
 
-            var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, false);
+            var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, false);
 
             if (result.IsLockedOut == true)
                 return new ApiErrorResult<string>("Tài khoản của bạn đã bị vô hiệu hóa");

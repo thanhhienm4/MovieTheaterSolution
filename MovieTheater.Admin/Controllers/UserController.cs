@@ -85,7 +85,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Create(UserCreateRequest request)
+        public async Task<IActionResult> Create(UserRegisterRequest request)
         {
             if (!ModelState.IsValid)
             {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using MovieTheater.Models.Catalog.Film;
+using MovieTheater.Models.Catalog.Film.MovieGenres;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using System.Collections.Generic;
@@ -113,9 +114,9 @@ namespace MovieTheater.Api
             return await GetAsync<List<FilmVMD>>($"Api/Film/getAllUpcomingFilm");
         }
 
-        public async Task<ApiResult<List<FilmGenreVMD>>> GetAllFilmGenreAsync()
+        public async Task<ApiResult<List<MovieGenreVMD>>> GetAllFilmGenreAsync()
         {
-            return await GetAsync<List<FilmGenreVMD>>($"Api/FilmGenre/GetAllFilmGenre");
+            return await GetAsync<List<MovieGenreVMD>>($"Api/FilmGenre/GetAllFilmGenre");
         }
 
         public async Task<ApiResult<bool>> PosAssignAsync(PosAssignRequest request)

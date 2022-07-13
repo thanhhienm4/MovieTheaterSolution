@@ -9,7 +9,6 @@ namespace MovieTheater.Data.Models
     {
         public CustomerType()
         {
-            ReservationPeople = new HashSet<ReservationPerson>();
             TicketPrices = new HashSet<TicketPrice>();
             Tickets = new HashSet<Ticket>();
         }
@@ -18,7 +17,6 @@ namespace MovieTheater.Data.Models
         public string Name { get; set; }
         public bool IsDefault { get; set; }
 
-        public virtual ICollection<ReservationPerson> ReservationPeople { get; set; }
         public virtual ICollection<TicketPrice> TicketPrices { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }
     }

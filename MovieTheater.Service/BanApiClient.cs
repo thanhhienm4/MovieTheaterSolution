@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using MovieTheater.Models.Catalog.Film;
+using MovieTheater.Models.Catalog.Film.MovieCensorships;
 using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -15,9 +15,9 @@ namespace MovieTheater.Api
             httpContextAccessor)
         { }
 
-        public async Task<ApiResult<List<BanVMD>>> GetAllBanAsync()
+        public async Task<ApiResult<List<MovieCensorshipVMD>>> GetAllBanAsync()
         {
-            return await GetAsync<List<BanVMD>>($"Api/Ban/GetAllBan");
+            return await GetAsync<List<MovieCensorshipVMD>>($"Api/Ban/GetAllBan");
         }
     }
 }

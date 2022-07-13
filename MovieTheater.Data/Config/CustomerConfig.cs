@@ -14,11 +14,11 @@ namespace MovieTheater.Data.Config
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
-            builder.HasKey(e => e.UserName);
+            builder.HasKey(e => e.Id);
 
             builder.ToTable("Customer");
 
-            builder.Property(e => e.UserName)
+            builder.Property(e => e.Id)
                 .HasMaxLength(32)
                 .IsUnicode(false);
 
@@ -36,7 +36,7 @@ namespace MovieTheater.Data.Config
 
             builder.Property(e => e.Password)
                 .IsRequired()
-                .HasMaxLength(1);
+                .HasMaxLength(64);
 
             builder.Property(e => e.Phone)
                 .IsRequired()

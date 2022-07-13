@@ -19,7 +19,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IRoomService _roomService;
         private readonly IUserService _userService;
 
-        public RoomController(IRoomService roomService, IUserService userService) : base(userService)
+        public RoomController(IRoomService roomService, IUserService customerService) : base(customerService)
         {
             _roomService = roomService;
         }

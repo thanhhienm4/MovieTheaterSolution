@@ -12,13 +12,13 @@ namespace MovieTheater.Application.UserServices
     {
         Task<ApiResult<string>> LoginStaffAsync(LoginRequest request);
 
-        Task<ApiResult<Guid>> CreateStaffAsync(UserCreateRequest model);
+        Task<ApiResult<Guid>> CreateStaffAsync(UserRegisterRequest model);
 
         Task<ApiResult<bool>> UpdateStaffAsync(UserUpdateRequest model);
 
         Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request);
 
-        Task<ApiResult<bool>> CreateCustomerAsync(UserCreateRequest model);
+        Task<ApiResult<bool>> CreateCustomerAsync(UserRegisterRequest model);
 
         Task<ApiResult<bool>> UpdateCustomerAsync(UserUpdateRequest model);
 

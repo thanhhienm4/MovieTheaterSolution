@@ -24,7 +24,10 @@ using MovieTheater.Models.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MovieTheater.Application.CustomerServices;
+using MovieTheater.Application.FilmServices.MovieCensorshipes;
 using MovieTheater.Data.Models;
+using MovieTheater.Application.FilmServices.MovieGenres;
 
 namespace MovieTheater.BackEnd
 {
@@ -41,9 +44,11 @@ namespace MovieTheater.BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IBanService, BanService>();
+            services.AddTransient<ICustomerService, CustomerService>();
+
+            services.AddTransient<IMovieCensorshipService, MovieCensorshipService>();
             services.AddTransient<IFilmService, FlimService>();
-            services.AddTransient<IFilmGenreService, FilmGenreService>();
+            services.AddTransient<IMovieGenreService, MovieGenreService>();
             services.AddTransient<IPeopleService, PeopleService>();
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IReservationTypeService, ReservationTypeService>();
@@ -57,7 +62,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IkindOfScreeningService, KindOfScreeningService>();
             services.AddTransient<ISeatRowService, SeatRowService>();
             services.AddTransient<IStorageService, FileStorageService>();
-            services.AddTransient<IBanService, BanService>();
+            services.AddTransient<IMovieCensorshipService, MovieCensorshipService>();
             services.AddTransient<IStatisticService, StatisticService>();
             services.AddTransient<IPositionService, PositionService>();
             services.AddTransient<ILoginService, LoginService>();

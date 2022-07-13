@@ -17,7 +17,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IRoomFormatService _roomFormatService;
         private readonly IUserService _userService;
 
-        public RoomFormatController(IRoomFormatService roomFormatService, IUserService userService) : base(userService)
+        public RoomFormatController(IRoomFormatService roomFormatService, IUserService customerService) : base(customerService)
         {
             _roomFormatService = roomFormatService;
         }

@@ -17,7 +17,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly ISeatService _seatService;
         private readonly IUserService _userService;
 
-        public SeatController(ISeatService seatService, IUserService userService) : base(userService)
+        public SeatController(ISeatService seatService, IUserService customerService) : base(customerService)
         {
             _seatService = seatService;
         }

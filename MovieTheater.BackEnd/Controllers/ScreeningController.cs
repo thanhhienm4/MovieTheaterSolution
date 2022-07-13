@@ -20,7 +20,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IScreeningService _screeningService;
         private readonly IUserService _userService;
 
-        public ScreeningController(IScreeningService screeningService, IUserService userService) : base(userService)
+        public ScreeningController(IScreeningService screeningService, IUserService customerService) : base(customerService)
         {
             _screeningService = screeningService;
         }

@@ -9,14 +9,14 @@ namespace MovieTheater.Data.Models
     {
         public AuditoriumFormat()
         {
-            Auditoria = new HashSet<Auditorium>();
+            Auditoriums = new HashSet<Auditorium>();
             TicketPrices = new HashSet<TicketPrice>();
         }
 
         public string Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Auditorium> Auditoria { get; set; }
+        public virtual ICollection<Auditorium> Auditoriums { get; set; }
         public virtual ICollection<TicketPrice> TicketPrices { get; set; }
     }
 }

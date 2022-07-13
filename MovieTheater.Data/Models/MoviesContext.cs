@@ -20,32 +20,31 @@ namespace MovieTheater.Data.Models
 
         public virtual DbSet<Customer> Customers { get; set; }
 
-        //public virtual DbSet<Actor> Actors { get; set; }
-        //public virtual DbSet<Auditorium> Auditoria { get; set; }
-        //public virtual DbSet<AuditoriumFormat> AuditoriumFormats { get; set; }
+        public virtual DbSet<Actor> Actors { get; set; }
+        public virtual DbSet<Auditorium> Auditoriums { get; set; }
+        public virtual DbSet<AuditoriumFormat> AuditoriumFormats { get; set; }
 
-        //public virtual DbSet<CustomerType> CustomerTypes { get; set; }
-        //public virtual DbSet<Joining> Joinings { get; set; }
-        //public virtual DbSet<Movie> Movies { get; set; }
-        //public virtual DbSet<MovieCensorship> MovieCensorships { get; set; }
-        //public virtual DbSet<MovieGenre> MovieGenres { get; set; }
-        //public virtual DbSet<MovieInGenre> MovieInGenres { get; set; }
-        //public virtual DbSet<PaymentStatus> PaymentStatuses { get; set; }
-        //public virtual DbSet<Position> Positions { get; set; }
-        //public virtual DbSet<Reservation> Reservations { get; set; }
-        //public virtual DbSet<ReservationPerson> ReservationPeople { get; set; }
-        //public virtual DbSet<ReservationType> ReservationTypes { get; set; }
-        //public virtual DbSet<Role> Roles { get; set; }
-        //public virtual DbSet<Screening> Screenings { get; set; }
-        //public virtual DbSet<Seat> Seats { get; set; }
-        //public virtual DbSet<SeatRow> SeatRows { get; set; }
-        //public virtual DbSet<SeatType> SeatTypes { get; set; }
-        //public virtual DbSet<Surcharge> Surcharges { get; set; }
-        //public virtual DbSet<Ticket> Tickets { get; set; }
-        //public virtual DbSet<TicketPrice> TicketPrices { get; set; }
-        //public virtual DbSet<Time> Times { get; set; }
-        //public virtual DbSet<Voucher> Vouchers { get; set; }
-        //public virtual DbSet<staff> staff { get; set; }
+        public virtual DbSet<CustomerType> CustomerTypes { get; set; }
+        public virtual DbSet<Joining> Joinings { get; set; }
+        public virtual DbSet<Movie> Movies { get; set; }
+        public virtual DbSet<MovieCensorship> MovieCensorships { get; set; }
+        public virtual DbSet<MovieGenre> MovieGenres { get; set; }
+        public virtual DbSet<MovieInGenre> MovieInGenres { get; set; }
+        public virtual DbSet<PaymentStatus> PaymentStatuses { get; set; }
+        public virtual DbSet<Position> Positions { get; set; }
+        public virtual DbSet<Reservation> Reservations { get; set; }
+        public virtual DbSet<ReservationType> ReservationTypes { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Screening> Screenings { get; set; }
+        public virtual DbSet<Seat> Seats { get; set; }
+        public virtual DbSet<SeatRow> SeatRows { get; set; }
+        public virtual DbSet<SeatType> SeatTypes { get; set; }
+        public virtual DbSet<Surcharge> Surcharges { get; set; }
+        public virtual DbSet<Ticket> Tickets { get; set; }
+        public virtual DbSet<TicketPrice> TicketPrices { get; set; }
+        public virtual DbSet<Time> Times { get; set; }
+        public virtual DbSet<Voucher> Vouchers { get; set; }
+        public virtual DbSet<staff> staff { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -59,6 +58,10 @@ namespace MovieTheater.Data.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
             modelBuilder.ApplyConfiguration(new CustomerConfig());
+            modelBuilder.ApplyConfiguration(new MovieCensorshipConfig());
+            modelBuilder.ApplyConfiguration(new MovieGenreConfig());
+
+
             //modelBuilder.Entity<Actor>(entity =>
             //{
             //    entity.ToTable("Actor");
@@ -72,40 +75,8 @@ namespace MovieTheater.Data.Models
             //        .HasMaxLength(156);
             //});
 
-            //modelBuilder.Entity<Auditorium>(entity =>
-            //{
-            //    entity.ToTable("Auditorium");
-
-            //    entity.Property(e => e.Id)
-            //        .HasMaxLength(16)
-            //        .IsUnicode(false);
-
-            //    entity.Property(e => e.FormatId)
-            //        .IsRequired()
-            //        .HasMaxLength(10)
-            //        .IsUnicode(false);
-
-            //    entity.Property(e => e.Name).HasMaxLength(64);
-
-            //    entity.HasOne(d => d.Format)
-            //        .WithMany(p => p.Auditoria)
-            //        .HasForeignKey(d => d.FormatId)
-            //        .OnDelete(DeleteBehavior.ClientSetNull)
-            //        .HasConstraintName("FK_Auditorium_AuditoriumFormat");
-            //});
-
-            //modelBuilder.Entity<AuditoriumFormat>(entity =>
-            //{
-            //    entity.ToTable("AuditoriumFormat");
-
-            //    entity.Property(e => e.Id)
-            //        .HasMaxLength(10)
-            //        .IsUnicode(false);
-
-            //    entity.Property(e => e.Name)
-            //        .IsRequired()
-            //        .HasMaxLength(64);
-            //});
+           
+          
 
 
 
@@ -123,66 +94,8 @@ namespace MovieTheater.Data.Models
             //        .IsUnicode(false);
             //});
 
-            //modelBuilder.Entity<Joining>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.ActorId, e.MovieId, e.PositionId });
+          
 
-            //    entity.Property(e => e.MovieId)
-            //        .HasMaxLength(32)
-            //        .IsUnicode(false);
-
-            //    entity.Property(e => e.PositionId)
-            //        .HasMaxLength(10)
-            //        .IsUnicode(false);
-
-            //    entity.HasOne(d => d.Actor)
-            //        .WithMany(p => p.Joinings)
-            //        .HasForeignKey(d => d.ActorId)
-            //        .OnDelete(DeleteBehavior.ClientSetNull)
-            //        .HasConstraintName("FK_Joinings_Actor");
-
-            //    entity.HasOne(d => d.Movie)
-            //        .WithMany(p => p.Joinings)
-            //        .HasForeignKey(d => d.MovieId)
-            //        .OnDelete(DeleteBehavior.ClientSetNull)
-            //        .HasConstraintName("FK_Joinings_Movies");
-
-            //    entity.HasOne(d => d.Position)
-            //        .WithMany(p => p.Joinings)
-            //        .HasForeignKey(d => d.PositionId)
-            //        .OnDelete(DeleteBehavior.ClientSetNull)
-            //        .HasConstraintName("FK_Joinings_Position");
-            //});
-
-            //modelBuilder.Entity<Movie>(entity =>
-            //{
-            //    entity.Property(e => e.Id)
-            //        .HasMaxLength(32)
-            //        .IsUnicode(false);
-
-            //    entity.Property(e => e.CensorshipId)
-            //        .IsRequired()
-            //        .HasMaxLength(10)
-            //        .IsUnicode(false);
-
-            //    entity.Property(e => e.Description)
-            //        .IsRequired()
-            //        .HasMaxLength(255);
-
-            //    entity.Property(e => e.Name)
-            //        .IsRequired()
-            //        .HasMaxLength(255);
-
-            //    entity.Property(e => e.PublishDate).HasColumnType("date");
-
-            //    entity.Property(e => e.TrailerUrl).HasColumnName("TrailerURL");
-
-            //    entity.HasOne(d => d.Censorship)
-            //        .WithMany(p => p.Movies)
-            //        .HasForeignKey(d => d.CensorshipId)
-            //        .OnDelete(DeleteBehavior.ClientSetNull)
-            //        .HasConstraintName("FK_Movies_MovieCensorship");
-            //});
 
             //modelBuilder.Entity<MovieCensorship>(entity =>
             //{
@@ -197,18 +110,6 @@ namespace MovieTheater.Data.Models
             //        .HasMaxLength(255);
             //});
 
-            //modelBuilder.Entity<MovieGenre>(entity =>
-            //{
-            //    entity.ToTable("MovieGenre");
-
-            //    entity.Property(e => e.Id)
-            //        .HasMaxLength(16)
-            //        .IsUnicode(false);
-
-            //    entity.Property(e => e.Name)
-            //        .IsRequired()
-            //        .HasMaxLength(255);
-            //});
 
             //modelBuilder.Entity<MovieInGenre>(entity =>
             //{
@@ -441,9 +342,7 @@ namespace MovieTheater.Data.Models
             //modelBuilder.Entity<SeatRow>(entity =>
             //{
             //    entity.ToTable("SeatRow");
-
             //    entity.Property(e => e.Id).ValueGeneratedNever();
-
             //    entity.Property(e => e.Name)
             //        .IsRequired()
             //        .HasMaxLength(10)

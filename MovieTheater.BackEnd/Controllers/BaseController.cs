@@ -13,10 +13,10 @@ namespace MovieTheater.BackEnd.Controllers
 {
     public class BaseController : Controller
     {
-        private readonly IUserService _userService;
-        public BaseController(IUserService userService)
+        private readonly IUserService _customerService;
+        public BaseController(IUserService customerService)
         {
-            _userService = userService;
+            _customerService = customerService;
         }
 
     }

@@ -7,25 +7,28 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MovieTheater.Application.MailServices;
+using MovieTheater.Common.Constants;
+using MovieTheater.Data.Entities;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.User;
+using MovieTheater.Utilities.Helper;
 
 namespace MovieTheater.Application.CustomerServices
 {
     public class CustomerService : ICustomerService
     {
-        private readonly MoviesContext _context;
         private readonly IHttpContextAccessor _accessor;
         private readonly IMailService _mailService;
         private readonly IConfiguration _configuration;
         public CustomerService(MoviesContext context, IHttpContextAccessor accessor, IMailService mailService, IConfiguration configuration)
         {
-            _context = context;
             _accessor = accessor;
             _mailService = mailService;
             _configuration = configuration;
@@ -33,64 +36,75 @@ namespace MovieTheater.Application.CustomerServices
 
         public async Task<ApiResult<string>> LoginAsync(LoginRequest request)
         {
-            throw new NotImplementedException();
-            //var user = await _userManager.FindByNameAsync(request.UserName);
-            //if (user == null)
-            //    return new ApiErrorResult<string>("Tên đăng nhập không tồn tại");
+            List<Claim> claims;
 
-            //var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, false);
+            await using (var context = new MoviesContext())
+            {
+                var user = await context.Customers.Where(x => x.Mail == request.Email).FirstOrDefaultAsync();
 
-            //if (result.IsLockedOut == true)
-            //    return new ApiErrorResult<string>("Tài khoản của bạn đã bị vô hiệu hóa");
+                if (user == null)
+                    return new ApiErrorResult<string>("Email không tồn tại trên hệ thống");
 
-            //if (result.Succeeded == false)
-            //    return new ApiErrorResult<string>("Mật khẩu không chính xác");
+                if (user.Password != request.Password.Encrypt())
+                    return new ApiErrorResult<string>("Mật khẩu không chính xác");
 
 
-            //var claims = new List<Claim>
-            //{
-            //    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            //    new Claim(ClaimTypes.Name,user.UserName),
-            //    new Claim(ClaimTypes.Email, user.Email),
-            //};
+
+                claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Name, $"{user.LastName} {user.FirstName}"),
+                    new Claim(ClaimTypes.Email, user.Mail),
+                    new Claim(ClaimTypes.Role, RoleConstant.Customer)
+                };
+            }
             
 
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            //var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-            //var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var jwtSecurityToken = new JwtSecurityToken(_configuration["JWT:ValidIssuer"],
+                _configuration["JWT:validAudience"],
+              claims,
+              expires: DateTime.Now.AddMonths(1),
+              signingCredentials: credentials);
 
-            //var jwtSecurityToken = new JwtSecurityToken(_configuration["JWT:ValidIssuer"],
-            //    _configuration["JWT:validAudience"],
-            //  claims,
-            //  expires: DateTime.Now.AddMonths(1),
-            //  signingCredentials: credentials);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            string token = tokenHandler.WriteToken(jwtSecurityToken);
 
-            //var tokenHandler = new JwtSecurityTokenHandler();
-            //string token = tokenHandler.WriteToken(jwtSecurityToken);
-
-            //// Save Token
-            //var userToken = await _context.UserTokens.FindAsync(user.Id);
-            //if (userToken == null)
-            //{
-            //    await _context.UserTokens.AddAsync(new IdentityUserToken<Guid>()
-            //    {
-            //        UserId = user.Id,
-            //        Value = token
-            //    });
-            //}
-            //else
-            //{
-            //    userToken.Value = token;
-            //    _context.UserTokens.Update(userToken);
-            //}
-            //_context.SaveChanges();
-
-            //return new ApiSuccessResult<string>(token);
+            return new ApiSuccessResult<string>(token);
         }
 
-        public Task<ApiResult<bool>> CreateAsync(UserCreateRequest request)
+        public async Task<ApiResult<bool>> RegisterAsync(UserRegisterRequest request)
         {
-            throw new NotImplementedException();
+            await using (var context = new MoviesContext())
+            {
+                var user = await context.Customers.Where(x => x.Mail == request.Email).FirstOrDefaultAsync();
+                if(user != null)
+                    return new ApiErrorResult<bool>("Email đã tồn tại");
+
+                var maxIndex = await context.Customers.OrderByDescending(x => x.Id).Select(x => x.Id).FirstOrDefaultAsync();
+                var customer = new Customer()
+                {
+                    Dob = request.Dob,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Id = CreateCustomerUser(maxIndex),
+                    Mail = request.Email,
+                    Password = request.Password.Encrypt(),
+                    Phone = request.PhoneNumber
+                };
+
+                context.Customers.Add(customer); 
+                int res = await context.SaveChangesAsync();
+                if(res == 0)
+                    return new ApiErrorResult<bool>("Thất bại");
+                else
+                {
+                    return new ApiSuccessResult<bool>(true);
+                }
+            }
+
         }
 
         public Task<ApiResult<bool>> UpdateAsync(UserUpdateRequest request)
@@ -131,6 +145,17 @@ namespace MovieTheater.Application.CustomerServices
         public Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request)
         {
             throw new NotImplementedException();
+        }
+
+        public string CreateCustomerUser(string currentIndex)
+        {
+            if (string.IsNullOrEmpty(currentIndex))
+                return "KH000000001";
+
+            int number = Int32.Parse(currentIndex.Substring(2));
+            number += 1;
+            return $"KH{number.ToString().PadRight(9, '0')}";
+
         }
     }
 }

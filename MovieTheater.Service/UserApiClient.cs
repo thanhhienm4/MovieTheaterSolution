@@ -22,7 +22,7 @@ namespace MovieTheater.Api
             return await PostAsync<string>("/api/Login/LoginStaff", request);
         }
 
-        public async Task<ApiResult<Guid>> CreateStaffAsync(UserCreateRequest request)
+        public async Task<ApiResult<Guid>> CreateStaffAsync(UserRegisterRequest request)
         {
             return await PostAsync<Guid>("Api/User/CreateStaff", request);
         }
@@ -37,7 +37,7 @@ namespace MovieTheater.Api
             return await PostAsync<string>("/api/Login/LoginCustomer", request);
         }
 
-        public async Task<ApiResult<bool>> CreateCustomerAsync(UserCreateRequest request)
+        public async Task<ApiResult<bool>> CreateCustomerAsync(UserRegisterRequest request)
         {
             return await PostAsync<bool>("Api/User/CreateCustomer", request);
         }

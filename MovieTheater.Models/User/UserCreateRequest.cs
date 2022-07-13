@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MovieTheater.Models.User
 {
-    public class UserCreateRequest
+    public class UserRegisterRequest
     {
         [Display(Name = "Tên đăng nhập")]
         public string UserName { get; set; }
@@ -28,9 +28,10 @@ namespace MovieTheater.Models.User
 
         [Display(Name = "Xác nhận mật khẩu")]
         public String ConfirmPassword { get; set; }
+
     }
 
-    public class UserCreateValidator : AbstractValidator<UserCreateRequest>
+    public class UserCreateValidator : AbstractValidator<UserRegisterRequest>
     {
         public UserCreateValidator()
         {

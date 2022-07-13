@@ -1,50 +1,51 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
-using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieTheater.Data.Models;
+using MovieTheater.Models.Catalog.Film.MovieGenres;
 
-namespace MovieTheater.Application.FilmServices
+namespace MovieTheater.Application.FilmServices.MovieGenres
 {
-    public class BanService : IBanService
+    public class MovieGenreService : IMovieGenreService
     {
-        private readonly MovieTheaterDBContext _context;
+        private readonly MoviesContext _context;
 
-        public BanService(MovieTheaterDBContext context)
+        public MovieGenreService(MoviesContext context)
         {
             _context = context;
         }
 
-        public async Task<ApiResult<bool>> CreateAsync(String name)
+        public async Task<ApiResult<bool>> CreateAsync(MovieGenreCreateRequest request)
         {
-            Ban ban = new Ban()
+            MovieGenre movieGenre = new MovieGenre()
             {
-                Name = name
+                Id = request.Id,
+                Name = request.Name
             };
-            _context.Bans.Add(ban);
+
+            _context.MovieGenres.Add(movieGenre);
             int result = await _context.SaveChangesAsync();
             if (result == 0)
             {
                 return new ApiErrorResult<bool>("Thêm thất bại");
             }
-
             return new ApiSuccessResult<bool>(true);
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-            Ban ban = await _context.Bans.FindAsync(id);
-            if (ban == null)
+            MovieGenre movieGenre = await _context.MovieGenres.FindAsync(id);
+            if (movieGenre == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
-                _context.Bans.Remove(ban);
+                _context.MovieGenres.Remove(movieGenre);
                 if (await _context.SaveChangesAsync() != 0)
                 {
                     return new ApiSuccessResult<bool>(true);
@@ -53,18 +54,18 @@ namespace MovieTheater.Application.FilmServices
             }
         }
 
-        public async Task<ApiResult<bool>> UpdateAsync(BanUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(MovieGenreUpdateRequest request)
         {
-            Ban ban = await _context.Bans.FindAsync(request.Id);
-            if (ban == null)
+            MovieGenre movieGenre = await _context.MovieGenres.FindAsync(request.Id);
+            if (movieGenre == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
-                ban.Id = request.Id;
-                ban.Name = request.Name;
-                _context.Update(ban);
+                movieGenre.Id = request.Id;
+                movieGenre.Name = request.Name;
+                _context.Update(movieGenre);
                 int result = await _context.SaveChangesAsync();
                 if (result == 0)
                 {
@@ -74,16 +75,15 @@ namespace MovieTheater.Application.FilmServices
             }
         }
 
-        public async Task<ApiResult<List<BanVMD>>> GetAllBanAsync()
+        public async Task<ApiResult<List<MovieGenreVMD>>> GetAllMovieGenreAsync()
         {
-            var test =  _context.Bans.Include(x => x.Films).ToList();
-            var bans = await _context.Bans.Select(x => new BanVMD()
+            var genres = await _context.MovieGenres.Select(x => new MovieGenreVMD()
             {
                 Id = x.Id,
                 Name = x.Name
             }).ToListAsync();
 
-            return new ApiSuccessResult<List<BanVMD>>(bans);
+            return new ApiSuccessResult<List<MovieGenreVMD>>(genres);
         }
     }
 }

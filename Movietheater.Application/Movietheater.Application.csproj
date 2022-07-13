@@ -16,6 +16,7 @@
     <ProjectReference Include="..\MovieTheater.Data\MovieTheater.Data.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\MovieTheater.Models\MovieTheater.Models.csproj" />
+    <ProjectReference Include="..\MovieTheater.Utilities\MovieTheater.Common.csproj" />
   </ItemGroup>
 
 </Project>

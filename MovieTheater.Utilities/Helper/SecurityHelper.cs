@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace MovieTheater.Utilities.Helper
 {
-    public class SecurityHelper
+    public static class SecurityHelper
     {
         public static string EncryptedText = "vvvaasrffffsafasfs";
             //= new ConfigurationBuilder()
@@ -14,11 +14,11 @@ namespace MovieTheater.Utilities.Helper
             //.AddJsonFile("appsettings.json").Build()["AppSettings:Secret"];
 
 
-        public static string Encrypt(string data)
+        public static string Encrypt(this string data)
         {
             return Encrypt(EncryptedText, data);
         }
-        public static string Decrypt(string data)
+        public static string Decrypt(this string data)
         {
             return Decrypt(EncryptedText, data);
         }

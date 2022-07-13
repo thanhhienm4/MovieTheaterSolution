@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Api", "MovieTh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.WebApp", "MovieTheater.WebApp\MovieTheater.WebApp.csproj", "{13C86E53-65D9-453E-9773-CCD1FD2D2390}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Utilities", "MovieTheater.Utilities\MovieTheater.Utilities.csproj", "{AF1B742C-4D85-4F9E-B33E-040140E49FBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieTheater.Common", "MovieTheater.Utilities\MovieTheater.Common.csproj", "{AF1B742C-4D85-4F9E-B33E-040140E49FBA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDLCDesign", "RDLCDesign\RDLCDesign.csproj", "{BFD4A214-B35D-4FE4-BA55-F22BD0877317}"
 EndProject
