@@ -6,26 +6,26 @@
     <div class="card" style="background-color:#18043d">
         <div class="row">
             <div class="col-3">
-                <img class="img-fluid" src="@Model.Film.Poster" />
+                <img class="img-fluid" src="@Model.Movie.Poster" />
             </div>
             <div class="col-9 style=" color:white"">
-                <h1 style="color:red">@Model.Film.Name</h1>
+                <h1 style="color:red">@Model.Movie.Name</h1>
                 <div class="row">
 
                     <div class="col-11 text-justify">
-                        <p>@Model.Film.Description</p>
+                        <p>@Model.Movie.Description</p>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="row">
-                        <p>Giới hạn: @Model.Film.Ban</p>
+                        <p>Giới hạn: @Model.Movie.Ban</p>
                         <div class="col-1"></div>
 
                         <p>Thể loại:</p>
                         <div class="col-3">
-                            @if (Model.Film.Genres != null)
+                            @if (Model.Movie.Genres != null)
                             {
-                <p>@string.Join(" ", Model.Film.Genres)</p>}
+                <p>@string.Join(" ", Model.Movie.Genres)</p>}
                         </div>
                     </div>
                 </div>
@@ -35,9 +35,9 @@
 
                         <p>Diễn viên:&nbsp;</p>
 
-                        @if (Model.Film.Actors != null)
+                        @if (Model.Movie.Actors != null)
                         {
-            <p>@string.Join(" ", Model.Film.Actors)</p>}
+            <p>@string.Join(" ", Model.Movie.Actors)</p>}
                     </div>
                 </div>
 
@@ -46,9 +46,9 @@
 
                         <p>Đạo diễn:&nbsp;</p>
 
-                        @if (Model.Film.Genres != null)
+                        @if (Model.Movie.Genres != null)
                         {
-            <p>@string.Join(" ", Model.Film.Directors)</p>}
+            <p>@string.Join(" ", Model.Movie.Directors)</p>}
                     </div>
                 </div>
             </div>

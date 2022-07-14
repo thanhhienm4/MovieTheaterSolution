@@ -28,6 +28,7 @@ using MovieTheater.Application.CustomerServices;
 using MovieTheater.Application.FilmServices.MovieCensorshipes;
 using MovieTheater.Data.Models;
 using MovieTheater.Application.FilmServices.MovieGenres;
+using MovieTheater.Application.FilmServices.Movies;
 
 namespace MovieTheater.BackEnd
 {
@@ -47,7 +48,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<ICustomerService, CustomerService>();
 
             services.AddTransient<IMovieCensorshipService, MovieCensorshipService>();
-            services.AddTransient<IFilmService, FlimService>();
+            services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IMovieGenreService, MovieGenreService>();
             services.AddTransient<IPeopleService, PeopleService>();
             services.AddTransient<IReservationService, ReservationService>();

@@ -1,4 +1,4 @@
-﻿@model MovieTheater.Models.Catalog.Film.FilmVMD
+﻿@model MovieTheater.Models.Catalog.Film.MovieVMD
 
 @{
     ViewData["Title"] = "PosAssign";
@@ -46,7 +46,7 @@
     function loadJoining() {
         $.ajax({
             type: "Get",
-            url: "/Film/GetJoining/" + @Model.Id,
+            url: "/Movie/GetJoining/" + @Model.Id,
 
             success: function (res) {
                 var str = '';
@@ -80,7 +80,7 @@
         var peopleId = $("#selectPeople").val();
         $.ajax({
             type: "Post",
-            url: "/Film/PosAssign",
+            url: "/Movie/PosAssign",
             data: { filmId:@Model.Id , posId: posId, peopleId: peopleId },
 
             success: function (res) {
@@ -95,7 +95,7 @@
 
         $.ajax({
             type: "Post",
-            url: "/Film/DeletePosAssign",
+            url: "/Movie/DeletePosAssign",
             data: { filmId: filmId, posId: posId, peopleId: peopleId },
 
             success: function (res) {

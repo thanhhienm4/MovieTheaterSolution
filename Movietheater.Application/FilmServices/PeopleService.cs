@@ -46,7 +46,7 @@ namespace MovieTheater.Application.FilmServices
             }
             else
             {
-                if (_context.Joinings.Where(x => x.PeppleId == id).Count() != 0)
+                if (_context.Joinings.Count(x => x.PeppleId == id) != 0)
                     return new ApiErrorResult<bool>("Không thể xóa nghệ sĩ");
 
                 _context.Peoples.Remove(people);

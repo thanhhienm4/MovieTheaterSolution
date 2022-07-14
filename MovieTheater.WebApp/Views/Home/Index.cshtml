@@ -2,7 +2,7 @@
 @{ ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-<!-- Playing Film SECTION -->
+<!-- Playing Movie SECTION -->
 @section Scripts{
     <script>
         setTimeout(function () {
@@ -24,7 +24,7 @@
             <!-- MOVIE ITEM -->
             @if (ViewData["PlayingFilms"] != null)
             {
-                foreach (var film in ViewData["PlayingFilms"] as List<FilmVMD>)
+                foreach (var film in ViewData["PlayingFilms"] as List<MovieVMD>)
                 {
 <a href="/film/detail/@film.Id" class="movie-item">
     <img src="@film.Poster" alt="">
@@ -58,7 +58,7 @@
     </div>
 </div>
 
-<!-- Playing Film SECTION -->
+<!-- Playing Movie SECTION -->
 <div class="section">
     <div class="container">
         <div class="section-header">
@@ -68,7 +68,7 @@
             <!-- MOVIE ITEM -->
             @if (ViewData["UpcomingFilms"] != null)
             {
-                foreach (var film in ViewData["UpcomingFilms"] as List<FilmVMD>)
+                foreach (var film in ViewData["UpcomingFilms"] as List<MovieVMD>)
                 {
 <a href="/film/detail/@film.Id" class="movie-item">
     <img src="@film.Poster" alt="">
@@ -108,4 +108,4 @@
         </div>
     </div>
 </div>
-<!-- END Playing Film SECTION -->
+<!-- END Playing Movie SECTION -->

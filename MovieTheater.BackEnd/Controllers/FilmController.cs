@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.FilmServices;
+using MovieTheater.Application.FilmServices.Movies;
 using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
@@ -16,22 +16,22 @@ namespace MovieTheater.BackEnd.Controllers
     [Authorize(Roles = "Admin")]
     public class FilmController : BaseController
     {
-        private readonly IFilmService _filmService;
+        private readonly IMovieService _filmService;
 
-        public FilmController(IFilmService filmService, IUserService customerService) : base(customerService)
+        public FilmController(IMovieService filmService, IUserService customerService) : base(customerService)
         {
             _filmService = filmService;
         }
 
         [HttpPost("Create")]
-        public async Task<ApiResult<bool>> CreateAsync([FromForm] FilmCreateRequest model)
+        public async Task<ApiResult<bool>> CreateAsync([FromForm] MovieCreateRequest model)
         {
             var result = await _filmService.CreateAsync(model);
             return result;
         }
 
         [HttpPut("Update")]
-        public async Task<ApiResult<bool>> UpdateAsync([FromForm] FilmUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync([FromForm] MovieUpdateRequest request)
         {
             var result = await _filmService.UpdateAsync(request);
             return result;
@@ -45,31 +45,31 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("GetFilmPaging")]
-        public async Task<ApiResult<PageResult<FilmVMD>>> GetFilmPaging(FilmPagingRequest request)
+        public async Task<ApiResult<PageResult<MovieVMD>>> GetFilmPaging(FilmPagingRequest request)
         {
-            var result = await _filmService.GetFilmPagingAsync(request);
+            var result = await _filmService.GetPagingAsync(request);
             return result;
         }
 
-        [HttpGet("GetFilmMDById/{id}")]
-        public async Task<ApiResult<FilmMD>> GetFilmMDByIdAsync(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<ApiResult<MovieMD>> GetFilmMDByIdAsync(int id)
         {
-            var result = await _filmService.GetFilmMDById(id);
+            var result = await _filmService.GetById(id);
             return result;
         }
 
         [AllowAnonymous]
         [HttpGet("GetFilmVMDById/{id}")]
-        public async Task<ApiResult<FilmVMD>> GetFilmVMDByIdAsync(int id)
+        public async Task<ApiResult<MovieVMD>> GetFilmVMDByIdAsync(int id)
         {
             var result = await _filmService.GetFilmVMDById(id);
             return result;
         }
 
         [HttpGet("getAllFilm")]
-        public async Task<ApiResult<List<FilmVMD>>> GetAllBanAsync()
+        public async Task<ApiResult<List<MovieVMD>>> GetAllBanAsync()
         {
-            var result = await _filmService.GetAllFilmAsync();
+            var result = await _filmService.GetAllAsync();
             return result;
         }
 
@@ -82,18 +82,18 @@ namespace MovieTheater.BackEnd.Controllers
 
         [AllowAnonymous]
         [HttpGet("getAllPlayingFilm")]
-        public async Task<ApiResult<List<FilmVMD>>> GetAllPlayingFilmAsync()
+        public async Task<ApiResult<List<MovieVMD>>> GetAllPlayingFilmAsync()
         {
-            var result = await _filmService.GetAllPlayingFilmAsync();
+            var result = await _filmService.GetAllPlayingAsync();
             return result;
         }
 
         [AllowAnonymous]
         [HttpGet("getAllUpcomingFilm")]
         
-        public async Task<ApiResult<List<FilmVMD>>> GetAllUpcomingBanAsync()
+        public async Task<ApiResult<List<MovieVMD>>> GetAllUpcomingBanAsync()
         {
-            var result = await _filmService.GetAllUpcomingFilmAsync();
+            var result = await _filmService.GetAllUpcomingAsync();
             return result;
         }
 

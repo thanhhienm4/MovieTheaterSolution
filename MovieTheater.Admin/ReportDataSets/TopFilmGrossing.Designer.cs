@@ -407,7 +407,7 @@ namespace MovieTheater.Admin.ReportDataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
-                this.columnFilm = base.Columns["Film"];
+                this.columnFilm = base.Columns["Movie"];
                 this.columnRevenue = base.Columns["Revenue"];
                 this.columnProportion = base.Columns["Proportion"];
             }
@@ -415,7 +415,7 @@ namespace MovieTheater.Admin.ReportDataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             private void InitClass() {
-                this.columnFilm = new global::System.Data.DataColumn("Film", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnFilm = new global::System.Data.DataColumn("Movie", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFilm);
                 this.columnRevenue = new global::System.Data.DataColumn("Revenue", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRevenue);
@@ -569,7 +569,7 @@ namespace MovieTheater.Admin.ReportDataSets {
                         return ((string)(this[this.tableTopRevenueFilm.FilmColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Film\' in table \'TopRevenueFilm\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Movie\' in table \'TopRevenueFilm\' is DBNull.", e);
                     }
                 }
                 set {

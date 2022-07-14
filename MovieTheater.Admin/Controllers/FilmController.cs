@@ -63,7 +63,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(FilmCreateRequest request)
+        public async Task<IActionResult> Create(MovieCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace MovieTheater.Admin.Controllers
 
             if (result.IsSuccessed)
             {
-                var updateRequest = new FilmUpdateRequest()
+                var updateRequest = new MovieUpdateRequest()
                 {
                     Id = result.ResultObj.Id,
                     Name = result.ResultObj.Name,
@@ -124,7 +124,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit([FromForm] FilmUpdateRequest request)
+        public async Task<IActionResult> Edit([FromForm] MovieUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -186,7 +186,7 @@ namespace MovieTheater.Admin.Controllers
                 return RedirectToAction("Index", "Film");
             }
             ModelState.AddModelError("", result.Message);
-            var genreAssignRequest = await GetGenreAssignRequest(request.FilmId);
+            var genreAssignRequest = await GetGenreAssignRequest(request.MovieId);
             return View(genreAssignRequest);
         }
 
@@ -197,7 +197,7 @@ namespace MovieTheater.Admin.Controllers
 
 
             var genreAssignRequest = new GenreAssignRequest();
-            genreAssignRequest.FilmId = id;
+            genreAssignRequest.MovieId = id;
             foreach (var genre in result.ResultObj)
             {
                 genreAssignRequest.Genres.Add(new SelectedItem()

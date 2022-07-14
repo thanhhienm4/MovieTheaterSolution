@@ -37,8 +37,7 @@ namespace MovieTheater.Data.Config
             builder.HasOne(d => d.Censorship)
                 .WithMany(p => p.Movies)
                 .HasForeignKey(d => d.CensorshipId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Movies_MovieCensorship");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

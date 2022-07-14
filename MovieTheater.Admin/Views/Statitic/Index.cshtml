@@ -78,7 +78,7 @@
         var endDate = document.getElementById('endDate').value;
         $.ajax({
             type: "GET",
-            url: "/Statitic/GetTopRevenueFilm",
+            url: "/Statitic/GetTopRevenueMovie",
             data: { startDate: startDate, endDate: endDate },
             success: function (data) {
                 document.getElementById("tbbodyFilmRevenue").innerHTML = "";
@@ -101,7 +101,7 @@
         var endDate = document.getElementById('endDate').value;
         $.ajax({
             type: "POST",
-            url: "/Statitic/FilmRevenueReport",
+            url: "/Statitic/MovieRevenueReport",
             data: { startDate: startDate,endDate : endDate, renderType: mode },
             success: function (data) {
                 var linkSource;

@@ -1,6 +1,6 @@
 ﻿@using MovieTheater.Models.Catalog.Film
 
-@model FilmVMD
+@model MovieVMD
 
 @{ ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="row d-flex justify-content-center">
-                    <a class=" btn btn-danger mr-5 " style="margin-bottom:7px" href="/Film/ScreeningInWeek/@Model.Id">Đặt vé</a>
+                    <a class=" btn btn-danger mr-5 " style="margin-bottom:7px" href="/Movie/ScreeningInWeek/@Model.Id">Đặt vé</a>
                 </div>
             </div>
         </div>

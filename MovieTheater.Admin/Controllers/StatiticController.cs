@@ -48,7 +48,7 @@ namespace MovieTheater.Admin.Controllers
         private async Task<DataTable> GetDataReport(CalRevenueRequest request)
         {
             DataTable dt = new DataTable();
-            dt.Columns.Add("Film");
+            dt.Columns.Add("Movie");
             dt.Columns.Add("Revenue");
             dt.Columns.Add("Proportion");
 
@@ -58,7 +58,7 @@ namespace MovieTheater.Admin.Controllers
             for (int i = 0; i < topRevenueFilm.Lables.Count; i++)
             {
                 row = dt.NewRow();
-                row["Film"] = topRevenueFilm.Lables[i];
+                row["Movie"] = topRevenueFilm.Lables[i];
                 row["Revenue"] = topRevenueFilm.DataRows[1][i];
                 dt.Rows.Add(row);
             }

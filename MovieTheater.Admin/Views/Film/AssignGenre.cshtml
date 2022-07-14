@@ -7,7 +7,7 @@
 
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/Film">Film</a></li>
+    <li class="breadcrumb-item"><a href="/Film">Movie</a></li>
     <li class="breadcrumb-item active">Gán danh mục</li>
 </ol>
 
@@ -19,7 +19,7 @@
     <div class="card-body">
         <form asp-action="GenreAssign">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="FilmId" />
+            <input type="hidden" asp-for="MovieId" />
             @for (var i = 0; i < Model.Genres.Count; i++)
             {
                 <div class="form-group">

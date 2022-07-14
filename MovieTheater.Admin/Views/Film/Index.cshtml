@@ -1,6 +1,6 @@
 ﻿@using MovieTheater.Models.Common.Paging
 @using MovieTheater.Models.Catalog.Film
-@model PageResult<FilmVMD>
+@model PageResult<MovieVMD>
 @{ ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 <ol class="breadcrumb mb-4">
@@ -35,7 +35,7 @@
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Tìm</button>
-                            <button type="button" onclick="window.location.href='/Film/Index'" class="btn btn-light"><img src="https://img.icons8.com/ios-filled/20/000000/rotate.png" /></button>
+                            <button type="button" onclick="window.location.href='/Movie/Index'" class="btn btn-light"><img src="https://img.icons8.com/ios-filled/20/000000/rotate.png" /></button>
                         </div>
                     </div>
                 </form>
@@ -92,7 +92,7 @@
                         </td>
                         <td>
                             @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
-                            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteFilm" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|
+                            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteMovie" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|
                             @Html.ActionLink("Gán danh mục", "AssignGenre", new { id = item.Id }) &nbsp;|&nbsp;
                             @Html.ActionLink("Tham gia", "PosAssign", new { id = item.Id })
                         </td>
@@ -156,7 +156,7 @@
         var userId = $("#idFilm").val();
         $.ajax({
             type: "POST",
-            url: "/Film/Delete",
+            url: "/Movie/Delete",
             data: { id: userId },
             success: function (res) {
                 if (res.isReLogin == true) {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieTheater.Application.FilmServices;
+using MovieTheater.Application.FilmServices.Movies;
 using MovieTheater.Data.EF;
 using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
@@ -16,9 +16,9 @@ namespace MovieTheater.Application.ScreeningServices
     public class ScreeningService : IScreeningService
     {
         private readonly MovieTheaterDBContext _context;
-        private readonly IFilmService _filmService;
+        private readonly IMovieService _filmService;
 
-        public ScreeningService(MovieTheaterDBContext context, IFilmService filmService)
+        public ScreeningService(MovieTheaterDBContext context, IMovieService filmService)
         {
             _context = context;
             _filmService = filmService;
@@ -249,7 +249,7 @@ namespace MovieTheater.Application.ScreeningServices
             {
                 filmScreenings.Add(new FilmScreeningVMD()
                 {
-                    Film = (await _filmService.GetFilmVMDById(pair.Key)).ResultObj,
+                    Movie = (await _filmService.GetFilmVMDById(pair.Key)).ResultObj,
                     ListScreening = pair.Value,
                 });
             }
@@ -270,7 +270,7 @@ namespace MovieTheater.Application.ScreeningServices
                                                }).ToListAsync();
 
             ScreeningOfFilmInWeekVMD sof = new ScreeningOfFilmInWeekVMD();
-            sof.Film = (await _filmService.GetFilmVMDById(filmId)).ResultObj;
+            sof.Movie = (await _filmService.GetFilmVMDById(filmId)).ResultObj;
             sof.Screenings = new List<List<ScreeningMD>>();
 
             for (int i = 0; i <= 6; i++)

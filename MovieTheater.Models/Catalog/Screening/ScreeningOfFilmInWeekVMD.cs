@@ -5,7 +5,7 @@ namespace MovieTheater.Models.Catalog.Screening
 {
     public class ScreeningOfFilmInWeekVMD
     {
-        public FilmVMD Film { get; set; }
+        public MovieVMD Movie { get; set; }
         public List<List<ScreeningMD>> Screenings { get; set; }
     }
 }

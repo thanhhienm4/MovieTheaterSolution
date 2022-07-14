@@ -5,7 +5,7 @@ namespace MovieTheater.Models.Catalog.Film
 {
     public class GenreAssignRequest
     {
-        public int FilmId { get; set; }
+        public string MovieId { get; set; }
         public List<SelectedItem> Genres { get; set; }
 
         public GenreAssignRequest()
