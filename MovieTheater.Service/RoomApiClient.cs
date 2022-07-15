@@ -47,9 +47,9 @@ namespace MovieTheater.Api
             return await GetAsync<List<RoomVMD>>($"Api/Room/GetAllRoom");
         }
 
-        public async Task<ApiResult<List<RoomFormatVMD>>> GetAllRoomFormatAsync()
+        public async Task<ApiResult<List<AuditoriumFormatVMD>>> GetAllRoomFormatAsync()
         {
-            return await GetAsync<List<RoomFormatVMD>>($"Api/RoomFormat/GetAllRoomFormat");
+            return await GetAsync<List<AuditoriumFormatVMD>>($"Api/RoomFormat/GetAllRoomFormat");
         }
      
         public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(int id)
@@ -57,18 +57,18 @@ namespace MovieTheater.Api
             
             return await GetAsync< RoomCoordinate > ($"Api/Room/GetCoordinate/{id}");
         }
-        public async Task<ApiResult<RoomFormatVMD>> GetRoomFormatByIdAsync(int id)
+        public async Task<ApiResult<AuditoriumFormatVMD>> GetRoomFormatByIdAsync(int id)
         {
-            return await GetAsync<RoomFormatVMD>($"Api/RoomFormat/GetRoomFormatById/{id}");
+            return await GetAsync<AuditoriumFormatVMD>($"Api/RoomFormat/GetRoomFormatById/{id}");
         }
 
 
-        public async Task<ApiResult<bool>> CreateRoomFormatAsync(RoomFormatCreateRequest request)
+        public async Task<ApiResult<bool>> CreateRoomFormatAsync(AuditoriumFormatCreateRequest request)
         {
             return await PostAsync<bool>("/api/RoomFormat/Create", request);
         }
 
-        public async Task<ApiResult<bool>> UpdateRoomFormatAsync(RoomFormatUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateRoomFormatAsync(AuditoriumFormatUpdateRequest request)
         {
             return await PostAsync<bool>("/api/RoomFormat/Update", request);
         }

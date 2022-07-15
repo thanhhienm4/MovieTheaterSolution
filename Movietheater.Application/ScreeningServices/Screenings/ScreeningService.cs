@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieTheater.Application.FilmServices.Movies;
 using MovieTheater.Data.EF;
-using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
@@ -10,15 +9,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieTheater.Data.Models;
 
-namespace MovieTheater.Application.ScreeningServices
+namespace MovieTheater.Application.ScreeningServices.Screenings
 {
     public class ScreeningService : IScreeningService
     {
-        private readonly MovieTheaterDBContext _context;
+        private readonly MoviesContext  _context;
         private readonly IMovieService _filmService;
 
-        public ScreeningService(MovieTheaterDBContext context, IMovieService filmService)
+        public ScreeningService(MoviesContext context, IMovieService filmService)
         {
             _context = context;
             _filmService = filmService;
@@ -26,7 +26,7 @@ namespace MovieTheater.Application.ScreeningServices
 
         public async Task<ApiResult<bool>> CreateAsync(ScreeningCreateRequest request)
         {
-            DateTime publishDate = _context.Films.Where(x => x.Id == request.FilmId).Select(x => x.PublishDate).FirstOrDefault();
+            DateTime publishDate = _context.Movies.Where(x => x.Id == request.FilmId).Select(x => x.PublishDate).FirstOrDefault();
             if (publishDate.Date > request.StartTime.Date)
                 return new ApiErrorResult<bool>("Thời gian chiếu không được trước ngày công chiếu " + publishDate.ToString("dd/MM/yyyy"));
 
@@ -34,8 +34,8 @@ namespace MovieTheater.Application.ScreeningServices
             {
                 StartTime = request.StartTime,
                 // Surcharge = request.Surcharge,
-                FilmId = request.FilmId,
-                RoomId = request.RoomId,
+                MovieId = request.FilmId,
+                AuditoriumId = request.RoomId,
                 KindOfScreeningId = request.KindOfScreeningId,
                 Active = true
             };
@@ -48,7 +48,7 @@ namespace MovieTheater.Application.ScreeningServices
                 {
                     return new ApiErrorResult<bool>("Thêm thất bại");
                 }
-                return new ApiSuccessResult<bool>(true,"Thêm thành công");
+                return new ApiSuccessResult<bool>(true, "Thêm thành công");
             }
             catch (DbUpdateException)
             {
@@ -79,7 +79,7 @@ namespace MovieTheater.Application.ScreeningServices
                     }
 
                     await _context.SaveChangesAsync();
-                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
+                    return new ApiSuccessResult<bool>(true, "Xóa thành công");
                 }
                 catch (DbUpdateException)
                 {
@@ -118,13 +118,13 @@ namespace MovieTheater.Application.ScreeningServices
                 StartTime = x.s.StartTime,
                 FinishTime = x.s.StartTime.AddMinutes(x.f.Length),
                 KindOfScreening = x.kos.Name
-            }).OrderByDescending(x => x.StartTime).Skip((request.PageIndex - 1) * (request.PageSize)).Take(request.PageSize).ToList();
+            }).OrderByDescending(x => x.StartTime).Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize).ToList();
             result.Item = rooms;
 
             return new ApiSuccessResult<PageResult<ScreeningVMD>>(result);
         }
 
-        public Task<PageResult<FilmScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request)
+        public Task<PageResult<MovieScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request)
         {
             throw new NotImplementedException();
         }
@@ -141,10 +141,10 @@ namespace MovieTheater.Application.ScreeningServices
                 DateTime publishDate = _context.Films.Where(x => x.Id == request.FilmId).Select(x => x.PublishDate).FirstOrDefault();
                 if (publishDate.Date > request.StartTime.Date)
                     return new ApiErrorResult<bool>("Thời gian chiếu không được trước ngày công chiếu " + publishDate.ToString("dd/MM/yyyy"));
-                if(screening.StartTime <= DateTime.Now)
+                if (screening.StartTime <= DateTime.Now)
                 {
                     return new ApiErrorResult<bool>("Không thể cập nhật xuất chiếu đó xuất chiếu đã diễn ra");
-                }    
+                }
                 screening.Id = request.Id;
                 screening.StartTime = request.StartTime;
 
@@ -161,7 +161,7 @@ namespace MovieTheater.Application.ScreeningServices
                     {
                         return new ApiErrorResult<bool>("Cập nhật thất bại");
                     }
-                    return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
+                    return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
                 }
                 catch (DbUpdateException)
                 {
@@ -218,7 +218,7 @@ namespace MovieTheater.Application.ScreeningServices
             }
         }
 
-        public async Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningInday(DateTime? date)
+        public async Task<ApiResult<List<MovieScreeningVMD>>> GetFilmScreeningInday(DateTime? date)
 
         {
             if (date == null)
@@ -233,8 +233,8 @@ namespace MovieTheater.Application.ScreeningServices
                                                     RoomId = x.RoomId
                                                 }).ToListAsync();
 
-            List<FilmScreeningVMD> filmScreenings = new List<FilmScreeningVMD>();
-            Dictionary<int, List<ScreeningMD>> dic = new Dictionary<int, List<ScreeningMD>>();
+            List<MovieScreeningVMD> filmScreenings = new List<MovieScreeningVMD>();
+            Dictionary<string, List<ScreeningMD>> dic = new Dictionary<string, List<ScreeningMD>>();
 
             foreach (var screening in screenings)
             {
@@ -247,13 +247,13 @@ namespace MovieTheater.Application.ScreeningServices
 
             foreach (var pair in dic)
             {
-                filmScreenings.Add(new FilmScreeningVMD()
+                filmScreenings.Add(new MovieScreeningVMD()
                 {
                     Movie = (await _filmService.GetFilmVMDById(pair.Key)).ResultObj,
                     ListScreening = pair.Value,
                 });
             }
-            return new ApiSuccessResult<List<FilmScreeningVMD>>(filmScreenings);
+            return new ApiSuccessResult<List<MovieScreeningVMD>>(filmScreenings);
         }
 
         public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeek(int filmId)

@@ -2,7 +2,7 @@
 {
     public class TicketCreateRequest
     {
-        public int ScreeningId { get; set; }
+        public int ScreeningId { get; set; }    
         public int SeatId { get; set; }
     }
 }

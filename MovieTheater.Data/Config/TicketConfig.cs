@@ -24,9 +24,9 @@ namespace MovieTheater.Data.Config
                 .HasForeignKey(d => d.CustomerType)
                 .HasConstraintName("FK_Ticket_CustomerType");
 
-            builder.HasOne(d => d.CustomerType1)
+            builder.HasOne(d => d.Seat)
                 .WithMany(p => p.Tickets)
-                .HasForeignKey(d => d.CustomerTypeId)
+                .HasForeignKey(d => d.SeatId)
                 .HasConstraintName("FK_Ticket_Seat");
 
             builder.HasOne(d => d.Reservation)

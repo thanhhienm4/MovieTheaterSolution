@@ -3,17 +3,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MovieTheater.Models.Infra.RoomModels.Format
 {
-    public class RoomFormatUpdateRequest
+    public class AuditoriumFormatUpdateRequest
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Display(Name = "Tên")]
         public string Name { get; set; }
         [Display(Name = "Giá")]
         public int Price { get; set; }
 
-        public class RoomFormatUpdateValidator : AbstractValidator<RoomFormatUpdateRequest>
+        public class AuditoriumFormatUpdateValidator : AbstractValidator<AuditoriumFormatUpdateRequest>
         {
-            public RoomFormatUpdateValidator()
+            public AuditoriumFormatUpdateValidator()
             {
                 RuleFor(x => x.Price).GreaterThan(0).WithMessage("Giá của không được âm ");
             }

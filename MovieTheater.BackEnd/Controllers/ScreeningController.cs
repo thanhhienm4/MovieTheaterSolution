@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.ScreeningServices;
+using MovieTheater.Application.ScreeningServices.Screenings;
 using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
@@ -70,7 +70,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
         [AllowAnonymous]
         [HttpGet("GetFilmScreeningIndate")]
-        public async Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningIndate([FromQuery] DateTime? date)
+        public async Task<ApiResult<List<MovieScreeningVMD>>> GetFilmScreeningIndate([FromQuery] DateTime? date)
         {
             var result = await _screeningService.GetFilmScreeningInday(date);
             return result;

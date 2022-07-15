@@ -2,7 +2,7 @@
 
 namespace MovieTheater.Models.Catalog.Film
 {
-    public class PeoplePagingRequest : PagingRequest
+    public class ActorPagingRequest : PagingRequest
     {
     }
 }

@@ -10,9 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieTheater.Application.Common;
-using MovieTheater.Application.FilmServices;
 using MovieTheater.Application.MailServices;
-using MovieTheater.Application.ReservationServices;
 using MovieTheater.Application.RoomServices;
 using MovieTheater.Application.ScreeningServices;
 using MovieTheater.Application.SeatServices;
@@ -29,6 +27,14 @@ using MovieTheater.Application.FilmServices.MovieCensorshipes;
 using MovieTheater.Data.Models;
 using MovieTheater.Application.FilmServices.MovieGenres;
 using MovieTheater.Application.FilmServices.Movies;
+using MovieTheater.Application.FilmServices.Actors;
+using MovieTheater.Application.FilmServices.Positions;
+using MovieTheater.Application.ReservationServices.Reservations;
+using MovieTheater.Application.ReservationServices.Tickets;
+using MovieTheater.Application.ReservationServices.ReservationType;
+using MovieTheater.Application.RoomServices.Auditoriums;
+using MovieTheater.Application.RoomServices.RoomFormats;
+using MovieTheater.Application.ScreeningServices.Screenings;
 
 namespace MovieTheater.BackEnd
 {
@@ -50,13 +56,13 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IMovieCensorshipService, MovieCensorshipService>();
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IMovieGenreService, MovieGenreService>();
-            services.AddTransient<IPeopleService, PeopleService>();
+            services.AddTransient<IActorService, ActorService>();
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IReservationTypeService, ReservationTypeService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IRoomService, RoomService>();
-            services.AddTransient<IRoomFormatService, RoomFormatService>();
+            services.AddTransient<IAuditoriumService, AuditoriumService>();
+            services.AddTransient<IAuditoriumFormatService, AuditoriumFormatService>();
             services.AddTransient<IScreeningService, ScreeningService>();
             services.AddTransient<ISeatService, SeatService>();
             services.AddTransient<IKindOfSeatService, KindOfSeatService>();

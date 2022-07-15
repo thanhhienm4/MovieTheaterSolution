@@ -2,7 +2,7 @@
 
 namespace MovieTheater.Models.Catalog.Film
 {
-    public class PeopleVMD
+    public class ActorVMD
     {
         public int Id { get; set; }
         public DateTime DOB { get; set; }

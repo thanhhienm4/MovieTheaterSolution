@@ -20,7 +20,7 @@ namespace MovieTheater.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 15)
         {
-            var request = new PeoplePagingRequest()
+            var request = new ActorPagingRequest()
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,
@@ -42,7 +42,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(PeopleCreateRequest request)
+        public async Task<IActionResult> Create(ActorCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace MovieTheater.Admin.Controllers
 
             if (result.IsSuccessed)
             {
-                var updateRequest = new PeopleUpdateRequest()
+                var updateRequest = new ActorUpdateRequest()
                 {
                     Id = result.ResultObj.Id,
                     DOB = result.ResultObj.DOB,
@@ -86,7 +86,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(PeopleUpdateRequest request)
+        public async Task<IActionResult> Edit(ActorUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {

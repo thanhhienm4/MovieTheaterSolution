@@ -16,12 +16,12 @@ namespace MovieTheater.Api
             httpContextAccessor)
         { }
 
-        public async Task<ApiResult<bool>> CreateAsync(PeopleCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(ActorCreateRequest request)
         {
             return await PostAsync<bool>("Api/People/Create", request);
         }
 
-        public async Task<ApiResult<bool>> UpdateAsync(PeopleUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(ActorUpdateRequest request)
         {
             return await PutAsync<bool>("Api/People/Update", request);
         }
@@ -31,19 +31,19 @@ namespace MovieTheater.Api
             return await DeleteAsync<bool>($"Api/People/Delete/{id}");
         }
 
-        public async Task<ApiResult<PageResult<PeopleVMD>>> GetPeoplePagingAsync(PeoplePagingRequest request)
+        public async Task<ApiResult<PageResult<ActorVMD>>> GetPeoplePagingAsync(ActorPagingRequest request)
         {
-            return await PostAsync<PageResult<PeopleVMD>>($"Api/People/GetPeoplePaging", request);
+            return await PostAsync<PageResult<ActorVMD>>($"Api/People/GetPeoplePaging", request);
         }
 
-        public async Task<ApiResult<PeopleVMD>> GetPeopleByIdAsync(int id)
+        public async Task<ApiResult<ActorVMD>> GetPeopleByIdAsync(int id)
         {
-            return await GetAsync<PeopleVMD>($"Api/People/GetPeopleById/{id}");
+            return await GetAsync<ActorVMD>($"Api/People/GetPeopleById/{id}");
         }
 
-        public async Task<ApiResult<List<PeopleVMD>>> GetAllPeopleAsync()
+        public async Task<ApiResult<List<ActorVMD>>> GetAllPeopleAsync()
         {
-            return await GetAsync<List<PeopleVMD>>($"Api/People/GetAllPeople");
+            return await GetAsync<List<ActorVMD>>($"Api/People/GetAllPeople");
         }
     }
 }

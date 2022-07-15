@@ -203,7 +203,7 @@ namespace MovieTheater.Admin.Controllers
         public async Task<IActionResult> FormatEdit(int id)
         {
             var result = await _roomApiClient.GetRoomFormatByIdAsync(id);
-            var roomformat = new RoomFormatUpdateRequest()
+            var roomformat = new AuditoriumFormatUpdateRequest()
             {
                 Id = result.ResultObj.Id,
                 Name = result.ResultObj.Name,
@@ -216,7 +216,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> FormatEdit(RoomFormatUpdateRequest request)
+        public async Task<IActionResult> FormatEdit(AuditoriumFormatUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -246,7 +246,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> FormatCreate(RoomFormatCreateRequest request)
+        public async Task<IActionResult> FormatCreate(AuditoriumFormatCreateRequest request)
         {
             if (!ModelState.IsValid)
             {

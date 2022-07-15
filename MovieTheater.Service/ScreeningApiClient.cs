@@ -43,9 +43,9 @@ namespace MovieTheater.Api
             return await GetAsync<ScreeningVMD>($"Api/Screening/GetScreeningVMDById/{id}");
         }
 
-        public async Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningIndateAsync(DateTime? date)
+        public async Task<ApiResult<List<MovieScreeningVMD>>> GetFilmScreeningIndateAsync(DateTime? date)
         {
-            return await GetAsync<List<FilmScreeningVMD>>($"Api/Screening/GetFilmScreeningIndate?date={date}");
+            return await GetAsync<List<MovieScreeningVMD>>($"Api/Screening/GetFilmScreeningIndate?date={date}");
         }
 
         public async Task<ApiResult<PageResult<ScreeningVMD>>> GetScreeningPagingAsync(ScreeningPagingRequest request)

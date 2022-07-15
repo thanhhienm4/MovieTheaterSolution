@@ -1,16 +1,16 @@
 ﻿using MovieTheater.Data.EF;
-using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
+using MovieTheater.Data.Models;
 
-namespace MovieTheater.Application.ReservationServices
+namespace MovieTheater.Application.ReservationServices.Tickets
 {
     public class TicketService : ITicketService
     {
-        private readonly MovieTheaterDBContext _context;
+        private readonly MoviesContext _context;
 
-        public TicketService(MovieTheaterDBContext context)
+        public TicketService(MoviesContext context)
         {
             _context = context;
         }
@@ -19,8 +19,8 @@ namespace MovieTheater.Application.ReservationServices
         {
             Ticket ticket = new Ticket()
             {
-                ScreeningId = request.ScreeningId,
-                SeatId = request.SeatId
+                SeatId = request.SeatId,
+
             };
             _context.Tickets.Add(ticket);
             int result = await _context.SaveChangesAsync();
@@ -59,8 +59,6 @@ namespace MovieTheater.Application.ReservationServices
             }
             else
             {
-                ticket.Price = request.Price;
-                ticket.ScreeningId = request.ScreeningId;
                 ticket.SeatId = request.SeatId;
 
                 _context.Update(ticket);

@@ -1,16 +1,16 @@
 ﻿using MovieTheater.Data.EF;
-using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
+using MovieTheater.Data.Models;
 
-namespace MovieTheater.Application.ReservationServices
+namespace MovieTheater.Application.ReservationServices.ReservationTypes
 {
     public class ReservationTypeService : IReservationTypeService
     {
-        private readonly MovieTheaterDBContext _context;
+        private readonly MoviesContext _context;
 
-        public ReservationTypeService(MovieTheaterDBContext context)
+        public ReservationTypeService(MoviesContext context)
         {
             _context = context;
         }
@@ -28,7 +28,7 @@ namespace MovieTheater.Application.ReservationServices
                 return new ApiErrorResult<bool>("Đặt vé thất bại");
             }
 
-            return new ApiSuccessResult<bool>(true,"Đặt vé thành công");
+            return new ApiSuccessResult<bool>(true, "Đặt vé thành công");
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
@@ -40,7 +40,7 @@ namespace MovieTheater.Application.ReservationServices
             }
             else
             {
-                
+
                 _context.ReservationTypes.Remove(rvt);
                 if (await _context.SaveChangesAsync() != 0)
                 {

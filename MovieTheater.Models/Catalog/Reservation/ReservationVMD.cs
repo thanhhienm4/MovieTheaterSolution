@@ -6,7 +6,7 @@ namespace MovieTheater.Models.Catalog.Reservation
     public class ReservationVMD
     {
         public int Id { get; set; }
-        public bool Paid { get; set; }
+        public string Paid { get; set; }
         public bool Active { get; set; }
         public string ReservationType { get; set; }
         public string Customer { get; set; }

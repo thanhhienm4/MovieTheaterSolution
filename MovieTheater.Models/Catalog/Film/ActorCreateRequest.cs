@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MovieTheater.Models.Catalog.Film
 {
-    public class PeopleCreateRequest
+    public class ActorCreateRequest
     {
         [Display(Name = "Ngày sinh")]
         public DateTime DOB { get; set; }
@@ -16,7 +16,7 @@ namespace MovieTheater.Models.Catalog.Film
         public string Name { get; set; }
     }
 
-    public class PeopleCreateValidator : AbstractValidator<PeopleCreateRequest>
+    public class PeopleCreateValidator : AbstractValidator<ActorCreateRequest>
     {
         public PeopleCreateValidator()
         {

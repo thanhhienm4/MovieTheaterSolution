@@ -2,7 +2,7 @@
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
 
-namespace MovieTheater.Application.ReservationServices
+namespace MovieTheater.Application.ReservationServices.ReservationTypes
 {
     public interface IReservationTypeService
     {

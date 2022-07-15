@@ -8,6 +8,7 @@ using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieTheater.Application.ReservationServices.Reservations;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -49,21 +50,21 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpPost("GetReservationPaging")]
         public async Task<ApiResult<PageResult<ReservationVMD>>> GetPeoplePaging(ReservationPagingRequest request)
         {
-            var result = await _reservationService.GetReservationPagingAsync(request);
+            var result = await _reservationService.GetPagingAsync(request);
             return result;
         }
 
-        [HttpGet("GetReservationById/{id}")]
+        [HttpGet("GetById/{id}")]
         public async Task<ApiResult<ReservationVMD>> GeReservationByIdAsync(int id)
         {
-            var result = await _reservationService.GetReservationById(id);
+            var result = await _reservationService.GetById(id);
             return result;
         }
 
-        [HttpGet("GetReservationByUserId/{id}")]
+        [HttpGet("GetByUserId/{id}")]
         public async Task<ApiResult<List<ReservationVMD>>> GeReservationByUserIdAsync(Guid id)
         {
-            var result = await _reservationService.GetReservationByUserId(id);
+            var result = await _reservationService.GetByUserId(id);
             return result;
         }
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MovieTheater.Models.Catalog.Film
 {
-    public class PeopleUpdateRequest
+    public class ActorUpdateRequest
     {
         public int Id { get; set; }
 
@@ -17,9 +17,9 @@ namespace MovieTheater.Models.Catalog.Film
         [Display(Name = "Tên")]
         public string Name { get; set; }
 
-        public class PeopleUpdateRequestValidator : AbstractValidator<PeopleUpdateRequest>
+        public class ActorUpdateRequestValidator : AbstractValidator<ActorUpdateRequest>
         {
-            public PeopleUpdateRequestValidator()
+            public ActorUpdateRequestValidator()
             {
                 RuleFor(x => x.Name).NotEmpty().WithMessage("Tên không được bỏ trống");
                 RuleFor(x => x.Description).NotEmpty().WithMessage("Mô tả không được bỏ trống");

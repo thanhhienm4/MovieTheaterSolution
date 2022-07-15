@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MovieTheater.Application.ScreeningServices
+namespace MovieTheater.Application.ScreeningServices.Screenings
 {
     public interface IScreeningService
     {
@@ -22,9 +22,9 @@ namespace MovieTheater.Application.ScreeningServices
 
         Task<ApiResult<PageResult<ScreeningVMD>>> GetScreeningPagingAsync(ScreeningPagingRequest request);
 
-        Task<PageResult<FilmScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request);
+        Task<PageResult<MovieScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request);
 
-        Task<ApiResult<List<FilmScreeningVMD>>> GetFilmScreeningInday(DateTime? date);
+        Task<ApiResult<List<MovieScreeningVMD>>> GetFilmScreeningInday(DateTime? date);
 
         Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeek(int filmId);
     }

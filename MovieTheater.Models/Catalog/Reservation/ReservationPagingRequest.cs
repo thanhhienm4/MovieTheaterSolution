@@ -5,6 +5,6 @@ namespace MovieTheater.Models.Catalog.Reservation
 {
     public class ReservationPagingRequest : PagingRequest
     {
-        public Guid? userId { get; set; }
+        public string userId { get; set; }
     }
 }

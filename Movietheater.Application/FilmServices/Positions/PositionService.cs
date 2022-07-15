@@ -1,19 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.EF;
-using MovieTheater.Data.Entities;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieTheater.Data.Models;
 
-namespace MovieTheater.Application.FilmServices
+namespace MovieTheater.Application.FilmServices.Positions
 {
     public class PositionService : IPositionService
     {
-        private readonly MovieTheaterDBContext _context;
+        private readonly MoviesContext _context;
 
-        public PositionService(MovieTheaterDBContext context)
+        public PositionService(MoviesContext context)
         {
             _context = context;
         }
@@ -31,7 +31,7 @@ namespace MovieTheater.Application.FilmServices
                 return new ApiErrorResult<bool>("Thêm thất bại");
             }
 
-            return new ApiSuccessResult<bool>(true,"Thêm thành công");
+            return new ApiSuccessResult<bool>(true, "Thêm thành công");
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
@@ -46,7 +46,7 @@ namespace MovieTheater.Application.FilmServices
                 _context.Positions.Remove(position);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
+                    return new ApiSuccessResult<bool>(true, "Xóa thành công");
                 }
                 else return new ApiErrorResult<bool>("Không xóa được");
             }
@@ -68,7 +68,7 @@ namespace MovieTheater.Application.FilmServices
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
             }
         }
 

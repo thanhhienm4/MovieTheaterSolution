@@ -8,6 +8,7 @@ using MovieTheater.Models.Infra.RoomModels;
 using MovieTheater.Models.Infra.RoomModels.Format;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieTheater.Application.RoomServices.Auditoriums;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -16,10 +17,10 @@ namespace MovieTheater.BackEnd.Controllers
     [Authorize(Roles = "Admin")]
     public class RoomController : BaseController
     {
-        private readonly IRoomService _roomService;
+        private readonly IAuditoriumService _roomService;
         private readonly IUserService _userService;
 
-        public RoomController(IRoomService roomService, IUserService customerService) : base(customerService)
+        public RoomController(IAuditoriumService roomService, IUserService customerService) : base(customerService)
         {
             _roomService = roomService;
         }
@@ -48,14 +49,14 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpPost("GetRoomPaging")]
         public async Task<ApiResult<PageResult<RoomVMD>>> GetRoomPagingAsync(RoomPagingRequest request)
         {
-            var result = await _roomService.GetRoomPagingAsync(request);
+            var result = await _roomService.GetPagingAsync(request);
             return result;
         }
 
-        [HttpGet("GetRoomById/{id}")]
+        [HttpGet("GetById/{id}")]
         public async Task<ApiResult<RoomMD>> GetRoomByIdAsync(int id)
         {
-            var result = await _roomService.GetRoomById(id);
+            var result = await _roomService.GetById(id);
             return result;
         }
 
@@ -70,7 +71,7 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpGet("getAllRoom")]
         public async Task<ApiResult<List<RoomVMD>>> GetAllRoomAsync()
         {
-            var result = await _roomService.GetAllRoomAsync();
+            var result = await _roomService.GetAllAsync();
             return result;
         }
 

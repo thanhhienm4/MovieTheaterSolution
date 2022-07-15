@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.RoomServices;
+using MovieTheater.Application.RoomServices.RoomFormats;
 using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.RoomModels.Format;
@@ -14,22 +14,22 @@ namespace MovieTheater.BackEnd.Controllers
     [Authorize(Roles = "Admin")]
     public class RoomFormatController : BaseController
     {
-        private readonly IRoomFormatService _roomFormatService;
+        private readonly IAuditoriumFormatService _roomFormatService;
         private readonly IUserService _userService;
 
-        public RoomFormatController(IRoomFormatService roomFormatService, IUserService customerService) : base(customerService)
+        public RoomFormatController(IAuditoriumFormatService roomFormatService, IUserService customerService) : base(customerService)
         {
             _roomFormatService = roomFormatService;
         }
         [HttpPost("Create")]
-        public async Task<ApiResult<bool>> CreateAsync(RoomFormatCreateRequest model)
+        public async Task<ApiResult<bool>> CreateAsync(AuditoriumFormatCreateRequest model)
         {
             var result = await _roomFormatService.CreateAsync(model);
             return result;
         }
 
         [HttpPost("Update")]
-        public async Task<ApiResult<bool>> UpdateAsync(RoomFormatUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(AuditoriumFormatUpdateRequest request)
         {
             var result = await _roomFormatService.UpdateAsync(request);
             return result;
@@ -43,16 +43,16 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpGet("getAllRoomFormat")]
-        public async Task<ApiResult<List<RoomFormatVMD>>> GetAllRoomFormatAsync()
+        public async Task<ApiResult<List<AuditoriumFormatVMD>>> GetAllRoomFormatAsync()
         {
-            var result = await _roomFormatService.GetAllRoomFormatAsync();
+            var result = await _roomFormatService.GetAllAsync();
             return result;
         }
 
         [HttpGet("getRoomFormatById/{id}")]
-        public async Task<ApiResult<RoomFormatVMD>> GetRoomFormatByIdAsync(int id)
+        public async Task<ApiResult<AuditoriumFormatVMD>> GetRoomFormatByIdAsync(int id)
         {
-            var result = await _roomFormatService.GetRoomFormatByIdAsync(id);
+            var result = await _roomFormatService.GetByIdAsync(id);
             return result;
         }
 
