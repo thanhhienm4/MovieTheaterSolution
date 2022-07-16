@@ -5,19 +5,20 @@ using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
 
 namespace MovieTheater.Api
 {
-    public class BanApiClient : BaseApiClient
+    public class MovieCensorshipApiClient : BaseApiClient
     {
-        public BanApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
+        public MovieCensorshipApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
             httpContextAccessor)
         { }
 
-        public async Task<ApiResult<List<MovieCensorshipVMD>>> GetAllBanAsync()
+        public async Task<ApiResult<IList<MovieCensorshipVMD>>> GetAllAsync()
         {
-            return await GetAsync<List<MovieCensorshipVMD>>($"Api/Ban/GetAllBan");
+            return await GetAsync<IList<MovieCensorshipVMD>>($"{APIConstant.ApiMovieCensorship}/{APIConstant.GetMovieCensorship}");
         }
     }
 }

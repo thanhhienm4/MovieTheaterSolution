@@ -13,11 +13,11 @@ namespace MovieTheater.Admin.Controllers
     public class RetailController : Controller
     {
         private readonly ScreeningApiClient _screeningApiClient;
-        private readonly FilmApiClient _filmApiClient;
+        private readonly MovieApiClient _filmApiClient;
         private readonly ReservationApiClient _reservationApiClient;
 
         public RetailController(ScreeningApiClient screeningApiClient, ReservationApiClient reservationApiClient,
-            FilmApiClient filmApiClient)
+            MovieApiClient filmApiClient)
         {
             _screeningApiClient = screeningApiClient;
             _reservationApiClient = reservationApiClient;

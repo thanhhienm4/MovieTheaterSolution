@@ -12,6 +12,8 @@ namespace MovieTheater.Common.Constants
         #region Controller
 
         public const string ApiUser = "api/User";
+        public const string ApiMovie = "api/Movie";
+        public const string ApiMovieCensorship = "api/MovieCensorship";
 
         #endregion
 
@@ -33,9 +35,15 @@ namespace MovieTheater.Common.Constants
         public const string GetMovieCensorship  = "GetAllMovieCensorship";
         #endregion
 
-        #region MyRegion
+        #region MovieGenre
 
         public const string GetMovieGenre = "GetAllMovieGenre";
+
+        #endregion
+
+        #region Movie
+
+        public const string GetMoviePaging = "GetMoviePaging";
 
         #endregion
     }

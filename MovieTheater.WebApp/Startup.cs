@@ -25,14 +25,14 @@ namespace MovieTheater.WebApp
             services.AddControllersWithViews();
             services.AddTransient<UserApiClient, UserApiClient>();
             services.AddTransient<RoleApiClient, RoleApiClient>();
-            services.AddTransient<FilmApiClient, FilmApiClient>();
+            services.AddTransient<MovieApiClient, MovieApiClient>();
             services.AddTransient<PeopleApiClient, PeopleApiClient>();
             services.AddTransient<ReservationApiClient, ReservationApiClient>();
             services.AddTransient<SeatApiClient, SeatApiClient>();
             services.AddTransient<SeatRowApiClient, SeatRowApiClient>();
             services.AddTransient<RoomApiClient, RoomApiClient>();
             services.AddTransient<ScreeningApiClient, ScreeningApiClient>();
-            services.AddTransient<BanApiClient, BanApiClient>();
+            services.AddTransient<MovieCensorshipApiClient, MovieCensorshipApiClient>();
             services.AddTransient<StatiticApiClient, StatiticApiClient>();
             services.AddTransient<PositionApiClient, PositionApiClient>();
             services.AddHttpClient();

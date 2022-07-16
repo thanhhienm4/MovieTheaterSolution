@@ -7,6 +7,7 @@ using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -14,11 +15,11 @@ namespace MovieTheater.BackEnd.Controllers
     [ApiController]
 
     [Authorize(Roles = "Admin")]
-    public class FilmController : BaseController
+    public class MovieController : BaseController
     {
         private readonly IMovieService _filmService;
 
-        public FilmController(IMovieService filmService, IUserService userService) : base(userService)
+        public MovieController(IMovieService filmService, IUserService userService) : base(userService)
         {
             _filmService = filmService;
         }
@@ -44,8 +45,8 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPost("GetFilmPaging")]
-        public async Task<ApiResult<PageResult<MovieVMD>>> GetFilmPaging(FilmPagingRequest request)
+        [HttpPost(APIConstant.GetMoviePaging)]
+        public async Task<ApiResult<PageResult<MovieVMD>>> GetPaging(FilmPagingRequest request)
         {
             var result = await _filmService.GetPagingAsync(request);
             return result;

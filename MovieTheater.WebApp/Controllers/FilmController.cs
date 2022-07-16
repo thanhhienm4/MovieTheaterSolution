@@ -7,10 +7,10 @@ namespace MovieTheater.WebApp.Controllers
 {
     public class FilmController : Controller
     {
-        private readonly FilmApiClient _filmApiClient;
+        private readonly MovieApiClient _filmApiClient;
         private readonly ScreeningApiClient _screeningApiClient;
 
-        public FilmController(FilmApiClient filmApiClient, ScreeningApiClient screeningApiClient)
+        public FilmController(MovieApiClient filmApiClient, ScreeningApiClient screeningApiClient)
         {
             _filmApiClient = filmApiClient;
             _screeningApiClient = screeningApiClient;

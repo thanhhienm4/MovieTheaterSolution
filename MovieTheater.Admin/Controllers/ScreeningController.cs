@@ -12,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class ScreeningController : Controller
     {
         private readonly SeatApiClient _seatApiClient;
         private readonly ScreeningApiClient _screeningApiClient;
         private readonly RoomApiClient _roomApiClient;
-        private readonly FilmApiClient _filmApiClient;
+        private readonly MovieApiClient _filmApiClient;
 
         public ScreeningController(SeatApiClient seatApiClient, ScreeningApiClient screeningApiClient,
-            RoomApiClient roomApiClient, FilmApiClient filmApiClient)
+            RoomApiClient roomApiClient, MovieApiClient filmApiClient)
         {
             _seatApiClient = seatApiClient;
             _screeningApiClient = screeningApiClient;
@@ -37,9 +37,9 @@ namespace MovieTheater.Admin.Controllers
             return result;
         }
 
-        public async Task<IActionResult> Index(string keyword, DateTime? date = null, int pageIndex = 1, int pageSize = 15)
+        public async Task<IActionResult> Index(string keyword, DateTime? date = null, int pageIndex = 1,
+            int pageSize = 15)
         {
-
             var request = new ScreeningPagingRequest()
             {
                 Keyword = keyword,
@@ -94,6 +94,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
+
             var result = await _screeningApiClient.GetScreeningMDByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -112,6 +113,7 @@ namespace MovieTheater.Admin.Controllers
                 await SetViewBagAsync();
                 return View(updateRequest);
             }
+
             return RedirectToAction("Error", "Home");
         }
 
@@ -170,6 +172,7 @@ namespace MovieTheater.Admin.Controllers
                 Value = x.Id.ToString()
             });
         }
+
         public async Task<IActionResult> KindOfScreening()
         {
             var result = await _screeningApiClient.GetAllKindOfScreeningAsync();
@@ -179,13 +182,10 @@ namespace MovieTheater.Admin.Controllers
             return View(result.ResultObj);
         }
 
-      
-
 
         [HttpGet]
         public async Task<IActionResult> CreateKindOfScreening()
         {
-          
             return View();
         }
 
@@ -219,6 +219,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
+
             var result = await _screeningApiClient.GetKindOfScreeningByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -231,8 +232,9 @@ namespace MovieTheater.Admin.Controllers
                     Name = result.ResultObj.Name,
                     Surcharge = result.ResultObj.Surcharge
                 };
-                    return View(kindOfScreening);
+                return View(kindOfScreening);
             }
+
             return RedirectToAction("Error", "Home");
         }
 
@@ -256,7 +258,7 @@ namespace MovieTheater.Admin.Controllers
             }
 
             ViewBag.IsEdit = true;
-           
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }

@@ -14,12 +14,12 @@ namespace MovieTheater.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class FilmController : Controller
     {
-        private readonly FilmApiClient _filmApiClient;
-        private readonly BanApiClient _banApiClient;
+        private readonly MovieApiClient _filmApiClient;
+        private readonly MovieCensorshipApiClient _banApiClient;
         private readonly PositionApiClient _positionApiClient;
         private readonly PeopleApiClient _peopleApiClient;
 
-        public FilmController(FilmApiClient filmApiClient, BanApiClient banApiClient,
+        public FilmController(MovieApiClient filmApiClient, MovieCensorshipApiClient banApiClient,
             PositionApiClient positionApiClient, PeopleApiClient peopleApiClient)
         {
             _filmApiClient = filmApiClient;
@@ -49,7 +49,7 @@ namespace MovieTheater.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateAsync()
         {
-            var result = (await _banApiClient.GetAllBanAsync());
+            var result = (await _banApiClient.GetAllAsync());
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
 
@@ -67,7 +67,7 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var bans = (await _banApiClient.GetAllBanAsync()).ResultObj;
+                var bans = (await _banApiClient.GetAllAsync()).ResultObj;
                 ViewBag.Bans = bans.Select(x => new SelectListItem()
                 {
                     Text = x.Name,
@@ -111,7 +111,7 @@ namespace MovieTheater.Admin.Controllers
                     TrailerURL = result.ResultObj.TrailerURL,
                     Length = result.ResultObj.Length
                 };
-                var bans = (await _banApiClient.GetAllBanAsync()).ResultObj;
+                var bans = (await _banApiClient.GetAllAsync()).ResultObj;
                 ViewBag.Bans = bans.Select(x => new SelectListItem()
                 {
                     Text = x.Name,
@@ -129,7 +129,7 @@ namespace MovieTheater.Admin.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.IsEdit = true;
-                var bans = (await _banApiClient.GetAllBanAsync()).ResultObj;
+                var bans = (await _banApiClient.GetAllAsync()).ResultObj;
                 ViewBag.Bans = bans.Select(x => new SelectListItem()
                 {
                     Text = x.Name,

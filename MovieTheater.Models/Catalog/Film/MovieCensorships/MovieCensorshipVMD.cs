@@ -9,9 +9,13 @@ namespace MovieTheater.Models.Catalog.Film.MovieCensorships
 
         public MovieCensorshipVMD(MovieCensorship movieCensorship)
         {
-
-            Id = movieCensorship.Id;
-            Name = movieCensorship.Name;
+            if (movieCensorship != null)
+            {
+                Id = movieCensorship.Id;
+                Name = movieCensorship.Name;
+            }
+                
+               
         }
     }
 }

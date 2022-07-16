@@ -8,12 +8,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
 
 namespace MovieTheater.Api
 {
-    public class FilmApiClient : BaseApiClient
+    public class MovieApiClient : BaseApiClient
     {
-        public FilmApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
+        public MovieApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
             httpContextAccessor)
         { }
@@ -81,7 +82,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<PageResult<MovieVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
-            return await PostAsync<PageResult<MovieVMD>>($"Api/Movie/GetFilmPaging", request);
+            return await PostAsync<PageResult<MovieVMD>>($"{APIConstant.ApiMovie}/{APIConstant.GetMoviePaging}", request);
         }
 
         public async Task<ApiResult<MovieVMD>> GetFilmVMDByIdAsync(string id)
