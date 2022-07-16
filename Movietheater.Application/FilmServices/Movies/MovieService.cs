@@ -8,12 +8,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MovieTheater.Application.Common;
-using MovieTheater.Data.Entities;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
-using Joining = MovieTheater.Data.Entities.Joining;
 
 namespace MovieTheater.Application.FilmServices.Movies
 {

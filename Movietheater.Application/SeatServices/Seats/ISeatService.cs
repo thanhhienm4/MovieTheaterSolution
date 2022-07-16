@@ -3,7 +3,7 @@ using MovieTheater.Models.Infra.Seat;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MovieTheater.Application.SeatServices
+namespace MovieTheater.Application.SeatServices.Seats
 {
     public interface ISeatService
     {
@@ -15,10 +15,10 @@ namespace MovieTheater.Application.SeatServices
 
         Task<ApiResult<SeatVMD>> GetSeatById(int id);
 
-        Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(int roomId);
+        Task<ApiResult<List<SeatVMD>>> GetAllInRoomAsync(string auditoriumId);
 
-        Task<ApiResult<bool>> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request);
+        Task<ApiResult<bool>> UpdateInRoomAsync(SeatsInRoomUpdateRequest request);
 
-        Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId);
+        Task<ApiResult<List<SeatVMD>>> GetListReserved(int screeningId);
     }
 }

@@ -43,7 +43,7 @@ namespace MovieTheater.Data.Models
         public virtual DbSet<TicketPrice> TicketPrices { get; set; }
         public virtual DbSet<Time> Times { get; set; }
         public virtual DbSet<Voucher> Vouchers { get; set; }
-        public virtual DbSet<staff> staff { get; set; }
+        public virtual DbSet<staff> Staffs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

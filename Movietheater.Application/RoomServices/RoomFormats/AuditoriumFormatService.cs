@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieTheater.Data.EF;
-using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.RoomModels.Format;
 using System.Collections.Generic;

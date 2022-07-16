@@ -7,6 +7,7 @@ using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
 using MovieTheater.Data.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,22 +18,26 @@ namespace MovieTheater.BackEnd.Controllers
     [ApiController]
     public class UserController : BaseController
     {
-        private readonly IUserService _customerService;
+        private readonly IUserService _userService;
+
+        public UserController(IUserService userService):base(userService)
+        {
+            _userService = userService;
+        }
         //private readonly IUserService _userService;
 
-        public UserController(IUserService customerService):base(customerService)
+        [HttpPost(APIConstant.UserLogin)]
+        public async Task<ApiResult<string>> LoginCustomerAsync([FromBody] LoginRequest request)
         {
-            _customerService = customerService;
+            var result = await _userService.LoginAsync(request);
+            return result;
         }
 
-       
-      
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost("CreateStaff")]
-        public async Task<ApiResult<Guid>> CreateStaffAsync([FromBody] UserRegisterRequest request)
+        //[Authorize(Roles = "Admin")]
+        [HttpPost(APIConstant.UserRegister)]
+        public async Task<ApiResult<bool>> CreateStaffAsync([FromBody] UserRegisterRequest request)
         {
-            var result = await _customerService.CreateStaffAsync(request);
+            var result = await _userService.CreateAsync(request);
             return result;
         }
 
@@ -40,32 +45,16 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpPut("UpdateStaff")]
         public async Task<ApiResult<bool>> UpdateStaffAsync([FromBody] UserUpdateRequest request)
         {
-            var result = await _customerService.UpdateStaffAsync(request);
+            var result = await _userService.UpdateAsync(request);
             return result;
         }
 
-      
-
-        [HttpPost("CreateCustomer")]
-        public async Task<ApiResult<bool>> CreateCustomerAsync([FromBody] UserRegisterRequest request)
-        {
-            var result = await _customerService.CreateCustomerAsync(request);
-            return result;
-        }
-
-        [Authorize]
-        [HttpPut("UpdateCustomer")]
-        public async Task<ApiResult<bool>> UpdateCustomerAsync([FromBody] UserUpdateRequest request)
-        {
-            var result = await _customerService.UpdateCustomerAsync(request);
-            return result;
-        }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{id}")]
         public async Task<ApiResult<bool>> DeleteAsync(Guid id)
         {
-            var result = await _customerService.DeleteAsync(id);
+            var result = await _userService.DeleteAsync(id);
             return result;
         }
 
@@ -73,7 +62,7 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpPut("ChangePassword")]
         public async Task<ApiResult<bool>> ChangePasswordAsync([FromBody] ChangePwRequest request)
         {
-            var result = await _customerService.ChangePasswordAsync(request);
+            var result = await _userService.ChangePasswordAsync(request);
             return result;
         }
 
@@ -81,7 +70,7 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpPost("GetUserPaging")]
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
-            var result = await _customerService.GetUserPagingAsync(request);
+            var result = await _userService.GetUserPagingAsync(request);
             return result;
         }
 
@@ -89,7 +78,7 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpGet("GetUserById/{id}")]
         public async Task<ApiResult<UserVMD>> GetUserById(Guid id)
         {
-            var result = await _customerService.GetUserByIdAsync(id);
+            var result = await _userService.GetUserByIdAsync(id);
             return result;
         }
 
@@ -97,39 +86,25 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpPut("RoleAssign")]
         public async Task<ApiResult<bool>> RoleAssignAsync([FromBody] RoleAssignRequest request)
         {
-            var result = await _customerService.RoleAssignAsync(request);
+            var result = await _userService.RoleAssignAsync(request);
             return result;
         }
 
-        [Authorize]
-        [HttpGet("GetCustomerById/{id}")]
-        public async Task<ApiResult<UserVMD>> GetCustomerById(Guid id)
-        {
-            var result = await _customerService.GetCustomerByIdAsync(id);
-            return result;
-        }
 
         [AllowAnonymous]
         [HttpPost("ForgotStaffPassword")]
         public async Task<ApiResult<bool>> ForgotStaffPassword([FromBody] string mail)
         {
-            var result =  await _customerService.ForgotStaffPasswordAsync(mail);
+            var result =  await _userService.ForgotPasswordAsync(mail);
             return result;
         }
 
-        [AllowAnonymous]
-        [HttpPost("ForgotCustomerPassword")]
-        public async Task<ApiResult<bool>> ForgotCustomerPassword([FromBody] string mail)
-        {
-            var result = await _customerService.ForgotCustomerPasswordAsync(mail);
-            return result;
-        }
 
         [AllowAnonymous]
         [HttpPost("ResetPassword")]
         public async Task<ApiResult<bool>> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
         {
-            var result = await _customerService.ResetPasswordAsync(request);
+            var result = await _userService.ResetPasswordAsync(request);
             return result;
         }
        

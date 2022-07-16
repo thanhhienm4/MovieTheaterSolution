@@ -10,17 +10,11 @@ namespace MovieTheater.Application.UserServices
 {
     public interface IUserService
     {
-        Task<ApiResult<string>> LoginStaffAsync(LoginRequest request);
+        Task<ApiResult<string>> LoginAsync(LoginRequest request);
 
-        Task<ApiResult<Guid>> CreateStaffAsync(UserRegisterRequest model);
+        Task<ApiResult<bool>> CreateAsync(UserRegisterRequest model);
 
-        Task<ApiResult<bool>> UpdateStaffAsync(UserUpdateRequest model);
-
-        Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request);
-
-        Task<ApiResult<bool>> CreateCustomerAsync(UserRegisterRequest model);
-
-        Task<ApiResult<bool>> UpdateCustomerAsync(UserUpdateRequest model);
+        Task<ApiResult<bool>> UpdateAsync(UserUpdateRequest model);
 
         Task<ApiResult<bool>> DeleteAsync(Guid id);
 
@@ -30,12 +24,10 @@ namespace MovieTheater.Application.UserServices
 
         Task<ApiResult<UserVMD>> GetUserByIdAsync(Guid id);
 
-        Task<ApiResult<UserVMD>> GetCustomerByIdAsync(Guid id);
-
         Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request);
-        ApiResult<bool> CheckToken(Guid userId, string token);
-        Task<ApiResult<bool>> ForgotStaffPasswordAsync(string mail);
-        Task<ApiResult<bool>> ForgotCustomerPasswordAsync(string mail);
+
+        Task<ApiResult<bool>> ForgotPasswordAsync(string mail);
+
         Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request);
         
     }

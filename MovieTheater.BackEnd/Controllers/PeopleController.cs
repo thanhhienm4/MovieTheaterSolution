@@ -16,11 +16,11 @@ namespace MovieTheater.BackEnd.Controllers
     public class PeopleController : BaseController
     {
         private readonly IActorService _actorService;
-        private readonly IUserService _customerService;
-        public PeopleController(IActorService actorService, IUserService customerService) : base(customerService)
+        private readonly IUserService _userService;
+        public PeopleController(IActorService actorService, IUserService userService) : base(userService)
         {
             _actorService = actorService;
-            _customerService = customerService;
+            _userService = userService;
         }
 
         [HttpPost("Create")]

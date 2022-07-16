@@ -9,7 +9,7 @@ namespace MovieTheater.Models.Infra.RoomModels
         public string Name { get; set; }
 
         [Display(Name = "Mã loại phòng")]
-        public int FormatId { get; set; }
+        public string FormatId { get; set; }
     }
 
     public class RoomCreateValidator : AbstractValidator<RoomCreateRequest>

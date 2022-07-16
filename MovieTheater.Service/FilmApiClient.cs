@@ -61,7 +61,7 @@ namespace MovieTheater.Api
             }
             requestContent.Add(new StringContent(request.Description.ToString()), "Description");
             requestContent.Add(new StringContent(request.Id.ToString()), "Id");
-            requestContent.Add(new StringContent(request.BanId.ToString()), "CensorshipId");
+            requestContent.Add(new StringContent(request.CensorshipId), "CensorshipId");
             requestContent.Add(new StringContent(request.Length.ToString()), "Length");
             requestContent.Add(new StringContent(request.Name.ToString()), "Name");
             requestContent.Add(new StringContent(request.PublishDate.ToString()), "PublishDate");
@@ -84,7 +84,7 @@ namespace MovieTheater.Api
             return await PostAsync<PageResult<MovieVMD>>($"Api/Movie/GetFilmPaging", request);
         }
 
-        public async Task<ApiResult<MovieVMD>> GetFilmVMDByIdAsync(int id)
+        public async Task<ApiResult<MovieVMD>> GetFilmVMDByIdAsync(string id)
         {
             return await GetAsync<MovieVMD>($"Api/Movie/GetFilmVMDById/{id}");
         }

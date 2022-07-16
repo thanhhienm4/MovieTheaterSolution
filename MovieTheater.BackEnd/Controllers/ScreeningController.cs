@@ -20,7 +20,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IScreeningService _screeningService;
         private readonly IUserService _userService;
 
-        public ScreeningController(IScreeningService screeningService, IUserService customerService) : base(customerService)
+        public ScreeningController(IScreeningService screeningService, IUserService userService) : base(userService)
         {
             _screeningService = screeningService;
         }
@@ -57,7 +57,7 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpGet("GetScreeningMDById/{id}")]
         public async Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id)
         {
-            var result = await _screeningService.GetScreeningMDByIdAsync(id);
+            var result = await _screeningService.GetMDByIdAsync(id);
             return result;
         }
 
@@ -65,7 +65,7 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpGet("GetScreeningVMDById/{id}")]
         public async Task<ApiResult<ScreeningVMD>> GetScreeningVMDByIdAsync(int id)
         {
-            var result = await _screeningService.GetScreeningVMDByIdAsync(id);
+            var result = await _screeningService.GetVMDByIdAsync(id);
             return result;
         }
         [AllowAnonymous]
@@ -77,10 +77,10 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("GetListCreeningOfFilmInWeek/{filmId}")]
-        public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeek(int filmId)
+        [HttpGet("GetListOfMovieInWeek/{filmId}")]
+        public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeek(string filmId)
         {
-            var result = await _screeningService.GetListCreeningOfFilmInWeek(filmId);
+            var result = await _screeningService.GetListOfMovieInWeek(filmId);
             return result;
         }
     }

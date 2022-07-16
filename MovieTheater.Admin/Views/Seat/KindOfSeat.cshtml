@@ -1,5 +1,5 @@
 ﻿@using MovieTheater.Models.Infra.Seat.KindOfSeat
-@model List<KindOfSeatVMD>
+@model List<SeatTypeVMD>
 @{
     ViewData["Title"] = "EditKindOfSeat";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -63,9 +63,6 @@
 
         <td>
             @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Surcharge)
         </td>
         <td>
             @Html.ActionLink("Chi tiết", "EditKindOfSeat", new { id = item.Id }) |

@@ -31,7 +31,7 @@ namespace MovieTheater.Api
             return await GetAsync<List<SeatVMD>>($"Api/Seat/GetListSeatReserved/{screeningId}");
         }
 
-        public async Task<ApiResult<bool>> CreateKindOfseatAsync(KindOfSeatCreateRequest request)
+        public async Task<ApiResult<bool>> CreateKindOfseatAsync(SeatTypeCreateRequest request)
         {
             return await PostAsync<bool>("Api/KindOfSeat/Create", request);
         }
@@ -46,13 +46,13 @@ namespace MovieTheater.Api
             return await DeleteAsync<bool>($"Api/KindOfSeat/Delete/{id}");
         }
 
-        public async Task<ApiResult<List<KindOfSeatVMD>>> GetAllKindOfSeatAsync()
+        public async Task<ApiResult<List<SeatTypeVMD>>> GetAllKindOfSeatAsync()
         {
-            return await GetAsync<List<KindOfSeatVMD>>($"Api/KindOfSeat/GetAllKindOfSeat");
+            return await GetAsync<List<SeatTypeVMD>>($"Api/KindOfSeat/GetAllKindOfSeat");
         }
-        public async Task<ApiResult<KindOfSeatVMD>> GetKindOfSeatByIdAsync(int id)
+        public async Task<ApiResult<SeatTypeVMD>> GetKindOfSeatByIdAsync(int id)
         {
-            return await GetAsync<KindOfSeatVMD>($"Api/KindOfSeat/GetKindOfSeatById/{id}");
+            return await GetAsync<SeatTypeVMD>($"Api/KindOfSeat/GetKindOfSeatById/{id}");
         }
    
 

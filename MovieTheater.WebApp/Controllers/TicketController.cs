@@ -31,7 +31,7 @@ namespace MovieTheater.WebApp.Controllers
             }
 
             var screening = (await _screeningApiClient.GetScreeningMDByIdAsync(id)).ResultObj;
-            ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(screening.FilmId)).ResultObj;
+            ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(screening.MovieId)).ResultObj;
             return View(screening);
         }
 

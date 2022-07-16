@@ -30,7 +30,7 @@ namespace MovieTheater.Admin.Controllers
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
 
-            ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(result.ResultObj.FilmId)).ResultObj;
+            ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(result.ResultObj.MovieId)).ResultObj;
             return View(result.ResultObj);
         }
 

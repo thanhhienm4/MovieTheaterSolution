@@ -13,9 +13,9 @@ namespace MovieTheater.Data.Config
     {
         public void Configure(EntityTypeBuilder<staff> builder)
         {
-            builder.HasKey(e => e.UserName);
-
             builder.ToTable("Staff");
+
+            builder.HasKey(e => e.UserName);
 
             builder.Property(e => e.UserName)
                 .HasMaxLength(32)

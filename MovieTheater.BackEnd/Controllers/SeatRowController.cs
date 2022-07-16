@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.SeatServices;
+using MovieTheater.Application.SeatServices.SeatRows;
 using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
@@ -19,7 +19,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly ISeatRowService _seatRowService;
         private readonly IUserService _userService;
 
-        public SeatRowController(ISeatRowService seatRowService, IUserService customerService) : base(customerService)
+        public SeatRowController(ISeatRowService seatRowService, IUserService userService) : base(userService)
         {
             _seatRowService = seatRowService;
         }

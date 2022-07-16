@@ -3,20 +3,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MovieTheater.Models.Infra.RoomModels
 {
-    public class RoomUpdateRequest
+    public class AuditoriumUpdateRequest
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Display(Name = "Tên phòng")]
         public string Name { get; set; }
 
         [Display(Name = "Mã loại phòng")]
-        public int FormatId { get; set; }
+        public string FormatId { get; set; }
     }
 
-    public class RoomUpdateValidator : AbstractValidator<RoomUpdateRequest>
+    public class AuditoriumUpdateValidator : AbstractValidator<AuditoriumUpdateRequest>
     {
-        public RoomUpdateValidator()
+        public AuditoriumUpdateValidator()
         {
             RuleFor(x => x.Name).NotEmpty().WithMessage("Tên phòng không được bỏ trống");
         }

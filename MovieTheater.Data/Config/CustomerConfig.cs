@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MovieTheater.Data.Entities;
 using MovieTheater.Data.Models;
 
 namespace MovieTheater.Data.Config

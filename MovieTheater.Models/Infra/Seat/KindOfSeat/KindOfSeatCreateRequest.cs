@@ -2,11 +2,11 @@
 
 namespace MovieTheater.Models.Infra.Seat.KindOfSeat
 {
-    public class KindOfSeatCreateRequest
+    public class SeatTypeCreateRequest
     {
         [Display(Name = "Tên loại ghế")]
         public string Name { get; set; }
         [Display(Name = "Giá")]
-        public int SurCharge { get; set; }
+        public string Id { get; set; }
     }
 }

@@ -8,8 +8,8 @@ namespace MovieTheater.Common.Constants
 {
     public static class RoleConstant
     {
-        public const string Admin = "admin";
-        public const string Customer = "customer";
-        public const string Employee = "employee";
+        public const string Admin = "Admin";
+        public const string Customer = "Customer";
+        public const string Employee = "Employee";
     }
 }

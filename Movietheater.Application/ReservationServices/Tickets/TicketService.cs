@@ -1,5 +1,4 @@
-﻿using MovieTheater.Data.EF;
-using MovieTheater.Models.Catalog.Reservation;
+﻿using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
 using MovieTheater.Data.Models;

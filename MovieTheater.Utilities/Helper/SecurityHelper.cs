@@ -2,9 +2,8 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 
-namespace MovieTheater.Utilities.Helper
+namespace MovieTheater.Common.Helper
 {
     public static class SecurityHelper
     {

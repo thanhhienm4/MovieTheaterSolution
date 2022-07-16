@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.SeatServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat.KindOfSeat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieTheater.Application.SeatServices.SeatTypes;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -15,13 +15,13 @@ namespace MovieTheater.BackEnd.Controllers
     [Authorize(Roles = "Admin")]
     public class KindOfSeatController : Controller
     {
-        private readonly IKindOfSeatService _kindOfSeatService;
-        public KindOfSeatController(IKindOfSeatService kindOfSeatService)
+        private readonly ISeatTypeService _kindOfSeatService;
+        public KindOfSeatController(ISeatTypeService kindOfSeatService)
         {
             _kindOfSeatService = kindOfSeatService;
         }
         [HttpPost("Create")]
-        public async Task<ApiResult<bool>> CreateAsync(KindOfSeatCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(SeatTypeCreateRequest request)
         {
             var result = await _kindOfSeatService.CreateAsync(request);
             return result;
@@ -42,16 +42,16 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpGet("GetAllKindOfSeat")]
-        public async Task<ApiResult<List<KindOfSeatVMD>>> GetAllAsync()
+        public async Task<ApiResult<List<SeatTypeVMD>>> GetAllAsync()
         {
             var res = await _kindOfSeatService.GetAllAsync();
             return res;
         }
       
         [HttpGet("GetKindOfSeatById/{id}")]
-        public async Task<ApiResult<KindOfSeatVMD>> GetKindOfSeatByIdAsync(int id)
+        public async Task<ApiResult<SeatTypeVMD>> GetKindOfSeatByIdAsync(int id)
         {
-            var res = await _kindOfSeatService.GetKindOfSeatByIdAsync(id);
+            var res = await _kindOfSeatService.GetByIdAsync(id);
             return res;
         }
     }

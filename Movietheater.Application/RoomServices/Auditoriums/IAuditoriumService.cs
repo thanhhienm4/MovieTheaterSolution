@@ -12,7 +12,7 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
     {
         Task<ApiResult<bool>> CreateAsync(RoomCreateRequest request);
 
-        Task<ApiResult<bool>> UpdateAsync(RoomUpdateRequest request);
+        Task<ApiResult<bool>> UpdateAsync(AuditoriumUpdateRequest request);
 
         Task<ApiResult<bool>> DeleteAsync(int id);
 
@@ -20,10 +20,10 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
 
         Task<List<SeatVMD>> GetSeats(int id);
 
-        Task<ApiResult<RoomMD>> GetById(int id);
+        Task<ApiResult<RoomMD>> GetById(string id);
 
         Task<ApiResult<List<RoomVMD>>> GetAllAsync();
 
-        Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(int id);
+        Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(string id);
     }
 }

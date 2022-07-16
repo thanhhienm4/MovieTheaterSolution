@@ -1,20 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieTheater.Data.EF;
-using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieTheater.Data.Models;
+using Org.BouncyCastle.Crypto.Agreement.JPake;
 
-namespace MovieTheater.Application.SeatServices
+namespace MovieTheater.Application.SeatServices.Seats
 {
     public class SeatService : ISeatService
     {
-        private readonly MovieTheaterDBContext _context;
+        private readonly MoviesContext _context;
 
-        public SeatService(MovieTheaterDBContext context)
+        public SeatService(MoviesContext context)
         {
             _context = context;
         }
@@ -25,8 +25,9 @@ namespace MovieTheater.Application.SeatServices
             {
                 RowId = request.RowId,
                 Number = request.Number,
-                KindOfSeatId = request.KindOfSeatId,
-                RoomId = request.RoomId
+                TypeId = request.TypeId,
+                AuditoriumId = request.AuditoriumId,
+                IsActive = true
             };
             _context.Seats.Add(seat);
             int result = await _context.SaveChangesAsync();
@@ -35,7 +36,7 @@ namespace MovieTheater.Application.SeatServices
                 return new ApiErrorResult<bool>("Thêm thất bại");
             }
 
-            return new ApiSuccessResult<bool>(true,"Thêm thành công");
+            return new ApiSuccessResult<bool>(true, "Thêm thành công");
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
@@ -51,7 +52,7 @@ namespace MovieTheater.Application.SeatServices
 
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
+                    return new ApiSuccessResult<bool>(true, "Xóa thành công");
                 }
                 else return new ApiErrorResult<bool>("Không xóa được");
             }
@@ -74,40 +75,39 @@ namespace MovieTheater.Application.SeatServices
                 seat.Id = request.Id;
                 seat.RowId = request.RowId;
                 seat.Number = request.Number;
-                seat.KindOfSeatId = request.KindOfSeatId;
-                seat.RoomId = request.RoomId;
+                seat.TypeId = request.TypeId;
+                seat.AuditoriumId = request.AuditoriumId;
                 _context.Update(seat);
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
-                return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
+                return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
             }
         }
 
-        public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(int roomId)
+        public async Task<ApiResult<List<SeatVMD>>> GetAllInRoomAsync(string roomId)
         {
-            var seats = await _context.Seats.Where(x => x.RoomId == roomId && x.IsActive == true).Select(x => new SeatVMD()
+            var seats = await _context.Seats.Where(x => x.AuditoriumId == roomId && x.IsActive == true).Select(x => new SeatVMD()
             {
                 Id = x.Id,
                 Number = x.Number,
                 RowId = x.RowId,
-                RoomId = x.RoomId,
-                KindOfSeatId = x.KindOfSeatId,
-                Name = x.Name
+                AuditoriumId = x.AuditoriumId,
+                TypeId = x.TypeId,
             }).ToListAsync();
 
             return new ApiSuccessResult<List<SeatVMD>>(seats);
         }
 
-        public async Task<ApiResult<bool>> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateInRoomAsync(SeatsInRoomUpdateRequest request)
         {
-            var room = await _context.Rooms.FindAsync(request.RoomId);
+            var room = await _context.Auditoriums.FindAsync(request.AuditoriumId);
             if (room == null)
                 return new ApiErrorResult<bool>("Phòng chiếu không hợp lệ");
 
-            var seats = await _context.Seats.Where(x => x.RoomId == request.RoomId).ToListAsync();
+            var seats = await _context.Seats.Where(x => x.AuditoriumId == request.AuditoriumId).ToListAsync();
             foreach (Seat seat in seats)
             {
                 seat.IsActive = false;
@@ -123,17 +123,17 @@ namespace MovieTheater.Application.SeatServices
 
             foreach (SeatCreateRequest seatCR in request.Seats)
             {
-                var seat = await _context.Seats.Where(x => x.RoomId == seatCR.RoomId
+                var seat = await _context.Seats.Where(x => x.AuditoriumId == seatCR.AuditoriumId
                                                        && x.Number == seatCR.Number
                                                        && x.RowId == seatCR.RowId).FirstOrDefaultAsync();
                 if (seat == null)
                 {
                     Seat newSeat = new Seat()
                     {
-                        RoomId = seatCR.RoomId,
+                        AuditoriumId = seatCR.AuditoriumId,
                         RowId = seatCR.RowId,
                         Number = seatCR.Number,
-                        KindOfSeatId = seatCR.KindOfSeatId,
+                        TypeId = seatCR.TypeId,
                         IsActive = true,
                     };
                     _context.Seats.Add(newSeat);
@@ -141,7 +141,7 @@ namespace MovieTheater.Application.SeatServices
                 }
                 else
                 {
-                    seat.KindOfSeatId = seatCR.KindOfSeatId;
+                    seat.TypeId = seatCR.TypeId;
                     seat.IsActive = true;
                     _context.Seats.Update(seat);
                     // await _context.SaveChangesAsync();
@@ -157,26 +157,27 @@ namespace MovieTheater.Application.SeatServices
                 return new ApiErrorResult<bool>("phòng đã có suất chiếu, chỉ được thêm ghế, vui lòng kiểm tra lại thông tin");
             }
 
-            return new ApiSuccessResult<bool>(true,"Cập nhật thành công");
+            return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
         }
 
-        public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
+        public async Task<ApiResult<List<SeatVMD>>> GetListReserved(int screeningId)
         {
             var screening = await _context.Screenings.FindAsync(screeningId);
             if (screening == null)
                 return new ApiErrorResult<List<SeatVMD>>("Không tìm thấy xuất chiếu");
 
             var query = from t in _context.Tickets
+                        join r in _context.Reservations on t.ReservationId equals r.Id
                         join s in _context.Seats on t.SeatId equals s.Id
-                        where t.ScreeningId == screeningId
+                        where r.ScreeningId == screeningId
                         select s;
 
             var seats = await query.Select(x => new SeatVMD()
             {
                 Id = x.Id,
-                KindOfSeatId = x.KindOfSeatId,
+                TypeId = x.TypeId,
                 Number = x.Number,
-                RoomId = x.RoomId,
+                AuditoriumId = x.AuditoriumId,
                 RowId = x.RowId
             }).ToListAsync();
 

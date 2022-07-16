@@ -16,16 +16,16 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
 
         Task<ApiResult<bool>> DeleteAsync(int id);
 
-        Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id);
+        Task<ApiResult<ScreeningMD>> GetMDByIdAsync(int id);
 
-        Task<ApiResult<ScreeningVMD>> GetScreeningVMDByIdAsync(int id);
+        Task<ApiResult<ScreeningVMD>> GetVMDByIdAsync(int id);
 
         Task<ApiResult<PageResult<ScreeningVMD>>> GetScreeningPagingAsync(ScreeningPagingRequest request);
-
+            
         Task<PageResult<MovieScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request);
 
         Task<ApiResult<List<MovieScreeningVMD>>> GetFilmScreeningInday(DateTime? date);
 
-        Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeek(int filmId);
+        Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListOfMovieInWeek(string movieId);
     }
 }

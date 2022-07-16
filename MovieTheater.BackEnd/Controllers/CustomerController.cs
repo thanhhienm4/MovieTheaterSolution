@@ -43,9 +43,9 @@ namespace MovieTheater.BackEnd.Controllers
 
         //[Authorize(Roles = "Admin,Employee")]
         //[HttpPut("UpdateStaff")]
-        //public async Task<ApiResult<bool>> UpdateStaffAsync([FromBody] UserUpdateRequest request)
+        //public async Task<ApiResult<bool>> UpdateAsync([FromBody] UserUpdateRequest request)
         //{
-        //    var result = await _customerService.UpdateStaffAsync(request);
+        //    var result = await _customerService.UpdateAsync(request);
         //    return result;
         //}
 
@@ -117,7 +117,7 @@ namespace MovieTheater.BackEnd.Controllers
         //[HttpPost("ForgotStaffPassword")]
         //public async Task<ApiResult<bool>> ForgotStaffPassword([FromBody] string mail)
         //{
-        //    var result =  await _customerService.ForgotStaffPasswordAsync(mail);
+        //    var result =  await _customerService.ForgotPasswordAsync(mail);
         //    return result;
         //}
 

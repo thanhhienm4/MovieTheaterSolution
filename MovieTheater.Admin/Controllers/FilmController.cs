@@ -106,7 +106,7 @@ namespace MovieTheater.Admin.Controllers
                     Id = result.ResultObj.Id,
                     Name = result.ResultObj.Name,
                     PublishDate = result.ResultObj.PublishDate,
-                    BanId = result.ResultObj.BanId,
+                    CensorshipId = result.ResultObj.Censorship,
                     Description = result.ResultObj.Description,
                     TrailerURL = result.ResultObj.TrailerURL,
                     Length = result.ResultObj.Length
@@ -159,7 +159,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AssignGenre(int id)
+        public async Task<IActionResult> AssignGenre(string id)
         {
             if (!ModelState.IsValid)
             {
@@ -190,7 +190,7 @@ namespace MovieTheater.Admin.Controllers
             return View(genreAssignRequest);
         }
 
-        private async Task<GenreAssignRequest> GetGenreAssignRequest(int id)
+        private async Task<GenreAssignRequest> GetGenreAssignRequest(string id)
         {
             var filmObject = await _filmApiClient.GetFilmVMDByIdAsync(id);
             var result = (await _filmApiClient.GetAllFilmGenreAsync());
@@ -226,7 +226,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> PosAssign(int id)
+        public async Task<IActionResult> PosAssign(string id)
         {
             var film = (await _filmApiClient.GetFilmVMDByIdAsync(id)).ResultObj;
 

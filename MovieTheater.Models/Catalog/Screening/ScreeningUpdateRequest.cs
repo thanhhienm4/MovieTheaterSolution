@@ -13,10 +13,10 @@ namespace MovieTheater.Models.Catalog.Screening
         public DateTime StartTime { get; set; }
 
         [Display(Name = "Tên phim")]
-        public int FilmId { get; set; }
+        public string FilmId { get; set; }
 
         [Display(Name = "Tên phòng")]
-        public int RoomId { get; set; }
+        public string AuditoriumId { get; set; }
 
         [Display(Name = "Loại xuất chiếu")]
         public int KindOfScreeningId { get; set; }

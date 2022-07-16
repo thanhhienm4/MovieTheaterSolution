@@ -39,7 +39,7 @@ namespace MovieTheater.WebApp.Controllers
         {
             //can fix
             request.CustomerId = GetUserId();
-            request.ReservationTypeId = 2;
+            request.ReservationTypeId = "Web";
 
             var result = await _reservationApiClient.CreateAsync(request);
             return result;

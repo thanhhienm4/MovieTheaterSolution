@@ -22,7 +22,7 @@ namespace MovieTheater.Api
             return await PostAsync<bool>("/api/Room/Create", request);
         }
 
-        public async Task<ApiResult<bool>> UpdateAsync(RoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(AuditoriumUpdateRequest request)
         {
             return await PostAsync<bool>("/api/Room/Update", request);
         }
@@ -37,7 +37,7 @@ namespace MovieTheater.Api
             return await PostAsync<PageResult<RoomVMD>>($"Api/Room/GetRoomPaging", request);
         }
 
-        public async Task<ApiResult<RoomMD>> GetRoomByIdAsync(int id)
+        public async Task<ApiResult<RoomMD>> GetRoomByIdAsync(string id)
         {
             return await GetAsync<RoomMD>($"Api/Room/GetRoomById/{id}");
         }

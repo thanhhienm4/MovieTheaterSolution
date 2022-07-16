@@ -16,7 +16,7 @@ namespace MovieTheater.BackEnd.Controllers
     {
         private readonly IMovieGenreService _movieGenreService;
 
-        public MovieGenreController(IMovieGenreService movieGenreService, IUserService customerService) : base(customerService)
+        public MovieGenreController(IMovieGenreService movieGenreService, IUserService userService) : base(userService)
         {
             _movieGenreService = movieGenreService;
         }

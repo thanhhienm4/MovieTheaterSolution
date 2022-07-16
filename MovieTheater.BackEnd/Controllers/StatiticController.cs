@@ -16,7 +16,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IStatisticService _statisticService;
         private readonly IUserService _userService;
 
-        public StatiticController(IStatisticService statisticService, IUserService customerService) : base(customerService)
+        public StatiticController(IStatisticService statisticService, IUserService userService) : base(userService)
         {
             _statisticService = statisticService;
         }

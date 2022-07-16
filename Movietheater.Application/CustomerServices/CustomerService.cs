@@ -13,12 +13,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MovieTheater.Application.MailServices;
 using MovieTheater.Common.Constants;
-using MovieTheater.Data.Entities;
+using MovieTheater.Common.Helper;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.User;
-using MovieTheater.Utilities.Helper;
 
 namespace MovieTheater.Application.CustomerServices
 {

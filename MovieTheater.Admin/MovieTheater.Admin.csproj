@@ -56,6 +56,7 @@
     <ProjectReference Include="..\MovieTheater.Data\MovieTheater.Data.csproj" />
     <ProjectReference Include="..\MovieTheater.Models\MovieTheater.Models.csproj" />
     <ProjectReference Include="..\MovieTheater.Service\MovieTheater.Api.csproj" />
+    <ProjectReference Include="..\MovieTheater.Utilities\MovieTheater.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

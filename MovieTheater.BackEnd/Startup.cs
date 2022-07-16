@@ -13,15 +13,13 @@ using MovieTheater.Application.Common;
 using MovieTheater.Application.MailServices;
 using MovieTheater.Application.RoomServices;
 using MovieTheater.Application.ScreeningServices;
-using MovieTheater.Application.SeatServices;
 using MovieTheater.Application.Statitic;
 using MovieTheater.Application.UserServices;
-using MovieTheater.Data.EF;
-using MovieTheater.Data.Entities;
 using MovieTheater.Models.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AspNetCore.ReportingServices.ReportProcessing.ReportObjectModel;
 using MovieTheater.Application.CustomerServices;
 using MovieTheater.Application.FilmServices.MovieCensorshipes;
 using MovieTheater.Data.Models;
@@ -30,11 +28,14 @@ using MovieTheater.Application.FilmServices.Movies;
 using MovieTheater.Application.FilmServices.Actors;
 using MovieTheater.Application.FilmServices.Positions;
 using MovieTheater.Application.ReservationServices.Reservations;
+using MovieTheater.Application.ReservationServices.ReservationTypes;
 using MovieTheater.Application.ReservationServices.Tickets;
-using MovieTheater.Application.ReservationServices.ReservationType;
 using MovieTheater.Application.RoomServices.Auditoriums;
 using MovieTheater.Application.RoomServices.RoomFormats;
 using MovieTheater.Application.ScreeningServices.Screenings;
+using MovieTheater.Application.SeatServices.Seats;
+using MovieTheater.Application.SeatServices.SeatRows;
+using MovieTheater.Application.SeatServices.SeatTypes;
 
 namespace MovieTheater.BackEnd
 {
@@ -50,6 +51,7 @@ namespace MovieTheater.BackEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICustomerService, CustomerService>();
 
@@ -65,32 +67,16 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IAuditoriumFormatService, AuditoriumFormatService>();
             services.AddTransient<IScreeningService, ScreeningService>();
             services.AddTransient<ISeatService, SeatService>();
-            services.AddTransient<IKindOfSeatService, KindOfSeatService>();
-            services.AddTransient<IkindOfScreeningService, KindOfScreeningService>();
+            services.AddTransient<ISeatTypeService, SeatTypeService>();
             services.AddTransient<ISeatRowService, SeatRowService>();
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IMovieCensorshipService, MovieCensorshipService>();
             services.AddTransient<IStatisticService, StatisticService>();
             services.AddTransient<IPositionService, PositionService>();
-            services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IMailService, MailService>();
             // For Identity
-            services.AddIdentity<User, AppRole>(
-                option =>
-                {
-                    option.Password.RequireNonAlphanumeric = false;
-                })
-                .AddEntityFrameworkStores<MovieTheaterDBContext>()
-                .AddEntityFrameworkStores<MoviesContext>()
-                .AddDefaultTokenProviders();
+            
 
-            services.Configure<DataProtectionTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromHours(2));
-
-
-
-            services.AddDbContext<MovieTheaterDBContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("MovieTheaterDBContext")));
 
             services.AddDbContext<MoviesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MovieDBContext")));

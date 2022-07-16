@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.SeatServices;
+using MovieTheater.Application.SeatServices.Seats;
 using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
@@ -17,7 +17,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly ISeatService _seatService;
         private readonly IUserService _userService;
 
-        public SeatController(ISeatService seatService, IUserService customerService) : base(customerService)
+        public SeatController(ISeatService seatService, IUserService userService) : base(userService)
         {
             _seatService = seatService;
         }
@@ -44,24 +44,24 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("GetSeatInRoomAsync/{id}")]
-        public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(int id)
+        [HttpGet("GetAllInRoomAsync/{id}")]
+        public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(string id)
         {
-            var result = await _seatService.GetSeatInRoomAsync(id);
+            var result = await _seatService.GetAllInRoomAsync(id);
             return result;
         }
 
-        [HttpPut("UpdateSeatInRoomAsync")]
+        [HttpPut("UpdateInRoomAsync")]
         public async Task<ApiResult<bool>> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
         {
-            var result = await _seatService.UpdateSeatInRoomAsync(request);
+            var result = await _seatService.UpdateInRoomAsync(request);
             return result;
         }
         [AllowAnonymous]
-        [HttpGet("GetListSeatReserved/{screeningId}")]
+        [HttpGet("GetListReserved/{screeningId}")]
         public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
         {
-            var result = await _seatService.GetListSeatReserved(screeningId);
+            var result = await _seatService.GetListReserved(screeningId);
             return result;
         }
     }

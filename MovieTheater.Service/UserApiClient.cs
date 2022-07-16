@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using MovieTheater.Common.Constants;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Identity.Role;
@@ -19,12 +20,12 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<string>> LoginStaffAsync(LoginRequest request)
         {
-            return await PostAsync<string>("/api/Login/LoginStaff", request);
+            return await PostAsync<string>($"{APIConstant.ApiUser}/{APIConstant.UserLogin}", request);
         }
 
-        public async Task<ApiResult<Guid>> CreateStaffAsync(UserRegisterRequest request)
+        public async Task<ApiResult<bool>> CreateStaffAsync(UserRegisterRequest request)
         {
-            return await PostAsync<Guid>("Api/User/CreateStaff", request);
+            return await PostAsync<bool>($"{APIConstant.ApiUser}/{APIConstant.UserRegister}", request);
         }
 
         public async Task<ApiResult<bool>> UpdateStaffAsync(UserUpdateRequest request)

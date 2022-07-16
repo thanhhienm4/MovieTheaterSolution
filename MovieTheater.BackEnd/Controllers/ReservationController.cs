@@ -20,7 +20,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IReservationService _reservationService;
         private readonly IUserService _userService;
 
-        public ReservationController(IReservationService reservationService,IUserService customerService):base(customerService)
+        public ReservationController(IReservationService reservationService,IUserService userService):base(userService)
         {
             _reservationService = reservationService;
         }

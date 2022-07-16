@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieTheater.Data.EF;
-using MovieTheater.Data.Entities;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.Seat;
@@ -8,14 +6,15 @@ using MovieTheater.Models.Infra.Seat.SeatRow;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieTheater.Data.Models;
 
-namespace MovieTheater.Application.SeatServices
+namespace MovieTheater.Application.SeatServices.SeatRows
 {
     public class SeatRowService : ISeatRowService
     {
-        private readonly MovieTheaterDBContext _context;
+        private readonly MoviesContext _context;
 
-        public SeatRowService(MovieTheaterDBContext context)
+        public SeatRowService(MoviesContext context)
         {
             _context = context;
         }
@@ -63,7 +62,7 @@ namespace MovieTheater.Application.SeatServices
             }
             else
             {
-                if (_context.Seats.Where(x => x.RowId == seatrow.Id).Count() == 0)
+                if (!_context.Seats.Where(x => x.RowId == seatrow.Id).Any())
                     _context.SeatRows.Remove(seatrow);
                 else
                 {

@@ -21,7 +21,7 @@ namespace MovieTheater.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (User.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value == "Admin").Count() == 0)
+            if (!User.Claims.Any(x => x.Type == ClaimTypes.Role && x.Value == "Admin"))
             {
                 return RedirectToAction("Index", "Retail");
             }

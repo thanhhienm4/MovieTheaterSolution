@@ -42,7 +42,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> CreateKindOfSeat(KindOfSeatCreateRequest request)
+        public async Task<IActionResult> CreateKindOfSeat(SeatTypeCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -80,7 +80,6 @@ namespace MovieTheater.Admin.Controllers
                 {
                     Id = result.ResultObj.Id,
                     Name = result.ResultObj.Name,
-                    Surcharge = result.ResultObj.Surcharge
                 };
           
                 return View(updateRequest);

@@ -20,7 +20,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IAuditoriumService _roomService;
         private readonly IUserService _userService;
 
-        public RoomController(IAuditoriumService roomService, IUserService customerService) : base(customerService)
+        public RoomController(IAuditoriumService roomService, IUserService userService) : base(userService)
         {
             _roomService = roomService;
         }
@@ -33,7 +33,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("Update")]
-        public async Task<ApiResult<bool>> UpdateAsync(RoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(AuditoriumUpdateRequest request)
         {
             var result = await _roomService.UpdateAsync(request);
             return result;
@@ -54,7 +54,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ApiResult<RoomMD>> GetRoomByIdAsync(int id)
+        public async Task<ApiResult<RoomMD>> GetRoomByIdAsync(string id)
         {
             var result = await _roomService.GetById(id);
             return result;
@@ -77,7 +77,7 @@ namespace MovieTheater.BackEnd.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetCoordinate/{id}")]
-        public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(int id)
+        public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(string id)
         {
             var result = await _roomService.GetCoordinateAsync(id);
             return result;

@@ -27,7 +27,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Index(string keyword, int? formatId, int pageIndex = 1, int pageSize = 15)
+        public async Task<IActionResult> Index(string keyword, string formatId, int pageIndex = 1, int pageSize = 15)
         {
             var request = new RoomPagingRequest()
             {
@@ -89,7 +89,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (!ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace MovieTheater.Admin.Controllers
 
             if (result.IsSuccessed)
             {
-                var updateRequest = new RoomUpdateRequest()
+                var updateRequest = new AuditoriumUpdateRequest()
                 {
                     Id = result.ResultObj.Id,
                     Name = result.ResultObj.Name,
@@ -115,7 +115,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Edit(RoomUpdateRequest request)
+        public async Task<IActionResult> Edit(AuditoriumUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {

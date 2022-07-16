@@ -13,11 +13,11 @@ namespace MovieTheater.WebApp.Controllers
            
         }
 
-        public Guid GetUserId()
+        public string GetUserId()
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
             string id = claimsIdentity.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
-            return new Guid(id);
+            return id;
         }
     }
 }

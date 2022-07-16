@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MovieTheater.Common.Constants;
-using MovieTheater.Data.EF;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
@@ -108,7 +107,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             //var query = from r in _context.Reservations
             //            join c in _context.Customers on r.Customer equals c.Id into rc
             //            from c in rc.DefaultIfEmpty()
-            //            join e in _context.staff on r.EmployeeId equals e.UserName into rec
+            //            join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
             //            from e in rec.DefaultIfEmpty()
             //            join rt in _context.ReservationTypes on r.TypeId equals rt.Id
             //            select new { r, c,rt, e };
@@ -166,7 +165,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 var query = from r in _context.Reservations
                             join c in _context.Customers on r.Customer equals c.Id into rc
                             from c in rc.DefaultIfEmpty()
-                            join e in _context.staff on r.EmployeeId equals e.UserName into rec
+                            join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
                             from e in rec.DefaultIfEmpty()
                             join rt in _context.ReservationTypes on r.TypeId equals rt.Id
                             where r.Id == Id
@@ -226,14 +225,19 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             return new ApiSuccessResult<int>(total);
         }
 
+        public Task<ApiResult<List<ReservationVMD>>> GetByUserId(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ApiResult<int>> CalPriceAsync(TicketCreateRequest ticket)
         {
             //var query = from s in _context.Screenings
             //            join ks in _context.KindOfScreenings on s.KindOfScreeningId equals ks.Id
-            //            join r in _context.Rooms on s.RoomId equals r.Id
+            //            join r in _context.Rooms on s.AuditoriumId equals r.Id
             //            join fr in _context.RoomFormats on r.FormatId equals fr.Id
-            //            join se in _context.Seats on r.Id equals se.RoomId
-            //            join kse in _context.KindOfSeats on se.KindOfSeatId equals kse.Id
+            //            join se in _context.Seats on r.Id equals se.AuditoriumId
+            //            join kse in _context.KindOfSeats on se.TypeId equals kse.Id
             //            where s.Id == ticket.ScreeningId && se.Id == ticket.SeatId
 
             //            select new { ks, fr, kse };
@@ -251,7 +255,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             var query = from r in _context.Reservations
                         join c in _context.Customers on r.Customer equals c.Id into rc
                         from c in rc.DefaultIfEmpty()
-                        join e in _context.staff on r.EmployeeId equals e.UserName into rec
+                        join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
                         from e in rec.DefaultIfEmpty()
                         join rt in _context.ReservationTypes on r.TypeId equals rt.Id
                         where c.Id == userId
@@ -279,7 +283,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
         }
         private long  CallTotal(int id)
         {
-            if (_context.Tickets.Where(x => x.ReservationId == id).Count() == 0)
+            if (!_context.Tickets.Any(x => x.ReservationId == id))
                 return 0;
             long res = 1; //_context.Tickets.Where(x => x.ReservationId == id).Sum(x => x.Price);
             return res;

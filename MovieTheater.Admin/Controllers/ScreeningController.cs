@@ -103,9 +103,9 @@ namespace MovieTheater.Admin.Controllers
                 var updateRequest = new ScreeningUpdateRequest()
                 {
                     Id = result.ResultObj.Id,
-                    FilmId = result.ResultObj.FilmId,
+                    FilmId = result.ResultObj.MovieId,
                     KindOfScreeningId = result.ResultObj.KindOfScreeningId,
-                    RoomId = result.ResultObj.RoomId,
+                    AuditoriumId = result.ResultObj.AuditoriumId,
                     StartTime = result.ResultObj.StartTime
                 };
                 ViewBag.Date = result.ResultObj.StartTime;

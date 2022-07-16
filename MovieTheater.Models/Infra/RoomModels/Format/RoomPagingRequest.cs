@@ -4,6 +4,6 @@ namespace MovieTheater.Models.Infra.RoomModels.Format
 {
     public class RoomPagingRequest : PagingRequest
     {
-        public int? FormatId { get; set; }
+        public string? FormatId { get; set; }
     }
 }

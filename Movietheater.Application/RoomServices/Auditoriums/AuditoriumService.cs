@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using MovieTheater.Data.EF;
-using MovieTheater.Data.Entities;
+using MovieTheater.Data.Models;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.RoomModels;
@@ -15,25 +14,25 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
 {
     public class AuditoriumService : IAuditoriumService
     {
-        private readonly MovieTheaterDBContext _context;
+        private readonly MoviesContext _context;
 
-        public AuditoriumService(MovieTheaterDBContext context)
+        public AuditoriumService(MoviesContext context)
         {
             _context = context;
         }
 
         public async Task<ApiResult<bool>> CreateAsync(RoomCreateRequest request)
         {
-            if (_context.Rooms.Count(x => x.Name == request.Name) != 0)
+            if (_context.Auditoriums.Count(x => x.Name == request.Name) != 0)
                 return new ApiErrorResult<bool>("Tên phòng đã bị trùng");
 
-            var room = new Room()
+            var auditorium = new Auditorium()
             {
                 Name = request.Name,
                 FormatId = request.FormatId
             };
 
-            await _context.Rooms.AddAsync(room);
+            await _context.Auditoriums.AddAsync(auditorium);
             if (await _context.SaveChangesAsync() == 0)
             {
                 return new ApiErrorResult<bool>("Không thể thêm phòng");
@@ -41,22 +40,22 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             return new ApiSuccessResult<bool>(true, "Thêm thành công");
         }
 
-        public async Task<ApiResult<bool>> UpdateAsync(RoomUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(AuditoriumUpdateRequest request)
         {
-            Room room = await _context.Rooms.FindAsync(request.Id);
-            if (room == null)
+            Auditorium auditorium = await _context.Auditoriums.FindAsync(request.Id);
+            if (auditorium == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy phòng");
             }
             else
             {
-                if (_context.Rooms.Count(x => x.Id != request.Id && x.Name == request.Name) != 0)
+                if (_context.Auditoriums.Count(x => x.Id != request.Id && x.Name == request.Name) != 0)
                     return new ApiErrorResult<bool>("Tên phòng đã bị trùng");
 
-                room.Name = request.Name;
-                room.FormatId = request.FormatId;
+                auditorium.Name = request.Name;
+                auditorium.FormatId = request.FormatId;
 
-                _context.Rooms.Update(room);
+                _context.Auditoriums.Update(auditorium);
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)
                 {
@@ -68,14 +67,14 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-            Room room = await _context.Rooms.FindAsync(id);
-            if (room == null)
+            Auditorium auditorium = await _context.Auditoriums.FindAsync(id);
+            if (auditorium == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy phòng");
             }
             else
             {
-                if (room.Screenings != null)
+                if (auditorium.Screenings != null)
                 {
                     return new ApiErrorResult<bool>("không thể xóa");
                 }
@@ -83,11 +82,11 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
                 {
                     try
                     {
-                        var seats = _context.Seats.Where(x => x.RoomId == room.Id);
+                        var seats = _context.Seats.Where(x => x.AuditoriumId == auditorium.Id);
                         _context.Seats.RemoveRange(seats);
                         _context.SaveChanges();
 
-                        _context.Rooms.Remove(room);
+                        _context.Auditoriums.Remove(auditorium);
                         _context.SaveChanges();
 
                         return new ApiSuccessResult<bool>(true, "Xóa thành công");
@@ -102,8 +101,8 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
 
         public async Task<ApiResult<PageResult<RoomVMD>>> GetPagingAsync(RoomPagingRequest request)
         {
-            var query = from r in _context.Rooms
-                        join f in _context.RoomFormats on r.FormatId equals f.Id
+            var query = from r in _context.Auditoriums
+                        join f in _context.AuditoriumFormats on r.FormatId equals f.Id
                         select new { r, f };
 
             if (request.Keyword != null)
@@ -138,10 +137,10 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             throw new NotImplementedException();
         }
 
-        public async Task<ApiResult<RoomMD>> GetById(int id)
+        public async Task<ApiResult<RoomMD>> GetById(string id)
         {
-            Room room = await _context.Rooms.FindAsync(id);
-            if (room == null)
+            Auditorium auditorium = await _context.Auditoriums.FindAsync(id);
+            if (auditorium == null)
             {
                 return new ApiErrorResult<RoomMD>("Không tìm thấy phòng");
             }
@@ -149,9 +148,9 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             {
                 var result = new RoomMD()
                 {
-                    Id = room.Id,
-                    Name = room.Name,
-                    FormatId = room.FormatId
+                    Id = auditorium.Id,
+                    Name = auditorium.Name,
+                    FormatId = auditorium.FormatId
                 };
                 return new ApiSuccessResult<RoomMD>(result);
             }
@@ -159,8 +158,8 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
 
         public async Task<ApiResult<List<RoomVMD>>> GetAllAsync()
         {
-            var query = from r in _context.Rooms
-                        join f in _context.RoomFormats on r.FormatId equals f.Id
+            var query = from r in _context.Auditoriums
+                        join f in _context.AuditoriumFormats on r.FormatId equals f.Id
                         select new { r, f };
 
             var rooms = await query.Select(x => new RoomVMD()
@@ -173,20 +172,20 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             return new ApiSuccessResult<List<RoomVMD>>(rooms);
         }
 
-        public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(int id)
+        public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(string id)
         {
 
             RoomCoordinate coordinate = new RoomCoordinate();
 
             var queryRow = from sr in _context.SeatRows
                            join s in _context.Seats on sr.Id equals s.RowId
-                           where s.IsActive == true && s.RoomId == id
+                           where s.IsActive == true && s.AuditoriumId == id
                            select sr;
             coordinate.Bottom = await queryRow.MinAsync(x => x.Id);
             coordinate.Top = await queryRow.MaxAsync(x => x.Id);
 
             var queryCol = from s in _context.Seats
-                           where s.IsActive == true && s.RoomId == id
+                           where s.IsActive == true && s.AuditoriumId == id
                            select s;
             coordinate.Right = await queryCol.MaxAsync(s => s.Number);
             coordinate.Left = await queryCol.MinAsync(s => s.Number);

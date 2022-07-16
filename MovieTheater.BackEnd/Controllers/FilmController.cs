@@ -18,7 +18,7 @@ namespace MovieTheater.BackEnd.Controllers
     {
         private readonly IMovieService _filmService;
 
-        public FilmController(IMovieService filmService, IUserService customerService) : base(customerService)
+        public FilmController(IMovieService filmService, IUserService userService) : base(userService)
         {
             _filmService = filmService;
         }
@@ -38,7 +38,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ApiResult<bool>> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             var result = await _filmService.DeleteAsync(id);
             return result;
@@ -52,7 +52,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ApiResult<MovieMD>> GetFilmMDByIdAsync(int id)
+        public async Task<ApiResult<MovieMD>> GetFilmMDByIdAsync(string id)
         {
             var result = await _filmService.GetById(id);
             return result;
@@ -60,7 +60,7 @@ namespace MovieTheater.BackEnd.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetFilmVMDById/{id}")]
-        public async Task<ApiResult<MovieVMD>> GetFilmVMDByIdAsync(int id)
+        public async Task<ApiResult<MovieVMD>> GetFilmVMDByIdAsync(string id)
         {
             var result = await _filmService.GetFilmVMDById(id);
             return result;
@@ -73,12 +73,12 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPost("GenreAssign")]
-        public async Task<ApiResult<bool>> GenreAssignAsync(GenreAssignRequest request)
-        {
-            var result = await _filmService.GenreAssignAsync(request);
-            return result;
-        }
+        //[HttpPost("GenreAssign")]
+        //public async Task<ApiResult<bool>> GenreAssignAsync(GenreAssignRequest request)
+        //{
+        //    var result = await _filmService.GenreAssignAsync(request);
+        //    return result;
+        //}
 
         [AllowAnonymous]
         [HttpGet("getAllPlayingFilm")]
@@ -97,25 +97,25 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPost("PosAssign")]
-        public async Task<ApiResult<bool>> PosAssignAsync(PosAssignRequest request)
-        {
-            var result = await _filmService.PosAssignAsync(request);
-            return result;
-        }
+        //[HttpPost("PosAssign")]
+        //public async Task<ApiResult<bool>> PosAssignAsync(PosAssignRequest request)
+        //{
+        //    var result = await _filmService.PosAssignAsync(request);
+        //    return result;
+        //}
 
-        [HttpPost("DeletePosAssign")]
-        public async Task<ApiResult<bool>> DeletePosAssignAsync(PosAssignRequest request)
-        {
-            var result = await _filmService.DeletePosAssignAsync(request);
-            return result;
-        }
+        //[HttpPost("DeletePosAssign")]
+        //public async Task<ApiResult<bool>> DeletePosAssignAsync(PosAssignRequest request)
+        //{
+        //    var result = await _filmService.DeletePosAssignAsync(request);
+        //    return result;
+        //}
 
-        [HttpGet("GetJoining/{id}")]
-        public async Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id)
-        {
-            var result = await _filmService.GetJoiningAsync(id);
-            return result;
-        }
+        //[HttpGet("GetJoining/{id}")]
+        //public async Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id)
+        //{
+        //    var result = await _filmService.GetJoiningAsync(id);
+        //    return result;
+        //}
     }
 }

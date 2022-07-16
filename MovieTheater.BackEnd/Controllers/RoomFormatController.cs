@@ -17,7 +17,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IAuditoriumFormatService _roomFormatService;
         private readonly IUserService _userService;
 
-        public RoomFormatController(IAuditoriumFormatService roomFormatService, IUserService customerService) : base(customerService)
+        public RoomFormatController(IAuditoriumFormatService roomFormatService, IUserService userService) : base(userService)
         {
             _roomFormatService = roomFormatService;
         }
@@ -50,7 +50,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpGet("getRoomFormatById/{id}")]
-        public async Task<ApiResult<AuditoriumFormatVMD>> GetRoomFormatByIdAsync(int id)
+        public async Task<ApiResult<AuditoriumFormatVMD>> GetRoomFormatByIdAsync(string id)
         {
             var result = await _roomFormatService.GetByIdAsync(id);
             return result;

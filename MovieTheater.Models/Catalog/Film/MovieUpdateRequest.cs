@@ -7,7 +7,7 @@ namespace MovieTheater.Models.Catalog.Film
 {
     public class MovieUpdateRequest
     {
-        public int Id { get; set; }
+        public string  Id { get; set; }
 
         [Display(Name = "Tên phim")]
         public string Name { get; set; }

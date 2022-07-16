@@ -28,6 +28,8 @@ namespace MovieTheater.Models.User
 
         [Display(Name = "Xác nhận mật khẩu")]
         public String ConfirmPassword { get; set; }
+        public string Role { get; set; }        
+        
 
     }
 

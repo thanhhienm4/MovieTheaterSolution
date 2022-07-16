@@ -110,7 +110,7 @@
                 $.ajax({
                     type: "GET",
                     url: "/Room/GetCoordinate",
-                    data: { id: @Model.RoomId },
+                    data: { id: @Model.AuditoriumId },
                     success: function (res) {
                         top = res.resultObj.top;
                         right = res.resultObj.right;
@@ -150,7 +150,7 @@
                  $.ajax({
                     type: "GET",
                     url: "/Room/GetSeatInRoom",
-                    data: { roomId : @Model.RoomId },
+                    data: { roomId : @Model.AuditoriumId },
                     success: function (res) {
                         for (var i = 0; i < res.length;i++)
                         {

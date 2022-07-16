@@ -16,7 +16,7 @@ namespace MovieTheater.WebApp.Controllers
             _screeningApiClient = screeningApiClient;
         }
 
-        public async Task<IActionResult> Detail(int id)
+        public async Task<IActionResult> Detail(string id)
         {
             var result = (await _filmApiClient.GetFilmVMDByIdAsync(id)).ResultObj;
             return View(result);
