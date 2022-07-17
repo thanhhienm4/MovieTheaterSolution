@@ -30,6 +30,7 @@ namespace MovieTheater.Application.RoomServices.RoomFormats
             {
                 return new ApiErrorResult<bool>("Không thể thêm định dạng");
             }
+
             return new ApiSuccessResult<bool>(true, "Thêm thành công");
         }
 
@@ -82,16 +83,18 @@ namespace MovieTheater.Application.RoomServices.RoomFormats
 
         public async Task<ApiResult<AuditoriumFormatVMD>> GetByIdAsync(string id)
         {
-            var roomFormats = await _context.AuditoriumFormats.Where(x => x.Id == id).Select(x => new AuditoriumFormatVMD()
-            {
-                Id = x.Id,
-                Name = x.Name,
-            }).FirstOrDefaultAsync();
+            var roomFormats = await _context.AuditoriumFormats.Where(x => x.Id == id).Select(x =>
+                new AuditoriumFormatVMD()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                }).FirstOrDefaultAsync();
 
             if (roomFormats == null)
             {
                 return new ApiErrorResult<AuditoriumFormatVMD>("Không tìm thấy định dạng phòng");
             }
+
             return new ApiSuccessResult<AuditoriumFormatVMD>(roomFormats);
         }
     }

@@ -1,19 +1,26 @@
 ﻿@using MovieTheater.Models.Common.Paging
 @using MovieTheater.Models.Catalog.Film
 @model PageResult<MovieVMD>
-@{ ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
     <li class="breadcrumb-item active">Phim</li>
 </ol>
+
 @section Scripts{
     <script>
-        setTimeout(function () {
-            $("#SuccessMeg").fadeOut('slow');
-        }, 2000);
+        setTimeout(function() {
+                $("#SuccessMeg").fadeOut('slow');
+            },
+            2000);
     </script>
 }
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
@@ -28,14 +35,16 @@
                             &nbsp;
                         </div>
                         <div>
-                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control"/>
                         </div>
                         <div>
                             &nbsp;
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Tìm</button>
-                            <button type="button" onclick="window.location.href='/Movie/Index'" class="btn btn-light"><img src="https://img.icons8.com/ios-filled/20/000000/rotate.png" /></button>
+                            <button type="button" onclick="window.location.href = '/Movie/Index'" class="btn btn-light">
+                                <img src="https://img.icons8.com/ios-filled/20/000000/rotate.png"/>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -47,57 +56,58 @@
         {
             <div id="SuccessMeg" class="alert alert-success" role="alert">
                 @ViewBag.SuccessMsg
-            </div>      }
+            </div>
+        }
     </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
-                <tr>
+            <tr>
 
-                    <th>
-                        Id
-                    </th>
-                    <th>
-                        Tên phim
-                    </th>
-                    <th>
-                        Giới hạn
-                    </th>
-                    <th>
-                        Ngày công chiếu
-                    </th>
-                    <th>
-                        Khác
-                    </th>
-                </tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Tên phim
+                </th>
+                <th>
+                    Giới hạn
+                </th>
+                <th>
+                    Ngày công chiếu
+                </th>
+                <th>
+                    Khác
+                </th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Item)
-                {
-                    <tr>
+            @foreach (var item in Model.Item)
+            {
+                <tr>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Ban)
-                        </td>
-                        <td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ban)
+                    </td>
+                    <td>
 
-                            @Convert.ToDateTime(item.PublishDate).ToString("dd/MM/yyyy")
-                        </td>
-                        <td>
-                            @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
-                            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteMovie" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|
-                            @Html.ActionLink("Gán danh mục", "AssignGenre", new { id = item.Id }) &nbsp;|&nbsp;
-                            @Html.ActionLink("Tham gia", "PosAssign", new { id = item.Id })
-                        </td>
-                    </tr>
-}
+                        @Convert.ToDateTime(item.PublishDate).ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
+                        <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteMovie" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|
+                        @Html.ActionLink("Gán danh mục", "AssignGenre", new { id = item.Id }) &nbsp;|&nbsp;
+                        @Html.ActionLink("Tham gia", "PosAssign", new { id = item.Id })
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
         <div class="d-flex">
@@ -108,10 +118,10 @@
     </div>
 </div>
 <!--model delete-->
-<input id="nameFilm" hidden />
-<input id="idFilm" hidden />
+<input id="nameFilm" hidden/>
+<input id="idFilm" hidden/>
 
-<div class="modal fade" id="deleteFilm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteMovie" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -143,12 +153,13 @@
         $("#deleteMeg").text("Bạn muốn xóa " + name);
     }
 
-    $(function () {
+    $(function() {
 
-        $("#deleteFilmFilm").on('show.bs.modal', function () {
-            name = $("#nameFilm").val();
+        $("#deleteFilmFilm").on('show.bs.modal',
+            function() {
+                name = $("#nameFilm").val();
 
-        });
+            });
 
     });
 
@@ -158,11 +169,11 @@
             type: "POST",
             url: "/Movie/Delete",
             data: { id: userId },
-            success: function (res) {
+            success: function(res) {
                 if (res.isReLogin == true) {
                     window.location.href = "/login/index";
                 }
-               
+
                 location.reload();
             }
         })

@@ -6,6 +6,7 @@ using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -15,7 +16,6 @@ namespace MovieTheater.BackEnd.Controllers
     public class SeatController : BaseController
     {
         private readonly ISeatService _seatService;
-        private readonly IUserService _userService;
 
         public SeatController(ISeatService seatService, IUserService userService) : base(userService)
         {
@@ -44,19 +44,20 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("GetAllInRoomAsync/{id}")]
+        [HttpGet(APIConstant.SeatGetAllInRoom + "/{id}")]
         public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(string id)
         {
             var result = await _seatService.GetAllInRoomAsync(id);
             return result;
         }
 
-        [HttpPut("UpdateInRoomAsync")]
-        public async Task<ApiResult<bool>> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
+        [HttpPut(APIConstant.SeatUpdateInRoom)]
+        public async Task<ApiResult<bool>> UpdateInRoomAsync(SeatsInRoomUpdateRequest request)
         {
             var result = await _seatService.UpdateInRoomAsync(request);
             return result;
         }
+
         [AllowAnonymous]
         [HttpGet("GetListReserved/{screeningId}")]
         public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)

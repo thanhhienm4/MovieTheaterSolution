@@ -21,13 +21,16 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             _context = context;
         }
 
-        public async Task<ApiResult<bool>> CreateAsync(RoomCreateRequest request)
+        public async Task<ApiResult<bool>> CreateAsync(AuditoriumCreateRequest request)
         {
+            var maxId = await _context.Auditoriums.Select(x => x.Id).FirstOrDefaultAsync();
+            string id = CreateAuditoriumId(maxId);
             if (_context.Auditoriums.Count(x => x.Name == request.Name) != 0)
                 return new ApiErrorResult<bool>("Tên phòng đã bị trùng");
 
             var auditorium = new Auditorium()
             {
+                Id = id,
                 Name = request.Name,
                 FormatId = request.FormatId
             };
@@ -37,6 +40,7 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             {
                 return new ApiErrorResult<bool>("Không thể thêm phòng");
             }
+
             return new ApiSuccessResult<bool>(true, "Thêm thành công");
         }
 
@@ -61,11 +65,12 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
+
                 return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
             }
         }
 
-        public async Task<ApiResult<bool>> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             Auditorium auditorium = await _context.Auditoriums.FindAsync(id);
             if (auditorium == null)
@@ -74,7 +79,7 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             }
             else
             {
-                if (auditorium.Screenings != null)
+                if (auditorium.Screenings.Any())
                 {
                     return new ApiErrorResult<bool>("không thể xóa");
                 }
@@ -99,29 +104,30 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             }
         }
 
-        public async Task<ApiResult<PageResult<RoomVMD>>> GetPagingAsync(RoomPagingRequest request)
+        public async Task<ApiResult<PageResult<AuditoriumVMD>>> GetPagingAsync(AuditoriumPagingRequest request)
         {
             var query = from r in _context.Auditoriums
-                        join f in _context.AuditoriumFormats on r.FormatId equals f.Id
-                        select new { r, f };
+                join f in _context.AuditoriumFormats on r.FormatId equals f.Id
+                select new { r, f };
 
             if (request.Keyword != null)
             {
                 query = query.Where(x => x.r.Name.Contains(request.Keyword) ||
-                x.r.Id.ToString().Contains(request.Keyword) ||
-                x.f.Name.Contains(request.Keyword));
+                                         x.r.Id.ToString().Contains(request.Keyword) ||
+                                         x.f.Name.Contains(request.Keyword));
             }
 
             if (request.FormatId != null)
             {
                 query = query.Where(x => x.r.FormatId == request.FormatId);
             }
-            PageResult<RoomVMD> result = new PageResult<RoomVMD>();
+
+            PageResult<AuditoriumVMD> result = new PageResult<AuditoriumVMD>();
             result.TotalRecord = await query.CountAsync();
             result.PageIndex = request.PageIndex;
             result.PageSize = request.PageSize;
 
-            var rooms = query.Select(x => new RoomVMD()
+            var rooms = query.Select(x => new AuditoriumVMD()
             {
                 Id = x.r.Id,
                 Name = x.r.Name,
@@ -129,7 +135,7 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             }).OrderBy(x => x.Id).Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize).ToList();
             result.Item = rooms;
 
-            return new ApiSuccessResult<PageResult<RoomVMD>>(result);
+            return new ApiSuccessResult<PageResult<AuditoriumVMD>>(result);
         }
 
         public Task<List<SeatVMD>> GetSeats(int id)
@@ -156,47 +162,50 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             }
         }
 
-        public async Task<ApiResult<List<RoomVMD>>> GetAllAsync()
+        public async Task<ApiResult<List<AuditoriumVMD>>> GetAllAsync()
         {
             var query = from r in _context.Auditoriums
-                        join f in _context.AuditoriumFormats on r.FormatId equals f.Id
-                        select new { r, f };
+                join f in _context.AuditoriumFormats on r.FormatId equals f.Id
+                select new { r, f };
 
-            var rooms = await query.Select(x => new RoomVMD()
+            var rooms = await query.Select(x => new AuditoriumVMD()
             {
                 Id = x.r.Id,
                 Name = x.r.Name,
                 Format = x.f.Name
             }).OrderBy(x => x.Id).ToListAsync();
 
-            return new ApiSuccessResult<List<RoomVMD>>(rooms);
+            return new ApiSuccessResult<List<AuditoriumVMD>>(rooms);
         }
 
         public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(string id)
         {
-
             RoomCoordinate coordinate = new RoomCoordinate();
 
             var queryRow = from sr in _context.SeatRows
-                           join s in _context.Seats on sr.Id equals s.RowId
-                           where s.IsActive == true && s.AuditoriumId == id
-                           select sr;
+                join s in _context.Seats on sr.Id equals s.RowId
+                where s.IsActive == true && s.AuditoriumId == id
+                select sr;
             coordinate.Bottom = await queryRow.MinAsync(x => x.Id);
             coordinate.Top = await queryRow.MaxAsync(x => x.Id);
 
             var queryCol = from s in _context.Seats
-                           where s.IsActive == true && s.AuditoriumId == id
-                           select s;
+                where s.IsActive == true && s.AuditoriumId == id
+                select s;
             coordinate.Right = await queryCol.MaxAsync(s => s.Number);
             coordinate.Left = await queryCol.MinAsync(s => s.Number);
 
             return new ApiSuccessResult<RoomCoordinate>(coordinate);
-
-
-
-
         }
 
-        // RoomFormat
+        public string CreateAuditoriumId(string currentIndex)
+        {
+            if (string.IsNullOrEmpty(currentIndex))
+                return "P0001";
+
+            int number = Int32.Parse(currentIndex.Substring(2));
+            number += 1;
+            return $"P{number.ToString().PadRight(4, '0')}";
+        }
     }
 }

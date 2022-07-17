@@ -1,20 +1,26 @@
 ﻿@using MovieTheater.Models.Catalog.Film
-@{ ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <!-- Playing Movie SECTION -->
+
 @section Scripts{
     <script>
-        setTimeout(function () {
-            $("#SuccessMeg").fadeOut('slow');
-        }, 2000);
+        setTimeout(function() {
+                $("#SuccessMeg").fadeOut('slow');
+            },
+            2000);
     </script>
 }
+
 @if (ViewBag.SuccessMsg != null)
 {
     <div id="SuccessMeg" class="alert alert-success" role="alert">
         @ViewBag.SuccessMsg
-    </div>}
+    </div>
+}
 <div class="section">
     <div class="container">
         <div class="section-header">
@@ -26,32 +32,33 @@
             {
                 foreach (var film in ViewData["PlayingFilms"] as List<MovieVMD>)
                 {
-<a href="/film/detail/@film.Id" class="movie-item">
-    <img src="@film.Poster" alt="">
-    <div class="movie-item-content">
-        <div class="movie-item-title">
-            @film.Name
-        </div>
-        <div class="movie-infos">
-            <div class="movie-info">
-                <i class="bx bxs-star"></i>
-                <span style="color:white">@film.Ban</span>
-            </div>
-            <div class="movie-info">
-                <i class="bx bxs-time"></i>
-                <span style="color:white">@film.Length phút</span>
-            </div>
-            <div class="movie-info">
-                @if (film.Genres != null)
-                {
-<span style="color:white">@string.Join(' ', film.Genres)</span>}
-            </div>
+                    <a href="/film/detail/@film.Id" class="movie-item">
+                        <img src="@film.Poster" alt="">
+                        <div class="movie-item-content">
+                            <div class="movie-item-title">
+                                @film.Name
+                            </div>
+                            <div class="movie-infos">
+                                <div class="movie-info">
+                                    <i class="bx bxs-star"></i>
+                                    <span style="color: white">@film.Ban</span>
+                                </div>
+                                <div class="movie-info">
+                                    <i class="bx bxs-time"></i>
+                                    <span style="color: white">@film.Length phút</span>
+                                </div>
+                                <div class="movie-info">
+                                    @if (film.Genres != null)
+                                    {
+                                        <span style="color: white">@string.Join(' ', film.Genres)</span>
+                                    }
+                                </div>
 
-        </div>
-    </div>
-</a>            }
-
-}
+                            </div>
+                        </div>
+                    </a>
+                }
+            }
 
             <!-- END MOVIE ITEM -->
         </div>
@@ -70,39 +77,40 @@
             {
                 foreach (var film in ViewData["UpcomingFilms"] as List<MovieVMD>)
                 {
-<a href="/film/detail/@film.Id" class="movie-item">
-    <img src="@film.Poster" alt="">
-    <div class="movie-item-content">
-        <div class="movie-item-title">
-            @film.Name
-        </div>
-        <div class="movie-infos">
-            <div class="movie-info">
-                <i class="bx bxs-time"></i>
-                <span style="color:white">Ngày phát hành: @film.PublishDate.ToString("dd/MM/yyyy")</span>
-            </div>
-        </div>
-        <div class="movie-infos">
-            <div class="movie-info">
-                <i class="bx bxs-star"></i>
-                <span style="color:white">@film.Ban</span>
-            </div>
-            <div class="movie-info">
-                <i class="bx bxs-time"></i>
-                <span style="color:white">@film.Length phút</span>
-            </div>
+                    <a href="/film/detail/@film.Id" class="movie-item">
+                        <img src="@film.Poster" alt="">
+                        <div class="movie-item-content">
+                            <div class="movie-item-title">
+                                @film.Name
+                            </div>
+                            <div class="movie-infos">
+                                <div class="movie-info">
+                                    <i class="bx bxs-time"></i>
+                                    <span style="color: white">Ngày phát hành: @film.PublishDate.ToString("dd/MM/yyyy")</span>
+                                </div>
+                            </div>
+                            <div class="movie-infos">
+                                <div class="movie-info">
+                                    <i class="bx bxs-star"></i>
+                                    <span style="color: white">@film.Ban</span>
+                                </div>
+                                <div class="movie-info">
+                                    <i class="bx bxs-time"></i>
+                                    <span style="color: white">@film.Length phút</span>
+                                </div>
 
-            <div class="movie-info">
-                @if (film.Genres != null)
-                {
-<span style="color:white">@string.Join(' ', film.Genres)</span>}
-            </div>
+                                <div class="movie-info">
+                                    @if (film.Genres != null)
+                                    {
+                                        <span style="color: white">@string.Join(' ', film.Genres)</span>
+                                    }
+                                </div>
 
-        </div>
-    </div>
-</a>            }
-
-}
+                            </div>
+                        </div>
+                    </a>
+                }
+            }
 
             <!-- END MOVIE ITEM -->
         </div>

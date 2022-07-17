@@ -1,11 +1,18 @@
 ﻿@model MovieTheater.Models.Catalog.Film.MovieUpdateRequest
 
-@{ ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="/ckeditor5-build-classic/ckeditor.js"></script>
 
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/Film">Phim</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/Film">Phim</a>
+    </li>
     <li class="breadcrumb-item active">Chi tiết</li>
 </ol>
 
@@ -17,19 +24,19 @@
     <div class="card-body">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="Id" class="form-control" hidden />
+            <input asp-for="Id" class="form-control" hidden/>
             <div class="form-row">
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input id="input1" asp-for="Name" class="form-control" disabled />
+                        <input id="input1" asp-for="Name" class="form-control" disabled/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="PublishDate" class="control-label"></label>
-                        <input id="input2" asp-for="PublishDate" class="form-control" type="date" disabled />
+                        <input id="input2" asp-for="PublishDate" class="form-control" type="date" disabled/>
                         <span asp-validation-for="PublishDate" class="text-danger"></span>
                     </div>
                 </div>
@@ -39,7 +46,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Length" class="control-label"></label>
-                        <input id="input3" asp-for="Length" class="form-control" disabled min="0" />
+                        <input id="input3" asp-for="Length" class="form-control" disabled min="0"/>
                         <span asp-validation-for="Length" class="text-danger"></span>
                     </div>
                 </div>
@@ -53,21 +60,21 @@
 
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="4" disabled></textarea>
+                <textarea asp-for="Description" class="form-control" id="editor" rows="4" disabled></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TrailerURL" class="control-label"></label>
-                <input id="input4" asp-for="TrailerURL" class="form-control" disabled />
+                <input id="input4" asp-for="TrailerURL" class="form-control" disabled/>
                 <span asp-validation-for="TrailerURL" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Poster" class="control-label"></label>
-                <input id="input5" asp-for="Poster" class="form-control" accept="image/*" disabled />
+                <input id="input5" asp-for="Poster" class="form-control" accept="image/*" disabled/>
                 <span asp-validation-for="Poster" class="text-danger"></span>
             </div>
             <div id="btnSave" class="form-group d-flex justify-content-center invisible">
-                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary"/>
             </div>
         </form>
     </div>
@@ -81,10 +88,17 @@
         document.getElementById("input4").disabled = false;
         document.getElementById("input5").disabled = false;
         document.getElementById("select").disabled = false;
-        document.getElementById("exampleFormControlTextarea1").disabled = false;
+        document.getElementById("editor").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
-    }</script>
+    }
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
+
 @if (ViewBag.IsEdit != null)
 {
     <script>

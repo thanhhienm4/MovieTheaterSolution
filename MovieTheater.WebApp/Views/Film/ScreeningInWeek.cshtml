@@ -1,15 +1,17 @@
 ﻿@using MovieTheater.Models.Catalog.Screening
 @model ScreeningOfFilmInWeekVMD
-@{ ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <div class="container">
-    <div class="card" style="background-color:#18043d">
+    <div class="card" style="background-color: #18043d">
         <div class="row">
             <div class="col-3">
-                <img class="img-fluid" src="@Model.Movie.Poster" />
+                <img class="img-fluid" src="@Model.Movie.Poster"/>
             </div>
             <div class="col-9 style=" color:white"">
-                <h1 style="color:red">@Model.Movie.Name</h1>
+                <h1 style="color: red">@Model.Movie.Name</h1>
                 <div class="row">
 
                     <div class="col-11 text-justify">
@@ -25,7 +27,8 @@
                         <div class="col-3">
                             @if (Model.Movie.Genres != null)
                             {
-                <p>@string.Join(" ", Model.Movie.Genres)</p>}
+                                <p>@string.Join(" ", Model.Movie.Genres)</p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -37,7 +40,8 @@
 
                         @if (Model.Movie.Actors != null)
                         {
-            <p>@string.Join(" ", Model.Movie.Actors)</p>}
+                            <p>@string.Join(" ", Model.Movie.Actors)</p>
+                        }
                     </div>
                 </div>
 
@@ -48,7 +52,8 @@
 
                         @if (Model.Movie.Genres != null)
                         {
-            <p>@string.Join(" ", Model.Movie.Directors)</p>}
+                            <p>@string.Join(" ", Model.Movie.Directors)</p>
+                        }
                     </div>
                 </div>
             </div>
@@ -56,21 +61,23 @@
     </div>
     @for (int i = 0; i <= 6; i++)
     {
-<div class="card">
-    <div class="card-header">
-        @DateTime.Now.AddDays(i).ToString("dd/MM/yyy")
-    </div>
-    <div class="card-body container-fluid">
-        @foreach (var screening in Model.Screenings[i])
-        {
-            if (screening.StartTime.AddMinutes(30) > DateTime.Now)
-            {
-<a class="btn  time mr-2" href="/ticket/chooseseat/@screening.Id">@screening.StartTime.ToString("HH:mm")</a> }
-else
-{
-<a class="btn btn-secondary time mr-2" style="cursor:no-drop">@screening.StartTime.ToString("HH:mm")</a>}
-
-}
-    </div>
-</div>      }
+        <div class="card">
+            <div class="card-header">
+                @DateTime.Now.AddDays(i).ToString("dd/MM/yyy")
+            </div>
+            <div class="card-body container-fluid">
+                @foreach (var screening in Model.Screenings[i])
+                {
+                    if (screening.StartTime.AddMinutes(30) > DateTime.Now)
+                    {
+                        <a class="btn  time mr-2" href="/ticket/chooseseat/@screening.Id">@screening.StartTime.ToString("HH:mm")</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-secondary time mr-2" style="cursor: no-drop">@screening.StartTime.ToString("HH:mm")</a>
+                    }
+                }
+            </div>
+        </div>
+    }
 </div>

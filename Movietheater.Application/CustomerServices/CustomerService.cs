@@ -26,7 +26,9 @@ namespace MovieTheater.Application.CustomerServices
         private readonly IHttpContextAccessor _accessor;
         private readonly IMailService _mailService;
         private readonly IConfiguration _configuration;
-        public CustomerService(MoviesContext context, IHttpContextAccessor accessor, IMailService mailService, IConfiguration configuration)
+
+        public CustomerService(MoviesContext context, IHttpContextAccessor accessor, IMailService mailService,
+            IConfiguration configuration)
         {
             _accessor = accessor;
             _mailService = mailService;
@@ -48,7 +50,6 @@ namespace MovieTheater.Application.CustomerServices
                     return new ApiErrorResult<string>("Mật khẩu không chính xác");
 
 
-
                 claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
@@ -57,16 +58,16 @@ namespace MovieTheater.Application.CustomerServices
                     new Claim(ClaimTypes.Role, RoleConstant.Customer)
                 };
             }
-            
+
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var jwtSecurityToken = new JwtSecurityToken(_configuration["JWT:ValidIssuer"],
                 _configuration["JWT:validAudience"],
-              claims,
-              expires: DateTime.Now.AddMonths(1),
-              signingCredentials: credentials);
+                claims,
+                expires: DateTime.Now.AddMonths(1),
+                signingCredentials: credentials);
 
             var tokenHandler = new JwtSecurityTokenHandler();
             string token = tokenHandler.WriteToken(jwtSecurityToken);
@@ -79,10 +80,11 @@ namespace MovieTheater.Application.CustomerServices
             await using (var context = new MoviesContext())
             {
                 var user = await context.Customers.Where(x => x.Mail == request.Email).FirstOrDefaultAsync();
-                if(user != null)
+                if (user != null)
                     return new ApiErrorResult<bool>("Email đã tồn tại");
 
-                var maxIndex = await context.Customers.OrderByDescending(x => x.Id).Select(x => x.Id).FirstOrDefaultAsync();
+                var maxIndex = await context.Customers.OrderByDescending(x => x.Id).Select(x => x.Id)
+                    .FirstOrDefaultAsync();
                 var customer = new Customer()
                 {
                     Dob = request.Dob,
@@ -94,16 +96,15 @@ namespace MovieTheater.Application.CustomerServices
                     Phone = request.PhoneNumber
                 };
 
-                context.Customers.Add(customer); 
+                context.Customers.Add(customer);
                 int res = await context.SaveChangesAsync();
-                if(res == 0)
+                if (res == 0)
                     return new ApiErrorResult<bool>("Thất bại");
                 else
                 {
                     return new ApiSuccessResult<bool>(true);
                 }
             }
-
         }
 
         public Task<ApiResult<bool>> UpdateAsync(UserUpdateRequest request)
@@ -154,7 +155,6 @@ namespace MovieTheater.Application.CustomerServices
             int number = Int32.Parse(currentIndex.Substring(2));
             number += 1;
             return $"KH{number.ToString().PadRight(9, '0')}";
-
         }
     }
 }

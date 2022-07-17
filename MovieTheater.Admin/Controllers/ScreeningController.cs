@@ -17,11 +17,11 @@ namespace MovieTheater.Admin.Controllers
     {
         private readonly SeatApiClient _seatApiClient;
         private readonly ScreeningApiClient _screeningApiClient;
-        private readonly RoomApiClient _roomApiClient;
+        private readonly AuditoriumApiClient _roomApiClient;
         private readonly MovieApiClient _filmApiClient;
 
         public ScreeningController(SeatApiClient seatApiClient, ScreeningApiClient screeningApiClient,
-            RoomApiClient roomApiClient, MovieApiClient filmApiClient)
+            AuditoriumApiClient roomApiClient, MovieApiClient filmApiClient)
         {
             _seatApiClient = seatApiClient;
             _screeningApiClient = screeningApiClient;
@@ -51,7 +51,7 @@ namespace MovieTheater.Admin.Controllers
             ViewBag.Date = date;
             ViewBag.KeyWord = keyword;
             ViewBag.SuccessMsg = TempData["Result"];
-            var result = (await _screeningApiClient.GetScreeningPagingAsync(request));
+            var result = (await _screeningApiClient.GetPagingAsync(request));
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
             return View(result.ResultObj);
@@ -153,7 +153,7 @@ namespace MovieTheater.Admin.Controllers
 
         private async Task SetViewBagAsync()
         {
-            var rooms = (await _roomApiClient.GetAllRoomAsync()).ResultObj;
+            var rooms = (await _roomApiClient.GetAllAsync()).ResultObj;
             ViewBag.Rooms = rooms.Select(x => new SelectListItem()
             {
                 Text = x.Name,
@@ -165,110 +165,7 @@ namespace MovieTheater.Admin.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
-            var kindOfScreenings = (await _screeningApiClient.GetAllKindOfScreeningAsync()).ResultObj;
-            ViewBag.KindOfScreenings = kindOfScreenings.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            });
         }
 
-        public async Task<IActionResult> KindOfScreening()
-        {
-            var result = await _screeningApiClient.GetAllKindOfScreeningAsync();
-            if (result.IsReLogin == true)
-                return RedirectToAction("Index", "Login");
-            ViewBag.SuccessMsg = TempData["Result"];
-            return View(result.ResultObj);
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> CreateKindOfScreening()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateKindOfScreening(KindOfScreeningCreateRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                await SetViewBagAsync();
-                return View(request);
-            }
-
-            var result = await _screeningApiClient.CreateKindOfScreenigAsync(request);
-            if (result.IsReLogin == true)
-                return RedirectToAction("Index", "Login");
-            if (result.IsSuccessed)
-            {
-                TempData["Result"] = result.Message;
-                return RedirectToAction("KindOfScreening", "Screening");
-            }
-
-            await SetViewBagAsync();
-            ModelState.AddModelError("", result.Message);
-            return View(request);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> EditKindOfScreening(int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            var result = await _screeningApiClient.GetKindOfScreeningByIdAsync(id);
-            if (result.IsReLogin == true)
-                return RedirectToAction("Index", "Login");
-
-            if (result.IsSuccessed)
-            {
-                var kindOfScreening = new KindOfScreeningUpdateRequest()
-                {
-                    Id = result.ResultObj.Id,
-                    Name = result.ResultObj.Name,
-                    Surcharge = result.ResultObj.Surcharge
-                };
-                return View(kindOfScreening);
-            }
-
-            return RedirectToAction("Error", "Home");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditKindOfScreening(KindOfScreeningUpdateRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                ViewBag.IsEdit = true;
-                await SetViewBagAsync();
-                return View(request);
-            }
-
-            var result = await _screeningApiClient.UpdateKindOfScreeningAsync(request);
-            if (result.IsReLogin == true)
-                return RedirectToAction("Index", "Login");
-            if (result.IsSuccessed)
-            {
-                TempData["Result"] = result.Message;
-                return RedirectToAction("KindOfScreening", "Screening");
-            }
-
-            ViewBag.IsEdit = true;
-
-            ModelState.AddModelError("", result.Message);
-            return View(request);
-        }
-
-        [HttpPost]
-        public async Task<ApiResult<bool>> DeleteKindOfScreening(int id)
-        {
-            var result = await _screeningApiClient.DeleteKindOfScreeningAsync(id);
-            TempData["Result"] = result.Message;
-            return result;
-        }
     }
 }

@@ -31,6 +31,7 @@ namespace MovieTheater.Application.FilmServices.MovieGenres
             {
                 return new ApiErrorResult<bool>("Thêm thất bại");
             }
+
             return new ApiSuccessResult<bool>(true);
         }
 
@@ -69,6 +70,7 @@ namespace MovieTheater.Application.FilmServices.MovieGenres
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
+
                 return new ApiSuccessResult<bool>(true);
             }
         }

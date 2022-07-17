@@ -81,7 +81,6 @@ namespace MovieTheater.Data.Models
             modelBuilder.ApplyConfiguration(new TimeConfig());
             modelBuilder.ApplyConfiguration(new VoucherConfig());
             modelBuilder.ApplyConfiguration(new StaffConfig());
-
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

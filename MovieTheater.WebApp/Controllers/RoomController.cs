@@ -14,9 +14,9 @@ namespace MovieTheater.WebApp.Controllers
     {
         private readonly SeatApiClient _seatApiCient;
         private readonly SeatRowApiClient _seatRowApiClient;
-        private readonly RoomApiClient _roomApiClient;
+        private readonly AuditoriumApiClient _roomApiClient;
 
-        public RoomController(SeatApiClient seatApiClient, SeatRowApiClient seatRowApiClient, RoomApiClient roomApiClient)
+        public RoomController(SeatApiClient seatApiClient, SeatRowApiClient seatRowApiClient, AuditoriumApiClient roomApiClient)
         {
             _seatApiCient = seatApiClient;
             _seatRowApiClient = seatRowApiClient;
@@ -24,7 +24,7 @@ namespace MovieTheater.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<List<SeatVMD>> GetSeatInRoom(int roomId)
+        public async Task<List<SeatVMD>> GetSeatInRoom(string roomId)
         {
             var seats = (await _seatApiCient.GetSeatInRoomAsync(roomId)).ResultObj;
             return seats;
@@ -33,7 +33,7 @@ namespace MovieTheater.WebApp.Controllers
         [HttpGet]
         public IActionResult UpdateSeatInRoom(int roomId)
         {
-            ViewBag.RoomId = roomId;
+            ViewBag.AuditoriumId = roomId;
             return View();
         }
 

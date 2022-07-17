@@ -17,6 +17,7 @@ namespace MovieTheater.BackEnd.Controllers
     {
         private readonly IActorService _actorService;
         private readonly IUserService _userService;
+
         public PeopleController(IActorService actorService, IUserService userService) : base(userService)
         {
             _actorService = actorService;
@@ -51,7 +52,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("AuditoriumGetById/{id}")]
         public async Task<ApiResult<ActorVMD>> GetPeopleByIdAsync(int id)
         {
             var result = await _actorService.GetById(id);

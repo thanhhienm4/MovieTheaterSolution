@@ -1,12 +1,20 @@
 ﻿@model MovieTheater.Models.Infra.RoomModels.Format.AuditoriumFormatUpdateRequest
 
-@{ ViewData["Title"] = "Format";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "Format";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/Room">Phòng</a></li>
-    <li class="breadcrumb-item"><a href="/Room/RoomFormat">Định dạng phòng</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/Room">Phòng</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/Room/RoomFormat">Định dạng phòng</a>
+    </li>
     <li class="breadcrumb-item active">Chi tiết</li>
 </ol>
 
@@ -22,7 +30,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Id" class="control-label"></label>
-                        <input asp-for="Id" class="form-control" disabled />
+                        <input asp-for="Id" class="form-control" disabled/>
                         <span asp-validation-for="Id" class="text-danger"></span>
                     </div>
                 </div>
@@ -30,7 +38,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input id="input1" asp-for="Name" class="form-control" disabled />
+                        <input id="input1" asp-for="Name" class="form-control" disabled/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
@@ -38,26 +46,28 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Price" class="control-label"></label>
-                        <input id="input2" asp-for="Price" class="form-control" disabled />
+                        <input id="input2" asp-for="Price" class="form-control" disabled/>
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                 </div>
             </div>
             <div id="btnSave" class="form-group d-flex justify-content-center invisible">
-                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary"/>
             </div>
 
         </form>
     </div>
 </div>
 
-<script>function enableElements() {
+<script>
+    function enableElements() {
         document.getElementById("input1").disabled = false;
         document.getElementById("input2").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
-    }</script>
+    }
+</script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

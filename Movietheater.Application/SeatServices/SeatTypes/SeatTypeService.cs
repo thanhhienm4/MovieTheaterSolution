@@ -19,7 +19,7 @@ namespace MovieTheater.Application.SeatServices.SeatTypes
 
         public async Task<ApiResult<bool>> CreateAsync(SeatTypeCreateRequest request)
         {
-           SeatType kindOfSeat = new SeatType()
+            SeatType kindOfSeat = new SeatType()
             {
                 Name = request.Name,
                 Id = request.Id
@@ -36,7 +36,7 @@ namespace MovieTheater.Application.SeatServices.SeatTypes
 
         public async Task<ApiResult<bool>> UpdateAsync(KindOfSeatUpdateRequest request)
         {
-           Data.Models.SeatType seat = await _context.SeatTypes.FindAsync(request.Id);
+            Data.Models.SeatType seat = await _context.SeatTypes.FindAsync(request.Id);
             if (seat == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy");
@@ -55,7 +55,7 @@ namespace MovieTheater.Application.SeatServices.SeatTypes
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-           SeatType seat = await _context.SeatTypes.FindAsync(id);
+            SeatType seat = await _context.SeatTypes.FindAsync(id);
             if (seat == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy");
@@ -83,6 +83,7 @@ namespace MovieTheater.Application.SeatServices.SeatTypes
             }).ToListAsync();
             return new ApiSuccessResult<List<SeatTypeVMD>>(res);
         }
+
         public async Task<ApiResult<SeatTypeVMD>> GetByIdAsync(int id)
         {
             var seatType = await _context.SeatTypes.FindAsync(id);
@@ -94,12 +95,9 @@ namespace MovieTheater.Application.SeatServices.SeatTypes
                 {
                     Id = seatType.Id,
                     Name = seatType.Name,
-
                 };
                 return new ApiSuccessResult<SeatTypeVMD>(res);
             }
-
-
         }
     }
 }

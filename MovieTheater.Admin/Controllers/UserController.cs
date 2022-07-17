@@ -41,7 +41,8 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Index(string keyword, Status? status, string roleId, int pageIndex = 1, int pageSize = 15)
+        public async Task<IActionResult> Index(string keyword, Status? status, string roleId, int pageIndex = 1,
+            int pageSize = 15)
         {
             var request = new UserPagingRequest()
             {
@@ -55,8 +56,8 @@ namespace MovieTheater.Admin.Controllers
             List<SelectListItem> roles = new List<SelectListItem>();
             roles.Add(new SelectListItem() { Text = "Tất cả", Value = "" });
             var response = await _roleApiClient.GetRolesAsync();
-            if(response.IsReLogin == true)
-                    return RedirectToAction("Index", "Login");
+            if (response.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
 
             var listRoles = response.ResultObj
                 .Select(x => new SelectListItem()
@@ -72,7 +73,7 @@ namespace MovieTheater.Admin.Controllers
 
             ViewBag.KeyWord = keyword;
             var result = await _userApiClient.GetUserPagingAsync(request);
-      
+
             return View(result.ResultObj);
         }
 
@@ -91,16 +92,19 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View(request);
             }
+
             var result = await _userApiClient.CreateStaffAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
-                string url = $"{this.Request.Scheme}://{this.Request.Host}/User/RoleAssign/{result.ResultObj.ToString()}";
+                string url =
+                    $"{this.Request.Scheme}://{this.Request.Host}/User/RoleAssign/{result.ResultObj.ToString()}";
 
                 return Redirect(url);
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
@@ -113,6 +117,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
+
             var result = await _userApiClient.GetUserByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -132,6 +137,7 @@ namespace MovieTheater.Admin.Controllers
                 };
                 return View(updateRequest);
             }
+
             return RedirectToAction("Error", "Home");
         }
 
@@ -144,6 +150,7 @@ namespace MovieTheater.Admin.Controllers
                 ViewBag.IsEdit = true;
                 return View(request);
             }
+
             var result = await _userApiClient.UpdateStaffAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -151,12 +158,14 @@ namespace MovieTheater.Admin.Controllers
             {
                 TempData["Result"] = result.Message;
 
-                if (User.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value == "Admin").Count() == 0)
+                if (!User.Claims.Any(x => x.Type == ClaimTypes.Role && x.Value == "Admin"))
                 {
                     return RedirectToAction("Index", "Retail");
                 }
+
                 return RedirectToAction("Index", "User");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
@@ -176,8 +185,9 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
+
             var roleAssignRequest = await GetRoleAssignRequest(id);
-           
+
             var result = (await _userApiClient.GetUserByIdAsync(id));
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -198,6 +208,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View(request);
             }
+
             var result = await _userApiClient.RoleAssignAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -207,6 +218,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = "Gán quyền thành công";
                 return RedirectToAction("Index", "User");
             }
+
             ModelState.AddModelError("", result.Message);
             var roleAssignRequest = await GetRoleAssignRequest(request.UserId);
             return View(roleAssignRequest);
@@ -253,6 +265,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View(request);
             }
+
             var res = (await _userApiClient.ChangePasswordAsync(request));
             if (res.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -263,11 +276,11 @@ namespace MovieTheater.Admin.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
+
                 return RedirectToAction("Index", "Retail");
             }
             else
             {
-                
                 ModelState.AddModelError("", res.Message);
                 return View(request);
             }

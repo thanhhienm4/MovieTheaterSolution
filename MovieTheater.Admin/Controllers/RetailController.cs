@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-   
     [Authorize(Roles = "Admin,Employee")]
     public class RetailController : Controller
     {
@@ -37,7 +36,7 @@ namespace MovieTheater.Admin.Controllers
         public async Task<IActionResult> Index(DateTime? date)
         {
             ViewBag.SuccessMsg = TempData["Result"];
-            var result = (await _screeningApiClient.GetFilmScreeningIndateAsync(date));
+            var result = (await _screeningApiClient.GetScreeningInDateAsync(date));
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
 

@@ -13,20 +13,22 @@ namespace MovieTheater.Admin.Controllers
     public class SeatController : Controller
     {
         private readonly SeatApiClient _seatApiClient;
-      
-        public SeatController(SeatApiClient  seatApiClient)
+
+        public SeatController(SeatApiClient seatApiClient)
         {
             _seatApiClient = seatApiClient;
         }
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> KindOfSeat()
         {
-            var res =await _seatApiClient.GetAllKindOfSeatAsync();
-            if(res.IsReLogin == true)
+            var res = await _seatApiClient.GetAllKindOfSeatAsync();
+            if (res.IsReLogin == true)
             {
                 return RedirectToAction("Index", "Login");
-            }else
+            }
+            else
             {
                 ViewBag.SuccessMsg = TempData["Result"];
                 return View(res.ResultObj);
@@ -57,7 +59,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = result.Message;
                 return RedirectToAction("KindOfSeat", "Seat");
             }
-          
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
@@ -70,6 +72,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
+
             var result = await _seatApiClient.GetKindOfSeatByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -81,9 +84,10 @@ namespace MovieTheater.Admin.Controllers
                     Id = result.ResultObj.Id,
                     Name = result.ResultObj.Name,
                 };
-          
+
                 return View(updateRequest);
             }
+
             return RedirectToAction("Error", "Home");
         }
 
@@ -94,9 +98,10 @@ namespace MovieTheater.Admin.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.IsEdit = true;
-              
+
                 return View(request);
             }
+
             var result = await _seatApiClient.UpdateKindOfSeatAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -105,6 +110,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = result.Message;
                 return RedirectToAction("KindOfSeat", "Seat");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }

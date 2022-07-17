@@ -62,7 +62,8 @@
     </div>
 
     @if (User.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value == "Admin").Count() != 0)
-    {<!-- Nav Item - Pages Collapse Menu -->
+    {
+        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser"
                aria-expanded="true" aria-controls="collapseUser">
@@ -133,12 +134,12 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRoom"
-               aria-expanded="true" aria-controls="collapseRoom">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAuditorium"
+               aria-expanded="true" aria-controls="collapseAuditorium">
                 <img src="https://img.icons8.com/ios/15/ffffff/audience.png"/>
                 <span>&nbsp; Phòng</span>
             </a>
-            <div id="collapseRoom" class="collapse" aria-labelledby="headingRoom" data-parent="#accordionSidebar">
+            <div id="collapseRoom" class="collapse" aria-labelledby="headingAuditorium" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
 
                     <a class="collapse-item" href="/Room/Index">Danh sách</a>

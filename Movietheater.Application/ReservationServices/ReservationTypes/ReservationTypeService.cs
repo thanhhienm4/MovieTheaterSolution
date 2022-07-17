@@ -39,7 +39,6 @@ namespace MovieTheater.Application.ReservationServices.ReservationTypes
             }
             else
             {
-
                 _context.ReservationTypes.Remove(rvt);
                 if (await _context.SaveChangesAsync() != 0)
                 {
@@ -66,6 +65,7 @@ namespace MovieTheater.Application.ReservationServices.ReservationTypes
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
+
                 return new ApiSuccessResult<bool>(true);
             }
         }

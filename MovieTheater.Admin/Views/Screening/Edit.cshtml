@@ -1,11 +1,17 @@
 ﻿@model MovieTheater.Models.Catalog.Screening.ScreeningUpdateRequest
 
-@{ ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/Screening">Suất chiếu</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/Screening">Suất chiếu</a>
+    </li>
     <li class="breadcrumb-item active">Chỉnh sửa</li>
 </ol>
 
@@ -13,13 +19,13 @@
     <a class="btn btn-success" href="javascript:enableElements()">Chỉnh sửa</a>
 </div>
 
-<hr />
+<hr/>
 
 <div class="card">
     <div class="card-body">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="Id" hidden />
+            <input asp-for="Id" hidden/>
             <div class="form-row">
                 <div class="col-md">
                     <div class="form-group">
@@ -52,14 +58,14 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="StartTime" class="control-label"></label>
-                        <input id="input" asp-for="StartTime" class="form-control" value="@ViewBag.Date.ToString("yyyy-MM-ddThh:mm")" type="datetime-local" disabled />
+                        <input id="input" asp-for="StartTime" class="form-control" value="@ViewBag.Date.ToString("yyyy-MM-ddThh:mm")" type="datetime-local" disabled/>
                         <span asp-validation-for="StartTime" class="text-danger"></span>
                     </div>
                 </div>
             </div>
 
             <div id="btnSave" class="form-group d-flex justify-content-center invisible">
-                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary"/>
             </div>
         </form>
     </div>

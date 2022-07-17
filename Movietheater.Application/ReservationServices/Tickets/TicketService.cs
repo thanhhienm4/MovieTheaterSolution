@@ -19,7 +19,6 @@ namespace MovieTheater.Application.ReservationServices.Tickets
             Ticket ticket = new Ticket()
             {
                 SeatId = request.SeatId,
-
             };
             _context.Tickets.Add(ticket);
             int result = await _context.SaveChangesAsync();
@@ -66,6 +65,7 @@ namespace MovieTheater.Application.ReservationServices.Tickets
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
+
                 return new ApiSuccessResult<bool>(true);
             }
         }

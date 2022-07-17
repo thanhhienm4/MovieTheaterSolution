@@ -90,9 +90,7 @@ namespace MovieTheater.Application.Statitic
         //            EndDate = GetDateEndMonth(date)
         //        } )).ResultObj);
         //    }
-           
-           
-           
+
 
         //    return new ApiSuccessResult<ChartData>(chartData);
         //}

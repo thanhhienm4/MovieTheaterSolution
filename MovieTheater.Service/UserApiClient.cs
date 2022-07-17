@@ -15,8 +15,9 @@ namespace MovieTheater.Api
     {
         public UserApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
-             httpContextAccessor)
-        { }
+            httpContextAccessor)
+        {
+        }
 
         public async Task<ApiResult<string>> LoginStaffAsync(LoginRequest request)
         {
@@ -77,19 +78,20 @@ namespace MovieTheater.Api
         {
             return await PutAsync<bool>("Api/User/ChangePassword", request);
         }
-        
-         public async Task<ApiResult<bool>> ForgotStaffPasswordAsync(string mail)
+
+        public async Task<ApiResult<bool>> ForgotStaffPasswordAsync(string mail)
         {
             return await PostAsync<bool>("Api/User/ForgotStaffPassword", mail);
         }
+
         public async Task<ApiResult<bool>> ForgotCuistomerPasswordAsync(string mail)
         {
             return await PostAsync<bool>("Api/User/ForgotCustomerPassword", mail);
         }
+
         public async Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request)
         {
             return await PostAsync<bool>("Api/User/ResetPassword", request);
         }
-        
     }
 }

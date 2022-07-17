@@ -33,6 +33,7 @@ namespace MovieTheater.Application.FilmServices.Movies
             string posterPath = await SaveFile(request.Poster);
             var movie = new Movie()
             {
+                Id = request.Id,
                 Name = request.Name,
                 Description = request.Description,
                 CensorshipId = request.CensorshipId,
@@ -47,6 +48,7 @@ namespace MovieTheater.Application.FilmServices.Movies
             {
                 return new ApiErrorResult<bool>("Không thể thêm phim");
             }
+
             return new ApiSuccessResult<bool>(true, "Thêm phim thành công");
         }
 
@@ -127,8 +129,8 @@ namespace MovieTheater.Application.FilmServices.Movies
         public async Task<ApiResult<List<MovieVMD>>> GetAllAsync()
         {
             var query = from m in _context.Movies
-                        join c in _context.MovieCensorships on m.CensorshipId equals c.Id
-                        select new { m,  c };
+                join c in _context.MovieCensorships on m.CensorshipId equals c.Id
+                select new { m, c };
 
             var Movies = await query.Select(x => new MovieVMD()
             {
@@ -137,7 +139,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                 PublishDate = x.m.PublishDate,
                 Ban = x.c.Name,
                 Poster = $"{_configuration["BackEndServer"]}/" +
-                   $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
+                         $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                 Description = x.m.Description,
                 TrailerURL = x.m.TrailerUrl
             }).ToListAsync();
@@ -148,10 +150,10 @@ namespace MovieTheater.Application.FilmServices.Movies
         public async Task<ApiResult<List<MovieVMD>>> GetAllPlayingAsync()
         {
             var query = from m in _context.Movies
-                        join c in _context.MovieCensorships on m.CensorshipId equals c.Id
-                        join s in _context.Screenings on m.Id equals s.MovieId
-                        where s.StartTime.Date == DateTime.Now.Date
-                        select new { m, c };
+                join c in _context.MovieCensorships on m.CensorshipId equals c.Id
+                join s in _context.Screenings on m.Id equals s.MovieId
+                where s.StartTime.Date == DateTime.Now.Date
+                select new { m, c };
 
             var Movies = await query.Distinct().Select(x => new MovieVMD()
             {
@@ -160,7 +162,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                 PublishDate = x.m.PublishDate,
                 Ban = x.c.Name,
                 Poster = $"{_configuration["BackEndServer"]}/" +
-                   $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
+                         $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                 Description = x.m.Description,
                 Length = x.m.Length,
                 TrailerURL = x.m.TrailerUrl
@@ -172,9 +174,9 @@ namespace MovieTheater.Application.FilmServices.Movies
         public async Task<ApiResult<List<MovieVMD>>> GetAllUpcomingAsync()
         {
             var query = from m in _context.Movies
-                        join c in _context.MovieCensorships on m.CensorshipId equals c.Id
-                        where m.PublishDate.Date > DateTime.Now.Date
-                        select new { m, c };
+                join c in _context.MovieCensorships on m.CensorshipId equals c.Id
+                where m.PublishDate.Date > DateTime.Now.Date
+                select new { m, c };
 
             var Movies = await query.Select(x => new MovieVMD()
             {
@@ -183,7 +185,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                 PublishDate = x.m.PublishDate,
                 Ban = x.c.Name,
                 Poster = $"{_configuration["BackEndServer"]}/" +
-                   $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
+                         $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                 Description = x.m.Description,
                 TrailerURL = x.m.TrailerUrl,
                 Length = x.m.Length
@@ -195,13 +197,13 @@ namespace MovieTheater.Application.FilmServices.Movies
         public async Task<ApiResult<PageResult<MovieVMD>>> GetPagingAsync(FilmPagingRequest request)
         {
             var query = from m in _context.Movies
-                        join c in _context.MovieCensorships on m.CensorshipId equals c.Id
-                        select new { m, c };
+                join c in _context.MovieCensorships on m.CensorshipId equals c.Id
+                select new { m, c };
 
             if (!string.IsNullOrWhiteSpace(request.Keyword))
                 query = query.Where(x => x.m.Name.Contains(request.Keyword)
-                                        || x.m.Id.ToString().Contains(request.Keyword)
-                                        || x.c.Name.Contains(request.Keyword));
+                                         || x.m.Id.ToString().Contains(request.Keyword)
+                                         || x.c.Name.Contains(request.Keyword));
 
             int totalRow = await query.CountAsync();
 
@@ -213,7 +215,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                     PublishDate = x.m.PublishDate,
                     Ban = x.c.Name,
                     Poster = $"{_configuration["BackEndServer"]}/" +
-                   $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
+                             $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                     Description = x.m.Description,
                     TrailerURL = x.m.TrailerUrl
                 }).ToList();
@@ -253,7 +255,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                     PublishDate = movie.PublishDate,
                     TrailerURL = movie.TrailerUrl,
                     Poster = $"{_configuration["BackEndServer"]}/" +
-                    $"{FileStorageService.UserContentFolderName}/{movie.Poster}"
+                             $"{FileStorageService.UserContentFolderName}/{movie.Poster}"
                 };
                 return new ApiSuccessResult<MovieMD>(result);
             }
@@ -269,9 +271,9 @@ namespace MovieTheater.Application.FilmServices.Movies
             else
             {
                 var query = from m in _context.Movies
-                            join c in _context.MovieCensorships on m.CensorshipId equals c.Id
-                            where m.Id == id
-                            select new { m, c };
+                    join c in _context.MovieCensorships on m.CensorshipId equals c.Id
+                    where m.Id == id
+                    select new { m, c };
 
                 var movieVMD = await query.Select(x => new MovieVMD()
                 {
@@ -281,7 +283,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                     PublishDate = x.m.PublishDate,
                     Ban = x.c.Name,
                     Poster = $"{_configuration["BackEndServer"]}/" +
-                    $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
+                             $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                     Description = x.m.Description,
                     TrailerURL = x.m.TrailerUrl,
                 }).FirstOrDefaultAsync();
@@ -422,25 +424,25 @@ namespace MovieTheater.Application.FilmServices.Movies
         private List<string> GetGenres(string id)
         {
             return _context.MovieInGenres.Where(x => x.MovieId == id).Join(_context.MovieGenres,
-                                                            fig => fig.MovieId,
-                                                            fg => fg.Id,
-                                                            (fig, fg) => fg.Name).ToList();
+                fig => fig.MovieId,
+                fg => fg.Id,
+                (fig, fg) => fg.Name).ToList();
         }
 
         private List<string> GetActors(string id)
         {
-            return _context.Joinings.Where(x => x.MovieId == id ).Join(_context.Actors,
-                                                            fig => fig.ActorId,
-                                                            p => p.Id,
-                                                            (fig, p) => p.Name).ToList();
+            return _context.Joinings.Where(x => x.MovieId == id).Join(_context.Actors,
+                fig => fig.ActorId,
+                p => p.Id,
+                (fig, p) => p.Name).ToList();
         }
 
         private List<string> GetDirectors(string id)
         {
             return _context.Joinings.Where(x => x.MovieId == id).Join(_context.Actors,
-                                                             fig => fig.ActorId,
-                                                             p => p.Id,
-                                                             (fig, p) => p.Name).ToList();
+                fig => fig.ActorId,
+                p => p.Id,
+                (fig, p) => p.Name).ToList();
         }
     }
 }

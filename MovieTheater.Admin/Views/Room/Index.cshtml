@@ -1,6 +1,6 @@
 ﻿@using MovieTheater.Models.Common.Paging
 @using MovieTheater.Models.Infra.RoomModels
-@model PageResult<RoomVMD>
+@model PageResult<AuditoriumVMD>
 @{ ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
@@ -41,7 +41,7 @@
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Tìm</button>
-                            <button type="button" onclick="window.location.href='/Room/Index'" class="btn btn-light"><img src="https://img.icons8.com/ios-filled/20/000000/rotate.png" /></button>
+                            <button type="button" onclick="window.location.href='/Auditorium/Index'" class="btn btn-light"><img src="https://img.icons8.com/ios-filled/20/000000/rotate.png" /></button>
                         </div>
                     </div>
                 </form>
@@ -91,7 +91,7 @@
 
                                 <td>
                                     @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
-                                    <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteRoom" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
+                                    <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteAuditorium" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
                                     @Html.ActionLink("Cập nhật sơ đồ ghế", "UpdateSeatInRoom", new { roomId = item.Id })
                                 </td>
                             </tr>
@@ -154,7 +154,7 @@
         var userId = $("#idRoom").val();
         $.ajax({
             type: "POST",
-            url: "/Room/Delete",
+            url: "/Auditorium/Delete",
             data: { id: userId },
             success: function () {
                 location.reload();

@@ -4,6 +4,7 @@ using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
+
 namespace MovieTheater.WebApp.Controllers
 {
     public class ReservationController : BaseController
@@ -14,6 +15,7 @@ namespace MovieTheater.WebApp.Controllers
         {
             _reservationApiClient = ReservationApiClient;
         }
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
@@ -52,6 +54,7 @@ namespace MovieTheater.WebApp.Controllers
             {
                 return View();
             }
+
             var result = await _reservationApiClient.GetReservationByIdAsync(id);
 
             if (result.IsSuccessed)
@@ -65,6 +68,7 @@ namespace MovieTheater.WebApp.Controllers
                 };
                 return View(updateRequest);
             }
+
             return RedirectToAction("Error", "Home");
         }
     }

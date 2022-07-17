@@ -1,20 +1,22 @@
 ﻿@model MovieTheater.Models.Catalog.Screening.ScreeningMD
 
-@{ ViewData["Title"] = "ChooseSeatAsync";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "ChooseSeatAsync";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<h2>@ViewBag.Film.Name  @Model.StartTime.ToString("dd/MM/yyyy HH:mm")</h2>
+<h2>@ViewBag.Film.Name @Model.StartTime.ToString("dd/MM/yyyy HH:mm")</h2>
 <div class="row">
     <div class="col-9">
         <div class="card bg-secondary text-white">
-            <div class="card-body d-flex justify-content-center" style="font-size:120%">
+            <div class="card-body d-flex justify-content-center" style="font-size: 120%">
                 Màn hình
             </div>
         </div>
         <div class="card bg-light">
             <div class="card-body">
                 <div class="container-fluid">
-                    <div style="overflow-x:auto;">
+                    <div style="overflow-x: auto;">
                         <ul id="place">
                         </ul>
                     </div>
@@ -22,12 +24,12 @@
             </div>
         </div>
 
-        <div style="clear:both;width:100%" class="d-flex justify-content-center">
-            <button class="btn normalSeat mr-2" id="normal" style="color:white">Ghế thường</button>
-            <button class="btn vipSeat" id="vip" style="color:white" >Ghế VIP</button>
+        <div style="clear: both; width: 100%" class="d-flex justify-content-center">
+            <button class="btn normalSeat mr-2" id="normal" style="color: white">Ghế thường</button>
+            <button class="btn vipSeat" id="vip" style="color: white">Ghế VIP</button>
         </div>
-        <br />>
-        <div style="clear:both;width:100%" class="d-flex justify-content-center">
+        <br/>>
+        <div style="clear: both; width: 100%" class="d-flex justify-content-center">
             <button class="btn btn-success mr-2" id="btnReserve">Đặt vé</button>
         </div>
     </div>
@@ -43,7 +45,7 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <p style="color:red" class="p-2">Tổng tiền: </p>
+                    <p style="color: red" class="p-2">Tổng tiền: </p>
                     <div class="ml-auto p-2">
                         <strong id="price">
                         </strong>
@@ -53,8 +55,8 @@
         </div>
     </div>
 </div>
-<input id="reserId" type="hidden" />
-<div style="float:left;">
+<input id="reserId" type="hidden"/>
+<div style="float: left;">
 </div>
 
 <link rel="stylesheet" type="text/css" href="/css/seat.css">
@@ -66,21 +68,18 @@
         margin: 7px;
     }
 
-        #place a {
-            font-size: 0.6em;
-        }
+    #place a { font-size: 0.6em; }
 
-        #place li {
-            list-style: none outside none;
-            position: absolute;
-        }
+    #place li {
+        list-style: none outside none;
+        position: absolute;
 
-        #place .row-3, #place .row-4 {
-            margin-top: 10px;
-        }
+    }
+
+    #place .row-3, #place .row-4 { margin-top: 10px; }
 </style>
 <script type="text/javascript">
-    var mode = { normal: 1, vip: 2 };
+    var mode = { normal: "normal", vip: "vip" };
     var settings = {
         rows: 10,
         cols: 25,
@@ -94,177 +93,187 @@
         selectingSeatCss: 'selectingSeat'
     };
     var listRow = [];
-    $(document).ready(function () {
+    $(document).ready(function() {
 
-    $.ajax({
-        type: "GET",
-        url: "/SeatRow/GetAllSeatRows",
-        success: function (result) {
+        $.ajax({
+            type: "GET",
+            url: "/SeatRow/GetAllSeatRows",
+            success: function(result) {
 
-            var init = function () {
+                var init = function() {
 
-                var left = 0;
-                var right = 0;
-                var top = 0;
-                var bottom = 0;
-                $.ajax({
-                    type: "GET",
-                    url: "/Room/GetCoordinate",
-                    data: { id: @Model.AuditoriumId },
-                    success: function (res) {
-                        top = res.resultObj.top;
-                        right = res.resultObj.right;
-                        left = res.resultObj.left;
-                        bottom = res.resultObj.bottom;
-
-                var str = [], seatNo, className;
-                settings.rows = result.length;
-                for (i = 0; i < settings.rows; i++) {
-                    if ( result[i].id <=top) {
-                        str.push('<div class="row">');
-                        str.push('<div class="btn-group">');
-                        for (j = 0; j <= settings.cols; j++) {
-
-                            if (j == 0) {
-                                str.push('<button style="color:green;font-size:30px; "class = "seat1"><a>' +result[i].name + '</a></button>');
-                            }else
-
-                            if (j <= right ) {
-                                seatNo = result[i].name + j.toString();
-                                className = settings.seatCss;
-
-                                str.push('<button id = "' + result[i].id + '_' + j.toString() + '" class = "' + className + '"' + 'data-kindofseatid="' + result[i].kindOfSeatId +
-                                    '"data-row="' + result[i].id + '"data-num="' + j.toString() + '" disabled > ' +
-
-                                    '</button>');
-                            }
-
-                        }
-                        str.push('</div>');
-                        str.push('</div>');
-                    }
-
-                }
-                $('#place').html(str.join(''));
-
-                 $.ajax({
-                    type: "GET",
-                    url: "/Room/GetSeatInRoom",
-                    data: { roomId : @Model.AuditoriumId },
-                    success: function (res) {
-                        for (var i = 0; i < res.length;i++)
-                        {
-                            var idElement = res[i].rowId + '_' + res[i].number.toString();
-                            var btn = document.getElementById(idElement);
-                            $(btn).attr("disabled", false);
-                            $(btn).attr('data-name', res[i].name);
-                            $(btn).attr('data-id', res[i].id);
-                            if (res[i].kindOfSeatId == mode.normal) {
-                                $(btn).addClass(settings.normalSeatCss);
-                            }
-
-                            else {
-                                $(btn).addClass(settings.vipSeatCss);
-                            }
-                            $(btn).attr('data-kindofseatid', res[i].kindOfSeatId);
-                           // $(btn).html('<a title="' + res[i].name + '">' + res[i].name + '</a>');
-                            //console.log(res[i].name);
-
-                        };
-
-                        $.ajax({
+                    var left = 0;
+                    var right = 0;
+                    var top = 0;
+                    var bottom = 0;
+                    $.ajax({
                         type: "GET",
-                        url: "/Screening/GetListSeatReserved",
-                        data: { id: @Model.Id },
-                        success: function (res) {
-                            for (var i = 0; i < res.length; i++) {
-                                var idElement = res[i].rowId + '_' + res[i].number.toString();
-                                var btn = document.getElementById(idElement);
+                        url: "/Auditorium/GetCoordinate",
+                        data: { id: @Model.AuditoriumId },
+                        success: function(res) {
+                            top = res.resultObj.top;
+                            right = res.resultObj.right;
+                            left = res.resultObj.left;
+                            bottom = res.resultObj.bottom;
 
-                                $(btn).addClass('taken');
+                            var str = [], seatNo, className;
+                            settings.rows = result.length;
+                            for (i = 0; i < settings.rows; i++) {
+                                if (result[i].id <= top) {
+                                    str.push('<div class="row">');
+                                    str.push('<div class="btn-group">');
+                                    for (j = 0; j <= settings.cols; j++) {
+
+                                        if (j == 0) {
+                                            str.push('<button style="color:green;font-size:30px; "class = "seat1"><a>' + result[i].name + '</a></button>');
+                                        } else if (j <= right) {
+                                            seatNo = result[i].name + j.toString();
+                                            className = settings.seatCss;
+
+                                            str.push('<button id = "' +
+                                                result[i].id +
+                                                '_' +
+                                                j.toString() +
+                                                '" class = "' +
+                                                className +
+                                                '"' +
+                                                'data-kindofseatid="' +
+                                                result[i].TypeId +
+                                                '"data-row="' +
+                                                result[i].id +
+                                                '"data-num="' +
+                                                j.toString() +
+                                                '" disabled > ' +
+                                                '</button>');
+                                        }
+
+                                    }
+                                    str.push('</div>');
+                                    str.push('</div>');
+                                }
 
                             }
-
-                             $('#place button.' + settings.seatCss).click(function () {
-                            $(this).toggleClass(settings.selectingSeatCss);
-                            var seatsName = '';
-                            var tickets = [];
-                             $.each($('#place button.' + settings.selectingSeatCss), function (index, value) {
-                                 if (!this.classList.contains('taken')) {
-                                      seatsName += $(this).attr('data-name') + ', ';
-                                     var ticket = {
-                                        ScreeningId: @Model.Id,
-                                        SeatId: $(this).attr('data-id'),
-                                    };
-                                    tickets.push(ticket);
-                                 }
-
-                            });
-                            $("#seatsName").text(seatsName);
+                            $('#place').html(str.join(''));
 
                             $.ajax({
-                                type: "POST",
-                                url: "/Retail/CalPrePrice",
-                                data: { tickets },
-                                success: function (res) {
-                                    $('#price').html(res.toLocaleString('vi-VN', {
-                                        style: 'currency',
-                                        currency: 'VND',
-                                    }));
+                                type: "GET",
+                                url: "/Auditorium/GetSeatInAuditorium",
+                                data: { roomId: @Model.AuditoriumId },
+                                success: function(res) {
+                                    for (var i = 0; i < res.length; i++) {
+                                        var idElement = res[i].rowId + '_' + res[i].number.toString();
+                                        var btn = document.getElementById(idElement);
+                                        $(btn).attr("disabled", false);
+                                        $(btn).attr('data-name', res[i].name);
+                                        $(btn).attr('data-id', res[i].id);
+                                        if (res[i].typeId === mode.normal) {
+                                            $(btn).addClass(settings.normalSeatCss);
+                                        } else {
+                                            $(btn).addClass(settings.vipSeatCss);
+                                        }
+                                        $(btn).attr('data-kindofseatid', res[i].typeId);
+                                        // $(btn).html('<a title="' + res[i].name + '">' + res[i].name + '</a>');
+                                        //console.log(res[i].name);
 
+                                    };
+
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "/Screening/GetListSeatReserved",
+                                        data: { id: @Model.Id },
+                                        success: function(res) {
+                                            for (var i = 0; i < res.length; i++) {
+                                                var idElement = res[i].rowId + '_' + res[i].number.toString();
+                                                var btn = document.getElementById(idElement);
+
+                                                $(btn).addClass('taken');
+
+                                            }
+
+                                            $('#place button.' + settings.seatCss).click(function() {
+                                                $(this).toggleClass(settings.selectingSeatCss);
+                                                var seatsName = '';
+                                                var tickets = [];
+                                                $.each($('#place button.' + settings.selectingSeatCss),
+                                                    function(index, value) {
+                                                        if (!this.classList.contains('taken')) {
+                                                            seatsName += $(this).attr('data-name') + ', ';
+                                                            var ticket = {
+                                                                ScreeningId: @Model.Id,
+                                                                SeatId: $(this).attr('data-id'),
+                                                            };
+                                                            tickets.push(ticket);
+                                                        }
+
+                                                    });
+                                                $("#seatsName").text(seatsName);
+
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "/Retail/CalPrePrice",
+                                                    data: { tickets },
+                                                    success: function(res) {
+                                                        $('#price').html(res.toLocaleString('vi-VN',
+                                                            {
+                                                                style: 'currency',
+                                                                currency: 'VND',
+                                                            }));
+
+                                                    }
+                                                });
+
+                                            });
+
+                                        }
+                                    });
                                 }
                             });
 
-                        });
+                        }
 
-                            }
-                        });
-                    }
-                 });
+                    });
 
+                };
+                //case I: Show from starting
+
+                //Case II: If already booked
+                init();
+
+            }
+        })
+
+        $('#btnReserve').click(function() {
+            var tickets = [];
+            $.each($('#place button.' + settings.selectingSeatCss),
+                function(index, value) {
+                    if (!this.classList.contains('taken')) {
+                        var ticket = {
+                            ScreeningId: @Model.Id,
+                            SeatId: $(this).attr('data-id'),
+                        };
+                        tickets.push(ticket);
                     }
 
                 });
 
-            };
-            //case I: Show from starting
+            $.ajax({
+                type: "POST",
+                url: "/Reservation/Create",
+                data: { Active: true, Paid: false, Tickets: tickets },
+                success: function(res) {
+                    $("#notiMes").text(res.message);
+                    if (res.isSuccessed) {
+                        $('#reserId').val(res.resultObj);
+                    } else {
+                        document.getElementById("btnPrintTicket").style.display = 'none';
 
-            //Case II: If already booked
-            init();
-
-        }
-    })
-
-$('#btnReserve').click(function () {
-    var tickets = [];
-    $.each($('#place button.' + settings.selectingSeatCss), function (index, value) {
-        if (!this.classList.contains('taken')) {
-             var ticket = {
-            ScreeningId: @Model.Id,
-            SeatId: $(this).attr('data-id'),
-        };
-        tickets.push(ticket);
-        }
-
+                    }
+                    $('#notifyModal').modal('show');
+                }
+            });
+        })
     });
 
-    $.ajax({
-        type: "POST",
-        url: "/Reservation/Create",
-        data: { Active: true, Paid: false, Tickets: tickets },
-        success: function (res) {
-            $("#notiMes").text(res.message);
-            if (res.isSuccessed) {
-                $('#reserId').val(res.resultObj);
-            } else {
-                document.getElementById("btnPrintTicket").style.display = 'none';
-
-            }
-            $('#notifyModal').modal('show');
-        }
-        });
-    })
-    });
     function reload() {
         window.location.href = "/Reservation/edit/" + $('#reserId').val().toString();
     }

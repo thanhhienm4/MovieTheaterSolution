@@ -43,7 +43,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     return new ApiErrorResult<int>("Thêm thất bại");
                 }
 
-                return new ApiSuccessResult<int>(reservation.Id,"Thêm thành công");
+                return new ApiSuccessResult<int>(reservation.Id, "Thêm thành công");
             }
             catch (Exception)
             {
@@ -60,7 +60,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             }
             else
             {
-                if(reservation.PaymentStatus == PaymentStatusType.Done)
+                if (reservation.PaymentStatus == PaymentStatusType.Done)
                     return new ApiErrorResult<bool>("Không xóa đơn mua do khách hàng đã thanh toán");
 
                 var ticket = _context.Tickets.Where(x => x.ReservationId == id).ToList();
@@ -69,7 +69,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 _context.Reservations.Remove(reservation);
                 if (await _context.SaveChangesAsync() != 0)
                 {
-                    return new ApiSuccessResult<bool>(true,"Xóa thành công");
+                    return new ApiSuccessResult<bool>(true, "Xóa thành công");
                 }
                 else return new ApiErrorResult<bool>("Không xóa được");
             }
@@ -93,7 +93,8 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 {
                     return new ApiErrorResult<bool>("Lưu thất bại");
                 }
-                return new ApiSuccessResult<bool>(true,"Lưu thành công");
+
+                return new ApiSuccessResult<bool>(true, "Lưu thành công");
             }
         }
 
@@ -120,8 +121,8 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             //if (!string.IsNullOrWhiteSpace(request.Keyword))
             //{
             //   query = query.Where(x => x.r.Id.ToString().Contains(request.Keyword));
-                                         
-                                      
+
+
             //}
 
             //int totalRow = await query.CountAsync();
@@ -135,7 +136,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             //        Time = x.r.Time,
             //        Employee = x.e.LastName + " " + x.e.FirstName,
             //        Customer = x.c.LastName + " " + x.c.FirstName,
-                  
+
             //    }).ToList();
             //foreach(var item in items )
             //{
@@ -150,7 +151,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             //};
 
             return new ApiSuccessResult<PageResult<ReservationVMD>>(new PageResult<ReservationVMD>());
-            
         }
 
         public async Task<ApiResult<ReservationVMD>> GetById(int Id)
@@ -163,13 +163,13 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             else
             {
                 var query = from r in _context.Reservations
-                            join c in _context.Customers on r.Customer equals c.Id into rc
-                            from c in rc.DefaultIfEmpty()
-                            join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
-                            from e in rec.DefaultIfEmpty()
-                            join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                            where r.Id == Id
-                            select new { r, c, rt, e };
+                    join c in _context.Customers on r.Customer equals c.Id into rc
+                    from c in rc.DefaultIfEmpty()
+                    join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
+                    from e in rec.DefaultIfEmpty()
+                    join rt in _context.ReservationTypes on r.TypeId equals rt.Id
+                    where r.Id == Id
+                    select new { r, c, rt, e };
 
                 int totalRow = await query.CountAsync();
                 var res = query.Select(x => new ReservationVMD()
@@ -181,7 +181,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     Time = x.r.Time,
                     Employee = x.e.LastName + " " + x.e.FirstName,
                     Customer = x.c.LastName + " " + x.c.FirstName,
-                    
                 }).FirstOrDefault();
                 res.TotalPrice = CallTotal(res.Id);
                 res.Tickets = await GetTicketsAsync(Id);
@@ -192,13 +191,13 @@ namespace MovieTheater.Application.ReservationServices.Reservations
         public async Task<List<TicketVMD>> GetTicketsAsync(int reservationId)
         {
             var query = from t in _context.Tickets
-                        join re in _context.Reservations on t.ReservationId equals re.Id
-                        join s in _context.Screenings on re.ScreeningId equals s.Id
-                        join m in _context.Movies on s.MovieId equals m.Id
-                        join r in _context.Auditoriums on s.AuditoriumId equals r.Id
-                        join se in _context.Seats on t.Seat.Id equals se.Id 
-                        where t.ReservationId == reservationId
-                        select new { t, s, m, r, se };
+                join re in _context.Reservations on t.ReservationId equals re.Id
+                join s in _context.Screenings on re.ScreeningId equals s.Id
+                join m in _context.Movies on s.MovieId equals m.Id
+                join r in _context.Auditoriums on s.AuditoriumId equals r.Id
+                join se in _context.Seats on t.Seat.Id equals se.Id
+                where t.ReservationId == reservationId
+                select new { t, s, m, r, se };
 
             var tickets = await query.OrderBy(x => x.se.RowId).Select(x => new TicketVMD()
             {
@@ -222,6 +221,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     total += (await CalPriceAsync(ticket)).ResultObj;
                 }
             }
+
             return new ApiSuccessResult<int>(total);
         }
 
@@ -253,13 +253,13 @@ namespace MovieTheater.Application.ReservationServices.Reservations
         public async Task<ApiResult<List<ReservationVMD>>> GetByUserId(string userId)
         {
             var query = from r in _context.Reservations
-                        join c in _context.Customers on r.Customer equals c.Id into rc
-                        from c in rc.DefaultIfEmpty()
-                        join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
-                        from e in rec.DefaultIfEmpty()
-                        join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                        where c.Id == userId
-                        select new { r, c, rt, e };
+                join c in _context.Customers on r.Customer equals c.Id into rc
+                from c in rc.DefaultIfEmpty()
+                join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
+                from e in rec.DefaultIfEmpty()
+                join rt in _context.ReservationTypes on r.TypeId equals rt.Id
+                where c.Id == userId
+                select new { r, c, rt, e };
 
             int totalRow = await query.CountAsync();
             var res = query.Select(x => new ReservationVMD()
@@ -273,15 +273,16 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 Customer = x.c.LastName + " " + x.c.FirstName
             }).ToList();
 
-            foreach(var reservation in res)
+            foreach (var reservation in res)
             {
                 reservation.Tickets = await GetTicketsAsync(reservation.Id);
             }
-           
-            
+
+
             return new ApiSuccessResult<List<ReservationVMD>>(res);
         }
-        private long  CallTotal(int id)
+
+        private long CallTotal(int id)
         {
             if (!_context.Tickets.Any(x => x.ReservationId == id))
                 return 0;

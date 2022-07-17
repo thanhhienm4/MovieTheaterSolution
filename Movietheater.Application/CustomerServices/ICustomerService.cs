@@ -9,7 +9,6 @@ namespace MovieTheater.Application.CustomerServices
 {
     public interface ICustomerService
     {
-
         Task<ApiResult<string>> LoginAsync(LoginRequest request);
 
         Task<ApiResult<bool>> RegisterAsync(UserRegisterRequest request);

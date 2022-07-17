@@ -15,12 +15,13 @@ namespace MovieTheater.BackEnd.Controllers
     public class RoomFormatController : BaseController
     {
         private readonly IAuditoriumFormatService _roomFormatService;
-        private readonly IUserService _userService;
 
-        public RoomFormatController(IAuditoriumFormatService roomFormatService, IUserService userService) : base(userService)
+        public RoomFormatController(IAuditoriumFormatService roomFormatService, IUserService userService) : base(
+            userService)
         {
             _roomFormatService = roomFormatService;
         }
+
         [HttpPost("Create")]
         public async Task<ApiResult<bool>> CreateAsync(AuditoriumFormatCreateRequest model)
         {
@@ -55,6 +56,5 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _roomFormatService.GetByIdAsync(id);
             return result;
         }
-
     }
 }

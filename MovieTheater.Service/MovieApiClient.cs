@@ -5,6 +5,7 @@ using MovieTheater.Models.Catalog.Film.MovieGenres;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,9 +16,10 @@ namespace MovieTheater.Api
     public class MovieApiClient : BaseApiClient
     {
         public MovieApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
-           IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
+            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
             httpContextAccessor)
-        { }
+        {
+        }
 
         public async Task<ApiResult<bool>> CreateAsync(MovieCreateRequest request)
         {
@@ -30,9 +32,11 @@ namespace MovieTheater.Api
                 {
                     data = br.ReadBytes((int)request.Poster.OpenReadStream().Length);
                 }
+
                 ByteArrayContent bytes = new ByteArrayContent(data);
                 requestContent.Add(bytes, "Poster", request.Poster.FileName);
             }
+            requestContent.Add(new StringContent(request.Id), nameof(request.Id));
             requestContent.Add(new StringContent(request.Description.ToString()), "Description");
             requestContent.Add(new StringContent(request.CensorshipId.ToString()), "CensorshipId");
             requestContent.Add(new StringContent(request.Length.ToString()), "Length");
@@ -41,7 +45,7 @@ namespace MovieTheater.Api
             requestContent.Add(new StringContent(request.TrailerURL.ToString()), "TrailerURL");
             HttpClient client = GetHttpClient();
 
-            var response = await client.PostAsync($"Api/Film/Create", requestContent);
+            var response = await client.PostAsync($"{APIConstant.ApiMovie}/{APIConstant.MovieCreate}", requestContent);
 
             return await GetResultAsync<bool>(response);
         }
@@ -57,9 +61,11 @@ namespace MovieTheater.Api
                 {
                     data = br.ReadBytes((int)request.Poster.OpenReadStream().Length);
                 }
+
                 ByteArrayContent bytes = new ByteArrayContent(data);
                 requestContent.Add(bytes, "Poster", request.Poster.FileName);
             }
+
             requestContent.Add(new StringContent(request.Description.ToString()), "Description");
             requestContent.Add(new StringContent(request.Id.ToString()), "Id");
             requestContent.Add(new StringContent(request.CensorshipId), "CensorshipId");
@@ -70,19 +76,24 @@ namespace MovieTheater.Api
             //return await PutAsync<bool>("Api/Movie/Update", requestContent);
 
             HttpClient client = GetHttpClient();
-            var response = await client.PutAsync($"Api/Film/Update", requestContent);
+            var response = await client.PutAsync($"{APIConstant.ApiMovie}/{APIConstant.MovieUpdate}", requestContent);
 
             return await GetResultAsync<bool>(response);
         }
 
-        public async Task<ApiResult<bool>> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
-            return await DeleteAsync<bool>($"Api/Movie/Delete/{id}");
+            NameValueCollection queryParams = new NameValueCollection()
+            {
+                { "id", id }
+            };
+            return await DeleteAsync<bool>($"{APIConstant.ApiMovie}/{APIConstant.MovieDelete}", queryParams);
         }
 
         public async Task<ApiResult<PageResult<MovieVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
-            return await PostAsync<PageResult<MovieVMD>>($"{APIConstant.ApiMovie}/{APIConstant.GetMoviePaging}", request);
+            return await PostAsync<PageResult<MovieVMD>>($"{APIConstant.ApiMovie}/{APIConstant.GetMoviePaging}",
+                request);
         }
 
         public async Task<ApiResult<MovieVMD>> GetFilmVMDByIdAsync(string id)
@@ -90,9 +101,14 @@ namespace MovieTheater.Api
             return await GetAsync<MovieVMD>($"Api/Movie/GetFilmVMDById/{id}");
         }
 
-        public async Task<ApiResult<MovieMD>> GetFilmMDByIdAsync(int id)
+        public async Task<ApiResult<MovieMD>> GetByIdAsync(string id)
         {
-            return await GetAsync<MovieMD>($"Api/Movie/GetFilmMDById/{id}");
+            NameValueCollection queryParams = new NameValueCollection()
+            {
+                { "id", id}
+            };
+            // ReSharper disable once FormatStringProblem
+            return await GetAsync<MovieMD>($"{APIConstant.ApiMovie}/{APIConstant.MovieGetById}",queryParams);
         }
 
         public async Task<ApiResult<List<MovieVMD>>> GetAllFilmAsync()

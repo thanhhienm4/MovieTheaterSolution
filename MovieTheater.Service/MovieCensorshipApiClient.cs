@@ -12,13 +12,15 @@ namespace MovieTheater.Api
     public class MovieCensorshipApiClient : BaseApiClient
     {
         public MovieCensorshipApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
-           IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
+            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
             httpContextAccessor)
-        { }
+        {
+        }
 
         public async Task<ApiResult<IList<MovieCensorshipVMD>>> GetAllAsync()
         {
-            return await GetAsync<IList<MovieCensorshipVMD>>($"{APIConstant.ApiMovieCensorship}/{APIConstant.GetMovieCensorship}");
+            return await GetAsync<IList<MovieCensorshipVMD>>(
+                $"{APIConstant.ApiMovieCensorship}/{APIConstant.GetMovieCensorship}");
         }
     }
 }

@@ -15,7 +15,8 @@ namespace MovieTheater.BackEnd.Controllers
     {
         private readonly IMovieCensorshipService _movieCensorshipService;
 
-        public MovieCensorshipController(IMovieCensorshipService movieCensorshipService,IUserService userService):base(userService)
+        public MovieCensorshipController(IMovieCensorshipService movieCensorshipService, IUserService userService) :
+            base(userService)
         {
             _movieCensorshipService = movieCensorshipService;
         }

@@ -22,7 +22,7 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly ICustomerService _customerService;
         //private readonly IUserService _userService;
 
-        public CustomerController(ICustomerService customerService, IUserService userService):base(userService)
+        public CustomerController(ICustomerService customerService, IUserService userService) : base(userService)
         {
             _customerService = customerService;
         }
@@ -136,8 +136,5 @@ namespace MovieTheater.BackEnd.Controllers
         //    var result = await _customerService.ResetPasswordAsync(request);
         //    return result;
         //}
-
-
     }
-    
 }

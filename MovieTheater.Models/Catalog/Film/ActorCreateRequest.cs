@@ -6,14 +6,11 @@ namespace MovieTheater.Models.Catalog.Film
 {
     public class ActorCreateRequest
     {
-        [Display(Name = "Ngày sinh")]
-        public DateTime DOB { get; set; }
+        [Display(Name = "Ngày sinh")] public DateTime DOB { get; set; }
 
-        [Display(Name = "Mô tả")]
-        public string Description { get; set; }
+        [Display(Name = "Mô tả")] public string Description { get; set; }
 
-        [Display(Name = "Tên")]
-        public string Name { get; set; }
+        [Display(Name = "Tên")] public string Name { get; set; }
     }
 
     public class PeopleCreateValidator : AbstractValidator<ActorCreateRequest>

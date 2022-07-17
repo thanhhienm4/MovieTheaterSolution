@@ -12,9 +12,8 @@ namespace MovieTheater.Models.User
     {
         [Display(Name = "Email khôi phục mật khẩu")]
         public string Email { get; set; }
-        
-        
     }
+
     public class ForgotPwValidator : AbstractValidator<ForgotPwRequest>
     {
         public ForgotPwValidator()

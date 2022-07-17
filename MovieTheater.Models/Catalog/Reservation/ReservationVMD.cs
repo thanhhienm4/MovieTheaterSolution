@@ -13,7 +13,6 @@ namespace MovieTheater.Models.Catalog.Reservation
         public string Employee { get; set; }
         public DateTime Time { get; set; }
         public List<TicketVMD> Tickets { get; set; }
-
         public long TotalPrice { get; set; }
     }
 }

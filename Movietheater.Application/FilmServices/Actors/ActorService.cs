@@ -76,6 +76,7 @@ namespace MovieTheater.Application.FilmServices.Actors
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
+
                 return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
             }
         }
@@ -86,9 +87,10 @@ namespace MovieTheater.Application.FilmServices.Actors
             if (request.Keyword != null)
             {
                 Actors = Actors.Where(x => x.Id.ToString().Contains(request.Keyword) ||
-                                                x.Name.Contains(request.Keyword) ||
-                                                x.Dob.ToString().Contains(request.Keyword));
+                                           x.Name.Contains(request.Keyword) ||
+                                           x.Dob.ToString().Contains(request.Keyword));
             }
+
             int totalRow = await Actors.CountAsync();
             var item = Actors.OrderBy(x => x.Name).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize).Select(x => new ActorVMD()
@@ -115,7 +117,7 @@ namespace MovieTheater.Application.FilmServices.Actors
             var Actors = await _context.Actors.Select(x => new ActorVMD()
             {
                 Description = x.Description,
-                DOB  = x.Dob,
+                DOB = x.Dob,
                 Id = x.Id,
                 Name = x.Name
             }).ToListAsync();

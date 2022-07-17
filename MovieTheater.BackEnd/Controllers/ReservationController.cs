@@ -20,7 +20,8 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IReservationService _reservationService;
         private readonly IUserService _userService;
 
-        public ReservationController(IReservationService reservationService,IUserService userService):base(userService)
+        public ReservationController(IReservationService reservationService, IUserService userService) : base(
+            userService)
         {
             _reservationService = reservationService;
         }
@@ -46,7 +47,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-      
+
         [HttpPost("GetReservationPaging")]
         public async Task<ApiResult<PageResult<ReservationVMD>>> GetPeoplePaging(ReservationPagingRequest request)
         {
@@ -54,7 +55,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("AuditoriumGetById/{id}")]
         public async Task<ApiResult<ReservationVMD>> GeReservationByIdAsync(int id)
         {
             var result = await _reservationService.GetById(id);

@@ -30,7 +30,7 @@ namespace MovieTheater.WebApp
             services.AddTransient<ReservationApiClient, ReservationApiClient>();
             services.AddTransient<SeatApiClient, SeatApiClient>();
             services.AddTransient<SeatRowApiClient, SeatRowApiClient>();
-            services.AddTransient<RoomApiClient, RoomApiClient>();
+            services.AddTransient<AuditoriumApiClient, AuditoriumApiClient>();
             services.AddTransient<ScreeningApiClient, ScreeningApiClient>();
             services.AddTransient<MovieCensorshipApiClient, MovieCensorshipApiClient>();
             services.AddTransient<StatiticApiClient, StatiticApiClient>();

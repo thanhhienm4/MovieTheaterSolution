@@ -27,9 +27,10 @@ namespace MovieTheater.WebApp.Controllers
             var res = (await _screeningApiClient.GetListCreeningOfFilmInWeekAsync(id)).ResultObj;
             return View(res);
         }
+
         public async Task<IActionResult> Schedule(DateTime? date)
         {
-            var result = (await _screeningApiClient.GetFilmScreeningIndateAsync(date));
+            var result = (await _screeningApiClient.GetScreeningInDateAsync(date));
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
 

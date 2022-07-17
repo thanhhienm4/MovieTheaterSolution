@@ -20,7 +20,7 @@ namespace MovieTheater.BackEnd.Controllers
     {
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService):base(userService)
+        public UserController(IUserService userService) : base(userService)
         {
             _userService = userService;
         }
@@ -95,7 +95,7 @@ namespace MovieTheater.BackEnd.Controllers
         [HttpPost("ForgotStaffPassword")]
         public async Task<ApiResult<bool>> ForgotStaffPassword([FromBody] string mail)
         {
-            var result =  await _userService.ForgotPasswordAsync(mail);
+            var result = await _userService.ForgotPasswordAsync(mail);
             return result;
         }
 
@@ -107,8 +107,5 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _userService.ResetPasswordAsync(request);
             return result;
         }
-       
-        
     }
-    
 }

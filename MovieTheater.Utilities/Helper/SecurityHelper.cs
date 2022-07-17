@@ -8,19 +8,21 @@ namespace MovieTheater.Common.Helper
     public static class SecurityHelper
     {
         public static string EncryptedText = "vvvaasrffffsafasfs";
-            //= new ConfigurationBuilder()
-            //.SetBasePath(Directory.GetCurrentDirectory())
-            //.AddJsonFile("appsettings.json").Build()["AppSettings:Secret"];
+        //= new ConfigurationBuilder()
+        //.SetBasePath(Directory.GetCurrentDirectory())
+        //.AddJsonFile("appsettings.json").Build()["AppSettings:Secret"];
 
 
         public static string Encrypt(this string data)
         {
             return Encrypt(EncryptedText, data);
         }
+
         public static string Decrypt(this string data)
         {
             return Decrypt(EncryptedText, data);
         }
+
         public static string Encrypt(string key, string data)
         {
             string encData = null;
@@ -30,11 +32,16 @@ namespace MovieTheater.Common.Helper
             {
                 encData = EncryptStringToBytes_Aes(data, keys[0], keys[1]);
             }
-            catch (CryptographicException) { }
-            catch (ArgumentNullException) { }
+            catch (CryptographicException)
+            {
+            }
+            catch (ArgumentNullException)
+            {
+            }
 
             return encData;
         }
+
         public static string Decrypt(string key, string data)
         {
             string decData = null;
@@ -44,11 +51,16 @@ namespace MovieTheater.Common.Helper
             {
                 decData = DecryptStringFromBytes_Aes(data, keys[0], keys[1]);
             }
-            catch (CryptographicException) { }
-            catch (ArgumentNullException) { }
+            catch (CryptographicException)
+            {
+            }
+            catch (ArgumentNullException)
+            {
+            }
 
             return decData;
         }
+
         private static byte[][] GetHashKeys(string key)
         {
             byte[][] result = new byte[2][];
@@ -69,6 +81,7 @@ namespace MovieTheater.Common.Helper
 
             return result;
         }
+
         static string EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
         {
             // Check arguments.
@@ -100,6 +113,7 @@ namespace MovieTheater.Common.Helper
                             //Write all data to the stream.
                             swEncrypt.Write(plainText);
                         }
+
                         encrypted = msEncrypt.ToArray();
                     }
                 }
@@ -141,7 +155,6 @@ namespace MovieTheater.Common.Helper
                     {
                         using (StreamReader srDecrypt = new StreamReader(csDecrypt))
                         {
-
                             // Read the decrypted bytes from the decrypting stream
                             // and place them in a string.
                             plaintext = srDecrypt.ReadToEnd();

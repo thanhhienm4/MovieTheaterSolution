@@ -75,6 +75,7 @@ namespace MovieTheater.Admin.Controllers
                 });
                 return View(request);
             }
+
             var result = await _filmApiClient.CreateAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -89,13 +90,14 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            var result = await _filmApiClient.GetFilmMDByIdAsync(id);
+
+            var result = await _filmApiClient.GetByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
 
@@ -120,6 +122,7 @@ namespace MovieTheater.Admin.Controllers
 
                 return View(updateRequest);
             }
+
             return RedirectToAction("Error", "Home");
         }
 
@@ -137,6 +140,7 @@ namespace MovieTheater.Admin.Controllers
                 });
                 return View(request);
             }
+
             var result = await _filmApiClient.UpdateAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -145,12 +149,13 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = "Chỉnh sửa thành công";
                 return RedirectToAction("Index", "Film");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
 
         [HttpPost]
-        public async Task<ApiResult<bool>> Delete(int id)
+        public async Task<ApiResult<bool>> Delete(string id)
         {
             var result = await _filmApiClient.DeleteAsync(id);
 
@@ -165,6 +170,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
+
             var genreAssignRequest = await GetGenreAssignRequest(id);
 
             return View(genreAssignRequest);
@@ -177,6 +183,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View(request);
             }
+
             var result = await _filmApiClient.AssignGenre(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -185,6 +192,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = "Gán danh mục thành công";
                 return RedirectToAction("Index", "Film");
             }
+
             ModelState.AddModelError("", result.Message);
             var genreAssignRequest = await GetGenreAssignRequest(request.MovieId);
             return View(genreAssignRequest);

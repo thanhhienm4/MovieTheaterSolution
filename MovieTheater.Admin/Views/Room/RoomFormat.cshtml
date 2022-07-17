@@ -1,23 +1,29 @@
-﻿
-
-
-@using  MovieTheater.Models.Infra.RoomModels.Format;
+﻿@using MovieTheater.Models.Infra.RoomModels.Format;
 @model List<AuditoriumFormatVMD>
-@{ ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/Room">Phòng</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/Room">Phòng</a>
+    </li>
     <li class="breadcrumb-item">Định dạng phòng</li>
 </ol>
+
 @section Scripts{
     <script>
-        setTimeout(function () {
-            $("#SuccessMeg").fadeOut('slow');
-        }, 2000);
+        setTimeout(function() {
+                $("#SuccessMeg").fadeOut('slow');
+            },
+            2000);
     </script>
 }
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
@@ -30,50 +36,52 @@
     <div>
         @if (ViewBag.SuccessMsg != null)
         {
-<div id="SuccessMeg" class="alert alert-success" role="alert">
-    @ViewBag.SuccessMsg
-</div>}
+            <div id="SuccessMeg" class="alert alert-success" role="alert">
+                @ViewBag.SuccessMsg
+            </div>
+        }
     </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
-                <tr>
+            <tr>
 
-                    <th>
-                        ID
-                    </th>
-                    <th>
-                        Tên
-                    </th>
-                    <th>
-                        Giá
-                    </th>
-                    <th>
-                        Khác
-                    </th>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Tên
+                </th>
+                <th>
+                    Giá
+                </th>
+                <th>
+                    Khác
+                </th>
 
-                </tr>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
-                {
-    <tr>
+            @foreach (var item in Model)
+            {
+                <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.ActionLink("Chi tiết", "FormatEdit", new { id = item.Id }) |
-            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteRoomFormat" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
-        </td>
-    </tr>}
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chi tiết", "FormatEdit", new { id = item.Id }) |
+                        <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteAuditoriumFormat" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
         <div class="d-flex">
@@ -85,8 +93,8 @@
 </div>
 
 <!--model delete-->
-<input id="nameRoomFormat" hidden />
-<input id="idRoomFormat" hidden />
+<input id="nameRoomFormat" hidden/>
+<input id="idRoomFormat" hidden/>
 
 <div class="modal fade" id="deleteRoomFormat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -119,12 +127,13 @@
         $("#deleteMeg").text("Bạn thật sự muốn xóa " + name + "?");
     }
 
-    $(function () {
+    $(function() {
 
-        $("#deleteRoomFormatRoomFormat").on('show.bs.modal', function () {
-            name = $("#nameRoomFormat").val();
+        $("#deleteRoomFormatRoomFormat").on('show.bs.modal',
+            function() {
+                name = $("#nameRoomFormat").val();
 
-        });
+            });
 
     });
 
@@ -132,9 +141,9 @@
         var userId = $("#idRoomFormat").val();
         $.ajax({
             type: "POST",
-            url: "/Room/DeleteRoomFormat",
+            url: "/Auditorium/DeleteAuditoriumFormat",
             data: { id: userId },
-            success: function () {
+            success: function() {
                 location.reload();
             }
         })

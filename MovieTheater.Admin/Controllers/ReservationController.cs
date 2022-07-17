@@ -30,8 +30,8 @@ namespace MovieTheater.Admin.Controllers
             ViewBag.KeyWord = keyword;
             ViewBag.SuccessMsg = TempData["Result"];
             var result = await _reservationApiClient.GetReservationPagingAsync(request);
-            if(result.IsReLogin == true)
-               return  RedirectToAction("Index", "Login");
+            if (result.IsReLogin == true)
+                return RedirectToAction("Index", "Login");
             return View(result.ResultObj);
         }
 
@@ -49,9 +49,8 @@ namespace MovieTheater.Admin.Controllers
             request.ReservationTypeId = "";
 
             var result = await _reservationApiClient.CreateAsync(request);
-            
-            return result;
 
+            return result;
         }
 
         [HttpGet]
@@ -61,6 +60,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
+
             var result = await _reservationApiClient.GetReservationByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -76,6 +76,7 @@ namespace MovieTheater.Admin.Controllers
                 };
                 return View(updateRequest);
             }
+
             return RedirectToAction("Error", "Home");
         }
 
@@ -87,6 +88,7 @@ namespace MovieTheater.Admin.Controllers
                 ViewBag.IsEdit = true;
                 return View(request);
             }
+
             var result = await _reservationApiClient.UpdateAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -95,6 +97,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = "Chỉnh sửa thành công";
                 return RedirectToAction("Index", "Reservation");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }

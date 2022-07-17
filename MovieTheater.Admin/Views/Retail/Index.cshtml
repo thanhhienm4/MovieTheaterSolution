@@ -1,26 +1,32 @@
 ﻿@using MovieTheater.Models.Catalog.Film;
+@using System.Globalization
 @model List<MovieScreeningVMD>;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
     <li class="breadcrumb-item active">Lịch chiếu phim </li>
 </ol>
-<br />
+
 @section Scripts{
     <script>
-            setTimeout(function () {
+        setTimeout(function() {
                 $("#SuccessMeg").fadeOut('slow');
-            }, 2000);
+            },
+            2000);
     </script>
 }
+
 @if (ViewBag.SuccessMsg != null)
 {
     <div id="SuccessMeg" class="alert alert-success" role="alert">
         @ViewBag.SuccessMsg
-    </div>}
+    </div>
+}
 <div class="d-flex justify-content-between">
     @for (int i = 0; i < 7; i++)
     {
@@ -30,18 +36,26 @@
             dateChoose = DateTime.Parse(ViewContext.HttpContext.Request.Query["date"]);
         if (date.Date == dateChoose.Date)
         {
-            <a class="btn  custom" style="background-color:gold" href="/retail/index?date=@date.ToString("d")" data-date="@date">@date.Month/@date.Day</a>
+            <a class="btn  custom" style="background-color: #c7d6ec" href="/retail/index?date=@date.ToString("d")" data-date="@date">
+                @date.Day/@date.Month
+                <div class="row justify-content-center">
+                    @date.ToString("ddd",new CultureInfo("vi-VN"))
+                </div>
+            </a>
         }
         else
         {
-            <a class="btn  custom" href="/retail/index?date=@date.ToString("d")" data-date="@date">@date.Month/@date.Day</a>
+            <a class="btn  custom" href="/retail/index?date=@date.ToString("d")" data-date="@date">
+                @date.Day/@date.Month
+                <div class="row justify-content-center">
+                    @date.ToString("ddd",new CultureInfo("vi-VN"))
+                </div>
+            </a>
         }
-
-
     }
 </div>
 
-<br />
+<br/>
 <div class="card">
     <div class="card-body">
 
@@ -53,16 +67,18 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-3 col-sm-2">
-                                <img src="@filmScreening.Movie.Poster" class="img-fluid img-thumbnail" />
+                                <img src="@filmScreening.Movie.Poster" class="img-fluid img-thumbnail"/>
                             </div>
                             <div class="col-10">
-                                <div style="color:black" class="row">
-                                    <font size="+1"><strong>@filmScreening.Movie.Name</strong></font>
+                                <div style="color: black" class="row">
+                                    <font size="+1">
+                                        <strong>@filmScreening.Movie.Name</strong>
+                                    </font>
                                 </div>
                                 <div class="row">
                                     <p class="mr-2">@filmScreening.Movie.Ban </p>
                                     <p class="mr-2">@filmScreening.Movie.Length </p>
-                                    <a href="@filmScreening.Movie.TrailerURL" style="color:darkblue">Trailer</a>
+                                    <a href="@filmScreening.Movie.TrailerURL" style="color: darkblue">Trailer</a>
                                 </div>
                                 <div class="row">
                                     @if (filmScreening.ListScreening != null)
@@ -75,9 +91,8 @@
                                             }
                                             else
                                             {
-                                                <a class="btn btn-secondary time mr-2" style="cursor:no-drop">@screening.StartTime.ToString("HH:mm")</a>
+                                                <a class="btn btn-secondary time mr-2" style="cursor: no-drop">@screening.StartTime.ToString("HH:mm")</a>
                                             }
-
                                         }
                                     }
                                 </div>
@@ -90,11 +105,7 @@
     </div>
 </div>
 <style>
-    .custom {
-        width: 160px !important;
-    }
+    .custom { width: 160px !important; }
 
-        .custom:hover {
-            background-color: gold !important;
-        }
+    .custom:hover { background-color: #c7d6ec !important; }
 </style>

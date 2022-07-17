@@ -24,8 +24,7 @@ namespace MovieTheater.WebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ChooseSeat(int id)
         {
-
-            if(User.Identity.IsAuthenticated == false)
+            if (User.Identity.IsAuthenticated == false)
             {
                 return Redirect($"/login/Index?RedirectURL=/Ticket/ChooseSeat/{id}");
             }

@@ -16,10 +16,12 @@ namespace MovieTheater.BackEnd.Controllers
     public class KindOfSeatController : Controller
     {
         private readonly ISeatTypeService _kindOfSeatService;
+
         public KindOfSeatController(ISeatTypeService kindOfSeatService)
         {
             _kindOfSeatService = kindOfSeatService;
         }
+
         [HttpPost("Create")]
         public async Task<ApiResult<bool>> CreateAsync(SeatTypeCreateRequest request)
         {
@@ -47,12 +49,7 @@ namespace MovieTheater.BackEnd.Controllers
             var res = await _kindOfSeatService.GetAllAsync();
             return res;
         }
-      
-        [HttpGet("GetKindOfSeatById/{id}")]
-        public async Task<ApiResult<SeatTypeVMD>> GetKindOfSeatByIdAsync(int id)
-        {
-            var res = await _kindOfSeatService.GetByIdAsync(id);
-            return res;
-        }
+
+       
     }
 }

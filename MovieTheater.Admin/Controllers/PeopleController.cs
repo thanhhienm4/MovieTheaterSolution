@@ -48,6 +48,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View(request);
             }
+
             var result = await _peopleApiClient.CreateAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -56,6 +57,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = "Tạo mới thành công";
                 return RedirectToAction("Index", "People");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
@@ -67,6 +69,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
+
             var result = await _peopleApiClient.GetPeopleByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -82,6 +85,7 @@ namespace MovieTheater.Admin.Controllers
                 };
                 return View(updateRequest);
             }
+
             return RedirectToAction("Error", "Home");
         }
 
@@ -93,6 +97,7 @@ namespace MovieTheater.Admin.Controllers
                 ViewBag.IsEdit = true;
                 return View(request);
             }
+
             var result = await _peopleApiClient.UpdateAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -101,6 +106,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = "Chỉnh sửa thành công";
                 return RedirectToAction("Index", "People");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }

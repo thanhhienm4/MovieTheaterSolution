@@ -1,12 +1,20 @@
 ﻿@model MovieTheater.Models.Infra.Seat.KindOfSeat.KindOfSeatUpdateRequest
 
-@{ ViewData["Title"] = "EditKindOfSeat";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "EditKindOfSeat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/SeatRow">Hàng ghế</a></li>
-    <li class="breadcrumb-item"><a href="/Seat/KindOfSeat">Loại ghế</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/SeatRow">Hàng ghế</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/Seat/KindOfSeat">Loại ghế</a>
+    </li>
     <li class="breadcrumb-item active">Chi tiết</li>
 </ol>
 
@@ -22,7 +30,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Id" class="control-label"></label>
-                        <input asp-for="Id" class="form-control" disabled />
+                        <input asp-for="Id" class="form-control" disabled/>
                         <span asp-validation-for="Id" class="text-danger"></span>
                     </div>
                 </div>
@@ -30,16 +38,16 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input id="input1" asp-for="Name" class="form-control" disabled />
+                        <input id="input1" asp-for="Name" class="form-control" disabled/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
 
-                
+
             </div>
 
             <div id="btnSave" class="form-group d-flex justify-content-center invisible">
-                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary"/>
             </div>
         </form>
     </div>
@@ -54,6 +62,7 @@
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
     }
 </script>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

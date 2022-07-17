@@ -5,14 +5,11 @@ namespace MovieTheater.Models.User
 {
     public class LoginRequest
     {
-        [Display(Name = "Tên đăng nhập")]
-        public string Email { get; set; }
+        [Display(Name = "Tên đăng nhập")] public string Email { get; set; }
 
-        [Display(Name = "Mật khẩu")]
-        public string Password { get; set; }
+        [Display(Name = "Mật khẩu")] public string Password { get; set; }
 
-        [Display(Name = "Nhớ mật khẩu")]
-        public bool RememberMe { get; set; }
+        [Display(Name = "Nhớ mật khẩu")] public bool RememberMe { get; set; }
 
         public string RedirectUrl { get; set; }
     }

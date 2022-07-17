@@ -78,9 +78,6 @@
                     <th>
                         Kết thúc
                     </th>
-                    <th>
-                        Loại xuất chiếu
-                    </th>
                     <th>Khác</th>
                 </tr>
             </thead>
@@ -96,10 +93,10 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.Film)
+                        @Html.DisplayFor(modelItem => item.Movie)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Room)
+                        @Html.DisplayFor(modelItem => item.Auditorium)
                     </td>
                     <td>
 
@@ -110,11 +107,8 @@
                         @Convert.ToDateTime(item.FinishTime).ToString("dd/MM/yyyy HH:mm")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.KindOfScreening)
-                    </td>
-                    <td>
                         @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id })
-                        <a href="" data-toggle="modal" data-name="@item.Film" data-target="#deleteScreening" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
+                        <a href="" data-toggle="modal" data-name="@item.Movie" data-target="#deleteScreening" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
                     </td>
                 </tr>
                     }

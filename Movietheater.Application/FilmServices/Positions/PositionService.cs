@@ -67,6 +67,7 @@ namespace MovieTheater.Application.FilmServices.Positions
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
+
                 return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
             }
         }

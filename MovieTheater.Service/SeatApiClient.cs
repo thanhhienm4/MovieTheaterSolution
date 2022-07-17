@@ -6,24 +6,26 @@ using MovieTheater.Models.Infra.Seat.KindOfSeat;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
 
 namespace MovieTheater.Api
 {
     public class SeatApiClient : BaseApiClient
     {
         public SeatApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
-          IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
-           httpContextAccessor)
-        { }
-
-        public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(int roomId)
+            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
+            httpContextAccessor)
         {
-            return await GetAsync<List<SeatVMD>>($"Api/Seat/GetSeatInRoomAsync/{roomId}");
+        }
+
+        public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(string roomId)
+        {
+            return await GetAsync<List<SeatVMD>>($"{APIConstant.ApiSeat}/{APIConstant.SeatGetAllInRoom}/{roomId}");
         }
 
         public async Task<ApiResult<bool>> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
         {
-            return await PutAsync<bool>($"Api/Seat/UpdateSeatInRoomAsync", request);
+            return await PutAsync<bool>($"{APIConstant.ApiSeat}/{APIConstant.SeatUpdateInRoom}", request);
         }
 
         public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
@@ -50,11 +52,10 @@ namespace MovieTheater.Api
         {
             return await GetAsync<List<SeatTypeVMD>>($"Api/KindOfSeat/GetAllKindOfSeat");
         }
+
         public async Task<ApiResult<SeatTypeVMD>> GetKindOfSeatByIdAsync(int id)
         {
             return await GetAsync<SeatTypeVMD>($"Api/KindOfSeat/GetKindOfSeatById/{id}");
         }
-   
-
     }
 }

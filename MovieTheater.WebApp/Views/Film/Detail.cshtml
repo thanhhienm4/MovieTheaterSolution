@@ -2,16 +2,18 @@
 
 @model MovieVMD
 
-@{ ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <div class="container">
-    <div class="card d-flex" style="background-color:#18043d">
+    <div class="card d-flex" style="background-color: #18043d">
         <div class="row">
             <div class="col-3">
-                <img class="img-fluid" src="@Model.Poster" />
+                <img class="img-fluid" src="@Model.Poster"/>
             </div>
             <div class="col-9 style=" color:white"">
-                <h1 style="color:red">@Model.Name</h1>
+                <h1 style="color: red">@Model.Name</h1>
                 <div class="row">
 
                     <div class="col-11 text-justify">
@@ -29,7 +31,8 @@
                         <div class="col-3">
                             @if (Model.Genres != null)
                             {
-                <p>@string.Join(" ", Model.Genres)</p>}
+                                <p>@string.Join(" ", Model.Genres)</p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -40,7 +43,8 @@
 
                         @if (Model.Actors != null)
                         {
-            <p>@string.Join(" ", Model.Actors)</p>}
+                            <p>@string.Join(" ", Model.Actors)</p>
+                        }
                     </div>
                 </div>
 
@@ -51,49 +55,52 @@
 
                         @if (Model.Genres != null)
                         {
-            <p>@string.Join(" ", Model.Directors)</p>}
+                            <p>@string.Join(" ", Model.Directors)</p>
+                        }
                     </div>
                 </div>
 
                 <div class="row d-flex justify-content-center">
-                    <a class=" btn btn-danger mr-5 " style="margin-bottom:7px" href="/Movie/ScreeningInWeek/@Model.Id">Đặt vé</a>
+                    <a class=" btn btn-danger mr-5 " style="margin-bottom: 7px" href="/Movie/ScreeningInWeek/@Model.Id">Đặt vé</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<hr />
+<hr/>
 <div class="container">
-    <div style="width:400px;height:500px">
-        <p style="color:black;font-size:larger;font-weight:550">   Trailer</p>
+    <div style="width: 400px; height: 500px">
+        <p style="color: black; font-size: larger; font-weight: 550"> Trailer</p>
 
         <iframe width="560" height="315" src="@Model.TrailerURL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 </div>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         // Gets the video src from the data-src on each button
 
         var $videoSrc;
-        $('.video-btn').click(function () {
+        $('.video-btn').click(function() {
             $videoSrc = $(this).data("src");
         });
         console.log($videoSrc);
 
         // when the modal is opened autoplay it
-        $('#trailerModal').on('shown.bs.modal', function (e) {
+        $('#trailerModal').on('shown.bs.modal',
+            function(e) {
 
-            // set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
-            $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
-        })
+                // set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
+                $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+            })
 
         // stop playing the youtube video when I close the modal
-        $('#trailerModal').on('hide.bs.modal', function (e) {
-            // a poor man's stop video
-            $("#video").attr('src', $videoSrc);
-        })
+        $('#trailerModal').on('hide.bs.modal',
+            function(e) {
+                // a poor man's stop video
+                $("#video").attr('src', $videoSrc);
+            })
 
         // document ready
     });

@@ -6,8 +6,10 @@ using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
 
 namespace MovieTheater.Api
 {
@@ -15,22 +17,23 @@ namespace MovieTheater.Api
     {
         public ScreeningApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
-             httpContextAccessor)
-        { }
+            httpContextAccessor)
+        {
+        }
 
         public async Task<ApiResult<bool>> CreateAsync(ScreeningCreateRequest request)
         {
-            return await PostAsync<bool>("Api/Screening/Create", request);
+            return await PostAsync<bool>($"{APIConstant.ApiScreening}/{APIConstant.ScreeningCreate}", request);
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(ScreeningUpdateRequest request)
         {
-            return await PutAsync<bool>("Api/Screening/Update", request);
+            return await PutAsync<bool>($"{APIConstant.ApiScreening}/{APIConstant.ScreeningUpdate}", request);
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-            return await DeleteAsync<bool>($"Api/Screening/Delete/{id}");
+            return await DeleteAsync<bool>($"{ APIConstant.ApiScreening}/{ APIConstant.ScreeningDelete}/{id}");
         }
 
         public async Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id)
@@ -43,49 +46,24 @@ namespace MovieTheater.Api
             return await GetAsync<ScreeningVMD>($"Api/Screening/GetScreeningVMDById/{id}");
         }
 
-        public async Task<ApiResult<List<MovieScreeningVMD>>> GetFilmScreeningIndateAsync(DateTime? date)
+        public async Task<ApiResult<List<MovieScreeningVMD>>> GetScreeningInDateAsync(DateTime? date)
         {
-            return await GetAsync<List<MovieScreeningVMD>>($"Api/Screening/GetFilmScreeningIndate?date={date}");
+            var queryParams = new NameValueCollection()
+            {
+                {"date",date.ToString()}
+            };
+            return await GetAsync<List<MovieScreeningVMD>>($"{APIConstant.ApiScreening}/{APIConstant.ScreeningGetScreeningInDate}", queryParams);
         }
 
-        public async Task<ApiResult<PageResult<ScreeningVMD>>> GetScreeningPagingAsync(ScreeningPagingRequest request)
+        public async Task<ApiResult<PageResult<ScreeningVMD>>> GetPagingAsync(ScreeningPagingRequest request)
         {
-            return await PostAsync<PageResult<ScreeningVMD>>($"Api/Screening/GetScreeningPaging", request);
+            return await PostAsync<PageResult<ScreeningVMD>>($"{APIConstant.ApiScreening}/{APIConstant.ScreeningGetPaging}", request);
         }
 
-        public async Task<ApiResult<List<KindOfScreeningVMD>>> GetAllKindOfScreeningAsync()
-        {
-            return await GetAsync<List<KindOfScreeningVMD>>($"Api/KindOfScreening/GetAllKindOfScreening");
-        }
 
         public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeekAsync(int filmId)
         {
             return await GetAsync<ScreeningOfFilmInWeekVMD>($"Api/Screening/GetListCreeningOfFilmInWeek/{filmId}");
-        }
-
-
-        public async Task<ApiResult<bool>> CreateKindOfScreenigAsync(KindOfScreeningCreateRequest request)
-        {
-            return await PostAsync<bool>("Api/KindOfScreening/Create", request);
-        }
-
-        public async Task<ApiResult<bool>> UpdateKindOfScreeningAsync(KindOfScreeningUpdateRequest request)
-        {
-            return await PutAsync<bool>("Api/KindOfScreening/Update", request);
-        }
-
-        public async Task<ApiResult<bool>> DeleteKindOfScreeningAsync(int id)
-        {
-            return await DeleteAsync<bool>($"Api/KindOfScreening/Delete/{id}");
-        }
-
-       
-
-     
-        public async Task<ApiResult<KindOfScreeningVMD>> GetKindOfScreeningByIdAsync(int id)
-        {
-            return await GetAsync<KindOfScreeningVMD>($"Api/KindOfScreening/GetKindOfScreeningById/{id}");
-           
         }
     }
 }

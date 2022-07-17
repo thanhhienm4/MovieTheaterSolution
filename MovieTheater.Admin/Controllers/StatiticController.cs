@@ -28,7 +28,7 @@ namespace MovieTheater.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(CalRevenueRequest? request)
         {
-            if(request.StartDate == DateTime.MinValue && request.EndDate == DateTime.MinValue)
+            if (request.StartDate == DateTime.MinValue && request.EndDate == DateTime.MinValue)
             {
                 request.EndDate = DateTime.Now;
             }
@@ -52,7 +52,7 @@ namespace MovieTheater.Admin.Controllers
             dt.Columns.Add("Revenue");
             dt.Columns.Add("Proportion");
 
-           
+
             var topRevenueFilm = (await _statiticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
             DataRow row;
             for (int i = 0; i < topRevenueFilm.Lables.Count; i++)
@@ -62,6 +62,7 @@ namespace MovieTheater.Admin.Controllers
                 row["Revenue"] = topRevenueFilm.DataRows[1][i];
                 dt.Rows.Add(row);
             }
+
             return dt;
         }
 
@@ -78,52 +79,51 @@ namespace MovieTheater.Admin.Controllers
             DataTable dt = await GetDataReport(calrevenueRequest);
             var path = $"{this._webHostEnvironment.WebRootPath}\\Reports\\RprtFilm.rdlc";
             Dictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("prm", $"Thống kê kết quả từ ngày {request.StartDate.ToString("dd/MM/yyyy")} đến ngày {request.EndDate.ToString("dd/MM/yyyy")}");
+            parameters.Add("prm",
+                $"Thống kê kết quả từ ngày {request.StartDate.ToString("dd/MM/yyyy")} đến ngày {request.EndDate.ToString("dd/MM/yyyy")}");
             LocalReport localReport = new LocalReport(path);
             localReport.AddDataSource("TopRevenueFilm", dt);
             ReportResult report;
             FileContentResult file;
 
-            switch(request.RenderType)
+            switch (request.RenderType)
             {
                 case RenderType.Pdf:
-                    {
-                        report = localReport.Execute(RenderType.Pdf, extention, parameters, minetype);
-                        file = File(report.MainStream, "application/pdf");
-                        break;
-                    };
+                {
+                    report = localReport.Execute(RenderType.Pdf, extention, parameters, minetype);
+                    file = File(report.MainStream, "application/pdf");
+                    break;
+                }
+                    ;
                 case RenderType.Excel:
-                    {
-                        report = localReport.Execute(RenderType.Excel, extention, parameters, minetype);
-                        file = File(report.MainStream, "application/excel");
-                        break;
-                    }
+                {
+                    report = localReport.Execute(RenderType.Excel, extention, parameters, minetype);
+                    file = File(report.MainStream, "application/excel");
+                    break;
+                }
                 default:
-                    {
-                        report = localReport.Execute(RenderType.Pdf, extention, parameters, minetype);
-                        file = File(report.MainStream, "application/pdf");
-                        break;
-                    }
-
-
+                {
+                    report = localReport.Execute(RenderType.Pdf, extention, parameters, minetype);
+                    file = File(report.MainStream, "application/pdf");
+                    break;
+                }
             }
 
-          
-           
+
             var data = Convert.ToBase64String(file.FileContents);
             return data;
         }
 
         [HttpGet]
-        public async Task<ChartData> GetTopRevenueFilm(CalRevenueRequest ? request)
+        public async Task<ChartData> GetTopRevenueFilm(CalRevenueRequest? request)
         {
-            if(request.StartDate == DateTime.MinValue && request.EndDate == DateTime.MinValue)
+            if (request.StartDate == DateTime.MinValue && request.EndDate == DateTime.MinValue)
             {
                 request = new CalRevenueRequest();
                 request.StartDate = DateTime.Now.AddMonths(-1);
                 request.EndDate = DateTime.Now;
             }
-          
+
             var result = (await _statiticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
             return result;
         }

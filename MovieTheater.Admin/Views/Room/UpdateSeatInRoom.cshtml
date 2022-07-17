@@ -37,21 +37,21 @@
         margin: 7px;
     }
 
-        #place a {
-            font-size: 0.6em;
-        }
+    #place a {
+        font-size: 0.6em;
+    }
 
-        #place li {
-            list-style: none outside none;
-            position: absolute;
-        }
+    #place li {
+        list-style: none outside none;kindofseatid
+        position: absolute;
+    }
 
-        #place .row-3, #place .row-4 {
-            margin-top: 10px;
-        }
+    #place .row-3, #place .row-4 {
+        margin-top: 10px;
+    }
 </style>
 <script type="text/javascript">
-    var mode = { normal: 1, vip: 2 };
+    var mode = { normal: "normal", vip: "vip" };
     var modeNow = mode.normal;
 
     var settings = {
@@ -93,7 +93,7 @@
                         seatNo = result[i].name + j.toString();
                         className = settings.seatCss;
 
-                        str.push('<button id = "' + result[i].id + '_' + j.toString() + '" class = "' + className + '"' + 'data-kindofseatid="' + result[i].kindOfSeatId +
+                        str.push('<button id = "' + result[i].id + '_' + j.toString() + '" class = "' + className + '"' + 'data-kindofseatid="' + result[i].TypeId +
                             '"data-row="' + result[i].id + '"data-num="' + j.toString() +'" > ' +
                             '<a title="' + seatNo + '">' + seatNo + '</a>' +
                             '</button>');
@@ -105,21 +105,21 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "/Room/GetSeatInRoom",
-                    data: { roomId : @ViewBag.RoomId },
+                    url: "/Auditorium/GetSeatInAuditorium",
+                    data: { roomId : "@ViewBag.AuditoriumId" },
                     success: function (res) {
                         for (var i = 0; i < res.length;i++)
                         {
                             var idElement = res[i].rowId + '_' + res[i].number.toString();
                             var btn = document.getElementById(idElement);
-                            if (res[i].kindOfSeatId == mode.normal) {
+                            if (res[i].typeId === mode.normal) {
                                 $(btn).addClass(settings.normalSeatCss);
                             }
 
                             else {
                                 $(btn).addClass(settings.vipSeatCss);
                             }
-                            $(btn).attr('data-kindofseatid', res[i].kindOfSeatId);
+                            $(btn).attr('data-kindofseatid', res[i].TypeId);
 
                         };
                     }
@@ -149,20 +149,20 @@ $('#btnUpdate').click(function () {
             var seats = [];
     $.each($('#place button.' + settings.vipSeatCss + ', #place button.' + settings.normalSeatCss), function (index, value) {
         var seat = {
-            RoomId: @ViewBag.RoomId,
+            AuditoriumId:"@ViewBag.AuditoriumId",
             RowId: $(this).attr('data-row'),
             Number: $(this).attr('data-num'),
-            KindOfSeatId: $(this).attr('data-kindofseatid')
+            TypeId: $(this).attr('data-kindofseatid')
         };
         seats.push(seat);
     });
 
     $.ajax({
         type: "Post",
-        url: "/Room/UpdateSeatInRoom",
-        data: { Seats: seats, RoomId: @ViewBag.RoomId },
+        url: "/Auditorium/UpdateSeatInAuditorium",
+        data: { Seats: seats, AuditoriumId: "@ViewBag.AuditoriumId" },
         success: function (res) {
-            location.href = '/Room'
+            location.href = '/Auditorium'
         }
         });
     })

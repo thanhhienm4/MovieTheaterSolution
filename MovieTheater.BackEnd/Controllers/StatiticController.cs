@@ -41,12 +41,12 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _statisticService.GetRevenueTypeAsync(request);
             return result;
         }
+
         [HttpPost("GetRevenueInNMonthAsync")]
         public async Task<ApiResult<ChartData>> GetRevenueInNMonthAsync(int n)
         {
             var result = await _statisticService.GetRevenueInNMonthAsync(n);
             return result;
         }
-      
     }
 }

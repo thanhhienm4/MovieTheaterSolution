@@ -56,20 +56,22 @@ namespace MovieTheater.WebApp.Controllers
                 IsPersistent = request.RememberMe,
             };
 
-            Response.Cookies.Append("Token", respond.ResultObj, new CookieOptions() { Expires = DateTimeOffset.Now.AddMonths(1) });
+            Response.Cookies.Append("Token", respond.ResultObj,
+                new CookieOptions() { Expires = DateTimeOffset.Now.AddMonths(1) });
             await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        userPrincipal,
-                        authProperties);
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                userPrincipal,
+                authProperties);
 
-         
+
             if (string.IsNullOrWhiteSpace(request.RedirectUrl))
             {
                 return RedirectToAction("Index", "Home");
-            } else
+            }
+            else
                 return Redirect(request.RedirectUrl);
-            
         }
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
@@ -88,24 +90,24 @@ namespace MovieTheater.WebApp.Controllers
                 var response = await _userApiClient.ForgotCuistomerPasswordAsync(model.Email);
                 if (response.IsSuccessed == true)
                 {
-
                     ViewBag.Message = "Đã gửi link xác nhận về địa chỉ mail của bạn";
                 }
                 else
                 {
                     ViewBag.Message = response.Message;
                 }
+
                 return View(model);
             }
-
-
         }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword()
         {
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
@@ -119,14 +121,13 @@ namespace MovieTheater.WebApp.Controllers
                 var response = await _userApiClient.ResetPasswordAsync(request);
                 if (response.IsSuccessed == true)
                 {
-
-
                     return RedirectToAction("Index", "Login");
                 }
                 else
                 {
                     ViewBag.Message = response.Message;
                 }
+
                 return View(request);
             }
         }
@@ -142,8 +143,9 @@ namespace MovieTheater.WebApp.Controllers
                 ValidIssuer = _configuration["JWT:ValidIssuer"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]))
             };
-            ClaimsPrincipal claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, tokenValidationParameters,
-                                                                            out SecurityToken validatedToken);
+            ClaimsPrincipal claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwtToken,
+                tokenValidationParameters,
+                out SecurityToken validatedToken);
             return claimsPrincipal;
         }
     }

@@ -16,7 +16,8 @@ namespace MovieTheater.WebApp.Controllers
         private readonly RoleApiClient _roleApiClient;
         private readonly ReservationApiClient _reservationApiClient;
 
-        public UserController(UserApiClient userApiClient, RoleApiClient roleApiClient, ReservationApiClient reservationApiClient)
+        public UserController(UserApiClient userApiClient, RoleApiClient roleApiClient,
+            ReservationApiClient reservationApiClient)
         {
             _userApiClient = userApiClient;
             _roleApiClient = roleApiClient;
@@ -43,12 +44,14 @@ namespace MovieTheater.WebApp.Controllers
             {
                 return View(request);
             }
+
             var result = await _userApiClient.CreateCustomerAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Home");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
@@ -61,6 +64,7 @@ namespace MovieTheater.WebApp.Controllers
             {
                 return View();
             }
+
             var result = await _userApiClient.GetCustomerByIdAsync(id);
 
             if (result.IsSuccessed)
@@ -77,6 +81,7 @@ namespace MovieTheater.WebApp.Controllers
                 };
                 return View(updateRequest);
             }
+
             return RedirectToAction("Error", "Home");
         }
 
@@ -89,15 +94,18 @@ namespace MovieTheater.WebApp.Controllers
                 ViewBag.IsEdit = true;
                 return View(request);
             }
+
             var result = await _userApiClient.UpdateCustomerAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Home");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
+
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> ChangPassword(Guid id)
@@ -113,13 +121,13 @@ namespace MovieTheater.WebApp.Controllers
         [Authorize]
         public async Task<IActionResult> ChangPassword(ChangePwRequest request)
         {
-          
             request.UserName = User.Identity.Name;
             ViewBag.UserName = request.UserName;
             if (!ModelState.IsValid)
             {
                 return View(request);
             }
+
             var res = (await _userApiClient.ChangePasswordAsync(request));
             if (res.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -152,6 +160,5 @@ namespace MovieTheater.WebApp.Controllers
         {
             return View();
         }
-
     }
 }

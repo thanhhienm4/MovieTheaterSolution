@@ -15,7 +15,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
 
         Task<ApiResult<bool>> DeleteAsync(int id);
 
-        Task<ApiResult<ReservationVMD>> GetById(int Id);
+        Task<ApiResult<ReservationVMD>> GetById(int id);
 
         Task<ApiResult<PageResult<ReservationVMD>>> GetPagingAsync(ReservationPagingRequest request);
 

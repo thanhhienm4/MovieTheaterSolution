@@ -14,13 +14,14 @@ namespace MovieTheater.Admin.Controllers
 {
     public class RoomController : Controller
     {
-        private readonly SeatApiClient _seatApiCient;
+        private readonly SeatApiClient _seatApiClient;
         private readonly SeatRowApiClient _seatRowApiClient;
-        private readonly RoomApiClient _roomApiClient; 
+        private readonly AuditoriumApiClient _roomApiClient;
 
-        public RoomController(SeatApiClient seatApiClient, SeatRowApiClient seatRowApiClient, RoomApiClient roomApiClient)
+        public RoomController(SeatApiClient seatApiClient, SeatRowApiClient seatRowApiClient,
+            AuditoriumApiClient roomApiClient)
         {
-            _seatApiCient = seatApiClient;
+            _seatApiClient = seatApiClient;
             _seatRowApiClient = seatRowApiClient;
             _roomApiClient = roomApiClient;
         }
@@ -29,7 +30,7 @@ namespace MovieTheater.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, string formatId, int pageIndex = 1, int pageSize = 15)
         {
-            var request = new RoomPagingRequest()
+            var request = new AuditoriumPagingRequest()
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,
@@ -50,7 +51,7 @@ namespace MovieTheater.Admin.Controllers
 
             ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
-            var result = await _roomApiClient.GetRoomPagingAsync(request);
+            var result = await _roomApiClient.GetPagingAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
             return View(result.ResultObj);
@@ -66,7 +67,7 @@ namespace MovieTheater.Admin.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Create(RoomCreateRequest request)
+        public async Task<IActionResult> Create(AuditoriumCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -82,6 +83,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Room");
             }
+
             await SetViewBagAsync();
             ModelState.AddModelError("", result.Message);
             return View(request);
@@ -95,7 +97,8 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
-            var result = await _roomApiClient.GetRoomByIdAsync(id);
+
+            var result = await _roomApiClient.GetByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
 
@@ -110,6 +113,7 @@ namespace MovieTheater.Admin.Controllers
                 await SetViewBagAsync();
                 return View(updateRequest);
             }
+
             return RedirectToAction("Error", "Home");
         }
 
@@ -123,6 +127,7 @@ namespace MovieTheater.Admin.Controllers
                 await SetViewBagAsync();
                 return View(request);
             }
+
             var result = await _roomApiClient.UpdateAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -131,13 +136,14 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = result.Message;
                 return RedirectToAction("Index", "Room");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ApiResult<bool>> Delete(int id)
+        public async Task<ApiResult<bool>> Delete(string id)
         {
             var result = await _roomApiClient.DeleteAsync(id);
 
@@ -146,17 +152,17 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<List<SeatVMD>> GetSeatInRoom(int roomId)
+        public async Task<List<SeatVMD>> GetSeatInRoom(string roomId)
         {
-            var seats = (await _seatApiCient.GetSeatInRoomAsync(roomId)).ResultObj;
+            var seats = (await _seatApiClient.GetSeatInRoomAsync(roomId)).ResultObj;
             return seats;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IActionResult UpdateSeatInRoom(int roomId)
+        public IActionResult UpdateSeatInRoom([FromQuery] string roomId)
         {
-            ViewBag.RoomId = roomId;
+            ViewBag.AuditoriumId = roomId;
             return View();
         }
 
@@ -164,7 +170,7 @@ namespace MovieTheater.Admin.Controllers
         [HttpPost]
         public async Task<ApiResult<bool>> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
         {
-            var result = await _seatApiCient.UpdateSeatInRoomAsync(request);
+            var result = await _seatApiClient.UpdateSeatInRoomAsync(request);
 
             TempData["Result"] = result.Message;
             return result;
@@ -224,6 +230,7 @@ namespace MovieTheater.Admin.Controllers
                 //await SetViewBagAsync();
                 return View(request);
             }
+
             var result = await _roomApiClient.UpdateRoomFormatAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -232,6 +239,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = result.Message;
                 return RedirectToAction("RoomFormat", "Room");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
@@ -262,6 +270,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = result.Message;
                 return RedirectToAction("RoomFormat", "Room");
             }
+
             await SetViewBagAsync();
             ModelState.AddModelError("", result.Message);
             return View(request);
@@ -281,11 +290,10 @@ namespace MovieTheater.Admin.Controllers
         //[Authorize(Roles = "Admin")]
         //public async Task<IActionResult> KindOfSeat()
         //{
-        //    var result = await _seatApiCient.Get;
+        //    var result = await _seatApiClient.Get;
         //    if (result.IsReLogin == true)
         //        return RedirectToAction("Index", "Login");
         //    return View(result.ResultObj);
         //}
-
     }
 }

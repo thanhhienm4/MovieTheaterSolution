@@ -1,12 +1,20 @@
 ﻿@model MovieTheater.Models.Infra.Seat.KindOfSeat.SeatTypeCreateRequest
 
-@{ ViewData["Title"] = "CreateKindOfSeat";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "CreateKindOfSeat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/SeatRow">Hàng ghế</a></li>
-    <li class="breadcrumb-item"><a href="/Seat/KindOfSeat">Loại ghế</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/SeatRow">Hàng ghế</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/Seat/KindOfSeat">Loại ghế</a>
+    </li>
     <li class="breadcrumb-item active">Tạo mới</li>
 </ol>
 
@@ -18,7 +26,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" />
+                        <input asp-for="Name" class="form-control"/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
@@ -26,7 +34,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Id" class="control-label"></label>
-                        <input asp-for="Id" class="form-control" />
+                        <input asp-for="Id" class="form-control"/>
                         <span asp-validation-for="Id" class="text-danger"></span>
                     </div>
                 </div>
@@ -34,7 +42,7 @@
 
             <div class="d-flex justify-content-center">
                 <div class="form-group">
-                    <input type="submit" value="Tạo mới" class="btn btn-primary" />
+                    <input type="submit" value="Tạo mới" class="btn btn-primary"/>
                 </div>
             </div>
         </form>
@@ -43,5 +51,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

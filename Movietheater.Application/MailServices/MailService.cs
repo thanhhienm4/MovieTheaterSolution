@@ -5,28 +5,29 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MovieTheater.Models.Utilities;
+
 namespace MovieTheater.Application.MailServices
 {
     public class MailService : IMailService
     {
-        private readonly MailSettings mailSettings;
+        private readonly MailSettings _mailSettings;
 
-        private readonly ILogger<MailService> logger;
+        private readonly ILogger<MailService> _logger;
 
 
         public MailService(IOptions<MailSettings> _mailSettings, ILogger<MailService> _logger)
         {
-            mailSettings = _mailSettings.Value;
-            logger = _logger;
-            logger.LogInformation("Create SendMailService");
+            this._mailSettings = _mailSettings.Value;
+            this._logger = _logger;
+            this._logger.LogInformation("Create SendMailService");
         }
 
         // Gửi email, theo nội dung trong mailContent
         public async Task SendMail(MailContent mailContent)
         {
             var email = new MimeMessage();
-            email.Sender = new MailboxAddress(mailSettings.DisplayName, mailSettings.Mail);
-            email.From.Add(new MailboxAddress(mailSettings.DisplayName, mailSettings.Mail));
+            email.Sender = new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail);
+            email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
             email.To.Add(MailboxAddress.Parse(mailContent.To));
             email.Subject = mailContent.Subject;
 
@@ -40,8 +41,8 @@ namespace MovieTheater.Application.MailServices
 
             try
             {
-                smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
-                smtp.Authenticate(mailSettings.Mail, mailSettings.Password);
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
                 await smtp.SendAsync(email);
             }
             catch (Exception ex)
@@ -51,15 +52,15 @@ namespace MovieTheater.Application.MailServices
                 var emailsavefile = string.Format(@"mailssave/{0}.eml", Guid.NewGuid());
                 await email.WriteToAsync(emailsavefile);
 
-                logger.LogInformation("Lỗi gửi mail, lưu tại - " + emailsavefile);
-                logger.LogError(ex.Message);
+                _logger.LogInformation("Lỗi gửi mail, lưu tại - " + emailsavefile);
+                _logger.LogError(ex.Message);
             }
 
             smtp.Disconnect(true);
 
-            logger.LogInformation("send mail to " + mailContent.To);
-
+            _logger.LogInformation("send mail to " + mailContent.To);
         }
+
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             await SendMail(new MailContent()

@@ -4,10 +4,12 @@ using MovieTheater.Models.Common.ApiResult;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MovieTheater.Api
 {
@@ -26,10 +28,10 @@ namespace MovieTheater.Api
         }
 
         // http get data form Api
-        protected async Task<ApiResult<TResponse>> GetAsync<TResponse>(string url)
+        protected async Task<ApiResult<TResponse>> GetAsync<TResponse>(string url, NameValueCollection queryParams = null)
         {
             HttpClient client = GetHttpClient();
-            var response = await client.GetAsync(url);
+            var response = await client.GetAsync(GetRoute(url,queryParams));
             if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 return await GetReLoginResultAsync<TResponse>();
@@ -53,10 +55,10 @@ namespace MovieTheater.Api
         }
 
         // send delete request to API
-        protected async Task<ApiResult<TResponse>> DeleteAsync<TResponse>(string url)
+        protected async Task<ApiResult<TResponse>> DeleteAsync<TResponse>(string url, NameValueCollection queryParams = null)
         {
             HttpClient client = GetHttpClient();
-            var response = await client.DeleteAsync(url);
+            var response = await client.DeleteAsync(GetRoute(url, queryParams));
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 return await GetReLoginResultAsync<TResponse>();
@@ -81,7 +83,7 @@ namespace MovieTheater.Api
 
         public HttpClient GetHttpClient()
         {
-            var BearerToken = _httpContextAccessor
+            var bearerToken = _httpContextAccessor
                .HttpContext
                .Request.Cookies["Token"];
 
@@ -89,15 +91,17 @@ namespace MovieTheater.Api
             client.BaseAddress = new Uri(_configuration["ServerBackEnd"]);
 
             client.DefaultRequestHeaders.Authorization =
-               new AuthenticationHeaderValue("Bearer", BearerToken);
+               new AuthenticationHeaderValue("Bearer", bearerToken);
 
             return client;
         }
-        public static async Task<ApiResult<TResponse>> GetReLoginResultAsync<TResponse>()
+        public static Task<ApiResult<TResponse>> GetReLoginResultAsync<TResponse>()
         {
-            var res = new ApiResult<TResponse>();
-            res.IsReLogin = true;
-            return res;
+            var res = new ApiResult<TResponse>
+            {
+                IsReLogin = true
+            };
+            return Task.FromResult(res);
         }
         public static async Task<ApiResult<TResponse>> GetResultAsync<TResponse>(HttpResponseMessage response)
         {
@@ -112,5 +116,21 @@ namespace MovieTheater.Api
             res.IsReLogin = false;
             return res;
         }
+
+        private string GetRoute(string url, NameValueCollection queryParams = null)
+        {
+            string route = url;
+
+
+            if (queryParams != null && queryParams.Count > 0)
+            {
+                NameValueCollection httpValueCollection = HttpUtility.ParseQueryString(String.Empty);
+                httpValueCollection.Add(queryParams);
+                route = $"{route}?{httpValueCollection.ToString()}";
+            }
+
+            return route;
+        }
+
     }
 }

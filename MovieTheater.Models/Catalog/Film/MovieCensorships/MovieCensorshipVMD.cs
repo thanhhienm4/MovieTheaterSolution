@@ -14,8 +14,6 @@ namespace MovieTheater.Models.Catalog.Film.MovieCensorships
                 Id = movieCensorship.Id;
                 Name = movieCensorship.Name;
             }
-                
-               
         }
     }
 }

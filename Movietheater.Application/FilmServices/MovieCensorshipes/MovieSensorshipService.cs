@@ -36,7 +36,7 @@ namespace MovieTheater.Application.FilmServices.MovieCensorshipes
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
-        {   
+        {
             MovieCensorship movieCensorship = await _context.MovieCensorships.FindAsync(id);
             if (movieCensorship == null)
             {
@@ -71,13 +71,14 @@ namespace MovieTheater.Application.FilmServices.MovieCensorshipes
                 {
                     return new ApiErrorResult<bool>("Cập nhật thất bại");
                 }
+
                 return new ApiSuccessResult<bool>(true);
             }
         }
 
         public async Task<ApiResult<List<MovieCensorshipVMD>>> GetAllBanAsync()
         {
-            var movieCensorship =await _context.MovieCensorships.ToListAsync();
+            var movieCensorship = await _context.MovieCensorships.ToListAsync();
             var res = movieCensorship.Select(x => new MovieCensorshipVMD(x)).ToList();
             return new ApiSuccessResult<List<MovieCensorshipVMD>>(res);
         }

@@ -9,7 +9,7 @@ using MovieTheater.Data.Models;
 
 namespace MovieTheater.Data.Config
 {
-    internal class VoucherConfig :IEntityTypeConfiguration<Voucher>
+    internal class VoucherConfig : IEntityTypeConfiguration<Voucher>
     {
         public void Configure(EntityTypeBuilder<Voucher> builder)
         {

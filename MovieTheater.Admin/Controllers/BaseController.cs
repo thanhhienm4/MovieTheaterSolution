@@ -19,7 +19,8 @@ namespace MovieTheater.Admin.Controllers
         public string GetUserId()
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
-            string id = claimsIdentity.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
+            string id = claimsIdentity.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value)
+                .FirstOrDefault();
             return id;
         }
     }

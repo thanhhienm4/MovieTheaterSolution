@@ -6,16 +6,24 @@
 }
 
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/SeatRow">Hàng ghế</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/SeatRow">Hàng ghế</a>
+    </li>
     <li class="breadcrumb-item active">Loại ghế</li>
 </ol>
+
 @section Scripts{
     <script>
-    setTimeout(function () {
-            $("#SuccessMeg").fadeOut('slow');
-        }, 2000);</script>
+        setTimeout(function() {
+                $("#SuccessMeg").fadeOut('slow');
+            },
+            2000);
+    </script>
 }
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="d-flex">
@@ -28,48 +36,49 @@
     <div>
         @if (ViewBag.SuccessMsg != null)
         {
-<div id="SuccessMeg" class="alert alert-success" role="alert">
-    @ViewBag.SuccessMsg
-</div>}
+            <div id="SuccessMeg" class="alert alert-success" role="alert">
+                @ViewBag.SuccessMsg
+            </div>
+        }
     </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
-                <tr>
+            <tr>
 
-                    <th>
-                        ID
-                    </th>
-                    <th>
-                        Tên
-                    </th>
-                    <th>
-                        Giá
-                    </th>
-                    <th>
-                        Khác
-                    </th>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Tên
+                </th>
+                <th>
+                    Giá
+                </th>
+                <th>
+                    Khác
+                </th>
 
-                </tr>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
-                {
-    <tr>
+            @foreach (var item in Model)
+            {
+                <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Chi tiết", "EditKindOfSeat", new { id = item.Id }) |
-            <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteKindOfSeat" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
-        </td>
-    </tr>
-}
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chi tiết", "EditKindOfSeat", new { id = item.Id }) |
+                        <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteKindOfSeat" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
         <div class="d-flex">
@@ -81,8 +90,8 @@
 </div>
 
 <!--model delete-->
-<input id="nameKindOfSeat" hidden />
-<input id="idKindOfSeat" hidden />
+<input id="nameKindOfSeat" hidden/>
+<input id="idKindOfSeat" hidden/>
 
 <div class="modal fade" id="deleteKindOfSeat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -115,12 +124,13 @@
         $("#deleteMeg").text("Bạn muốn xóa " + name);
     }
 
-    $(function () {
+    $(function() {
 
-        $("#deleteKindOfSeatKindOfSeat").on('show.bs.modal', function () {
-            name = $("#nameKindOfSeat").val();
+        $("#deleteKindOfSeatKindOfSeat").on('show.bs.modal',
+            function() {
+                name = $("#nameKindOfSeat").val();
 
-        });
+            });
 
     });
 
@@ -130,8 +140,9 @@
             type: "POST",
             url: "/Seat/Delete",
             data: { id: userId },
-            success: function () {
+            success: function() {
                 location.reload();
             }
         })
-    }</script>
+    }
+</script>

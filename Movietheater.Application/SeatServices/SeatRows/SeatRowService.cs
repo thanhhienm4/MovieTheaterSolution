@@ -68,6 +68,7 @@ namespace MovieTheater.Application.SeatServices.SeatRows
                 {
                     return new ApiErrorResult<bool>("Xóa thất bại");
                 }
+
                 await _context.SaveChangesAsync();
                 return new ApiSuccessResult<bool>(true);
             }
@@ -92,8 +93,9 @@ namespace MovieTheater.Application.SeatServices.SeatRows
             if (request.Keyword != null)
             {
                 seatRow = seatRow.Where(x => x.Name.Contains(request.Keyword)
-                                                || x.Id.ToString().Contains(request.Keyword));
+                                             || x.Id.ToString().Contains(request.Keyword));
             }
+
             var item = seatRow.OrderBy(x => x.Name).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize).Select(x => new SeatRowVMD()
                 {

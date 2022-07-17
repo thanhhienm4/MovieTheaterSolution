@@ -14,8 +14,9 @@ namespace MovieTheater.Api
     {
         public ReservationApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
-             httpContextAccessor)
-        { }
+            httpContextAccessor)
+        {
+        }
 
         public async Task<ApiResult<int>> CreateAsync(ReservationCreateRequest request)
         {
@@ -32,7 +33,8 @@ namespace MovieTheater.Api
             return await DeleteAsync<bool>($"Api/Reservation/Delete/{id}");
         }
 
-        public async Task<ApiResult<PageResult<ReservationVMD>>> GetReservationPagingAsync(ReservationPagingRequest request)
+        public async Task<ApiResult<PageResult<ReservationVMD>>> GetReservationPagingAsync(
+            ReservationPagingRequest request)
         {
             return await PostAsync<PageResult<ReservationVMD>>($"Api/Reservation/GetReservationPaging", request);
         }

@@ -10,19 +10,19 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
 {
     public interface IAuditoriumService
     {
-        Task<ApiResult<bool>> CreateAsync(RoomCreateRequest request);
+        Task<ApiResult<bool>> CreateAsync(AuditoriumCreateRequest request);
 
         Task<ApiResult<bool>> UpdateAsync(AuditoriumUpdateRequest request);
 
-        Task<ApiResult<bool>> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(string id);
 
-        Task<ApiResult<PageResult<RoomVMD>>> GetPagingAsync(RoomPagingRequest request);
+        Task<ApiResult<PageResult<AuditoriumVMD>>> GetPagingAsync(AuditoriumPagingRequest request);
 
         Task<List<SeatVMD>> GetSeats(int id);
 
         Task<ApiResult<RoomMD>> GetById(string id);
 
-        Task<ApiResult<List<RoomVMD>>> GetAllAsync();
+        Task<ApiResult<List<AuditoriumVMD>>> GetAllAsync();
 
         Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(string id);
     }

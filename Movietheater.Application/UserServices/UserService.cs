@@ -29,7 +29,8 @@ namespace MovieTheater.Application.UserServices
         private readonly IMailService _mailService;
         private readonly IConfiguration _configuration;
 
-        public UserService(MoviesContext context, IHttpContextAccessor accessor, IMailService mailService, IConfiguration configuration)
+        public UserService(MoviesContext context, IHttpContextAccessor accessor, IMailService mailService,
+            IConfiguration configuration)
         {
             _context = context;
             _accessor = accessor;
@@ -41,14 +42,14 @@ namespace MovieTheater.Application.UserServices
         {
             List<Claim> claims;
 
-            var staff = await _context.Staffs.Where(x => x.UserName == request.Email).FirstOrDefaultAsync() ?? await _context.Staffs.Where(x => x.Mail == request.Email).FirstOrDefaultAsync();
+            var staff = await _context.Staffs.Where(x => x.UserName == request.Email).FirstOrDefaultAsync() ??
+                        await _context.Staffs.Where(x => x.Mail == request.Email).FirstOrDefaultAsync();
 
             if (staff == null)
                 return new ApiErrorResult<string>("Email không tồn tại trên hệ thống");
 
             if (staff.Password != request.Password.Encrypt())
                 return new ApiErrorResult<string>("Mật khẩu không chính xác");
-
 
 
             claims = new List<Claim>
@@ -81,11 +82,13 @@ namespace MovieTheater.Application.UserServices
             if (user != null)
                 return new ApiErrorResult<bool>("Email đã tồn tại");
 
-            var resGetByUserName = await _context.Staffs.Where(x => x.UserName == request.UserName).FirstOrDefaultAsync();
+            var resGetByUserName =
+                await _context.Staffs.Where(x => x.UserName == request.UserName).FirstOrDefaultAsync();
             if (resGetByUserName != null)
                 return new ApiErrorResult<bool>("Username đã tồn tại");
 
-            var maxIndex = await _context.Customers.OrderByDescending(x => x.Id).Select(x => x.Id).FirstOrDefaultAsync();
+            var maxIndex = await _context.Customers.OrderByDescending(x => x.Id).Select(x => x.Id)
+                .FirstOrDefaultAsync();
             var staff = new staff()
             {
                 Dob = request.Dob,

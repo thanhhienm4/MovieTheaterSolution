@@ -21,7 +21,7 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
         Task<ApiResult<ScreeningVMD>> GetVMDByIdAsync(int id);
 
         Task<ApiResult<PageResult<ScreeningVMD>>> GetScreeningPagingAsync(ScreeningPagingRequest request);
-            
+
         Task<PageResult<MovieScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request);
 
         Task<ApiResult<List<MovieScreeningVMD>>> GetFilmScreeningInday(DateTime? date);

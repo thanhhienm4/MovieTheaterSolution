@@ -29,6 +29,5 @@ namespace MovieTheater.Application.UserServices
         Task<ApiResult<bool>> ForgotPasswordAsync(string mail);
 
         Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request);
-        
     }
 }

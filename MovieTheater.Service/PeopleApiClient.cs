@@ -12,9 +12,10 @@ namespace MovieTheater.Api
     public class PeopleApiClient : BaseApiClient
     {
         public PeopleApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
-           IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
+            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
             httpContextAccessor)
-        { }
+        {
+        }
 
         public async Task<ApiResult<bool>> CreateAsync(ActorCreateRequest request)
         {

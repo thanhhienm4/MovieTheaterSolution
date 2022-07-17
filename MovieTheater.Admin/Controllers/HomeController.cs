@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
-
     public class HomeController : BaseController
     {
         private readonly StatiticApiClient _statiticApiClient;
@@ -25,6 +24,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return RedirectToAction("Index", "Retail");
             }
+
             ViewBag.SuccessMsg = TempData["Result"];
             return View();
         }

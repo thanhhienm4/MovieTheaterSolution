@@ -30,7 +30,7 @@ namespace MovieTheater.Admin
             services.AddTransient<ReservationApiClient, ReservationApiClient>();
             services.AddTransient<SeatApiClient, SeatApiClient>();
             services.AddTransient<SeatRowApiClient, SeatRowApiClient>();
-            services.AddTransient<RoomApiClient, RoomApiClient>();
+            services.AddTransient<AuditoriumApiClient, AuditoriumApiClient>();
             services.AddTransient<ScreeningApiClient, ScreeningApiClient>();
             services.AddTransient<MovieCensorshipApiClient, MovieCensorshipApiClient>();
             services.AddTransient<StatiticApiClient, StatiticApiClient>();
@@ -39,17 +39,18 @@ namespace MovieTheater.Admin
             services.AddHttpContextAccessor();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddMvc().AddSessionStateTempDataProvider();
-            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserCreateValidator>());
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserCreateValidator>());
 
             services.AddSession();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options =>
-                    {
-                        options.LoginPath = "/Login/Index";
-                        options.AccessDeniedPath = "/User/Forbident";
-                        options.LogoutPath = "/User/Logout";
-                    });
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Login/Index";
+                    options.AccessDeniedPath = "/User/Forbident";
+                    options.LogoutPath = "/User/Logout";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
