@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MovieTheater.Api;
+using MovieTheater.Data.Models;
 using MovieTheater.Models.User;
 
 namespace MovieTheater.Admin
@@ -35,6 +36,8 @@ namespace MovieTheater.Admin
             services.AddTransient<MovieCensorshipApiClient, MovieCensorshipApiClient>();
             services.AddTransient<StatiticApiClient, StatiticApiClient>();
             services.AddTransient<PositionApiClient, PositionApiClient>();
+            services.AddTransient<TimeApiClient, TimeApiClient>();
+
             services.AddHttpClient();
             services.AddHttpContextAccessor();
             services.AddRazorPages().AddRazorRuntimeCompilation();

@@ -1,0 +1,99 @@
+﻿@model MovieTheater.Models.Catalog.Price.Time.TimeUpdateRequest
+
+@{ ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item"><a href="/SeatRow">Hàng ghế</a></li>
+    <li class="breadcrumb-item active">Chi tiết</li>
+</ol>
+
+<div id="btnEdit" class="p-2">
+    <a class="btn btn-success" href="javascript:enableElements()">Chỉnh sửa</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="TimeId" class="form-control" hidden/>
+            <div class="form-row">
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="TimeId" class="control-label"></label>
+                        <input class="form-control" id="id" disabled value="@Model.TimeId"/>
+                        <span asp-validation-for="TimeId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" id="name" disabled/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="DateStart" class="control-label"></label>
+                        <div class="row">
+                            <div class="col-md">
+                                <select asp-for="DateStart" asp-items="@ViewBag.DateOfWeek" class="form-control chosen-select" id="dateStart" disabled></select>
+                            </div>
+                        </div>
+
+                        <span asp-validation-for="DateStart" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="DateEnd" class="control-label"></label>
+                        <select  asp-for="DateEnd" asp-items="@ViewBag.DateOfWeek" class="form-control" id="dateEnd" disabled></select>
+                        <span asp-validation-for="DateEnd" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="HourStart" class="control-label"></label>
+                        <input asp-for="HourStart" class="form-control" type="time" id="timeStart" disabled/>
+                        <span asp-validation-for="HourStart" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-group">
+                        <label asp-for="HourEnd" class="control-label"></label>
+                        <input asp-for="HourEnd" class="form-control" type="time" id="timeEnd" disabled/>
+                        <span asp-validation-for="HourEnd" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="btnSave" class="form-group d-flex justify-content-center">
+                <input type="submit" value="Cập nhật" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function enableElements() {
+
+        document.getElementById("name").disabled = false;
+        document.getElementById("dateStart").disabled = false;
+        document.getElementById("dateEnd").disabled = false;
+        document.getElementById("timeStart").disabled = false;
+        document.getElementById("timeEnd").disabled = false;
+        document.getElementById("btnEdit").style.display = 'none';
+        document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
+    }</script>
+
+@if (ViewBag.IsEdit != null)
+{
+    <script>
+        enableElements();
+    </script>
+}

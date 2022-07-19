@@ -12,9 +12,9 @@ namespace MovieTheater.Admin.Controllers
     {
         private readonly PeopleApiClient _peopleApiClient;
 
-        public PeopleController(PeopleApiClient PeopleApiClient)
+        public PeopleController(PeopleApiClient peopleApiClient)
         {
-            _peopleApiClient = PeopleApiClient;
+            _peopleApiClient = peopleApiClient;
         }
 
         [HttpGet]

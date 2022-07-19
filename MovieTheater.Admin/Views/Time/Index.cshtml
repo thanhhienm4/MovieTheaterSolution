@@ -1,0 +1,181 @@
+﻿@using MovieTheater.Models.Common.Paging
+@using MovieTheater.Models.Catalog.Price.Time
+@model PageResult<TimeVMD>
+@{ ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item active">Hàng ghế</li>
+</ol>
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $("#SuccessMeg").fadeOut('slow');
+        }, 2000);
+    </script>
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-flex">
+            <div class="p-2">
+                <a class="btn btn-success" asp-action="Create" asp-controller="Time">Tạo mới</a>
+            </div>
+            <div class="ml-auto p-2">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Tìm</button>
+                            <button type="button" onclick="window.location.href = '/Time/Index'" class="btn btn-light">
+                                <img src="https://img.icons8.com/ios-filled/20/000000/rotate.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div>
+        @if (ViewBag.SuccessMsg != null)
+        {
+            <div id="SuccessMeg" class="alert alert-success" role="alert">
+                @ViewBag.SuccessMsg
+            </div>
+        }
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Giờ bắt đầu
+                        </th>
+                        <th>
+                            Giờ kết thúc
+                        </th>
+                        <th>
+                            Ngày bắt đầu
+                        </th>
+                        <th>
+                            Ngày kết thúc
+                        </th>
+                        <th>
+                            Khác
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Item)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TimeId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HourStart)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HourEnd)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DateStart)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DateEnd)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Chi tiết", "Edit", new { id = item.TimeId }) |
+                                <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteSeatRow" onclick="holdData(this)" data-id="@item.TimeId">Xóa</a>&nbsp;
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="d-flex">
+                <div class="ml-auto p-2">
+                    @await Component.InvokeAsync("Pager", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--model delete-->
+    <input id="nameSeatRow" hidden />
+    <input id="idSeatRow" hidden />
+
+    <div class="modal fade" id="deleteSeatRow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="d-flex justify-content-center">
+                        <h5 id="ModalLabel">Thông báo</h5>
+                    </div>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="deleteMeg"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteSeatRow()">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    function holdData(item) {
+        var name = $(item).attr("data-name");
+        var id = $(item).attr("data-id");
+        $("#nameSeatRow").val(name);
+        $("#idSeatRow").val(id);
+        $("#deleteMeg").text("Bạn muốn xóa " + name);
+    }
+
+    $(function () {
+
+        $("#deleteSeatRowSeatRow").on('show.bs.modal', function () {
+            name = $("#nameSeatRow").val();
+
+        });
+
+    });
+
+    function deleteSeatRow() {
+        var timeId = $("#idSeatRow").val();
+        $.ajax({
+            type: "POST",
+            url: "/Time/Delete",
+            data: { id: timeId },
+            success: function (res) {
+                if (res.isSuccessed == true)
+                    location.reload();
+                else {
+                    $("#deleteSeatRow").modal('hide');
+                    alert(res.message);
+                }
+
+            }
+        })
+    }
+</script>
+</div>

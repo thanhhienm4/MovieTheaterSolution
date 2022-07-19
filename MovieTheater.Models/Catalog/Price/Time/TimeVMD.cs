@@ -1,26 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace MovieTheater.Data.Models
+namespace MovieTheater.Models.Catalog.Price.Time
 {
-    public partial class 
-        Time
+    public class TimeVMD
     {
-        public Time()
-        {
-            TicketPrices = new HashSet<TicketPrice>();
-        }
-
         public string TimeId { get; set; }
         public TimeSpan HourStart { get; set; }
         public TimeSpan HourEnd { get; set; }
         public string DateStart { get; set; }
         public string DateEnd { get; set; }
         public string Name { get; set; }
-        public bool IsDelete { get; set; }
-
-        public virtual ICollection<TicketPrice> TicketPrices { get; set; }
     }
 }

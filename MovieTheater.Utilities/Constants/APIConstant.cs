@@ -16,6 +16,7 @@ namespace MovieTheater.Common.Constants
         public const string ApiAuditorium = "api/Auditorium";
         public const string ApiSeat = "api/Seat";
         public const string ApiScreening = "api/Screening";
+        public const string ApiTime = "api/Time";
 
         #endregion
 
@@ -81,7 +82,17 @@ namespace MovieTheater.Common.Constants
         public const string ScreeningDelete = "Delete";
         public const string ScreeningGetById = "GetById";
         public const string ScreeningGetScreeningInDate = "GetSceeningInDate";
-        
+
+        #endregion
+
+        #region Time
+
+        public const string TimeGetAll = "GetAll";
+        public const string TimeCreate = "Create";
+        public const string TimeUpdate = "Update";
+        public const string TimeDelete = "Delete";
+        public const string TimeGetById = "GetById";
+        public const string TimePaging = "GetPaging";
 
 
         #endregion

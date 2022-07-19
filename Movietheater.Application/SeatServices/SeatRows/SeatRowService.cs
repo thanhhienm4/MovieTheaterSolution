@@ -62,7 +62,7 @@ namespace MovieTheater.Application.SeatServices.SeatRows
             }
             else
             {
-                if (!_context.Seats.Where(x => x.RowId == seatrow.Id).Any())
+                if (!_context.Seats.Any(x => x.RowId == seatrow.Id))
                     _context.SeatRows.Remove(seatrow);
                 else
                 {

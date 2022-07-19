@@ -36,6 +36,7 @@ using MovieTheater.Application.ScreeningServices.Screenings;
 using MovieTheater.Application.SeatServices.Seats;
 using MovieTheater.Application.SeatServices.SeatRows;
 using MovieTheater.Application.SeatServices.SeatTypes;
+using MovieTheater.Application.TimeServices;
 
 namespace MovieTheater.BackEnd
 {
@@ -54,7 +55,7 @@ namespace MovieTheater.BackEnd
             services.AddHttpContextAccessor();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICustomerService, CustomerService>();
-
+            services.AddTransient<ITimeService, TimeService>();
             services.AddTransient<IMovieCensorshipService, MovieCensorshipService>();
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IMovieGenreService, MovieGenreService>();
@@ -74,6 +75,8 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IStatisticService, StatisticService>();
             services.AddTransient<IPositionService, PositionService>();
             services.AddTransient<IMailService, MailService>();
+
+
             // For Identity
 
 

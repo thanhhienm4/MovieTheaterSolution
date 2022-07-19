@@ -15,12 +15,12 @@ namespace MovieTheater.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class StatiticController : Controller
     {
-        private readonly StatiticApiClient _statiticApiClient;
+        private readonly StatiticApiClient _statisticApiClient;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public StatiticController(StatiticApiClient statiticApiClient, IWebHostEnvironment webHostEnvironment)
+        public StatiticController(StatiticApiClient statisticApiClient, IWebHostEnvironment webHostEnvironment)
         {
-            _statiticApiClient = statiticApiClient;
+            _statisticApiClient = statisticApiClient;
             _webHostEnvironment = webHostEnvironment;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
@@ -33,12 +33,12 @@ namespace MovieTheater.Admin.Controllers
                 request.EndDate = DateTime.Now;
             }
 
-            var result = (await _statiticApiClient.GetTopRevenueFilmAsync(request));
+            var result = (await _statisticApiClient.GetTopRevenueFilmAsync(request));
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
             var topRevenueFilm = result.ResultObj;
 
-            var Revenue = (await _statiticApiClient.GetRevenueTypeAsync(request)).ResultObj;
+            var Revenue = (await _statisticApiClient.GetRevenueTypeAsync(request)).ResultObj;
             ViewData["TopRevenueFilm"] = topRevenueFilm;
             ViewData["Revenue"] = Revenue;
 
@@ -53,7 +53,7 @@ namespace MovieTheater.Admin.Controllers
             dt.Columns.Add("Proportion");
 
 
-            var topRevenueFilm = (await _statiticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
+            var topRevenueFilm = (await _statisticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
             DataRow row;
             for (int i = 0; i < topRevenueFilm.Lables.Count; i++)
             {
@@ -68,8 +68,8 @@ namespace MovieTheater.Admin.Controllers
 
         public async Task<string> FilmRevenueReport(FilmReportRequest request)
         {
-            string minetype = "";
-            int extention = 1;
+            string mimetype = "";
+            int extenstion = 1;
             CalRevenueRequest calrevenueRequest = new CalRevenueRequest()
             {
                 StartDate = request.StartDate,
@@ -90,20 +90,20 @@ namespace MovieTheater.Admin.Controllers
             {
                 case RenderType.Pdf:
                 {
-                    report = localReport.Execute(RenderType.Pdf, extention, parameters, minetype);
+                    report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
                     file = File(report.MainStream, "application/pdf");
                     break;
                 }
                     ;
                 case RenderType.Excel:
                 {
-                    report = localReport.Execute(RenderType.Excel, extention, parameters, minetype);
+                    report = localReport.Execute(RenderType.Excel, extenstion, parameters, mimetype);
                     file = File(report.MainStream, "application/excel");
                     break;
                 }
                 default:
                 {
-                    report = localReport.Execute(RenderType.Pdf, extention, parameters, minetype);
+                    report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
                     file = File(report.MainStream, "application/pdf");
                     break;
                 }
@@ -124,7 +124,7 @@ namespace MovieTheater.Admin.Controllers
                 request.EndDate = DateTime.Now;
             }
 
-            var result = (await _statiticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
+            var result = (await _statisticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
             return result;
         }
 
@@ -138,7 +138,7 @@ namespace MovieTheater.Admin.Controllers
                 EndDate = new DateTime(date.AddMonths(1).Year, date.AddMonths(1).Month, 1).AddDays(-1)
             };
 
-            var result = (await _statiticApiClient.GetRevenueAsync(request)).ResultObj;
+            var result = (await _statisticApiClient.GetRevenueAsync(request)).ResultObj;
             return result;
         }
 
@@ -152,7 +152,7 @@ namespace MovieTheater.Admin.Controllers
                 EndDate = new DateTime(date.AddYears(1).Year, 1, 1).AddDays(-1)
             };
 
-            var result = (await _statiticApiClient.GetRevenueAsync(request)).ResultObj;
+            var result = (await _statisticApiClient.GetRevenueAsync(request)).ResultObj;
             return result;
         }
 
@@ -165,7 +165,7 @@ namespace MovieTheater.Admin.Controllers
                 StartDate = new DateTime(date.Year, 1, 1),
                 EndDate = new DateTime(date.AddYears(1).Year, 1, 1).AddDays(-1)
             };
-            var result = (await _statiticApiClient.GetRevenueTypeAsync(request)).ResultObj;
+            var result = (await _statisticApiClient.GetRevenueTypeAsync(request)).ResultObj;
             return result;
         }
     }
