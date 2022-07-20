@@ -65,12 +65,15 @@ namespace MovieTheater.Common.Constants
         public const string AuditoriumDelete = "Delete";
         public const string AuditoriumGetById = "AuditoriumGetById";
         public const string AuditoriumGetAll = "GetAll";
+        public const string AuditoriumGetCoordinate = "GetCoordinate";
+
         #endregion
 
         #region Seat
 
         public const string SeatUpdateInRoom = "UpdateInRoom";
         public const string SeatGetAllInRoom = "GetAllInRoom";
+        public const string SeatGetListSeatReserve = "GetListSeatReverve";
 
         #endregion
 

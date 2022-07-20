@@ -27,14 +27,14 @@ namespace MovieTheater.Application.Statitic
         //                where s.StartTime.Date >= request.StartDate.Date && s.StartTime.Date <= request.EndDate.Date && s.Active == true && r.Active == true
         //                select new { s, f, t };
 
-        //    var Revenue = await query.GroupBy(x => new { x.f.Name, x.f.Id }).Select(x => new
+        //    var Revenue = await query.GroupBy(x => new { x.f.RowName, x.f.Id }).Select(x => new
         //    {
-        //        Name = x.Key.Name,
+        //        RowName = x.Key.RowName,
         //        Revenue = (decimal)x.Sum(sft => sft.t.Price)
         //    }).OrderByDescending(x => x.Revenue).ToListAsync();
 
         //    ChartData chartData = new ChartData();
-        //    chartData.Lables = Revenue.Select(x => x.Name).ToList();
+        //    chartData.Lables = Revenue.Select(x => x.RowName).ToList();
         //    chartData.DataRows[0] = Revenue.Select(x => x.Revenue).ToList();
 
         //    return new ApiSuccessResult<ChartData>(chartData);
@@ -62,14 +62,14 @@ namespace MovieTheater.Application.Statitic
         //                && s.Active == true && r.Active == true
         //                select new { rt, t };
 
-        //    var Revenue = await query.GroupBy(x => new { x.rt.Name }).Select(x => new
+        //    var Revenue = await query.GroupBy(x => new { x.rt.RowName }).Select(x => new
         //    {
-        //        Name = x.Key.Name,
+        //        RowName = x.Key.RowName,
         //        Revenue = (decimal)x.Sum(sft => sft.t.Price)
         //    }).ToListAsync();
 
         //    ChartData chartData = new ChartData();
-        //    chartData.Lables = Revenue.Select(x => x.Name).ToList();
+        //    chartData.Lables = Revenue.Select(x => x.RowName).ToList();
         //    chartData.DataRows[0] = Revenue.Select(x => x.Revenue).ToList();
 
         //    return new ApiSuccessResult<ChartData>(chartData);

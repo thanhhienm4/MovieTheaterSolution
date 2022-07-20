@@ -108,8 +108,8 @@
                     var bottom = 0;
                     $.ajax({
                         type: "GET",
-                        url: "/Auditorium/GetCoordinate",
-                        data: { id: @Model.AuditoriumId },
+                        url: "/Room/GetCoordinate",
+                        data: { id: '@Model.AuditoriumId' },
                         success: function(res) {
                             top = res.resultObj.top;
                             right = res.resultObj.right;
@@ -157,14 +157,14 @@
 
                             $.ajax({
                                 type: "GET",
-                                url: "/Auditorium/GetSeatInAuditorium",
-                                data: { roomId: @Model.AuditoriumId },
+                                url: "/Room/GetSeatInRoom",
+                                data: { roomId: '@Model.AuditoriumId' },
                                 success: function(res) {
                                     for (var i = 0; i < res.length; i++) {
                                         var idElement = res[i].rowId + '_' + res[i].number.toString();
                                         var btn = document.getElementById(idElement);
                                         $(btn).attr("disabled", false);
-                                        $(btn).attr('data-name', res[i].name);
+                                        $(btn).attr('data-name', res[i].rowName + res[i].number);
                                         $(btn).attr('data-id', res[i].id);
                                         if (res[i].typeId === mode.normal) {
                                             $(btn).addClass(settings.normalSeatCss);
@@ -172,8 +172,9 @@
                                             $(btn).addClass(settings.vipSeatCss);
                                         }
                                         $(btn).attr('data-kindofseatid', res[i].typeId);
-                                        // $(btn).html('<a title="' + res[i].name + '">' + res[i].name + '</a>');
-                                        //console.log(res[i].name);
+
+                                         $(btn).html('<a title="' + res[i].rowName + res[i].number + '">' + res[i].rowName + res[i].number + '</a>');
+                                        console.log(res[i].rowName + res[i].number);
 
                                     };
 
@@ -204,7 +205,6 @@
                                                             };
                                                             tickets.push(ticket);
                                                         }
-
                                                     });
                                                 $("#seatsName").text(seatsName);
 
@@ -218,12 +218,9 @@
                                                                 style: 'currency',
                                                                 currency: 'VND',
                                                             }));
-
                                                     }
                                                 });
-
                                             });
-
                                         }
                                     });
                                 }

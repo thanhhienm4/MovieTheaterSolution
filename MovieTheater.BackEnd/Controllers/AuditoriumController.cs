@@ -68,7 +68,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("GetCoordinate/{id}")]
+        [HttpGet(APIConstant.AuditoriumGetCoordinate)]
         public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(string id)
         {
             var result = await _roomService.GetCoordinateAsync(id);

@@ -384,14 +384,14 @@ namespace MovieTheater.Application.FilmServices.Movies
         //    foreach (var position in positions)
         //    {
         //        JoiningPosVMD joiningPos = new JoiningPosVMD();
-        //        joiningPos.Name = position.Name;
+        //        joiningPos.RowName = position.RowName;
         //        joiningPos.Joinings = query.Where(x => x.j.PositionId == position.Id).Select(x =>
         //                                    new JoiningVMD()
         //                                    {
         //                                        Id = x.j.Id,
         //                                        PeopleId = x.j.PeppleId,
         //                                        PosId = x.j.PositionId,
-        //                                        Name = x.p.Name
+        //                                        RowName = x.p.RowName
         //                                    }).ToList();
         //        res.Add(joiningPos);
         //    }

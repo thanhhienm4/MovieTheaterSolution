@@ -59,7 +59,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("GetListReserved/{screeningId}")]
+        [HttpGet(APIConstant.SeatGetListSeatReserve + "/{screeningId}")]
         public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
         {
             var result = await _seatService.GetListReserved(screeningId);

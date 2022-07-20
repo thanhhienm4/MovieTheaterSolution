@@ -59,9 +59,13 @@ namespace MovieTheater.Api
             return await GetAsync<List<AuditoriumFormatVMD>>($"Api/RoomFormat/GetAllRoomFormat");
         }
 
-        public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(int id)
+        public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(string id)
         {
-            return await GetAsync<RoomCoordinate>($"Api/Auditorium/GetCoordinate/{id}");
+            var queryParams = new NameValueCollection()
+            {
+                { "id", id }
+            };
+            return await GetAsync<RoomCoordinate>($"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumGetCoordinate}",queryParams);
         }
 
         public async Task<ApiResult<AuditoriumFormatVMD>> GetRoomFormatByIdAsync(int id)

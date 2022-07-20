@@ -98,6 +98,7 @@ namespace MovieTheater.Application.SeatServices.Seats
                     RowId = x.RowId,
                     AuditoriumId = x.AuditoriumId,
                     TypeId = x.TypeId,
+                    RowName = x.Row.Name
                 }).ToListAsync();
 
             return new ApiSuccessResult<List<SeatVMD>>(seats);
@@ -167,10 +168,10 @@ namespace MovieTheater.Application.SeatServices.Seats
                 return new ApiErrorResult<List<SeatVMD>>("Không tìm thấy xuất chiếu");
 
             var query = from t in _context.Tickets
-                join r in _context.Reservations on t.ReservationId equals r.Id
-                join s in _context.Seats on t.SeatId equals s.Id
-                where r.ScreeningId == screeningId
-                select s;
+                        join r in _context.Reservations on t.ReservationId equals r.Id
+                        join s in _context.Seats on t.SeatId equals s.Id
+                        where r.ScreeningId == screeningId
+                        select s;
 
             var seats = await query.Select(x => new SeatVMD()
             {

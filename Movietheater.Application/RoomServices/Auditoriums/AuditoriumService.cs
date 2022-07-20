@@ -186,12 +186,14 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
                 join s in _context.Seats on sr.Id equals s.RowId
                 where s.IsActive == true && s.AuditoriumId == id
                 select sr;
+
             coordinate.Bottom = await queryRow.MinAsync(x => x.Id);
             coordinate.Top = await queryRow.MaxAsync(x => x.Id);
 
             var queryCol = from s in _context.Seats
                 where s.IsActive == true && s.AuditoriumId == id
                 select s;
+
             coordinate.Right = await queryCol.MaxAsync(s => s.Number);
             coordinate.Left = await queryCol.MinAsync(s => s.Number);
 

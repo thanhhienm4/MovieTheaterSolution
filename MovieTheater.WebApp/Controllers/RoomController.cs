@@ -58,7 +58,7 @@ namespace MovieTheater.WebApp.Controllers
                 Value = x.Id.ToString()
             });
         }
-        public async Task<ApiResult<RoomCoordinate>> GetCoordinate(int id)
+        public async Task<ApiResult<RoomCoordinate>> GetCoordinate(string id)
         {
             var result = await _roomApiClient.GetCoordinateAsync(id);
             return result;

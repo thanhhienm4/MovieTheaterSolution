@@ -17,7 +17,7 @@ namespace MovieTheater.Data.Config
 
             builder.Property(e => e.Id).ValueGeneratedNever();
 
-            builder.Property(e => e.AuditoriumId)
+            builder.Property(e => e.AuditoriumFormatId)
                 .IsRequired()
                 .HasMaxLength(16)
                 .IsUnicode(false);
@@ -33,9 +33,9 @@ namespace MovieTheater.Data.Config
 
             builder.Property(e => e.StartDate).HasColumnType("datetime");
 
-            builder.HasOne(d => d.Auditorium)
+            builder.HasOne(d => d.AuditoriumFormat)
                 .WithMany(p => p.Surcharges)
-                .HasForeignKey(d => d.AuditoriumId)
+                .HasForeignKey(d => d.AuditoriumFormatId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(d => d.SeatTypeNavigation)

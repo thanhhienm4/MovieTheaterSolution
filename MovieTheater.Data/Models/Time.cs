@@ -16,8 +16,8 @@ namespace MovieTheater.Data.Models
         public string TimeId { get; set; }
         public TimeSpan HourStart { get; set; }
         public TimeSpan HourEnd { get; set; }
-        public string DateStart { get; set; }
-        public string DateEnd { get; set; }
+        public int DateStart { get; set; }
+        public int DateEnd { get; set; }
         public string Name { get; set; }
         public bool IsDelete { get; set; }
 

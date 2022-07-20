@@ -132,7 +132,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             //        Id = x.r.Id,
             //        Paid = x.r.Paid,
             //        Active = x.r.Active,
-            //        ReservationType = x.rt.Name,
+            //        ReservationType = x.rt.RowName,
             //        Time = x.r.Time,
             //        Employee = x.e.LastName + " " + x.e.FirstName,
             //        Customer = x.c.LastName + " " + x.c.FirstName,
@@ -281,6 +281,11 @@ namespace MovieTheater.Application.ReservationServices.Reservations
 
             return new ApiSuccessResult<List<ReservationVMD>>(res);
         }
+
+        //public Time getTimeByScreeing(DateTime time)
+        //{
+        //    time.DayOfWeek. == 
+        //}
 
         private long CallTotal(int id)
         {
