@@ -48,6 +48,13 @@ namespace MovieTheater.WebApp.Controllers
         }
 
         [HttpGet]
+        public IActionResult Create(int id)
+        {
+            var reservation = _reservationApiClient.GetReservationByIdAsync(id).Result.ResultObj;
+            return View(reservation);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Detail(int id)
         {
             if (!ModelState.IsValid)

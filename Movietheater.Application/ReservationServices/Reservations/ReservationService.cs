@@ -8,6 +8,7 @@ using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using Org.BouncyCastle.Asn1.Nist;
 
 namespace MovieTheater.Application.ReservationServices.Reservations
 {
@@ -22,9 +23,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
 
         public async Task<ApiResult<int>> CreateAsync(ReservationCreateRequest request)
         {
-            if (CheckTickets(request.Tickets) == false)
-                return new ApiErrorResult<int>("Tạo mới thất bại");
-
             var reservation = new Reservation()
             {
                 Time = DateTime.Now,
@@ -32,7 +30,8 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 EmployeeId = request.EmployeeId,
                 Customer = request.CustomerId,
                 PaymentStatus = request.Paid,
-                TypeId = request.ReservationTypeId
+                TypeId = request.ReservationTypeId,
+                ScreeningId = request.ScreeningId
             };
 
             await _context.Reservations.AddAsync(reservation);
@@ -171,7 +170,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     where r.Id == Id
                     select new { r, c, rt, e };
 
-                int totalRow = await query.CountAsync();
                 var res = query.Select(x => new ReservationVMD()
                 {
                     Id = x.r.Id,
@@ -181,6 +179,11 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     Time = x.r.Time,
                     Employee = x.e.LastName + " " + x.e.FirstName,
                     Customer = x.c.LastName + " " + x.c.FirstName,
+                    ScreeningId = x.r.ScreeningId,
+                    MovieName = x.r.Screening.Movie.Id,
+                    StartTime = x.r.Screening.StartTime,
+                    AuditoriumId = x.r.Screening.AuditoriumId
+
                 }).FirstOrDefault();
                 res.TotalPrice = CallTotal(res.Id);
                 res.Tickets = await GetTicketsAsync(Id);
@@ -232,23 +235,11 @@ namespace MovieTheater.Application.ReservationServices.Reservations
 
         public async Task<ApiResult<int>> CalPriceAsync(TicketCreateRequest ticket)
         {
-            //var query = from s in _context.Screenings
-            //            join ks in _context.KindOfScreenings on s.KindOfScreeningId equals ks.Id
-            //            join r in _context.Rooms on s.AuditoriumId equals r.Id
-            //            join fr in _context.RoomFormats on r.FormatId equals fr.Id
-            //            join se in _context.Seats on r.Id equals se.AuditoriumId
-            //            join kse in _context.KindOfSeats on se.TypeId equals kse.Id
-            //            where s.Id == ticket.ScreeningId && se.Id == ticket.SeatId
-
-            //            select new { ks, fr, kse };
-
-            //int a = query.Select(x => x.fr.Price).FirstOrDefault();
-            //int b = query.Select(x => x.ks.Surcharge).FirstOrDefault();
-            //int c = query.Select(x => x.kse.Surcharge).FirstOrDefault();
-            //int price = await query.Select(x => x.fr.Price + x.ks.Surcharge + x.kse.Surcharge).FirstOrDefaultAsync();
-            //return new ApiSuccessResult<int>(price);
+            //var time = GetTimeByScreening()
             return new ApiSuccessResult<int>(1);
         }
+
+        
 
         public async Task<ApiResult<List<ReservationVMD>>> GetByUserId(string userId)
         {
@@ -282,10 +273,15 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             return new ApiSuccessResult<List<ReservationVMD>>(res);
         }
 
-        //public Time getTimeByScreeing(DateTime time)
-        //{
-        //    time.DayOfWeek. == 
-        //}
+        public Time GetTimeByScreening(DateTime time)
+        {
+            TimeSpan diffTimeSpan = GetTimeDiffOfWeek(time);
+
+            return  _context.Times.FirstOrDefault(x => x.DateStart * 24 * 3600 + x.HourStart.TotalSeconds <= diffTimeSpan.TotalSeconds
+                                                       && x.DateEnd * 24 * 3600 + x.HourEnd.TotalSeconds >= diffTimeSpan.TotalSeconds
+                                                       && x.IsDelete == false);
+
+        }
 
         private long CallTotal(int id)
         {
@@ -293,6 +289,18 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 return 0;
             long res = 1; //_context.Tickets.Where(x => x.ReservationId == id).Sum(x => x.Price);
             return res;
+        }
+
+        public TimeSpan GetTimeDiffOfWeek(DateTime time)
+        {
+            DateTime lastMonday = DateTime.Now.Date;
+            while (lastMonday.DayOfWeek != DayOfWeek.Monday)
+            {
+                lastMonday = lastMonday.AddDays(-1);
+            }
+
+            return time - lastMonday;
+
         }
     }
 }

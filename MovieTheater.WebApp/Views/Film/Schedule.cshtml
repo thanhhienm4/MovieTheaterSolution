@@ -1,13 +1,32 @@
 ﻿@using MovieTheater.Models.Catalog.Film;
+@using System.Globalization
 @model List<MovieScreeningVMD>;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Lịch chiếu phim </li>
+</ol>
 
-<div class="breadcrumb mb-4 d-flex justify-content-center" style="color: red; font-weight: 700">LỊCH CHIẾU PHIM</div>
+@section Scripts{
+    <script>
+        setTimeout(function() {
+                $("#SuccessMeg").fadeOut('slow');
+            },
+            2000);
+    </script>
+}
 
-
+@if (ViewBag.SuccessMsg != null)
+{
+    <div id="SuccessMeg" class="alert alert-success" role="alert">
+        @ViewBag.SuccessMsg
+    </div>
+}
 <div class="d-flex justify-content-between">
     @for (int i = 0; i < 7; i++)
     {
@@ -17,11 +36,21 @@
             dateChoose = DateTime.Parse(ViewContext.HttpContext.Request.Query["date"]);
         if (date.Date == dateChoose.Date)
         {
-            <a class="btn  custom" style="background-color: gold" href="/film/schedule?date=@date.ToString("d")" data-date="@date">@date.Date/@date.Month</a>
+            <a class="btn  custom" style="background-color: #c7d6ec" href="/retail/index?date=@date.ToString("d")" data-date="@date">
+                @date.Day/@date.Month
+                <div class="row justify-content-center">
+                    @date.ToString("ddd",new CultureInfo("vi-VN"))
+                </div>
+            </a>
         }
         else
         {
-            <a class="btn  custom" href="/film/schedule?date=@date.ToString("d")" data-date="@date">@date.Date/@date.Month</a>
+            <a class="btn  custom" href="/film/schedule?date=@date.ToString("d")" data-date="@date">
+                @date.Day/@date.Month
+                <div class="row justify-content-center">
+                    @date.ToString("ddd",new CultureInfo("vi-VN"))
+                </div>
+            </a>
         }
     }
 </div>
@@ -48,7 +77,7 @@
                                 </div>
                                 <div class="row">
                                     <p class="mr-2">@filmScreening.Movie.Ban </p>
-                                    <p class="mr-2">@filmScreening.Movie.Length phút</p>
+                                    <p class="mr-2">@filmScreening.Movie.Length </p>
                                     <a href="@filmScreening.Movie.TrailerURL" style="color: darkblue">Trailer</a>
                                 </div>
                                 <div class="row">
@@ -78,5 +107,5 @@
 <style>
     .custom { width: 160px !important; }
 
-    .custom:hover { background-color: gold !important; }
+    .custom:hover { background-color: #c7d6ec !important; }
 </style>

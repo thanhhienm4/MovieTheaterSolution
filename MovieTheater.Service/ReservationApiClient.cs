@@ -41,7 +41,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<ReservationVMD>> GetReservationByIdAsync(int id)
         {
-            return await GetAsync<ReservationVMD>($"Api/Reservation/GetReservationById/{id}");
+            return await GetAsync<ReservationVMD>($"Api/Reservation/GetById/{id}");
         }
 
         public async Task<ApiResult<List<ReservationVMD>>> GetReservationByUserIdAsync(string id)

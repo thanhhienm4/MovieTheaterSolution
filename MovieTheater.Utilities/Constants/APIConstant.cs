@@ -11,6 +11,7 @@ namespace MovieTheater.Common.Constants
         #region Controller
 
         public const string ApiUser = "api/User";
+        public const string ApiCustomer = "api/Customer";
         public const string ApiMovie = "api/Movie";
         public const string ApiMovieCensorship = "api/MovieCensorship";
         public const string ApiAuditorium = "api/Auditorium";

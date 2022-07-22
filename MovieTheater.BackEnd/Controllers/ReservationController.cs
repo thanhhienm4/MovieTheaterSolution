@@ -55,7 +55,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpGet("AuditoriumGetById/{id}")]
+        [HttpGet("GetById/{id}")]
         public async Task<ApiResult<ReservationVMD>> GeReservationByIdAsync(int id)
         {
             var result = await _reservationService.GetById(id);

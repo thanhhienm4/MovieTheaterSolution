@@ -1,59 +1,66 @@
-﻿@model MovieTheater.Models.Catalog.Screening.ScreeningMD
+﻿@model MovieTheater.Models.Catalog.Reservation.ReservationVMD
 
 @{
     ViewData["Title"] = "ChooseSeatAsync";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Film.Name @Model.StartTime.ToString("dd/MM/yyyy HH:mm")</h2>
-<div class="row">
-    <div class="col-9">
-        <div class="card bg-secondary text-white">
-            <div class="card-body d-flex justify-content-center" style="font-size: 120%">
-                Màn hình
+<h2>@Model.MovieName @Model.StartTime.ToString("dd/MM/yyyy HH:mm")</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-9">
+            <div class="card bg-secondary text-white">
+                <div class="card-body d-flex justify-content-center" style="font-size: 120%">
+                    Màn hình
+                </div>
             </div>
-        </div>
-        <div class="card bg-light">
-            <div class="card-body">
-                <div class="container-fluid">
-                    <div style="overflow-x: auto;">
-                        <ul id="place">
-                        </ul>
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div style="overflow-x: auto;">
+                            <ul id="place">
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div style="clear: both; width: 100%" class="d-flex justify-content-center">
-            <button class="btn normalSeat mr-2" id="normal" style="color: white">Ghế thường</button>
-            <button class="btn vipSeat" id="vip" style="color: white">Ghế VIP</button>
+            <div style="clear: both; width: 100%" class="d-flex justify-content-center">
+                <button class="btn normalSeat mr-2" id="normal" style="color: white">Ghế thường</button>
+                <button class="btn vipSeat" id="vip" style="color: white">Ghế VIP</button>
+            </div>
+            <br/>>
+            <div style="clear: both; width: 100%" class="d-flex justify-content-center">
+                <button class="btn btn-success mr-2" id="btnReserve">Đặt vé</button>
+            </div>
         </div>
-        <br/>>
-        <div style="clear: both; width: 100%" class="d-flex justify-content-center">
-            <button class="btn btn-success mr-2" id="btnReserve">Đặt vé</button>
-        </div>
-    </div>
-    <div class="col-3">
-        <div class="card">
-            <div class="card-header">
-                <div class="d-flex justify-content-center">
-                    <p>Thành tiền</p>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-center">
+                        <p>Thành tiền</p>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <p id="seatsName"></p>
-            </div>
-            <div class="card-footer">
-                <div class="row">
-                    <p style="color: red" class="p-2">Tổng tiền: </p>
-                    <div class="ml-auto p-2">
-                        <strong id="price">
-                        </strong>
+                <div class="card-body">
+                    <p id="seatsName"></p>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <p style="color: red" class="p-2">Tổng tiền: </p>
+                        <div class="ml-auto p-2">
+                            <strong id="price">
+                            </strong>
+                        </div>
                     </div>
                 </div>
             </div>
+            <hr/>
+            <button id="stop-watch" class="btn btn-primary btn-block">
+                
+            </button>
         </div>
     </div>
+
 </div>
 <input id="reserId" type="hidden"/>
 <div style="float: left;">
@@ -79,6 +86,23 @@
     #place .row-3, #place .row-4 { margin-top: 10px; }
 </style>
 <script type="text/javascript">
+    var stopwatch = document.getElementById('stop-watch');
+    var x  = setInterval(function() {
+            var endTime = new Date(@Model.Time.AddMinutes(7).ToString("yyyy,MM-1,dd,HH,mm,ss"));
+
+            var distance = endTime - Date.now();
+
+            // Time calculations for days, hours, minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            stopwatch.innerHTML = minutes + ':' + seconds;
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("stop-watch").innerHTML = "EXPIRED";
+            }
+        },
+        1000);
     var mode = { normal: "normal", vip: "vip" };
     var settings = {
         rows: 10,
@@ -173,7 +197,7 @@
                                         }
                                         $(btn).attr('data-kindofseatid', res[i].typeId);
 
-                                         $(btn).html('<a title="' + res[i].rowName + res[i].number + '">' + res[i].rowName + res[i].number + '</a>');
+                                        $(btn).html('<a title="' + res[i].rowName + res[i].number + '">' + res[i].rowName + res[i].number + '</a>');
                                         console.log(res[i].rowName + res[i].number);
 
                                     };
@@ -181,7 +205,7 @@
                                     $.ajax({
                                         type: "GET",
                                         url: "/Screening/GetListSeatReserved",
-                                        data: { id: @Model.Id },
+                                        data: { id: @Model.ScreeningId },
                                         success: function(res) {
                                             for (var i = 0; i < res.length; i++) {
                                                 var idElement = res[i].rowId + '_' + res[i].number.toString();
@@ -237,7 +261,7 @@
                 init();
 
             }
-        })
+        });
 
         $('#btnReserve').click(function() {
             var tickets = [];
@@ -268,7 +292,7 @@
                     $('#notifyModal').modal('show');
                 }
             });
-        })
+        });
     });
 
     function reload() {

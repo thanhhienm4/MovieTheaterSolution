@@ -36,7 +36,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request)
         {
-            return await PostAsync<string>("/api/Login/LoginCustomer", request);
+            return await PostAsync<string>($"{APIConstant.ApiCustomer}/{APIConstant.CustomerLogin}", request);
         }
 
         public async Task<ApiResult<bool>> CreateCustomerAsync(UserRegisterRequest request)

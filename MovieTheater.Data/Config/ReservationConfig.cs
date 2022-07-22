@@ -34,7 +34,6 @@ namespace MovieTheater.Data.Config
                 .IsUnicode(false);
 
             builder.Property(e => e.VoucherId)
-                .IsRequired()
                 .HasMaxLength(32)
                 .IsUnicode(false);
 

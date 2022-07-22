@@ -4,10 +4,13 @@ using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Reservation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
+using MovieTheater.Data.Models;
+using ReservationType = MovieTheater.Common.Constants.ReservationType;
 
 namespace MovieTheater.WebApp.Controllers
 {
-    public class TicketController : Controller
+    public class TicketController : BaseController
     {
         private readonly ScreeningApiClient _screeningApiClient;
         private readonly MovieApiClient _filmApiClient;
@@ -22,16 +25,25 @@ namespace MovieTheater.WebApp.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> ChooseSeat(int id)
+        public Task<IActionResult> ChooseSeat(int id)
         {
-            if (User.Identity.IsAuthenticated == false)
+            if (User.Identity!.IsAuthenticated == false)
             {
-                return Redirect($"/login/Index?RedirectURL=/Ticket/ChooseSeat/{id}");
+                return Task.FromResult<IActionResult>(Redirect($"/login/Index?RedirectURL=/Ticket/ChooseSeat/{id}"));
             }
 
-            var screening = (await _screeningApiClient.GetScreeningMDByIdAsync(id)).ResultObj;
-            ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(screening.MovieId)).ResultObj;
-            return View(screening);
+            var reservation = _reservationApiClient.CreateAsync(new ReservationCreateRequest()
+            {
+                CustomerId = GetUserId(),
+                ScreeningId = id,
+                Paid = PaymentStatusType.None,
+                Active = true,
+                EmployeeId = null,
+                ReservationTypeId = ReservationType.Online
+
+            }).Result;
+
+            return Task.FromResult<IActionResult>(Redirect($"/Reservation/Create/{reservation.ResultObj}"));
         }
 
         [Authorize]

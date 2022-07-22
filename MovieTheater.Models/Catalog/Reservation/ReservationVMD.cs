@@ -14,5 +14,10 @@ namespace MovieTheater.Models.Catalog.Reservation
         public DateTime Time { get; set; }
         public List<TicketVMD> Tickets { get; set; }
         public long TotalPrice { get; set; }
+        public int ScreeningId { get; set; }
+        public string MovieName { get; set; }
+        public DateTime StartTime { get; set; }
+        public string AuditoriumId { get; set; }
+
     }
 }
