@@ -11,7 +11,7 @@ namespace MovieTheater.Data.Models
         public string AuditoriumFormat { get; set; }
         public DateTime? FromTime { get; set; }
         public DateTime? ToTime { get; set; }
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
         public string TimeId { get; set; }
         public int Id { get; set; }
 

@@ -8,7 +8,7 @@ namespace MovieTheater.Application.ReservationServices.Tickets
     {
         Task<ApiResult<bool>> CreateAsync(TicketCreateRequest request);
 
-        Task<ApiResult<bool>> DeleteAsync(int id);
+        Task<ApiResult<bool>> DeleteAsync(TicketCreateRequest request);
 
         Task<ApiResult<bool>> UpdateAsync(TicketUpdateRequest request);
     }

@@ -2,7 +2,8 @@
 {
     public class TicketCreateRequest
     {
-        public int ScreeningId { get; set; }
+        public int ReservationId { get; set; }
         public int SeatId { get; set; }
+        public string CustomerType { get; set; }
     }
 }

@@ -49,9 +49,9 @@ namespace MovieTheater.Api
             return await GetAsync<List<ReservationVMD>>($"Api/Reservation/GetReservationByUserId/{id}");
         }
 
-        public async Task<ApiResult<int>> CalPrePriceAsync(List<TicketCreateRequest> tickets)
+        public async Task<ApiResult<decimal>> CalPrePriceAsync(List<TicketCreateRequest> tickets)
         {
-            return await PostAsync<int>($"Api/Reservation/CalPrePrice", tickets);
+            return await PostAsync<decimal>($"Api/Reservation/CalPrePrice", tickets);
         }
     }
 }

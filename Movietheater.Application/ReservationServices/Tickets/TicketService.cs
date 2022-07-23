@@ -1,6 +1,7 @@
 ﻿using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.Models;
 
 namespace MovieTheater.Application.ReservationServices.Tickets
@@ -19,6 +20,8 @@ namespace MovieTheater.Application.ReservationServices.Tickets
             Ticket ticket = new Ticket()
             {
                 SeatId = request.SeatId,
+                CustomerType = request.CustomerType,
+                ReservationId = request.ReservationId,
             };
             _context.Tickets.Add(ticket);
             int result = await _context.SaveChangesAsync();
@@ -30,9 +33,10 @@ namespace MovieTheater.Application.ReservationServices.Tickets
             return new ApiSuccessResult<bool>(true);
         }
 
-        public async Task<ApiResult<bool>> DeleteAsync(int id)
+        public async Task<ApiResult<bool>> DeleteAsync(TicketCreateRequest request)
         {
-            Ticket ticket = await _context.Tickets.FindAsync(id);
+            Ticket ticket = await _context.Tickets.FirstOrDefaultAsync(x => x.ReservationId == request.ReservationId
+                                                                            && request.SeatId == x.SeatId);
             if (ticket == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy");
@@ -58,6 +62,7 @@ namespace MovieTheater.Application.ReservationServices.Tickets
             else
             {
                 ticket.SeatId = request.SeatId;
+                ticket.CustomerType = request.CustomerType;
 
                 _context.Update(ticket);
                 int rs = await _context.SaveChangesAsync();

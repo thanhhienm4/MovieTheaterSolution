@@ -35,6 +35,8 @@ namespace MovieTheater.WebApp
             services.AddTransient<MovieCensorshipApiClient, MovieCensorshipApiClient>();
             services.AddTransient<StatiticApiClient, StatiticApiClient>();
             services.AddTransient<PositionApiClient, PositionApiClient>();
+            services.AddTransient<TicketApiClient, TicketApiClient>();
+
             services.AddHttpClient();
             services.AddHttpContextAccessor();
             services.AddRazorPages().AddRazorRuntimeCompilation();

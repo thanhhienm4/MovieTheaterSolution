@@ -56,7 +56,7 @@
             </div>
             <hr/>
             <button id="stop-watch" class="btn btn-primary btn-block">
-                
+
             </button>
         </div>
     </div>
@@ -80,14 +80,13 @@
     #place li {
         list-style: none outside none;
         position: absolute;
-
     }
 
     #place .row-3, #place .row-4 { margin-top: 10px; }
 </style>
 <script type="text/javascript">
     var stopwatch = document.getElementById('stop-watch');
-    var x  = setInterval(function() {
+    var x = setInterval(function() {
             var endTime = new Date(@Model.Time.AddMinutes(7).ToString("yyyy,MM-1,dd,HH,mm,ss"));
 
             var distance = endTime - Date.now();
@@ -219,12 +218,22 @@
                                                 $(this).toggleClass(settings.selectingSeatCss);
                                                 var seatsName = '';
                                                 var tickets = [];
+
+                                                //insert new ticket
+                                                var data = { ReservationId: @Model.Id, SeatId: $(this).attr('data-id') };
+                                                if ($(this).hasClass(settings.selectingSeatCss)) {
+                                                    addTicket(data);
+                                                } else {
+                                                    deleteTicket(data);
+                                                }
+                                                
+
                                                 $.each($('#place button.' + settings.selectingSeatCss),
                                                     function(index, value) {
                                                         if (!this.classList.contains('taken')) {
                                                             seatsName += $(this).attr('data-name') + ', ';
                                                             var ticket = {
-                                                                ScreeningId: @Model.Id,
+                                                                ReservationId: @Model.Id,
                                                                 SeatId: $(this).attr('data-id'),
                                                             };
                                                             tickets.push(ticket);
@@ -234,7 +243,7 @@
 
                                                 $.ajax({
                                                     type: "POST",
-                                                    url: "/Retail/CalPrePrice",
+                                                    url: "/Ticket/CalPrePrice",
                                                     data: { tickets },
                                                     success: function(res) {
                                                         $('#price').html(res.toLocaleString('vi-VN',
@@ -294,6 +303,28 @@
             });
         });
     });
+
+    function addTicket(data) {
+        $.ajax({
+            type: "POST",
+            url: "/Ticket/Create",
+            data: data,
+            error : function(msg) {
+                alert(msg);
+            }
+        });
+    }
+
+    function deleteTicket(data) {
+        $.ajax({
+            type: "POST",
+            url: "/Ticket/Delete",
+            data: data,
+            error : function(msg) {
+                alert(msg);
+            }
+        });
+    }
 
     function reload() {
         window.location.href = "/Reservation/edit/" + $('#reserId').val().toString();

@@ -44,7 +44,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<int> CalPrePrice(List<TicketCreateRequest> tickets)
+        public async Task<decimal> CalPrePrice(List<TicketCreateRequest> tickets)
         {
             if (tickets == null)
                 return 0;

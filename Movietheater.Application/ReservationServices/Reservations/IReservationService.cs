@@ -19,7 +19,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
 
         Task<ApiResult<PageResult<ReservationVMD>>> GetPagingAsync(ReservationPagingRequest request);
 
-        Task<ApiResult<int>> CalPrePriceAsync(List<TicketCreateRequest> tickets);
+        Task<ApiResult<decimal>> CalPrePriceAsync(List<TicketCreateRequest> tickets);
 
         Task<ApiResult<List<ReservationVMD>>> GetByUserId(Guid userId);
     }

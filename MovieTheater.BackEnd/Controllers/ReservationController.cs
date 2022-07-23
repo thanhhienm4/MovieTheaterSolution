@@ -70,7 +70,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost("CalPrePrice")]
-        public async Task<ApiResult<int>> CalPrePriceAsync(List<TicketCreateRequest> tickets)
+        public async Task<ApiResult<decimal>> CalPrePriceAsync(List<TicketCreateRequest> tickets)
         {
             var result = await _reservationService.CalPrePriceAsync(tickets);
             return result;

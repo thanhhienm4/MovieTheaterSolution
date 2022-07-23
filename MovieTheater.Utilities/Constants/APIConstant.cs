@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,8 @@ namespace MovieTheater.Common.Constants
         public const string ApiSeat = "api/Seat";
         public const string ApiScreening = "api/Screening";
         public const string ApiTime = "api/Time";
+        public const string ApiTicket = "api/Ticket";
+
 
         #endregion
 
@@ -98,6 +101,14 @@ namespace MovieTheater.Common.Constants
         public const string TimeGetById = "GetById";
         public const string TimePaging = "GetPaging";
 
+
+        #endregion
+
+        #region Ticket
+
+        public const string TicketCreate = "create";
+        public const string TicketUpdate = "update";
+        public const string TicketDelete = "delete";
 
         #endregion
     }

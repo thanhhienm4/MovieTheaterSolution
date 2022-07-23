@@ -1,7 +1,9 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MovieTheater.Common.Constants;
 using MovieTheater.Data.Models;
@@ -9,6 +11,7 @@ using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using Org.BouncyCastle.Asn1.Nist;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace MovieTheater.Application.ReservationServices.Reservations
 {
@@ -214,9 +217,9 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             return tickets;
         }
 
-        public async Task<ApiResult<int>> CalPrePriceAsync(List<TicketCreateRequest> tickets)
+        public async Task<ApiResult<decimal>> CalPrePriceAsync(List<TicketCreateRequest> tickets)
         {
-            int total = 0;
+            decimal total = 0;
             if (tickets != null)
             {
                 foreach (var ticket in tickets)
@@ -225,7 +228,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 }
             }
 
-            return new ApiSuccessResult<int>(total);
+            return new ApiSuccessResult<decimal>(total);
         }
 
         public Task<ApiResult<List<ReservationVMD>>> GetByUserId(Guid userId)
@@ -233,10 +236,22 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             throw new NotImplementedException();
         }
 
-        public async Task<ApiResult<int>> CalPriceAsync(TicketCreateRequest ticket)
+        public async Task<ApiResult<Decimal>> CalPriceAsync(TicketCreateRequest ticket)
         {
-            //var time = GetTimeByScreening()
-            return new ApiSuccessResult<int>(1);
+            var parameterReturn = new SqlParameter
+            {
+                ParameterName = "ReturnValue",
+                SqlDbType = System.Data.SqlDbType.Decimal,
+                Direction = System.Data.ParameterDirection.Output,
+            };
+            var reservationParam = new SqlParameter("@reservationId", ticket.ReservationId);
+            var seatParam = new SqlParameter("@SeatId", ticket.SeatId);
+            var customerParam = new SqlParameter("@customerType", ticket.CustomerType);
+            
+
+            var data = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[CalPrePrice] @reservationId, @SeatId, @customerType", parameterReturn,reservationParam,seatParam,customerParam);
+
+            return new ApiSuccessResult<Decimal>((decimal)parameterReturn.Value);
         }
 
         
@@ -273,15 +288,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             return new ApiSuccessResult<List<ReservationVMD>>(res);
         }
 
-        public Time GetTimeByScreening(DateTime time)
-        {
-            TimeSpan diffTimeSpan = GetTimeDiffOfWeek(time);
-
-            return  _context.Times.FirstOrDefault(x => x.DateStart * 24 * 3600 + x.HourStart.TotalSeconds <= diffTimeSpan.TotalSeconds
-                                                       && x.DateEnd * 24 * 3600 + x.HourEnd.TotalSeconds >= diffTimeSpan.TotalSeconds
-                                                       && x.IsDelete == false);
-
-        }
 
         private long CallTotal(int id)
         {
