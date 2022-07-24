@@ -37,6 +37,7 @@ using MovieTheater.Application.SeatServices.Seats;
 using MovieTheater.Application.SeatServices.SeatRows;
 using MovieTheater.Application.SeatServices.SeatTypes;
 using MovieTheater.Application.TimeServices;
+using MovieTheater.BackEnd.Hub;
 
 namespace MovieTheater.BackEnd
 {
@@ -141,6 +142,10 @@ namespace MovieTheater.BackEnd
             var mailsettings = Configuration.GetSection("MailSettings");
             services.Configure<MailSettings>(mailsettings);
             services.AddControllersWithViews();
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
+            }); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -168,6 +173,7 @@ namespace MovieTheater.BackEnd
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ReservationHub>("/reservationHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -4,7 +4,7 @@
     ViewData["Title"] = "ChooseSeatAsync";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="~/lib/signalr/signalr.js"></script>
 <h2>@Model.MovieName @Model.StartTime.ToString("dd/MM/yyyy HH:mm")</h2>
 <div class="container-fluid">
     <div class="row">
@@ -116,7 +116,68 @@
         selectingSeatCss: 'selectingSeat'
     };
     var listRow = [];
-    $(document).ready(function() {
+   
+
+    function addTicket(data) {
+        $.ajax({
+            type: "POST",
+            url: "/Ticket/Create",
+            data: data,
+            error : function(msg) {
+                alert(msg);
+            }
+        });
+    }
+
+    function deleteTicket(data) {
+        $.ajax({
+            type: "POST",
+            url: "/Ticket/Delete",
+            data: data,
+            error : function(msg) {
+                alert(msg);
+            }
+        });
+    }
+
+
+
+    function reload() {
+        window.location.href = "/Reservation/edit/" + $('#reserId').val().toString();
+    }
+</script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // Start the connection.
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl('https://localhost:5002/reservationHub', {
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets
+            })
+            .build();
+
+        connection.on('disableSeat', function (seatId) {
+            $(`[data-id=${seatId}]`).addClass('taken');
+           
+        });
+
+        connection.on('enableSeat', function (seatId) {
+            var seat = document.querySelector(`[data-id="${seatId}"]`);
+            $(`[data-id=${seatId}]`).removeClass('taken');
+        });
+
+        // Transport fallback functionality is now built into start.
+        connection.start()
+            .then(function () {
+                console.log("connect to signal R");
+                connection.invoke('addToGroup', @Model.ScreeningId);
+            })
+            .catch(error => {
+                console.error(error.messageReservationHub);
+            });
+
+         $(document).ready(function() {
 
         $.ajax({
             type: "GET",
@@ -220,11 +281,13 @@
                                                 var tickets = [];
 
                                                 //insert new ticket
-                                                var data = { ReservationId: @Model.Id, SeatId: $(this).attr('data-id') };
+                                                var data = { ReservationId: @Model.Id, SeatId: $(this).attr('data-id'), ScreeningId : @Model.ScreeningId};
                                                 if ($(this).hasClass(settings.selectingSeatCss)) {
                                                     addTicket(data);
+                                                    connection.invoke('disableSeat', @Model.ScreeningId, parseInt(data.SeatId));
                                                 } else {
                                                     deleteTicket(data);
+                                                    connection.invoke('enableSeat', @Model.ScreeningId, parseInt(data.SeatId));
                                                 }
                                                 
 
@@ -303,32 +366,7 @@
             });
         });
     });
-
-    function addTicket(data) {
-        $.ajax({
-            type: "POST",
-            url: "/Ticket/Create",
-            data: data,
-            error : function(msg) {
-                alert(msg);
-            }
-        });
-    }
-
-    function deleteTicket(data) {
-        $.ajax({
-            type: "POST",
-            url: "/Ticket/Delete",
-            data: data,
-            error : function(msg) {
-                alert(msg);
-            }
-        });
-    }
-
-    function reload() {
-        window.location.href = "/Reservation/edit/" + $('#reserId').val().toString();
-    }
+    });
 </script>
 
 <div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

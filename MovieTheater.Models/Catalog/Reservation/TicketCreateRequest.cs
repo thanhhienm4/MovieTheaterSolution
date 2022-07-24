@@ -5,5 +5,6 @@
         public int ReservationId { get; set; }
         public int SeatId { get; set; }
         public string CustomerType { get; set; }
+        public string ScreeningId { get; set; }
     }
 }
