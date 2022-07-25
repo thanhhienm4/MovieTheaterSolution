@@ -8,7 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using MovieTheater.Data.Models;
+using Org.BouncyCastle.Asn1;
 
 namespace MovieTheater.Application.ScreeningServices.Screenings
 {
@@ -31,6 +33,9 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
                 return new ApiErrorResult<bool>("Thời gian chiếu không được trước ngày công chiếu " +
                                                 publishDate.ToString("dd/MM/yyyy"));
 
+            if(!CheckTime(request.FilmId,request.AuditoriumId,request.StartTime))
+                return new ApiErrorResult<bool>("Vui lòng kiểm tra lại thời gian bắt đầu");
+
             Screening screening = new Screening()
             {
                 StartTime = request.StartTime,
@@ -38,8 +43,8 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
                 AuditoriumId = request.AuditoriumId,
                 Active = true
             };
-            _context.Screenings.Add(screening);
 
+            _context.Screenings.Add(screening);
             try
             {
                 int result = await _context.SaveChangesAsync();
@@ -280,6 +285,24 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
             }
 
             return new ApiSuccessResult<ScreeningOfFilmInWeekVMD>(sof);
+        }
+
+        public bool CheckTime(string movieId, string auditoriumId, DateTime time)
+        {
+            var parameterReturn = new SqlParameter
+            {
+                ParameterName = "@ReturnValue",
+                SqlDbType = System.Data.SqlDbType.Bit,
+                Direction = System.Data.ParameterDirection.Output,
+            };
+            var startTime = new SqlParameter("@startTime", time);
+            var movie = new SqlParameter("@movieId",movieId);
+            var auditorium = new SqlParameter("@auditoriumId", auditoriumId);
+
+
+            var data =  _context.Database.ExecuteSqlRaw("set @ReturnValue = dbo.[Function_CheckTime] ( @startTime , @movieId , @auditoriumId)", parameterReturn, startTime, movie, auditorium);
+
+            return  (bool)parameterReturn.Value;
         }
     }
 }

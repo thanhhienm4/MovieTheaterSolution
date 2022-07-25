@@ -8,7 +8,10 @@ using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using MovieTheater.Application.ReservationServices.Reservations;
+using MovieTheater.BackEnd.Payment;
+using MovieTheater.Models.User;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -19,11 +22,13 @@ namespace MovieTheater.BackEnd.Controllers
     {
         private readonly IReservationService _reservationService;
         private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
 
-        public ReservationController(IReservationService reservationService, IUserService userService) : base(
+        public ReservationController(IReservationService reservationService, IUserService userService, IConfiguration configuration) : base(
             userService)
         {
             _reservationService = reservationService;
+            _configuration = configuration;
         }
 
         [HttpPost("Create")]
@@ -75,5 +80,19 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _reservationService.CalPrePriceAsync(tickets);
             return result;
         }
+        [AllowAnonymous]
+        [HttpPost("Test")]
+        public async Task<ApiResult<string>> Test()
+        {
+            var vnp = new VnPayService(_configuration);
+            UserVMD user = new UserVMD()
+            {
+                Email = "thanhhienm4@gmail.com",
+                PhoneNumber = "0912413004",
+                FirstName = "Nguyễn Thanh Hiền"
+            };
+            return new ApiSuccessResult<string>(vnp.CreateRequest(user));
+        }
+
     }
 }
