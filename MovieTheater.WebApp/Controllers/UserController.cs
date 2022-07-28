@@ -58,7 +58,7 @@ namespace MovieTheater.WebApp.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (!ModelState.IsValid)
             {
@@ -108,7 +108,7 @@ namespace MovieTheater.WebApp.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> ChangPassword(Guid id)
+        public async Task<IActionResult> ChangPassword(string id)
         {
             var result = (await _userApiClient.GetCustomerByIdAsync(id));
             if (result.IsReLogin == true)

@@ -44,6 +44,7 @@ namespace MovieTheater.Models.User
             RuleFor(x => x.ConfirmPassword).NotEmpty().WithMessage("Vui lòng nhập lại mật khẩu");
             RuleFor(x => x.Password).Equal(x => x.ConfirmPassword)
                 .When(customer => !String.IsNullOrWhiteSpace(customer.Password)).WithMessage("Mật khẩu không khớp");
+            RuleFor(x => x.Role).NotEmpty().WithMessage("Vui lòng chọn role");
         }
     }
 }

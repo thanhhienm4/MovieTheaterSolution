@@ -20,6 +20,7 @@ namespace MovieTheater.Data.Models
         public string Mail { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
+        public bool Active { get; set; }
 
         public virtual Role RoleNavigation { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }

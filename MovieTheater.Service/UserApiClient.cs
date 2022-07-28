@@ -54,17 +54,17 @@ namespace MovieTheater.Api
             return await PostAsync<PageResult<UserVMD>>("/api/User/GetUserPaging", request);
         }
 
-        public async Task<ApiResult<bool>> DeleteAsync(Guid id)
+        public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             return await DeleteAsync<bool>($"Api/User/Delete/{id}");
         }
 
-        public async Task<ApiResult<UserVMD>> GetUserByIdAsync(Guid id)
+        public async Task<ApiResult<UserVMD>> GetUserByIdAsync(string id)
         {
             return await GetAsync<UserVMD>($"Api/User/GetUserById/{id}");
         }
 
-        public async Task<ApiResult<UserVMD>> GetCustomerByIdAsync(Guid id)
+        public async Task<ApiResult<UserVMD>> GetCustomerByIdAsync(string id)
         {
             return await GetAsync<UserVMD>($"Api/User/GetCustomerById/{id}");
         }

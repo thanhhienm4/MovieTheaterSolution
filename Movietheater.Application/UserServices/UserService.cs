@@ -10,9 +10,13 @@ using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -98,7 +102,8 @@ namespace MovieTheater.Application.UserServices
                 Password = request.Password.Encrypt(),
                 Phone = request.PhoneNumber,
                 UserName = request.UserName,
-                Role = request.Role
+                Role = request.Role,
+                Active = true
             };
 
             _context.Staffs.Add(staff);
@@ -111,15 +116,33 @@ namespace MovieTheater.Application.UserServices
             }
         }
 
-        public Task<ApiResult<bool>> UpdateAsync(UserUpdateRequest model)
+        public async Task<ApiResult<bool>> UpdateAsync(UserUpdateRequest model)
+        {
+            var staff = await _context.Staffs.FindAsync(model.UserName);
+            if (staff == null)
+                return new ApiErrorResult<bool>("Không tồn tại user");
+            else
+            {
+                staff.Active = model.Status == Status.Active ? true : false;
+                staff.Dob = model.Dob;
+                staff.FirstName = model.FirstName;
+                staff.LastName = model.LastName;
+                staff.Mail = model.Email;
+                staff.Role = model.Role;
+                staff.Phone = model.PhoneNumber;
+
+                if (_context.SaveChanges() > 0)
+                    return new ApiSuccessResult<bool>(true);
+                return new ApiErrorResult<bool>("Cập nhật thất bại");
+
+            }
+        }
+
+        public Task<ApiResult<bool>> DeleteAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApiResult<bool>> DeleteAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
 
         public Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)
         {
@@ -131,14 +154,64 @@ namespace MovieTheater.Application.UserServices
             throw new NotImplementedException();
         }
 
-        public Task<ApiResult<UserVMD>> GetUserByIdAsync(Guid id)
+        public async Task<ApiResult<UserVMD>> GetUserByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            var user = await _context.Staffs.Where(x => x.UserName == id).Select(x => new UserVMD()
+            {
+                Dob = x.Dob,
+                Email = x.Mail,
+                FirstName = x.FirstName,
+                UserName = x.UserName,
+                PhoneNumber = x.Phone,
+                LastName = x.LastName,
+                Role = x.Role,
+                Status = x.Active ? Status.Active : Status.InActive
+
+            }).FirstOrDefaultAsync();
+            if (user == null)
+                return new ApiErrorResult<UserVMD>("Không tìm thấy người dùng");
+            else
+            {
+                return new ApiSuccessResult<UserVMD>(user);
+            }
+
         }
 
-        public Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
+        public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
-            throw new NotImplementedException();
+            var query =  _context.Staffs.Select(x => new UserVMD()
+            {
+                Dob = x.Dob,
+                Email = x.Mail,
+                FirstName = x.FirstName,
+                UserName = x.UserName,
+                PhoneNumber = x.Phone,
+                LastName = x.LastName,
+                Role = x.Role
+
+            });
+
+            if (!string.IsNullOrEmpty(request.RoleId))
+                query = query.Where(x => x.Role == request.RoleId);
+
+            if (!string.IsNullOrWhiteSpace(request.Keyword))
+                query = query.Where(x => x.Email.Contains(request.Keyword)
+                                         || x.PhoneNumber.Contains(request.Keyword)
+                                         || x.UserName.Contains(request.Keyword)
+                                         || x.FirstName.Contains(request.Keyword));
+                                                
+
+            var total = query.Count();
+            var res = query.Skip((request.PageIndex -1)*request.PageSize).Take(request.PageSize).ToList();
+            var pageResult = new PageResult<UserVMD>()
+            {
+                PageSize = request.PageSize,
+                PageIndex = request.PageIndex,
+                Item = res,
+                TotalRecord = total
+            };
+            return new ApiSuccessResult<PageResult<UserVMD>>(pageResult);
+
         }
 
         public Task<ApiResult<bool>> ForgotPasswordAsync(string mail)

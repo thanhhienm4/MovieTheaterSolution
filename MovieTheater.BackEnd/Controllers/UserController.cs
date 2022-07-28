@@ -52,7 +52,7 @@ namespace MovieTheater.BackEnd.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{id}")]
-        public async Task<ApiResult<bool>> DeleteAsync(Guid id)
+        public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             var result = await _userService.DeleteAsync(id);
             return result;
@@ -76,7 +76,7 @@ namespace MovieTheater.BackEnd.Controllers
 
         [Authorize]
         [HttpGet("GetUserById/{id}")]
-        public async Task<ApiResult<UserVMD>> GetUserById(Guid id)
+        public async Task<ApiResult<UserVMD>> GetUserById(string id)
         {
             var result = await _userService.GetUserByIdAsync(id);
             return result;

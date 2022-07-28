@@ -7,8 +7,7 @@ namespace MovieTheater.Models.User
 {
     public class UserUpdateRequest
     {
-        public Guid Id { get; set; }
-
+        public string Id { get; set; }
         [Display(Name = "Tên Đăng nhập")]
         public string UserName { get; set; }
 
@@ -28,6 +27,7 @@ namespace MovieTheater.Models.User
 
         [Display(Name = "Trạng thái")]
         public Status Status { get; set; }
+        public string Role { get; set; }
     }
 
     public class UserUpdateValidator : AbstractValidator<UserUpdateRequest>
@@ -40,5 +40,6 @@ namespace MovieTheater.Models.User
             RuleFor(x => x.Dob).LessThan(DateTime.Now.AddYears(-18)).WithMessage("Người dùng phải đủ 18 tuổi");
             RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("Số điện thoại không được để trống ").Matches("[0-9]{10}").WithMessage("Số điện thoại không hợp lệ");
         }
+
     }
 }

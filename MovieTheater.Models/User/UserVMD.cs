@@ -6,7 +6,6 @@ namespace MovieTheater.Models.User
 {
     public class UserVMD
     {
-        public Guid Id { get; set; }
 
         public string FirstName { get; set; }
 
@@ -22,6 +21,6 @@ namespace MovieTheater.Models.User
 
         public Status Status { get; set; }
 
-        public List<string> Roles { get; set; }
+        public string Role { get; set; }
     }
 }

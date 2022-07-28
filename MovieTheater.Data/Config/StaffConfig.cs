@@ -46,6 +46,8 @@ namespace MovieTheater.Data.Config
                 .HasMaxLength(10)
                 .IsUnicode(false);
 
+            builder.Property(e => e.Active);
+
             builder.HasOne(d => d.RoleNavigation)
                 .WithMany(p => p.staff)
                 .HasForeignKey(d => d.Role)

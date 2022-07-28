@@ -16,13 +16,13 @@ namespace MovieTheater.Application.UserServices
 
         Task<ApiResult<bool>> UpdateAsync(UserUpdateRequest model);
 
-        Task<ApiResult<bool>> DeleteAsync(Guid id);
+        Task<ApiResult<bool>> DeleteAsync(string id);
 
         Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request);
 
         Task<ApiResult<bool>> RoleAssignAsync(RoleAssignRequest request);
 
-        Task<ApiResult<UserVMD>> GetUserByIdAsync(Guid id);
+        Task<ApiResult<UserVMD>> GetUserByIdAsync(string id);
 
         Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request);
 

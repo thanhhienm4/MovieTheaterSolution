@@ -99,9 +99,9 @@
             @Convert.ToDateTime(item.Dob).ToString("dd/MM/yyyy")
         </td>
         <td>
-            @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
-            <a href="" data-toggle="modal" data-name="@item.UserName" data-target="#deleteUserUser" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
-            @Html.ActionLink("Cấp quyền", "RoleAssign", new { id = item.Id })
+            @Html.ActionLink("Chi tiết", "Edit", new { id = item.UserName }) |
+            <a href="" data-toggle="modal" data-name="@item.UserName" data-target="#deleteUserUser" onclick="holdData(this)" data-id="@item.UserName">Xóa</a>&nbsp;|&nbsp;
+            @Html.ActionLink("Cấp quyền", "RoleAssign", new { id = item.UserName })
         </td>
     </tr>
 }
