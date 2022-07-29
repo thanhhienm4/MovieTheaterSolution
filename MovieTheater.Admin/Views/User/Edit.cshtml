@@ -28,7 +28,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Role" class="control-label"></label>
-                        <select id="selectKOS" asp-for="Role" asp-items="@ViewBag.Roles" class="form-control"></select>
+                        <select id="inputRole" asp-for="Role" asp-items="@ViewBag.Roles" class="form-control" disabled></select>
                         <span asp-validation-for="Role" class="text-danger"></span>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="LastName" class="control-label"></label>
-                        <input id="input1" asp-for="LastName" class="form-control" disabled />
+                        <input id="inputLastName" asp-for="LastName" class="form-control" disabled />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
@@ -115,6 +115,8 @@
         document.getElementById("input4").disabled = false;
         document.getElementById("input5").disabled = false;
         document.getElementById("input6").disabled = false;
+        document.getElementById("inputLastName").disabled = false;
+        document.getElementById("inputRole").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
     }</script>

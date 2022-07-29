@@ -131,16 +131,28 @@ namespace MovieTheater.Application.UserServices
                 staff.Role = model.Role;
                 staff.Phone = model.PhoneNumber;
 
-                if (_context.SaveChanges() > 0)
+                _context.Update(staff);
+                if (await _context.SaveChangesAsync() > 0)
                     return new ApiSuccessResult<bool>(true);
                 return new ApiErrorResult<bool>("Cập nhật thất bại");
 
             }
         }
 
-        public Task<ApiResult<bool>> DeleteAsync(string id)
+        public async Task<ApiResult<bool>> DeleteAsync(string username)
         {
-            throw new NotImplementedException();
+            var staff = await _context.Staffs.FindAsync(username);
+            if (staff == null)
+                return new ApiErrorResult<bool>("Không tồn tại user");
+            else
+            {
+
+                _context.Staffs.Remove(staff);
+                if (await _context.SaveChangesAsync() > 0)
+                    return new ApiSuccessResult<bool>(true);
+                return new ApiErrorResult<bool>("Xóa thất bại thất bại");
+
+            }
         }
 
 

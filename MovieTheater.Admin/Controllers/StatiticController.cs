@@ -109,7 +109,6 @@ namespace MovieTheater.Admin.Controllers
                 }
             }
 
-
             var data = Convert.ToBase64String(file.FileContents);
             return data;
         }

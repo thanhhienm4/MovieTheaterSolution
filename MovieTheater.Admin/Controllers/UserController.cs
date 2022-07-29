@@ -102,10 +102,7 @@ namespace MovieTheater.Admin.Controllers
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
-                string url =
-                    $"{this.Request.Scheme}://{this.Request.Host}/User/RoleAssign/{result.ResultObj.ToString()}";
-
-                return Redirect(url);
+                return RedirectToAction("Index", "User");
             }
 
             ModelState.AddModelError("", result.Message);
@@ -116,13 +113,14 @@ namespace MovieTheater.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            await SetViewBag();
             if (!ModelState.IsValid)
             {
-                
+               
                 return View();
             }
 
-            await SetViewBag();
+           
             var result = await _userApiClient.GetUserByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -149,9 +147,9 @@ namespace MovieTheater.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(UserUpdateRequest request)
         {
+            await SetViewBag();
             if (!ModelState.IsValid)
             {
-                await SetViewBag();
                 ViewBag.IsEdit = true;
                 return View(request);
             }
