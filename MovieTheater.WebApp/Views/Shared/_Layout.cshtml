@@ -13,12 +13,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
     <!-- OWL CAROUSEL -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous"/>
     <!-- BOX ICONS -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <!-- APP CSS -->
-    <link rel="stylesheet" href="~/css/app.css" />
-    <link rel="stylesheet" href="~/css/grid.css" />
+    <link rel="stylesheet" href="~/css/app.css"/>
+    <link rel="stylesheet" href="~/css/grid.css"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -28,82 +28,86 @@
 </head>
 
 
-
 <body>
 
-    <!-- NAV -->
-    <div class="nav-wrapper">
-        <div class="container">
-            <div class="nav">
+<!-- NAV -->
+<div class="nav-wrapper">
+    <div class="container">
+        <div class="nav">
 
-                <a href="#" class="logo">
-                    <i class='bx bx-movie-play bx-tada main-color'></i>RẠP CHIẾU PHIM<span class="main-color"></span>
-                </a>
+            <a href="#" class="logo">
+                <i class='bx bx-movie-play bx-tada main-color'></i>RẠP CHIẾU PHIM<span class="main-color"></span>
+            </a>
 
-                <ul class="nav-menu" id="nav-menu" style="padding-top:11px;font-family:sans-serif">
-                    <li><a href="/">Trang chủ</a></li>
-                    <li><a href="/Film/Schedule">Lịch chiếu phim</a></li>
+            <ul class="nav-menu" id="nav-menu" style="padding-top: 11px; font-family: sans-serif">
+                <li>
+                    <a href="/">Trang chủ</a>
+                </li>
+                <li>
+                    <a href="/Film/Schedule">Lịch chiếu phim</a>
+                </li>
 
-                    <li>
-                        @if (User.Identity.IsAuthenticated == true)
-                        {<!-- Nav Item - User Information -->
+                <li>
+                    @if (User.Identity.IsAuthenticated == true)
+                    {
+                        <!-- Nav Item - User Information -->
 
-                                        <li>
-                                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="mr-0 d-none d-lg-inline text-gray-600">@User.Identity.Name</span>
-                                                <i class="bi bi-people"></i>
-                                            </a>
-                                            <!-- Dropdown - User Information -->
-                                            <div class="dropdown-menu  shadow"
-                                                 aria-labelledby="userDropdown" style="background-color:black">
-                                                <a style="text-transform:none" class="dropdown-item" href="/user/Edit/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
-                                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                                    Thông tin cá nhân
-                                                </a>
-                                                <a style="text-transform:none" class="dropdown-item"href="/reservation/index">
-                                                    <i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i>
-                                                    Lịch sử mua hàng
-                                                </a>
-                                                
-                                                <a style="text-transform:none" class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
-                                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
-                                                    Đổi mật khẩu
-                                                </a>
-                                                <a style="text-transform:none" class="dropdown-item" href="/User/Logout">
-                                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                                    Đăng xuất
-                                                </a>
+                        <li>
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-0 d-none d-lg-inline text-gray-600">@User.Identity.Name</span>
+                                <i class="bi bi-people"></i>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu  shadow"
+                                 aria-labelledby="userDropdown" style="background-color: black">
+                                <a style="text-transform: none" class="dropdown-item" href="/user/Edit/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Thông tin cá nhân
+                                </a>
+                                <a style="text-transform: none" class="dropdown-item"href="/reservation/index">
+                                    <i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Lịch sử mua hàng
+                                </a>
 
-                                            </div>
-                                        </li>
- }
-                                    else
-                                    {
+                                <a style="text-transform: none" class="dropdown-item" href="/user/ChangPassword/@User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault()">
+                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Đổi mật khẩu
+                                </a>
+                                <a style="text-transform: none" class="dropdown-item" href="/User/Logout">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Đăng xuất
+                                </a>
+
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
                         <a href="/login/index">
                             <span>Đăng nhập</span>
                         </a>
-}
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                    }
+                </li>
+            </ul>
         </div>
+    </div>
+</div>
 
-        @RenderBody()
-        @RenderSection("Scripts", required: false)
+@RenderBody()
+@RenderSection("Scripts", required: false)
 
-        <!-- END COPYRIGHT SECTION -->
-        <!-- SCRIPT -->
-        <!-- JQUERY -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <!-- OWL CAROUSEL -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
-        <!-- APP SCRIPT -->
+<!-- END COPYRIGHT SECTION -->
+<!-- SCRIPT -->
+<!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- OWL CAROUSEL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+<!-- APP SCRIPT -->
 
-        <script src="~/js/app.js"></script>
+<script src="~/js/app.js"></script>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    </body>
+<!-- Bootstrap core JavaScript-->
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace MovieTheater.BackEnd.Hub
 {
-    public class ReservationHub :Microsoft.AspNetCore.SignalR.Hub
+    public class ReservationHub : Microsoft.AspNetCore.SignalR.Hub
     {
         public async Task EnableSeat(int screeningId, int seatId)
         {
@@ -14,6 +14,7 @@ namespace MovieTheater.BackEnd.Hub
         {
             await Clients.OthersInGroup(screeningId.ToString()).SendAsync("DisableSeat", seatId);
         }
+
         public async Task AddToGroup(int screeningId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, screeningId.ToString());

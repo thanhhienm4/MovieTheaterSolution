@@ -9,7 +9,7 @@ namespace MovieTheater.Data.Models
     {
         public Voucher()
         {
-            Reservations = new HashSet<Reservation>();
+            //Reservations = new HashSet<Reservation>();
         }
 
         public string Id { get; set; }
@@ -23,6 +23,6 @@ namespace MovieTheater.Data.Models
         public decimal MaxValue { get; set; }
         public bool? Auto { get; set; }
 
-        public virtual ICollection<Reservation> Reservations { get; set; }
+        //public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }

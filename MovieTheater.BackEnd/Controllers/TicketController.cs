@@ -24,7 +24,8 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IUserService _userService;
         private readonly IHubContext<ReservationHub> _hubContext;
 
-        public TicketController(ITicketService ticketService, IHubContext<ReservationHub> hubContext, IUserService userService) : base(userService)
+        public TicketController(ITicketService ticketService, IHubContext<ReservationHub> hubContext,
+            IUserService userService) : base(userService)
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -35,7 +36,7 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResult<bool>> CreateAsync(TicketCreateRequest request)
         {
             var result = await _ticketService.CreateAsync(request);
-            if(result.IsSuccessed)
+            if (result.IsSuccessed)
                 await _hubContext.Clients.Group(request.ScreeningId.ToString()).SendAsync("Disable", request.SeatId);
             return result;
         }

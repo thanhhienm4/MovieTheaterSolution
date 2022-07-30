@@ -185,7 +185,8 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     ScreeningId = x.r.ScreeningId,
                     MovieName = x.r.Screening.Movie.Id,
                     StartTime = x.r.Screening.StartTime,
-                    AuditoriumId = x.r.Screening.AuditoriumId
+                    AuditoriumId = x.r.Screening.AuditoriumId,
+                    AuditoriumFormatName = x.r.Screening.Auditorium.Format.Name
 
                 }).FirstOrDefault();
                 res.TotalPrice = CallTotal(res.Id);

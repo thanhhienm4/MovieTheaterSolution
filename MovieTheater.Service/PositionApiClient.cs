@@ -11,9 +11,10 @@ namespace MovieTheater.Api
     public class PositionApiClient : BaseApiClient
     {
         public PositionApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
-         IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
-          httpContextAccessor)
-        { }
+            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
+            httpContextAccessor)
+        {
+        }
 
         public async Task<ApiResult<List<PositionVMD>>> GetAllPositionAsync()
         {

@@ -135,7 +135,6 @@ namespace MovieTheater.Application.UserServices
                 if (await _context.SaveChangesAsync() > 0)
                     return new ApiSuccessResult<bool>(true);
                 return new ApiErrorResult<bool>("Cập nhật thất bại");
-
             }
         }
 
@@ -146,12 +145,11 @@ namespace MovieTheater.Application.UserServices
                 return new ApiErrorResult<bool>("Không tồn tại user");
             else
             {
-
-                _context.Staffs.Remove(staff);
+                staff.Active = false;
+                _context.Staffs.Update(staff);
                 if (await _context.SaveChangesAsync() > 0)
                     return new ApiSuccessResult<bool>(true);
                 return new ApiErrorResult<bool>("Xóa thất bại thất bại");
-
             }
         }
 
@@ -178,7 +176,6 @@ namespace MovieTheater.Application.UserServices
                 LastName = x.LastName,
                 Role = x.Role,
                 Status = x.Active ? Status.Active : Status.InActive
-
             }).FirstOrDefaultAsync();
             if (user == null)
                 return new ApiErrorResult<UserVMD>("Không tìm thấy người dùng");
@@ -186,12 +183,11 @@ namespace MovieTheater.Application.UserServices
             {
                 return new ApiSuccessResult<UserVMD>(user);
             }
-
         }
 
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
-            var query =  _context.Staffs.Select(x => new UserVMD()
+            var query = _context.Staffs.Select(x => new UserVMD()
             {
                 Dob = x.Dob,
                 Email = x.Mail,
@@ -199,8 +195,8 @@ namespace MovieTheater.Application.UserServices
                 UserName = x.UserName,
                 PhoneNumber = x.Phone,
                 LastName = x.LastName,
-                Role = x.Role
-
+                Role = x.Role,
+                Status = x.Active ? Status.Active : Status.InActive
             });
 
             if (!string.IsNullOrEmpty(request.RoleId))
@@ -211,10 +207,10 @@ namespace MovieTheater.Application.UserServices
                                          || x.PhoneNumber.Contains(request.Keyword)
                                          || x.UserName.Contains(request.Keyword)
                                          || x.FirstName.Contains(request.Keyword));
-                                                
+
 
             var total = query.Count();
-            var res = query.Skip((request.PageIndex -1)*request.PageSize).Take(request.PageSize).ToList();
+            var res = query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize).ToList();
             var pageResult = new PageResult<UserVMD>()
             {
                 PageSize = request.PageSize,
@@ -223,7 +219,6 @@ namespace MovieTheater.Application.UserServices
                 TotalRecord = total
             };
             return new ApiSuccessResult<PageResult<UserVMD>>(pageResult);
-
         }
 
         public Task<ApiResult<bool>> ForgotPasswordAsync(string mail)

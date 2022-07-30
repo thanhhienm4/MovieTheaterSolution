@@ -40,7 +40,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpDelete(APIConstant.AuditoriumDelete + "/{id}")]
-        public async Task<ApiResult<bool>> DeleteAsync( string id)
+        public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             var result = await _roomService.DeleteAsync(id);
             return result;

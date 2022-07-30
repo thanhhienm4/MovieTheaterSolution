@@ -28,18 +28,20 @@ namespace MovieTheater.Api
         }
 
         // http get data form Api
-        protected async Task<ApiResult<TResponse>> GetAsync<TResponse>(string url, NameValueCollection queryParams = null)
+        protected async Task<ApiResult<TResponse>> GetAsync<TResponse>(string url,
+            NameValueCollection queryParams = null)
         {
             HttpClient client = GetHttpClient();
-            var response = await client.GetAsync(GetRoute(url,queryParams));
-            if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            var response = await client.GetAsync(GetRoute(url, queryParams));
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 return await GetReLoginResultAsync<TResponse>();
             }
+
             return await GetResultAsync<TResponse>(response);
         }
 
-      
+
         // post data to Api
         protected async Task<ApiResult<TResponse>> PostAsync<TResponse>(string url, object obj)
         {
@@ -51,11 +53,13 @@ namespace MovieTheater.Api
             {
                 return await GetReLoginResultAsync<TResponse>();
             }
+
             return await GetResultAsync<TResponse>(response);
         }
 
         // send delete request to API
-        protected async Task<ApiResult<TResponse>> DeleteAsync<TResponse>(string url, NameValueCollection queryParams = null)
+        protected async Task<ApiResult<TResponse>> DeleteAsync<TResponse>(string url,
+            NameValueCollection queryParams = null)
         {
             HttpClient client = GetHttpClient();
             var response = await client.DeleteAsync(GetRoute(url, queryParams));
@@ -78,23 +82,25 @@ namespace MovieTheater.Api
             {
                 return await GetReLoginResultAsync<TResponse>();
             }
+
             return await GetResultAsync<TResponse>(response);
         }
 
         public HttpClient GetHttpClient()
         {
             var bearerToken = _httpContextAccessor
-               .HttpContext
-               .Request.Cookies["Token"];
+                .HttpContext
+                .Request.Cookies["Token"];
 
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["ServerBackEnd"]);
 
             client.DefaultRequestHeaders.Authorization =
-               new AuthenticationHeaderValue("Bearer", bearerToken);
+                new AuthenticationHeaderValue("Bearer", bearerToken);
 
             return client;
         }
+
         public static Task<ApiResult<TResponse>> GetReLoginResultAsync<TResponse>()
         {
             var res = new ApiResult<TResponse>
@@ -103,6 +109,7 @@ namespace MovieTheater.Api
             };
             return Task.FromResult(res);
         }
+
         public static async Task<ApiResult<TResponse>> GetResultAsync<TResponse>(HttpResponseMessage response)
         {
             var body = await response.Content.ReadAsStringAsync();
@@ -112,6 +119,7 @@ namespace MovieTheater.Api
                     .DeserializeObject(body, typeof(ApiResult<TResponse>));
                 return myDeserializedObjList;
             }
+
             var res = JsonConvert.DeserializeObject<ApiResult<TResponse>>(body);
             res.IsReLogin = false;
             return res;
@@ -131,6 +139,5 @@ namespace MovieTheater.Api
 
             return route;
         }
-
     }
 }

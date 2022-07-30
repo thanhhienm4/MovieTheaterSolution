@@ -18,6 +18,7 @@ namespace MovieTheater.Models.Catalog.Reservation
         public string MovieName { get; set; }
         public DateTime StartTime { get; set; }
         public string AuditoriumId { get; set; }
+        public string AuditoriumFormatName { get; set; }
 
     }
 }

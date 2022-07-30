@@ -6,7 +6,6 @@ namespace MovieTheater.Models.User
 {
     public class UserVMD
     {
-
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

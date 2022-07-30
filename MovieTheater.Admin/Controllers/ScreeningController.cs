@@ -166,6 +166,5 @@ namespace MovieTheater.Admin.Controllers
                 Value = x.Id.ToString()
             });
         }
-
     }
 }

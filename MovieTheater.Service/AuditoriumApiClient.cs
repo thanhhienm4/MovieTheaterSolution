@@ -37,7 +37,8 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<PageResult<AuditoriumVMD>>> GetPagingAsync(AuditoriumPagingRequest request)
         {
-            return await PostAsync<PageResult<AuditoriumVMD>>($"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumGetPaging}", request);
+            return await PostAsync<PageResult<AuditoriumVMD>>(
+                $"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumGetPaging}", request);
         }
 
         public async Task<ApiResult<RoomMD>> GetByIdAsync(string id)
@@ -65,7 +66,8 @@ namespace MovieTheater.Api
             {
                 { "id", id }
             };
-            return await GetAsync<RoomCoordinate>($"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumGetCoordinate}",queryParams);
+            return await GetAsync<RoomCoordinate>($"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumGetCoordinate}",
+                queryParams);
         }
 
         public async Task<ApiResult<AuditoriumFormatVMD>> GetRoomFormatByIdAsync(int id)

@@ -13,9 +13,10 @@ namespace MovieTheater.Api
     public class SeatRowApiClient : BaseApiClient
     {
         public SeatRowApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
-          IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
-           httpContextAccessor)
-        { }
+            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
+            httpContextAccessor)
+        {
+        }
 
         public async Task<ApiResult<bool>> CreateAsync(SeatRowCreateRequest request)
         {

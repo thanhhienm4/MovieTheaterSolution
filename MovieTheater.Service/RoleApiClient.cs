@@ -12,9 +12,10 @@ namespace MovieTheater.Api
     public class RoleApiClient : BaseApiClient
     {
         public RoleApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
-    IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
-     httpContextAccessor)
-        { }
+            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
+            httpContextAccessor)
+        {
+        }
 
         public async Task<ApiResult<List<RoleVMD>>> GetRolesAsync()
         {

@@ -8,6 +8,5 @@ namespace MovieTheater.Application.RoleService
     public interface IRoleService
     {
         Task<ApiResult<List<RoleVMD>>> GetAllAsync();
-
     }
 }

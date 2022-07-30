@@ -1,12 +1,18 @@
 ﻿@model MovieTheater.Models.User.UserUpdateRequest
 @using System.Security.Claims
-@using  MovieTheater.Data.Enums
-@{ ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@using MovieTheater.Data.Enums
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item"><a href="/User">Người dùng</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/User">Người dùng</a>
+    </li>
     <li class="breadcrumb-item active">Chi tiết</li>
 </ol>
 
@@ -37,7 +43,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="LastName" class="control-label"></label>
-                        <input id="inputLastName" asp-for="LastName" class="form-control" disabled />
+                        <input id="inputLastName" asp-for="LastName" class="form-control" disabled/>
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
@@ -45,7 +51,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="FirstName" class="control-label"></label>
-                        <input id="input2" asp-for="FirstName" class="form-control" disabled />
+                        <input id="input2" asp-for="FirstName" class="form-control" disabled/>
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
@@ -55,7 +61,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Dob" class="control-label"></label>
-                        <input id="input3" asp-for="Dob" class="form-control" type="date" disabled />
+                        <input id="input3" asp-for="Dob" class="form-control" type="date" disabled/>
                         <span asp-validation-for="Dob" class="text-danger"></span>
                     </div>
                 </div>
@@ -69,7 +75,7 @@
                         </div>
                     </div>
                 }
-                else 
+                else
                 {
                     <div class="col-md" hidden>
                         <div class="form-group">
@@ -86,7 +92,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Email" class="control-label"></label>
-                        <input id="input5" asp-for="Email" class="form-control" disabled />
+                        <input id="input5" asp-for="Email" class="form-control" disabled/>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
@@ -94,14 +100,14 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="PhoneNumber" class="control-label"></label>
-                        <input id="input6" asp-for="PhoneNumber" class="form-control" disabled />
+                        <input id="input6" asp-for="PhoneNumber" class="form-control" disabled/>
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
             </div>
 
             <div id="btnSave" class="form-group d-flex justify-content-center invisible">
-                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary"/>
             </div>
         </form>
     </div>
@@ -119,7 +125,8 @@
         document.getElementById("inputRole").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
-    }</script>
+    }
+</script>
 
 @if (ViewBag.IsEdit != null)
 {

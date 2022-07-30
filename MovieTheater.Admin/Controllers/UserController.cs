@@ -81,7 +81,6 @@ namespace MovieTheater.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-
             await SetViewBag();
             return View();
         }
@@ -101,7 +100,7 @@ namespace MovieTheater.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
-                TempData["Result"] = result.Message;
+                TempData["Result"] = "Thêm thành công";
                 return RedirectToAction("Index", "User");
             }
 
@@ -116,11 +115,10 @@ namespace MovieTheater.Admin.Controllers
             await SetViewBag();
             if (!ModelState.IsValid)
             {
-               
                 return View();
             }
 
-           
+
             var result = await _userApiClient.GetUserByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -159,7 +157,7 @@ namespace MovieTheater.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
-                TempData["Result"] = result.Message;
+                TempData["Result"] = "Cập nhật thành công";
 
                 if (!User.Claims.Any(x => x.Type == ClaimTypes.Role && x.Value == "Admin"))
                 {

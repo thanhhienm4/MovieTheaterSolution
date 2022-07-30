@@ -36,6 +36,7 @@ namespace MovieTheater.Api
                 ByteArrayContent bytes = new ByteArrayContent(data);
                 requestContent.Add(bytes, "Poster", request.Poster.FileName);
             }
+
             requestContent.Add(new StringContent(request.Id), nameof(request.Id));
             requestContent.Add(new StringContent(request.Description.ToString()), "Description");
             requestContent.Add(new StringContent(request.CensorshipId.ToString()), "CensorshipId");
@@ -105,10 +106,10 @@ namespace MovieTheater.Api
         {
             NameValueCollection queryParams = new NameValueCollection()
             {
-                { "id", id}
+                { "id", id }
             };
             // ReSharper disable once FormatStringProblem
-            return await GetAsync<MovieMD>($"{APIConstant.ApiMovie}/{APIConstant.MovieGetById}",queryParams);
+            return await GetAsync<MovieMD>($"{APIConstant.ApiMovie}/{APIConstant.MovieGetById}", queryParams);
         }
 
         public async Task<ApiResult<List<MovieVMD>>> GetAllFilmAsync()

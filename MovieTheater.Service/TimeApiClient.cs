@@ -52,10 +52,10 @@ namespace MovieTheater.Api
         {
             return await GetAsync<List<TimeVMD>>($"{APIConstant.ApiTime}/{APIConstant.TimeGetAll}");
         }
+
         public async Task<ApiResult<PageResult<TimeVMD>>> GetPagingAsync(TimePagingRequest request)
         {
             return await PostAsync<PageResult<TimeVMD>>($"{APIConstant.ApiTime}/{APIConstant.TimePaging}", request);
         }
-
     }
 }

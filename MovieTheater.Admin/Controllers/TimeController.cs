@@ -52,6 +52,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View(request);
             }
+
             var result = await _timeApiClient.CreateAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -60,6 +61,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = "Tạo mới thành công";
                 return RedirectToAction("Index", "Time");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
@@ -72,6 +74,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 return View();
             }
+
             var result = await _timeApiClient.GetByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -90,6 +93,7 @@ namespace MovieTheater.Admin.Controllers
                 };
                 return View(updateRequest);
             }
+
             return RedirectToAction("Error", "Home");
         }
 
@@ -102,6 +106,7 @@ namespace MovieTheater.Admin.Controllers
                 ViewBag.IsEdit = true;
                 return View(request);
             }
+
             var result = await _timeApiClient.UpdateAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -110,6 +115,7 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = "Chỉnh sửa thành công";
                 return RedirectToAction("Index", "SeatRow");
             }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
@@ -122,19 +128,18 @@ namespace MovieTheater.Admin.Controllers
                 TempData["Result"] = result.Message;
             return result;
         }
+
         private void SetViewBagAsync()
         {
-            
             ViewBag.DateOfWeek = new List<SelectListItem>()
             {
-                new SelectListItem(){ Text = "Thứ 2", Value = "Mon" },
-                new SelectListItem(){ Text = "Thứ 3", Value = "Tue" },
-                new SelectListItem(){ Text = "Thứ 4", Value = "Web" },
-                new SelectListItem(){ Text = "Thứ 5", Value = "Thus" },
-                new SelectListItem(){ Text = "Thứ 6", Value = "Fri" },
-                new SelectListItem(){ Text = "Thứ 7", Value = "Sat" },
-                new SelectListItem(){ Text = "Chủ nhật", Value = "Sun" },
-                
+                new SelectListItem() { Text = "Thứ 2", Value = "Mon" },
+                new SelectListItem() { Text = "Thứ 3", Value = "Tue" },
+                new SelectListItem() { Text = "Thứ 4", Value = "Web" },
+                new SelectListItem() { Text = "Thứ 5", Value = "Thus" },
+                new SelectListItem() { Text = "Thứ 6", Value = "Fri" },
+                new SelectListItem() { Text = "Thứ 7", Value = "Sat" },
+                new SelectListItem() { Text = "Chủ nhật", Value = "Sun" },
             };
         }
     }

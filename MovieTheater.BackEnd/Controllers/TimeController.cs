@@ -37,7 +37,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpDelete(APIConstant.TimeDelete+"/{id}")]
+        [HttpDelete(APIConstant.TimeDelete + "/{id}")]
         public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             var result = await _timeService.DeleteAsync(id);

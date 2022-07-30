@@ -40,7 +40,6 @@ namespace MovieTheater.WebApp.Controllers
                 Active = true,
                 EmployeeId = null,
                 ReservationTypeId = ReservationType.Online
-
             }).Result;
 
             return Task.FromResult<IActionResult>(Redirect($"/Reservation/Create/{reservation.ResultObj}"));
@@ -71,8 +70,5 @@ namespace MovieTheater.WebApp.Controllers
             ticket.CustomerType = CustomerType.Adult;
             return await _ticketApiClient.DeleteAsync(ticket);
         }
-
-
-
     }
 }

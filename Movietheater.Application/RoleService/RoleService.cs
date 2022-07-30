@@ -11,6 +11,7 @@ namespace MovieTheater.Application.RoleService
     public class RoleService : IRoleService
     {
         private readonly MoviesContext _context;
+
         public RoleService(MoviesContext context)
         {
             _context = context;
@@ -26,7 +27,6 @@ namespace MovieTheater.Application.RoleService
             }).ToListAsync();
 
             return new ApiSuccessResult<List<RoleVMD>>(res);
-
         }
     }
 }

@@ -144,10 +144,8 @@ namespace MovieTheater.BackEnd
             var mailsettings = Configuration.GetSection("MailSettings");
             services.Configure<MailSettings>(mailsettings);
             services.AddControllersWithViews();
-            services.AddSignalR(options =>
-            {
-                options.EnableDetailedErrors = true;
-            }); ;
+            services.AddSignalR(options => { options.EnableDetailedErrors = true; });
+            ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

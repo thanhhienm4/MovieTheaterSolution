@@ -1,17 +1,24 @@
 ﻿@using MovieTheater.Models.Common.Paging
 @using MovieTheater.Models.User
 @model PageResult<UserVMD>
-@{ ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 @section Scripts{
     <script>
-        setTimeout(function () {
-            $("#SuccessMeg").fadeOut('slow');
-        }, 2000);
+        setTimeout(function() {
+                $("#SuccessMeg").fadeOut('slow');
+            },
+            2000);
     </script>
 }
+
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
     <li class="breadcrumb-item active">Người dùng</li>
 </ol>
 <div class="card shadow mb-4">
@@ -31,14 +38,16 @@
                             &nbsp;
                         </div>
                         <div>
-                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control"/>
                         </div>
                         <div>
                             &nbsp;
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Tìm</button>
-                            <button type="button" onclick="window.location.href='/User/Index'" class="btn btn-light"><img src="https://img.icons8.com/ios-filled/20/000000/rotate.png" /></button>
+                            <button type="button" onclick="window.location.href = '/User/Index'" class="btn btn-light">
+                                <img src="https://img.icons8.com/ios-filled/20/000000/rotate.png"/>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -48,62 +57,63 @@
     <div>
         @if (ViewBag.SuccessMsg != null)
         {
-<div id="SuccessMeg" class="alert alert-success" role="alert">
-    @ViewBag.SuccessMsg
-</div>            }
+            <div id="SuccessMeg" class="alert alert-success" role="alert">
+                @ViewBag.SuccessMsg
+            </div>
+        }
     </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
-                <tr>
+            <tr>
 
-                    <th>
-                        Tên đăng nhập
-                    </th>
-                    <th>
-                        Trạng thái
-                    </th>
-                    <th>
-                        Số điện thoại
-                    </th>
-                    <th>
-                        Email
-                    </th>
-                    <th>
-                        Ngày sinh
-                    </th>
-                    <th>
-                        Khác
-                    </th>
-                </tr>
+                <th>
+                    Tên đăng nhập
+                </th>
+                <th>
+                    Trạng thái
+                </th>
+                <th>
+                    Số điện thoại
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Ngày sinh
+                </th>
+                <th>
+                    Khác
+                </th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Item)
-                {
-    <tr>
+            @foreach (var item in Model.Item)
+            {
+                <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td class="status">
-            @item.Status
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td class="status">
+                        @item.Status
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
 
-            @Convert.ToDateTime(item.Dob).ToString("dd/MM/yyyy")
-        </td>
-        <td>
-            @Html.ActionLink("Chi tiết", "Edit", new { id = item.UserName }) |
-            <a href="" data-toggle="modal" data-name="@item.UserName" data-target="#deleteUserUser" onclick="holdData(this)" data-id="@item.UserName">Xóa</a>&nbsp;|&nbsp;
-        </td>
-    </tr>
-}
+                        @Convert.ToDateTime(item.Dob).ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chi tiết", "Edit", new { id = item.UserName }) |
+                        <a href="" data-toggle="modal" data-name="@item.UserName" data-target="#deleteUserUser" onclick="holdData(this)" data-id="@item.UserName">Xóa</a>&nbsp;|&nbsp;
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
         <div class="d-flex">
@@ -113,8 +123,8 @@
         </div>
     </div>
 </div>
-<input id="nameUser" hidden />
-<input id="idUser" hidden />
+<input id="nameUser" hidden/>
+<input id="idUser" hidden/>
 <!--model delete-->
 <div class="modal fade" id="deleteUserUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -148,12 +158,13 @@
         $("#deleteMeg").text("Bạn muốn xóa " + name);
     }
 
-    $(function () {
+    $(function() {
 
-        $("#deleteUserUser").on('show.bs.modal', function () {
-            name = $("#nameUser").val();
+        $("#deleteUserUser").on('show.bs.modal',
+            function() {
+                name = $("#nameUser").val();
 
-        });
+            });
 
     });
 
@@ -163,7 +174,7 @@
             type: "POST",
             url: "/User/Delete",
             data: { id: userId },
-            success: function () {
+            success: function() {
                 location.reload();
             }
         })

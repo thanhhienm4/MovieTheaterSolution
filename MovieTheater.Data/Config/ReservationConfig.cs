@@ -33,9 +33,9 @@ namespace MovieTheater.Data.Config
                 .HasMaxLength(10)
                 .IsUnicode(false);
 
-            builder.Property(e => e.VoucherId)
-                .HasMaxLength(32)
-                .IsUnicode(false);
+            //builder.Property(e => e.VoucherId)
+            //    .HasMaxLength(32)
+            //    .IsUnicode(false);
 
             builder.HasOne(d => d.CustomerNavigation)
                 .WithMany(p => p.Reservations)
@@ -59,10 +59,10 @@ namespace MovieTheater.Data.Config
                 .HasForeignKey(d => d.TypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            builder.HasOne(d => d.Voucher)
-                .WithMany(p => p.Reservations)
-                .HasForeignKey(d => d.VoucherId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            //builder.HasOne(d => d.Voucher)
+            //    .WithMany(p => p.Reservations)
+            //    .HasForeignKey(d => d.VoucherId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

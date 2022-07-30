@@ -21,7 +21,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<bool>> CreateAsync(TicketCreateRequest request)
         {
-            return await PostAsync<bool>( $"{APIConstant.ApiTicket}/{APIConstant.TicketCreate}", request);
+            return await PostAsync<bool>($"{APIConstant.ApiTicket}/{APIConstant.TicketCreate}", request);
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(TicketUpdateRequest request)
@@ -33,6 +33,5 @@ namespace MovieTheater.Api
         {
             return await PostAsync<bool>($"{APIConstant.ApiTicket}/{APIConstant.TicketDelete}", request);
         }
-
     }
 }

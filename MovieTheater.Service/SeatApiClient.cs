@@ -30,7 +30,8 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
         {
-            return await GetAsync<List<SeatVMD>>($"{APIConstant.ApiSeat}/{APIConstant.SeatGetListSeatReserve}/{screeningId}");
+            return await GetAsync<List<SeatVMD>>(
+                $"{APIConstant.ApiSeat}/{APIConstant.SeatGetListSeatReserve}/{screeningId}");
         }
 
         public async Task<ApiResult<bool>> CreateKindOfseatAsync(SeatTypeCreateRequest request)
