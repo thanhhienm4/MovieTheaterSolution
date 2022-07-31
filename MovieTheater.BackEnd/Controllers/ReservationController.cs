@@ -9,8 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using MovieTheater.Application.CustomerServices;
 using MovieTheater.Application.ReservationServices.Reservations;
 using MovieTheater.BackEnd.Payment;
+using MovieTheater.Common.Constants;
+using MovieTheater.Data.Models;
 using MovieTheater.Models.User;
 
 namespace MovieTheater.BackEnd.Controllers
@@ -21,14 +24,19 @@ namespace MovieTheater.BackEnd.Controllers
     public class ReservationController : BaseController
     {
         private readonly IReservationService _reservationService;
-        private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
+        private readonly ICustomerService _customerService;
+        private readonly IVnPayService _vnPayService;
 
-        public ReservationController(IReservationService reservationService, IUserService userService, IConfiguration configuration) : base(
+        public ReservationController(IReservationService reservationService, IUserService userService,
+            IConfiguration configuration,
+            ICustomerService customerService, IVnPayService vnPayService) : base(
             userService)
         {
             _reservationService = reservationService;
             _configuration = configuration;
+            _customerService = customerService;
+            _vnPayService = vnPayService;
         }
 
         [HttpPost("Create")]
@@ -80,19 +88,39 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _reservationService.CalPrePriceAsync(tickets);
             return result;
         }
-        [AllowAnonymous]
-        [HttpPost("Test")]
-        public async Task<ApiResult<string>> Test()
+        //[AllowAnonymous]
+        //[HttpPost("Test")]
+        //public async Task<ApiResult<string>> Test()
+        //{
+        //    var vnp = new VnPayService(_configuration);
+        //    UserVMD user = new UserVMD()
+        //    {
+        //        Email = "thanhhienm4@gmail.com",
+        //        PhoneNumber = "0912413004",
+        //        FirstName = "Nguyễn Thanh Hiền"
+        //    };
+        //    //return new ApiSuccessResult<string>(vnp.CreateRequest(user));
+        //}
+
+        [HttpPost("Payment")]
+        public async Task<ApiResult<string>> CreateAsync([FromBody] int id)
         {
-            var vnp = new VnPayService(_configuration);
-            UserVMD user = new UserVMD()
+            var reservation = (await _reservationService.GetById(id)).ResultObj;
+            var customer = (await _customerService.GetById(reservation.Customer)).ResultObj;
+            var url = _vnPayService.CreateRequest(reservation, customer);
+            await _reservationService.UpdatePaymentStatus(new ReservationUpdatePaymentRequest()
             {
-                Email = "thanhhienm4@gmail.com",
-                PhoneNumber = "0912413004",
-                FirstName = "Nguyễn Thanh Hiền"
-            };
-            return new ApiSuccessResult<string>(vnp.CreateRequest(user));
+                Id = reservation.Id,
+                Status = PaymentStatusType.Inprogress
+            });
+            return new ApiSuccessResult<string>(url);
         }
 
+        [HttpPut("UpdatePayment")]
+        public async Task<ApiResult<bool>> UpdatePaymentAsync(ReservationUpdatePaymentRequest request)
+        {
+            var result = await _reservationService.UpdatePaymentStatus(request);
+            return result;
+        }
     }
 }

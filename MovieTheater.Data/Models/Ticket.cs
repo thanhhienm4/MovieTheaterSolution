@@ -11,6 +11,7 @@ namespace MovieTheater.Data.Models
         public int SeatId { get; set; }
         public string CustomerType { get; set; }
         public int? ReservationId { get; set; }
+        public decimal Price { get; set; }
 
         public virtual Seat Seat { get; set; }
         public virtual CustomerType CustomerTypeNavigation { get; set; }

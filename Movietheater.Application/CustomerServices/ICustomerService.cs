@@ -19,7 +19,7 @@ namespace MovieTheater.Application.CustomerServices
 
         Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request);
 
-        Task<ApiResult<CustomerVMD>> GetByUsernameAsync(string username);
+        Task<ApiResult<CustomerVMD>> GetById(string id);
 
         Task<ApiResult<PageResult<CustomerVMD>>> GetUserPagingAsync(UserPagingRequest request);
 

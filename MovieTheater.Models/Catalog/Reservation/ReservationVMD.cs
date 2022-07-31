@@ -9,7 +9,7 @@ namespace MovieTheater.Models.Catalog.Reservation
         public string Paid { get; set; }
         public bool Active { get; set; }
         public string ReservationType { get; set; }
-        public string Customer { get; set; }
+        public string CustomerName { get; set; }
         public string Employee { get; set; }
         public DateTime Time { get; set; }
         public List<TicketVMD> Tickets { get; set; }
@@ -18,7 +18,7 @@ namespace MovieTheater.Models.Catalog.Reservation
         public string MovieName { get; set; }
         public DateTime StartTime { get; set; }
         public string AuditoriumId { get; set; }
+        public string Customer { get; set; }
         public string AuditoriumFormatName { get; set; }
-
     }
 }

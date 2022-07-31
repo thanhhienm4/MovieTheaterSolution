@@ -2,6 +2,7 @@
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MovieTheater.Application.ReservationServices.Reservations;
 using MovieTheater.Data.Models;
 
 namespace MovieTheater.Application.ReservationServices.Tickets
@@ -9,10 +10,12 @@ namespace MovieTheater.Application.ReservationServices.Tickets
     public class TicketService : ITicketService
     {
         private readonly MoviesContext _context;
+        private readonly IReservationService _reservationService;
 
-        public TicketService(MoviesContext context)
+        public TicketService(MoviesContext context, IReservationService reservationService)
         {
             _context = context;
+            _reservationService = reservationService;
         }
 
         public async Task<ApiResult<bool>> CreateAsync(TicketCreateRequest request)
@@ -22,6 +25,7 @@ namespace MovieTheater.Application.ReservationServices.Tickets
                 SeatId = request.SeatId,
                 CustomerType = request.CustomerType,
                 ReservationId = request.ReservationId,
+                Price = (await _reservationService.CalPriceAsync(request)).ResultObj
             };
             _context.Tickets.Add(ticket);
             int result = await _context.SaveChangesAsync();

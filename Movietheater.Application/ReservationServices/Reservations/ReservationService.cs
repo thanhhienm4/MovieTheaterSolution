@@ -67,7 +67,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
 
                 var ticket = _context.Tickets.Where(x => x.ReservationId == id).ToList();
                 _context.Tickets.RemoveRange(ticket);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 _context.Reservations.Remove(reservation);
                 if (await _context.SaveChangesAsync() != 0)
                 {
@@ -108,9 +108,9 @@ namespace MovieTheater.Application.ReservationServices.Reservations
         public async Task<ApiResult<PageResult<ReservationVMD>>> GetPagingAsync(ReservationPagingRequest request)
         {
             //var query = from r in _context.Reservations
-            //            join c in _context.Customers on r.Customer equals c.Id into rc
+            //            join c in _context.Customers on r.CustomerName equals c.Id into rc
             //            from c in rc.DefaultIfEmpty()
-            //            join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
+            //            join e in _context.Staffs on r.EmployeeId equals e.Id into rec
             //            from e in rec.DefaultIfEmpty()
             //            join rt in _context.ReservationTypes on r.TypeId equals rt.Id
             //            select new { r, c,rt, e };
@@ -137,7 +137,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             //        ReservationType = x.rt.RowName,
             //        Time = x.r.Time,
             //        Employee = x.e.LastName + " " + x.e.FirstName,
-            //        Customer = x.c.LastName + " " + x.c.FirstName,
+            //        CustomerName = x.c.LastName + " " + x.c.FirstName,
 
             //    }).ToList();
             //foreach(var item in items )
@@ -181,13 +181,13 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     ReservationType = x.rt.Name,
                     Time = x.r.Time,
                     Employee = x.e.LastName + " " + x.e.FirstName,
-                    Customer = x.c.LastName + " " + x.c.FirstName,
+                    CustomerName = x.c.LastName + " " + x.c.FirstName,
                     ScreeningId = x.r.ScreeningId,
                     MovieName = x.r.Screening.Movie.Id,
                     StartTime = x.r.Screening.StartTime,
                     AuditoriumId = x.r.Screening.AuditoriumId,
-                    AuditoriumFormatName = x.r.Screening.Auditorium.Format.Name
-
+                    AuditoriumFormatName = x.r.Screening.Auditorium.Format.Name,
+                    Customer = x.r.Customer
                 }).FirstOrDefault();
                 res.TotalPrice = CallTotal(res.Id);
                 res.Tickets = await GetTicketsAsync(Id);
@@ -248,14 +248,36 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             var reservationParam = new SqlParameter("@reservationId", ticket.ReservationId);
             var seatParam = new SqlParameter("@SeatId", ticket.SeatId);
             var customerParam = new SqlParameter("@customerType", ticket.CustomerType);
-            
 
-            var data = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[CalPrePrice] @reservationId, @SeatId, @customerType", parameterReturn,reservationParam,seatParam,customerParam);
+
+            var data = await _context.Database.ExecuteSqlRawAsync(
+                "EXEC @returnValue = [dbo].[CalPrePrice] @reservationId, @SeatId, @customerType", parameterReturn,
+                reservationParam, seatParam, customerParam);
 
             return new ApiSuccessResult<Decimal>((decimal)parameterReturn.Value);
         }
 
-        
+        public async Task<ApiResult<bool>> UpdatePaymentStatus(ReservationUpdatePaymentRequest request)
+        {
+            Reservation rv = await _context.Reservations.FindAsync(request.Id);
+            if (rv == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy");
+            }
+            else
+            {
+                rv.PaymentStatus = request.Status;
+                _context.Update(rv);
+                int rs = await _context.SaveChangesAsync();
+                if (rs == 0)
+                {
+                    return new ApiErrorResult<bool>("Lưu thất bại");
+                }
+
+                return new ApiSuccessResult<bool>(true, "Lưu thành công");
+            }
+        }
+
 
         public async Task<ApiResult<List<ReservationVMD>>> GetByUserId(string userId)
         {
@@ -277,7 +299,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 ReservationType = x.rt.Name,
                 Time = x.r.Time,
                 Employee = x.e.LastName + " " + x.e.FirstName,
-                Customer = x.c.LastName + " " + x.c.FirstName
+                CustomerName = x.c.LastName + " " + x.c.FirstName
             }).ToList();
 
             foreach (var reservation in res)
@@ -294,7 +316,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
         {
             if (!_context.Tickets.Any(x => x.ReservationId == id))
                 return 0;
-            long res = 1; //_context.Tickets.Where(x => x.ReservationId == id).Sum(x => x.Price);
+            long res = (long)_context.Tickets.Where(x => x.ReservationId == id).Sum(x => x.Price);
             return res;
         }
 
@@ -307,7 +329,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             }
 
             return time - lastMonday;
-
         }
     }
 }

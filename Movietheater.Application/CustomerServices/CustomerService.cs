@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using MovieTheater.Application.MailServices;
 using MovieTheater.Common.Constants;
 using MovieTheater.Common.Helper;
+using MovieTheater.Data.Enums;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
@@ -26,6 +27,7 @@ namespace MovieTheater.Application.CustomerServices
         private readonly IHttpContextAccessor _accessor;
         private readonly IMailService _mailService;
         private readonly IConfiguration _configuration;
+        private MoviesContext _context;
 
         public CustomerService(MoviesContext context, IHttpContextAccessor accessor, IMailService mailService,
             IConfiguration configuration)
@@ -33,6 +35,7 @@ namespace MovieTheater.Application.CustomerServices
             _accessor = accessor;
             _mailService = mailService;
             _configuration = configuration;
+            _context = context;
         }
 
         public async Task<ApiResult<string>> LoginAsync(LoginRequest request)
@@ -122,10 +125,25 @@ namespace MovieTheater.Application.CustomerServices
             throw new NotImplementedException();
         }
 
-        public Task<ApiResult<CustomerVMD>> GetByUsernameAsync(string username)
+        public async Task<ApiResult<CustomerVMD>> GetById(string id)
         {
-            throw new NotImplementedException();
+            var user = await _context.Customers.Where(x => x.Id == id).Select(x => new CustomerVMD()
+            {
+                Dob = x.Dob,
+                Email = x.Mail,
+                FirstName = x.FirstName,
+                Id = x.Id,
+                PhoneNumber = x.Phone,
+                LastName = x.LastName,
+            }).FirstOrDefaultAsync();
+            if (user == null)
+                return new ApiErrorResult<CustomerVMD>("Không tìm thấy người dùng");
+            else
+            {
+                return new ApiSuccessResult<CustomerVMD>(user);
+            }
         }
+
 
         public Task<ApiResult<PageResult<CustomerVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {

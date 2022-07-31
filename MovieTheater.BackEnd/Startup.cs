@@ -39,6 +39,7 @@ using MovieTheater.Application.SeatServices.SeatRows;
 using MovieTheater.Application.SeatServices.SeatTypes;
 using MovieTheater.Application.TimeServices;
 using MovieTheater.BackEnd.Hub;
+using MovieTheater.BackEnd.Payment;
 
 namespace MovieTheater.BackEnd
 {
@@ -78,7 +79,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IPositionService, PositionService>();
             services.AddTransient<IMailService, MailService>();
             services.AddTransient<IRoleService, RoleService>();
-
+            services.AddTransient<IVnPayService, VnPayService>();
 
             // For Identity
 

@@ -23,6 +23,11 @@ namespace MovieTheater.Api
             return await PostAsync<int>("/api/Reservation/Create", request);
         }
 
+        public async Task<ApiResult<string>> PaymentAsync(int id)
+        {
+            return await PostAsync<string>("/api/Reservation/Payment", id);
+        }
+
         public async Task<ApiResult<bool>> UpdateAsync(ReservationUpdateRequest request)
         {
             return await PutAsync<bool>("/api/Reservation/Update", request);
@@ -52,6 +57,11 @@ namespace MovieTheater.Api
         public async Task<ApiResult<decimal>> CalPrePriceAsync(List<TicketCreateRequest> tickets)
         {
             return await PostAsync<decimal>($"Api/Reservation/CalPrePrice", tickets);
+        }
+
+        public async Task<ApiResult<bool>> UpdatePaymentAsync(ReservationUpdatePaymentRequest request)
+        {
+            return await PutAsync<bool>("/api/Reservation/UpdatePayment", request);
         }
     }
 }
