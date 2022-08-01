@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MovieTheater.Data.Models;
+using MovieTheater.Data.Results;
 using Org.BouncyCastle.Crypto.Agreement.JPake;
 
 namespace MovieTheater.Application.SeatServices.Seats
@@ -161,28 +162,10 @@ namespace MovieTheater.Application.SeatServices.Seats
             return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
         }
 
-        public async Task<ApiResult<List<SeatVMD>>> GetListReserved(int screeningId)
+        public async Task<ApiResult<List<SeatModel>>> GetListReserved(int reservationId)
         {
-            var screening = await _context.Screenings.FindAsync(screeningId);
-            if (screening == null)
-                return new ApiErrorResult<List<SeatVMD>>("Không tìm thấy xuất chiếu");
-
-            var query = from t in _context.Tickets
-                        join r in _context.Reservations on t.ReservationId equals r.Id
-                        join s in _context.Seats on t.SeatId equals s.Id
-                        where r.ScreeningId == screeningId
-                        select s;
-
-            var seats = await query.Select(x => new SeatVMD()
-            {
-                Id = x.Id,
-                TypeId = x.TypeId,
-                Number = x.Number,
-                AuditoriumId = x.AuditoriumId,
-                RowId = x.RowId
-            }).ToListAsync();
-
-            return new ApiSuccessResult<List<SeatVMD>>(seats);
+            var res = _context.SeatModel.FromSqlRaw("GetSeatInScreening {0}", reservationId).ToList();
+            return new ApiSuccessResult<List<SeatModel>>(res);
         }
 
         private bool CheckListRow(List<int> listSeatRow)

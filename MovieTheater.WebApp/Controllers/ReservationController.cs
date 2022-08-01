@@ -107,5 +107,12 @@ namespace MovieTheater.WebApp.Controllers
 
             return View(payment);
         }
+
+        [HttpPost]
+        public bool Delete(int id)
+        {
+            var reservation = _reservationApiClient.DeleteAsync(id).Result.ResultObj;
+            return reservation;
+        }
     }
 }

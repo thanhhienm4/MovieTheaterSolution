@@ -83,7 +83,7 @@
             <button id="stop-watch" class="btn btn-primary btn-block">
             </button>
             <br/>
-            <button class="btn btn-success btn-block" id="btnReserve">Đặt vé</button>
+            <button class="btn btn-success btn-block" id="btnReserve">Thanh toán</button>
         </div>
     </div>
 
@@ -121,10 +121,11 @@
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            stopwatch.innerHTML = minutes + ':' + seconds;
+            stopwatch.innerHTML = String(minutes).padStart(2, 0) + ':' + String(seconds).padStart(2, 0);
             if (distance < 0) {
                 clearInterval(x);
                 document.getElementById("stop-watch").innerHTML = "EXPIRED";
+                $('#notifyModal').modal('show');
 
             }
         },
@@ -271,8 +272,8 @@
 
                                     $.ajax({
                                         type: "GET",
-                                        url: "/Room/GetSeatInRoom",
-                                        data: { roomId: '@Model.AuditoriumId' },
+                                        url: "/Screening/GetListSeatReserved",
+                                        data: { id: @Model.Id },
                                         success: function(res) {
                                             for (var i = 0; i < res.length; i++) {
                                                 var idElement = res[i].rowId + '_' + res[i].number.toString();
@@ -290,64 +291,37 @@
                                                 $(btn).html('<a title="' + res[i].rowName + res[i].number + '">' + res[i].rowName + res[i].number + '</a>');
                                                 console.log(res[i].rowName + res[i].number);
 
-                                            };
-
-                                            $.ajax({
-                                                type: "GET",
-                                                url: "/Screening/GetListSeatReserved",
-                                                data: { id: @Model.ScreeningId },
-                                                success: function(res) {
-                                                    for (var i = 0; i < res.length; i++) {
-                                                        var idElement = res[i].rowId + '_' + res[i].number.toString();
-                                                        var btn = document.getElementById(idElement);
-
-                                                        $(btn).addClass('taken');
-
-                                                    }
-
-                                                    $('#place button.' + settings.seatCss).click(function() {
-                                                        $(this).toggleClass(settings.selectingSeatCss);
-                                                        var seatsName = '';
-                                                        var tickets = [];
-
-                                                        //insert new ticket
-                                                        var data = { ReservationId: @Model.Id, SeatId: $(this).attr('data-id'), ScreeningId: @Model.ScreeningId };
-                                                        if ($(this).hasClass(settings.selectingSeatCss)) {
-                                                            addTicket(data);
-                                                            connection.invoke('disableSeat', @Model.ScreeningId, parseInt(data.SeatId));
-                                                        } else {
-                                                            deleteTicket(data);
-                                                            connection.invoke('enableSeat', @Model.ScreeningId, parseInt(data.SeatId));
-                                                        }
-
-                                                        $.each($('#place button.' + settings.selectingSeatCss),
-                                                            function(index, value) {
-                                                                if (!this.classList.contains('taken')) {
-                                                                    seatsName += $(this).attr('data-name') + ', ';
-                                                                    var ticket = {
-                                                                        ReservationId: @Model.Id,
-                                                                        SeatId: $(this).attr('data-id'),
-                                                                    };
-                                                                    tickets.push(ticket);
-                                                                }
-                                                            });
-                                                        $("#seatsName").text(seatsName);
-
-                                                        $.ajax({
-                                                            type: "POST",
-                                                            url: "/Ticket/CalPrePrice",
-                                                            data: { tickets },
-                                                            success: function(res) {
-                                                                $('#price').html(res.toLocaleString('vi-VN',
-                                                                    {
-                                                                        style: 'currency',
-                                                                        currency: 'VND',
-                                                                    }));
-                                                            }
-                                                        });
-                                                    });
+                                                if (res[i].status === 2) {
+                                                    $(btn).addClass('selectingSeat');
                                                 }
+
+                                                if (res[i].status === 1)
+                                                    $(btn).addClass('taken');
+
+
+                                            };
+                                            checkExist();
+                                            callPrePrice();
+                                            $('#place button.' + settings.seatCss).click(function() {
+                                                $(this).toggleClass(settings.selectingSeatCss);
+
+
+                                                //insert new ticket
+                                                var data = { ReservationId: @Model.Id, SeatId: $(this).attr('data-id'), ScreeningId: @Model.ScreeningId };
+                                                if ($(this).hasClass(settings.selectingSeatCss)) {
+                                                    addTicket(data);
+                                                    connection.invoke('disableSeat', @Model.ScreeningId, parseInt(data.SeatId));
+                                                } else {
+                                                    deleteTicket(data);
+                                                    connection.invoke('enableSeat', @Model.ScreeningId, parseInt(data.SeatId));
+                                                }
+
+                                                checkExist();
+                                                callPrePrice();
+
+
                                             });
+
                                         }
                                     });
 
@@ -384,39 +358,78 @@
                         data: { id: @Model.Id },
                         success: function(res) {
                             location.replace(res);
-                            //$("#notiMes").text(res.message);
-                            //if (res.isSuccessed) {
-                            //    $('#reserId').val(res.resultObj);
-                            //} else {
-                            //    document.getElementById("btnPrintTicket").style.display = 'none';
-
-                            //}
-                            //$('#notifyModal').modal('show');
                         }
                     });
                 });
             });
         });
+
+    function callPrePrice() {
+        var seatsName = '';
+        var tickets = [];
+        $.each($('#place button.' + settings.selectingSeatCss),
+            function(index, value) {
+                if (!this.classList.contains('taken')) {
+                    seatsName += $(this).attr('data-name') + ', ';
+                    var ticket = {
+                        ReservationId: @Model.Id,
+                        SeatId: $(this).attr('data-id'),
+                    };
+                    tickets.push(ticket);
+                }
+            });
+        $("#seatsName").text(seatsName);
+
+        $.ajax({
+            type: "POST",
+            url: "/Ticket/CalPrePrice",
+            data: { tickets },
+            success: function(res) {
+                $('#price').html(res.toLocaleString('vi-VN',
+                    {
+                        style: 'currency',
+                        currency: 'VND',
+                    }));
+            }
+        });
+    }
+
+    function deleteReservation() {
+        $.ajax({
+            type: "Post",
+            url: '/Reservation/Delete',
+            data: { id: @Model.Id },
+            success: function(res) {
+                location.replace('/');
+            }
+        });
+    }
+
+    function checkExist() {
+        var numItems = $('#place button.' + settings.selectingSeatCss).length;
+        console.log(numItems);
+        if (numItems > 0) {
+            document.getElementById("btnReserve").disabled = false;
+        } else {
+            document.getElementById("btnReserve").disabled = true;
+        }
+    }
+
 </script>
 
-<div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="notifyModal" data-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="d-flex justify-content-center">
                     <h5 id="ModalLabel">Thông báo</h5>
                 </div>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
-                <div id="notiMes"></div>
+                <div id="notiMes">Thời gian giữ vé của bạn đã kết thúc</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="btnModal" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-success" id="btnPrintTicket" onclick="reload()">Thanh toán và suất vé</button>
+                <button type="button" class="btn btn-danger" id="btnPrintTicket" onclick="deleteReservation()">Trở lại đặt vé</button>
             </div>
         </div>
     </div>

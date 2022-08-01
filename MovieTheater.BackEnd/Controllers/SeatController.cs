@@ -7,6 +7,7 @@ using MovieTheater.Models.Infra.Seat;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MovieTheater.Common.Constants;
+using MovieTheater.Data.Results;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -60,7 +61,7 @@ namespace MovieTheater.BackEnd.Controllers
 
         [AllowAnonymous]
         [HttpGet(APIConstant.SeatGetListSeatReserve + "/{screeningId}")]
-        public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
+        public async Task<ApiResult<List<SeatModel>>> GetListSeatReserved(int screeningId)
         {
             var result = await _seatService.GetListReserved(screeningId);
             return result;

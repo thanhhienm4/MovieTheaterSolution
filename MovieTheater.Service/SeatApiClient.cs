@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MovieTheater.Common.Constants;
+using MovieTheater.Data.Results;
 
 namespace MovieTheater.Api
 {
@@ -28,9 +29,9 @@ namespace MovieTheater.Api
             return await PutAsync<bool>($"{APIConstant.ApiSeat}/{APIConstant.SeatUpdateInRoom}", request);
         }
 
-        public async Task<ApiResult<List<SeatVMD>>> GetListSeatReserved(int screeningId)
+        public async Task<ApiResult<List<SeatModel>>> GetListSeatReserved(int screeningId)
         {
-            return await GetAsync<List<SeatVMD>>(
+            return await GetAsync<List<SeatModel>>(
                 $"{APIConstant.ApiSeat}/{APIConstant.SeatGetListSeatReserve}/{screeningId}");
         }
 

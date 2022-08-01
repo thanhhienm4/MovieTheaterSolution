@@ -2,6 +2,7 @@
 using MovieTheater.Models.Infra.Seat;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieTheater.Data.Results;
 
 namespace MovieTheater.Application.SeatServices.Seats
 {
@@ -19,6 +20,6 @@ namespace MovieTheater.Application.SeatServices.Seats
 
         Task<ApiResult<bool>> UpdateInRoomAsync(SeatsInRoomUpdateRequest request);
 
-        Task<ApiResult<List<SeatVMD>>> GetListReserved(int screeningId);
+        Task<ApiResult<List<SeatModel>>> GetListReserved(int screeningId);
     }
 }

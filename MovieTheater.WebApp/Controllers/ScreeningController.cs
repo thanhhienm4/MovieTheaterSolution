@@ -3,6 +3,7 @@ using MovieTheater.Api;
 using MovieTheater.Models.Infra.Seat;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieTheater.Data.Results;
 
 namespace MovieTheater.WebApp.Controllers
 {
@@ -23,7 +24,7 @@ namespace MovieTheater.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<List<SeatVMD>> GetListSeatReserved(int id)
+        public async Task<List<SeatModel>> GetListSeatReserved(int id)
         {
             var result = (await _seatApiClient.GetListSeatReserved(id)).ResultObj;
             return result;

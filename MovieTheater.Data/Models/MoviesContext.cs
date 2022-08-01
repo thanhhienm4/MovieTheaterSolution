@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using MovieTheater.Data.Config;
+using MovieTheater.Data.Results;
 
 #nullable disable
 
@@ -44,6 +45,7 @@ namespace MovieTheater.Data.Models
         public virtual DbSet<Time> Times { get; set; }
         public virtual DbSet<Voucher> Vouchers { get; set; }
         public virtual DbSet<staff> Staffs { get; set; }
+        public virtual DbSet<SeatModel> SeatModel { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -56,6 +58,7 @@ namespace MovieTheater.Data.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.Entity<SeatModel>(e => { e.HasNoKey(); });
             modelBuilder.ApplyConfiguration(new CustomerConfig());
             modelBuilder.ApplyConfiguration(new MovieCensorshipConfig());
             modelBuilder.ApplyConfiguration(new MovieGenreConfig());
