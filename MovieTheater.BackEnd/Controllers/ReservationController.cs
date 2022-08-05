@@ -76,7 +76,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpGet("GetByUserId/{id}")]
-        public async Task<ApiResult<List<ReservationVMD>>> GeReservationByUserIdAsync(Guid id)
+        public async Task<ApiResult<List<ReservationVMD>>> GeReservationByUserIdAsync(string id)
         {
             var result = await _reservationService.GetByUserId(id);
             return result;
@@ -88,19 +88,7 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _reservationService.CalPrePriceAsync(tickets);
             return result;
         }
-        //[AllowAnonymous]
-        //[HttpPost("Test")]
-        //public async Task<ApiResult<string>> Test()
-        //{
-        //    var vnp = new VnPayService(_configuration);
-        //    UserVMD user = new UserVMD()
-        //    {
-        //        Email = "thanhhienm4@gmail.com",
-        //        PhoneNumber = "0912413004",
-        //        FirstName = "Nguyễn Thanh Hiền"
-        //    };
-        //    //return new ApiSuccessResult<string>(vnp.CreateRequest(user));
-        //}
+       
 
         [HttpPost("Payment")]
         public async Task<ApiResult<string>> CreateAsync([FromBody] int id)

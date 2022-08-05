@@ -5,107 +5,113 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item">
-        <a href="/">Trang chủ</a>
-    </li>
-    <li class="breadcrumb-item active">Lịch chiếu phim </li>
-</ol>
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            Lịch chiếu phim trong tuần 
+        </div>
 
-@section Scripts{
-    <script>
-        setTimeout(function() {
-                $("#SuccessMeg").fadeOut('slow');
-            },
-            2000);
-    </script>
-}
 
-@if (ViewBag.SuccessMsg != null)
-{
-    <div id="SuccessMeg" class="alert alert-success" role="alert">
-        @ViewBag.SuccessMsg
-    </div>
-}
-<div class="d-flex justify-content-between">
-    @for (int i = 0; i < 7; i++)
-    {
-        DateTime date = @DateTime.Now.AddDays(i);
-        DateTime dateChoose = DateTime.Now;
-        if (!string.IsNullOrWhiteSpace(ViewContext.HttpContext.Request.Query["date"]))
-            dateChoose = DateTime.Parse(ViewContext.HttpContext.Request.Query["date"]);
-        if (date.Date == dateChoose.Date)
+        @if (ViewBag.SuccessMsg != null)
         {
-            <a class="btn  custom" style="background-color: #c7d6ec" href="/retail/index?date=@date.ToString("d")" data-date="@date">
-                @date.Day/@date.Month
-                <div class="row justify-content-center">
-                    @date.ToString("ddd",new CultureInfo("vi-VN"))
-                </div>
-            </a>
+            <div id="SuccessMeg" class="alert alert-success" role="alert">
+                @ViewBag.SuccessMsg
+            </div>
         }
-        else
-        {
-            <a class="btn  custom" href="/film/schedule?date=@date.ToString("d")" data-date="@date">
-                @date.Day/@date.Month
-                <div class="row justify-content-center">
-                    @date.ToString("ddd",new CultureInfo("vi-VN"))
-                </div>
-            </a>
-        }
-    }
-</div>
-
-<br/>
-<div class="card">
-    <div class="card-body">
-
-        @if (Model != null)
-        {
-            foreach (var filmScreening in Model)
+        <div class="d-flex justify-content-between">
+            @for (int i = 0; i < 7; i++)
             {
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-3 col-sm-2">
-                                <img src="@filmScreening.Movie.Poster" class="img-fluid img-thumbnail"/>
-                            </div>
-                            <div class="col-10">
-                                <div style="color: black" class="row">
-                                    <font size="+1">
-                                        <strong>@filmScreening.Movie.Name</strong>
-                                    </font>
-                                </div>
+                DateTime date = @DateTime.Now.AddDays(i);
+                DateTime dateChoose = DateTime.Now;
+                if (!string.IsNullOrWhiteSpace(ViewContext.HttpContext.Request.Query["date"]))
+                    dateChoose = DateTime.Parse(ViewContext.HttpContext.Request.Query["date"]);
+                if (date.Date == dateChoose.Date)
+                {
+                    <a class="btn custom" style="background-color: #c7d6ec !important;" href="/retail/index?date=@date.ToString("d")" data-date="@date">
+                        @date.Day/@date.Month
+                        <div class="row justify-content-center">
+                            @date.ToString("ddd", new CultureInfo("vi-VN"))
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <a class="btn  custom"  style="background-color: #edf2f9" href="/film/schedule?date=@date.ToString("d")" data-date="@date">
+                        @date.Day/@date.Month
+                        <div class="row justify-content-center">
+                            @date.ToString("ddd", new CultureInfo("vi-VN"))
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+
+        
+        <div class="d-flex caution">
+            Nhấn vào suất chiếu để tiến hành mua vé!
+        </div>
+                @if (Model != null)
+                {
+                    foreach (var filmScreening in Model)
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div class="card-body" style="background-color: #f9fbfd; margin: 10px 0px;">
                                 <div class="row">
-                                    <p class="mr-2">@filmScreening.Movie.Ban </p>
-                                    <p class="mr-2">@filmScreening.Movie.Length </p>
-                                    <a href="@filmScreening.Movie.TrailerURL" style="color: darkblue">Trailer</a>
-                                </div>
-                                <div class="row">
-                                    @if (filmScreening.ListScreening != null)
-                                    {
-                                        foreach (var screening in filmScreening.ListScreening)
-                                        {
-                                            if (screening.StartTime.AddMinutes(30) > DateTime.Now)
+                                    <div class="col-3 col-sm-2">
+                                        <img src="@filmScreening.Movie.Poster" class="img-fluid"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <div style="color: black" class="row">
+                                            <font size="+1">
+                                                <strong>@filmScreening.Movie.Name</strong>
+                                            </font>
+                                        </div>
+                                        <div class="row">
+                                            <p class="mr-2">@filmScreening.Movie.Ban </p>
+                                            <p class="mr-2">@{@filmScreening.Movie.Length}p </p><p>
+                                            <a href="@filmScreening.Movie.TrailerURL" style="color: darkblue">Trailer</a>
+                                        </div>
+                                        <div class="row">
+                                            @if (filmScreening.ListScreening != null)
                                             {
-                                                <a class="btn  time mr-2" href="/ticket/chooseseat/@screening.Id">@screening.StartTime.ToString("HH:mm")</a>
+                                                foreach (var screening in filmScreening.ListScreening)
+                                                {
+                                                    if (screening.StartTime.AddMinutes(30) > DateTime.Now)
+                                                    {
+                                                        <a class="btn time mr-2" href="/ticket/chooseseat/@screening.Id">@screening.StartTime.ToString("HH:mm")</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="btn time btn-secondary mr-2" style="cursor: no-drop">@screening.StartTime.ToString("HH:mm")</a>
+                                                    }
+                                                }
                                             }
-                                            else
-                                            {
-                                                <a class="btn btn-secondary time mr-2" style="cursor: no-drop">@screening.StartTime.ToString("HH:mm")</a>
-                                            }
-                                        }
-                                    }
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    }
+                }
+        
+        <style>
+            .custom {
+                width: 160px !important;
+                border-radius: 0px;
             }
-        }
+
+            .time{
+                border: 1px solid #c7d6ec !important;
+            }
+
+            .caution {
+                background-color: #f6c343;
+                padding: 8px;
+                margin: 10px 0px 0px 0px;
+                color: #283e59;
+
+            }
+            .custom:hover { background-color: #c7d6ec !important; }
+        </style>
     </div>
 </div>
-<style>
-    .custom { width: 160px !important; }
-
-    .custom:hover { background-color: #c7d6ec !important; }
-</style>

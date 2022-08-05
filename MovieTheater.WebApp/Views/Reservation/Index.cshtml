@@ -5,10 +5,37 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
 
-<div class="container">
-    <div class="breadcrumb mb-4 d-flex justify-content-center" style="color: red; font-weight: 700">LỊCH SỬ MUA HÀNG</div>
-</div>
+    .card {
+        z-index: 0;
+        background-color: #fff;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+
+    .top {
+        padding-top: 10px;
+        padding-right: 10px !important;
+    }
+
+    .thumbnail {
+        background-color: #fff;
+        border: 1px solid #dddfeb;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        max-width: 100%;
+        height: 150px;
+        width: 100px;
+    }
+
+    .bold { color: #12263f; }
+
+  
+   
+</style>
+
 
 @section Scripts{
     <script>
@@ -19,110 +46,136 @@
     </script>
 }
 
-<div class="container">
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <div class="d-flex">
-                <div class="ml-auto p-2">
-                    <form asp-action="Index" method="get">
-                        <div class="row">
-
-                            <div>
-                                &nbsp;
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            LỊCH SỬ MUA HÀNG
+        </div>
+    </div>
+    <div class="container">
+        <div class="mb-5">
+            <div class="py-3">
+                <div class="d-flex">
+                    <div class="ml-auto p-2">
+                        <form asp-action="Index" method="get">
+                            <div class="row">
+                                <div>
+                                    &nbsp;
+                                </div>
+                                <div>
+                                    <!--input type="text" value="@ViewBag.UserInfor" name="keyword" class="form-control" placeholder="SĐT Hoặc Email khách hàng" /-->
+                                </div>
+                                <div>
+                                    <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" placeholder="Id đặt hàng"/>
+                                </div>
+                                <div>
+                                    &nbsp;
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-primary">Tìm</button>
+                                    <button type="button" onclick="window.location.href = '/Reservation/Index'" class="btn btn-light">
+                                        <img src="https://img.icons8.com/ios-filled/20/000000/rotate.png"/>
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                <!--input type="text" value="@ViewBag.UserInfor" name="keyword" class="form-control" placeholder="SĐT Hoặc Email khách hàng" /-->
-                            </div>
-                            <div>
-                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" placeholder="Id đặt hàng"/>
-                            </div>
-                            <div>
-                                &nbsp;
-                            </div>
-                            <div>
-                                <button type="submit" class="btn btn-primary">Tìm</button>
-                                <button type="button" onclick="window.location.href = '/Reservation/Index'" class="btn btn-light">
-                                    <img src="https://img.icons8.com/ios-filled/20/000000/rotate.png"/>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="table-responsive">
-            @if (ViewBag.SuccessMsg != null)
-            {
-                <div id="SuccessMeg" class="alert alert-success" role="alert">
-                    @ViewBag.SuccessMsg
-                </div>
-            }
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-
-                    <th>
-                        ID
-                    </th>
-                    <th>
-                        Thanh toán
-                    </th>
-                    <th>
-                        Trạng thái
-                    </th>
-                    <th>
-                        Kiểu đặt vé
-                    </th>
-                    <th>
-                        Thời gian
-                    </th>
-
-                    <th>
-                        Khách hàng
-                    </th>
-                    <th>Khác</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var item in Model.Item)
+            <div>
+                @if (ViewBag.SuccessMsg != null)
                 {
-                    <tr>
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Paid)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Active)
-                        </td>
-                        <td>
-
-                            @Html.DisplayFor(modelItem => item.ReservationType)
-                        </td>
-                        <td>
-
-                            @Html.DisplayFor(modelItem => item.Time)
-                        </td>
-
-                        <td>
-
-                            @Html.DisplayFor(modelItem => item.CustomerName)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Chi tiết", "Detail", new { id = item.Id })
-                        </td>
-                    </tr>
+                    <div id="SuccessMeg" class="alert alert-success" role="alert">
+                        @ViewBag.SuccessMsg
+                    </div>
                 }
-                </tbody>
-            </table>
-            <div class="d-flex">
-                <div class="ml-auto p-2">
-                    @await Component.InvokeAsync("Pager", Model)
+                @{
+                    foreach (var item in Model.Item)
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div class="card-body" style="background-color: #f9fbfd; margin: 10px 0px;">
+                                <div class="row">
+                                    <div class="col-4 col-sm-2">
+                                        <img src="@item.Poster" class="img-fluid"/>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div style="color: black" class="row">
+                                                    <font size="+1">
+                                                        <strong>@item.MovieName</strong>
+                                                    </font>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="row justify-content-between">
+                                                    <div>Mã đơn</div>
+                                                    <div class="float-right">@item.Id</div>
+                                                </div>
+                                                <div class="row justify-content-between">
+                                                    <div>Ngày mua</div>
+                                                    <div class="float-right">@item.Time.ToString("dd-MM-yyyy")</div>
+                                                </div>
+                                                <div class="row justify-content-between">
+                                                    <div>Giờ chiếu</div>
+                                                    <div class="float-right">@item.StartTime.ToString("HH:mm") @item.StartTime.ToString("dd-MM-yyyy")</div>
+                                                </div>
+                                                
+                                                <div class="row justify-content-between">
+                                                    <div>Số vé</div>
+                                                    @if (item.Tickets != null)
+                                                    {
+                                                        <div class="float-right">@item.Tickets.Count()</div>
+
+                                                    }
+                                                </div>
+
+                                                <div class="row justify-content-between">
+                                                    <div>Trạng thái thanh toán</div>
+                                                    <div class="float-right">@item.Paid</div>
+                                                </div>
+                                                <div class="row justify-content-between">
+                                                    <div>Tổng tiền</div>
+                                                    <div class="float-right">@item.TotalPrice đ</div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center" style="height: 50px">
+                                            <div style="margin: auto">Chi tiết</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+                <div class="d-flex">
+                    <div class="ml-auto p-2">
+                        @await Component.InvokeAsync("Pager", Model)
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
+<style>
+    .custom {
+        width: 160px !important;
+        border-radius: 0px;
+    }
+
+    .time { border: 1px solid #c7d6ec !important; }
+
+    .caution {
+        background-color: #f6c343;
+        padding: 8px;
+        margin: 10px 0px 0px 0px;
+        color: #283e59;
+    }
+
+    .custom:hover { background-color: #c7d6ec !important; }
+</style>

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using MovieTheater.Application.Common;
 using MovieTheater.Common.Constants;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Reservation;
@@ -18,10 +20,12 @@ namespace MovieTheater.Application.ReservationServices.Reservations
     public class ReservationService : IReservationService
     {
         private readonly MoviesContext _context;
+        private readonly IConfiguration _configuration;
 
-        public ReservationService(MoviesContext context)
+        public ReservationService(MoviesContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<ApiResult<int>> CreateAsync(ReservationCreateRequest request)
@@ -107,52 +111,57 @@ namespace MovieTheater.Application.ReservationServices.Reservations
 
         public async Task<ApiResult<PageResult<ReservationVMD>>> GetPagingAsync(ReservationPagingRequest request)
         {
-            //var query = from r in _context.Reservations
-            //            join c in _context.Customers on r.CustomerName equals c.Id into rc
-            //            from c in rc.DefaultIfEmpty()
-            //            join e in _context.Staffs on r.EmployeeId equals e.Id into rec
-            //            from e in rec.DefaultIfEmpty()
-            //            join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-            //            select new { r, c,rt, e };
+            var query = from r in _context.Reservations
+                        join c in _context.Customers on r.Customer equals c.Id into rc
+                        from c in rc.DefaultIfEmpty()
+                        join s in _context.Staffs on r.EmployeeId equals s.UserName into rec
+                        from s in rec.DefaultIfEmpty()
+                        join rt in _context.ReservationTypes on r.TypeId equals rt.Id
+                        join sr  in _context.Screenings on r.ScreeningId equals sr.Id
+                        join m in _context.Movies on sr.MovieId equals m.Id
+                        select new { r, c, rt, s, m, sr };
 
-            //if(request.userId!=null)
-            //{
-            //    query = query.Where(x => x.r.CustomerId == request.userId);
-            //}
+            if (request.userId != null)
+            {
+                query = query.Where(x => x.r.Customer == request.userId);
+            }
 
-            //if (!string.IsNullOrWhiteSpace(request.Keyword))
-            //{
-            //   query = query.Where(x => x.r.Id.ToString().Contains(request.Keyword));
+            if (!string.IsNullOrWhiteSpace(request.Keyword))
+            {
+                query = query.Where(x => x.r.Id.ToString().Contains(request.Keyword));
 
 
-            //}
+            }
 
-            //int totalRow = await query.CountAsync();
-            //var items = query.OrderBy(x => x.r.Time).Skip((request.PageIndex - 1) * request.PageSize)
-            //    .Take(request.PageSize).Select(x => new ReservationVMD()
-            //    {
-            //        Id = x.r.Id,
-            //        Paid = x.r.Paid,
-            //        Active = x.r.Active,
-            //        ReservationType = x.rt.RowName,
-            //        Time = x.r.Time,
-            //        Employee = x.e.LastName + " " + x.e.FirstName,
-            //        CustomerName = x.c.LastName + " " + x.c.FirstName,
+            int totalRow = await query.CountAsync();
+            var items = query.OrderByDescending(x => x.r.Time).Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize).Select(x => new ReservationVMD()
+                {
+                    Id = x.r.Id,
+                    Paid = x.r.PaymentStatus,
+                    Active = x.r.Active,
+                    ReservationType = x.rt.Name,
+                    Time = x.r.Time,
+                    Employee = x.s.LastName + " " + x.s.FirstName,
+                    CustomerName = x.c.LastName + " " + x.c.FirstName,
+                    MovieName = x.m.Name,
+                    Poster = $"{_configuration["BackEndServer"]}/" +
+                             $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
 
-            //    }).ToList();
-            //foreach(var item in items )
-            //{
-            //    item.TotalPrice = CallTotal(item.Id);
-            //}
-            //var pageResult = new PageResult<ReservationVMD>()
-            //{
-            //    TotalRecord = totalRow,
-            //    PageIndex = request.PageIndex,
-            //    PageSize = request.PageSize,
-            //    Item = items,
-            //};
+                }).ToList();
+            foreach (var item in items)
+            {
+                item.TotalPrice = CallTotal(item.Id);
+            }
+            var pageResult = new PageResult<ReservationVMD>()
+            {
+                TotalRecord = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Item = items,
+            };
 
-            return new ApiSuccessResult<PageResult<ReservationVMD>>(new PageResult<ReservationVMD>());
+            return new ApiSuccessResult<PageResult<ReservationVMD>>(pageResult);
         }
 
         public async Task<ApiResult<ReservationVMD>> GetById(int Id)

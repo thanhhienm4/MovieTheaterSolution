@@ -21,7 +21,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
 
         Task<ApiResult<decimal>> CalPrePriceAsync(List<TicketCreateRequest> tickets);
 
-        Task<ApiResult<List<ReservationVMD>>> GetByUserId(Guid userId);
+        Task<ApiResult<List<ReservationVMD>>> GetByUserId(string userId);
 
         Task<ApiResult<Decimal>> CalPriceAsync(TicketCreateRequest ticket);
 

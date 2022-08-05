@@ -16,6 +16,7 @@ namespace MovieTheater.Models.Catalog.Reservation
         public long TotalPrice { get; set; }
         public int ScreeningId { get; set; }
         public string MovieName { get; set; }
+        public string Poster { get; set; }
         public DateTime StartTime { get; set; }
         public string AuditoriumId { get; set; }
         public string Customer { get; set; }

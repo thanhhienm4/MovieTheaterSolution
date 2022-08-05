@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieTheater.Data.Results;
 
 namespace MovieTheater.Admin.Controllers
 {
@@ -31,7 +32,7 @@ namespace MovieTheater.Admin.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<List<SeatVMD>> GetListSeatReserved(int id)
+        public async Task<List<SeatModel>> GetListSeatReserved(int id)
         {
             var result = (await _seatApiClient.GetListSeatReserved(id)).ResultObj;
             return result;

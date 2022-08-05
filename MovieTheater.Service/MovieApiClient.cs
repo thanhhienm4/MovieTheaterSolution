@@ -6,6 +6,7 @@ using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -38,12 +39,12 @@ namespace MovieTheater.Api
             }
 
             requestContent.Add(new StringContent(request.Id), nameof(request.Id));
-            requestContent.Add(new StringContent(request.Description.ToString()), "Description");
-            requestContent.Add(new StringContent(request.CensorshipId.ToString()), "CensorshipId");
-            requestContent.Add(new StringContent(request.Length.ToString()), "Length");
-            requestContent.Add(new StringContent(request.Name.ToString()), "RowName");
-            requestContent.Add(new StringContent(request.PublishDate.ToString()), "PublishDate");
-            requestContent.Add(new StringContent(request.TrailerURL.ToString()), "TrailerURL");
+            requestContent.Add(new StringContent(request.Description), nameof(request.Description));
+            requestContent.Add(new StringContent(request.CensorshipId), nameof(request.CensorshipId));
+            requestContent.Add(new StringContent(request.Length.ToString()), nameof(request.Length));
+            requestContent.Add(new StringContent(request.Name), nameof(request.Name));
+            requestContent.Add(new StringContent(request.PublishDate.ToShortDateString()), nameof(request.PublishDate));
+            requestContent.Add(new StringContent(request.TrailerURL), nameof(request.TrailerURL));
             HttpClient client = GetHttpClient();
 
             var response = await client.PostAsync($"{APIConstant.ApiMovie}/{APIConstant.MovieCreate}", requestContent);

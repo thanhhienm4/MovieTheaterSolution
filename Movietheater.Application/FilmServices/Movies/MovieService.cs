@@ -149,10 +149,12 @@ namespace MovieTheater.Application.FilmServices.Movies
 
         public async Task<ApiResult<List<MovieVMD>>> GetAllPlayingAsync()
         {
+            var nextWeek = DateTime.Now.Date.AddDays(7);
             var query = from m in _context.Movies
                 join c in _context.MovieCensorships on m.CensorshipId equals c.Id
                 join s in _context.Screenings on m.Id equals s.MovieId
-                where s.StartTime.Date == DateTime.Now.Date
+                where s.StartTime.Date >= DateTime.Now.Date
+                && s.StartTime.Date <= nextWeek
                 select new { m, c };
 
             var Movies = await query.Distinct().Select(x => new MovieVMD()
