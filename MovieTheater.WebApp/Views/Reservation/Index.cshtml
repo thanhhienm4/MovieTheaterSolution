@@ -1,5 +1,7 @@
 ﻿@using MovieTheater.Models.Common.Paging
 @using MovieTheater.Models.Catalog.Reservation
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model PageResult<ReservationVMD>
 @{
     ViewData["Title"] = "Index";
@@ -53,11 +55,14 @@
         </div>
     </div>
     <div class="container">
+        <div class="d-flex caution">
+            Lưu ý bạn có 7 phút để chọn ghế và 5 phút để thanh toán vé. Sau thời gian trên nếu chưa thanh toán đơn hàng sẽ tự động bị xóa bởi hệ thống
+        </div>
         <div class="mb-5">
             <div class="py-3">
                 <div class="d-flex">
                     <div class="ml-auto p-2">
-                        <form asp-action="Index" method="get">
+                        <form asp-action="Index" method="get" style="display: none !important">
                             <div class="row">
                                 <div>
                                     &nbsp;
@@ -92,66 +97,65 @@
                 @{
                     foreach (var item in Model.Item)
                     {
-                        <div class="d-flex justify-content-center">
-                            <div class="card-body" style="background-color: #f9fbfd; margin: 10px 0px;">
+                        <div class="card shadow-0 border mb-4">
+                            <div class="card-body">
                                 <div class="row">
-                                    <div class="col-4 col-sm-2">
-                                        <img src="@item.Poster" class="img-fluid"/>
+                                    <div class="col-md-1">
+                                        <img src="@item.Poster"
+                                             class="img-fluid" alt="Ticket">
                                     </div>
-                                    <div class="col-8">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div style="color: black" class="row">
-                                                    <font size="+1">
-                                                        <strong>@item.MovieName</strong>
-                                                    </font>
-                                                </div>
+                                    <div class="d-flex flex-column col-11">
+                                        <div style="color: black;" class="row">
+                                            <font size="+1">
+                                                <strong>@item.MovieName</strong>
+                                            </font>
+                                        </div>
+                                        <div class="row" style="margin: 10px 0px;">
+                                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                <p class="text-muted mb-0">@item.Id
+                                                </p>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="row justify-content-between">
-                                                    <div>Mã đơn</div>
-                                                    <div class="float-right">@item.Id</div>
-                                                </div>
-                                                <div class="row justify-content-between">
-                                                    <div>Ngày mua</div>
-                                                    <div class="float-right">@item.Time.ToString("dd-MM-yyyy")</div>
-                                                </div>
-                                                <div class="row justify-content-between">
-                                                    <div>Giờ chiếu</div>
-                                                    <div class="float-right">@item.StartTime.ToString("HH:mm") @item.StartTime.ToString("dd-MM-yyyy")</div>
-                                                </div>
-                                                
-                                                <div class="row justify-content-between">
-                                                    <div>Số vé</div>
-                                                    @if (item.Tickets != null)
-                                                    {
-                                                        <div class="float-right">@item.Tickets.Count()</div>
+                                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                <p class="text-muted mb-0 small">@item.Time.ToString("hh:mm dd-MM-yyyy")</p>
+                                            </div>
 
-                                                    }
-                                                </div>
-
-                                                <div class="row justify-content-between">
-                                                    <div>Trạng thái thanh toán</div>
-                                                    <div class="float-right">@item.Paid</div>
-                                                </div>
-                                                <div class="row justify-content-between">
-                                                    <div>Tổng tiền</div>
-                                                    <div class="float-right">@item.TotalPrice đ</div>
-                                                </div>
-
+                                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                <p class="text-muted mb-0 small">@item.PaidName</p>
+                                            </div>
+                                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                <p class="text-muted mb-0 small">@item.Tickets?.Count()</p>
+                                            </div>
+                                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                <p class="text-muted mb-0 small"> @string.Format(new CultureInfo("vi-VN"), "{0:C}", item.TotalPrice)</p>
+                                            </div>
+                                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                <a href="/Reservation/detail/@item.Id">Chi tiết</a>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-center" style="height: 50px">
-                                            <div style="margin: auto">Chi tiết</div>
+                                        <div class="row d-flex justify-content-center">
+
+                                            @if (item.Paid == "none")
+                                            {
+                                                <a class="btn-warning btn-sm" href="/Reservation/create/@item.Id">Tiếp tục đặt vé</a>
+                                            }
+                                            @if (item.Paid == "inprogress")
+                                            {
+                                                <a onclick="payment(@item.Id)" class="btn-warning btn-sm">Tiếp tục thanh toán</a>
+                                            }
+                                            @if (item.Paid == "inprogress" || item.Paid == "none")
+                                            {
+                                                <a class="btn-danger btn-sm" href="/Reservation/delete/@item.Id" style="margin-left: 20px">Hủy đơn</a>
+                                            }
                                         </div>
                                     </div>
 
                                 </div>
+
                             </div>
                         </div>
+
                     }
                 }
-
                 <div class="d-flex">
                     <div class="ml-auto p-2">
                         @await Component.InvokeAsync("Pager", Model)
@@ -162,6 +166,18 @@
     </div>
 
 </div>
+<script>
+    function payment(id) {
+        $.ajax({
+            type: "POST",
+            url: "/Reservation/Payment",
+            data: { id: id },
+            success: function(res) {
+                location.replace(res);
+            }
+        });
+    }
+</script>
 <style>
     .custom {
         width: 160px !important;
@@ -176,6 +192,8 @@
         margin: 10px 0px 0px 0px;
         color: #283e59;
     }
+
+   
 
     .custom:hover { background-color: #c7d6ec !important; }
 </style>

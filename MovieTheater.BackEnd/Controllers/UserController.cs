@@ -26,7 +26,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
         //private readonly IUserService _userService;
 
-        [HttpPost(APIConstant.UserLogin)]
+        [HttpPost(ApiConstant.UserLogin)]
         public async Task<ApiResult<string>> LoginCustomerAsync([FromBody] LoginRequest request)
         {
             var result = await _userService.LoginAsync(request);
@@ -34,7 +34,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         //[Authorize(Roles = "Admin")]
-        [HttpPost(APIConstant.UserRegister)]
+        [HttpPost(ApiConstant.UserRegister)]
         public async Task<ApiResult<bool>> CreateStaffAsync([FromBody] UserRegisterRequest request)
         {
             var result = await _userService.CreateAsync(request);

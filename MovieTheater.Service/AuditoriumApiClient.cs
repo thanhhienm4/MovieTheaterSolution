@@ -22,23 +22,23 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<bool>> CreateAsync(AuditoriumCreateRequest request)
         {
-            return await PostAsync<bool>($"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumCreate}", request);
+            return await PostAsync<bool>($"{ApiConstant.ApiAuditorium}/{ApiConstant.AuditoriumCreate}", request);
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(AuditoriumUpdateRequest request)
         {
-            return await PostAsync<bool>($"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumUpdate}", request);
+            return await PostAsync<bool>($"{ApiConstant.ApiAuditorium}/{ApiConstant.AuditoriumUpdate}", request);
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
-            return await DeleteAsync<bool>($"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumDelete}/{id}");
+            return await DeleteAsync<bool>($"{ApiConstant.ApiAuditorium}/{ApiConstant.AuditoriumDelete}/{id}");
         }
 
         public async Task<ApiResult<PageResult<AuditoriumVMD>>> GetPagingAsync(AuditoriumPagingRequest request)
         {
             return await PostAsync<PageResult<AuditoriumVMD>>(
-                $"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumGetPaging}", request);
+                $"{ApiConstant.ApiAuditorium}/{ApiConstant.AuditoriumGetPaging}", request);
         }
 
         public async Task<ApiResult<RoomMD>> GetByIdAsync(string id)
@@ -47,12 +47,12 @@ namespace MovieTheater.Api
             {
                 { "id", id }
             };
-            return await GetAsync<RoomMD>($"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumGetById}", queryParams);
+            return await GetAsync<RoomMD>($"{ApiConstant.ApiAuditorium}/{ApiConstant.AuditoriumGetById}", queryParams);
         }
 
         public async Task<ApiResult<List<AuditoriumVMD>>> GetAllAsync()
         {
-            return await GetAsync<List<AuditoriumVMD>>($"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumGetAll}");
+            return await GetAsync<List<AuditoriumVMD>>($"{ApiConstant.ApiAuditorium}/{ApiConstant.AuditoriumGetAll}");
         }
 
         public async Task<ApiResult<List<AuditoriumFormatVMD>>> GetAllRoomFormatAsync()
@@ -66,7 +66,7 @@ namespace MovieTheater.Api
             {
                 { "id", id }
             };
-            return await GetAsync<RoomCoordinate>($"{APIConstant.ApiAuditorium}/{APIConstant.AuditoriumGetCoordinate}",
+            return await GetAsync<RoomCoordinate>($"{ApiConstant.ApiAuditorium}/{ApiConstant.AuditoriumGetCoordinate}",
                 queryParams);
         }
 

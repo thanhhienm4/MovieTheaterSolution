@@ -15,7 +15,6 @@ namespace MovieTheater.BackEnd.Controllers
     public class PositionController : BaseController
     {
         private readonly IPositionService _positionService;
-        private readonly IUserService _userService;
 
         public PositionController(IPositionService positionService, IUserService userService) : base(userService)
         {

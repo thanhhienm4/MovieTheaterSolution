@@ -23,42 +23,42 @@ namespace MovieTheater.BackEnd.Controllers
             _timeService = timeService;
         }
 
-        [HttpPost(APIConstant.TimeCreate)]
+        [HttpPost(ApiConstant.TimeCreate)]
         public async Task<ApiResult<bool>> CreateAsync(TimeCreateRequest request)
         {
             var result = await _timeService.CreateAsync(request);
             return result;
         }
 
-        [HttpPut(APIConstant.TimeUpdate)]
+        [HttpPut(ApiConstant.TimeUpdate)]
         public async Task<ApiResult<bool>> UpdateAsync(TimeUpdateRequest request)
         {
             var result = await _timeService.UpdateAsync(request);
             return result;
         }
 
-        [HttpDelete(APIConstant.TimeDelete + "/{id}")]
+        [HttpDelete(ApiConstant.TimeDelete + "/{id}")]
         public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             var result = await _timeService.DeleteAsync(id);
             return result;
         }
 
-        [HttpGet(APIConstant.TimeGetById)]
+        [HttpGet(ApiConstant.TimeGetById)]
         public async Task<ApiResult<TimeVMD>> GetByIdAsync(string id)
         {
             var result = await _timeService.GetById(id);
             return result;
         }
 
-        [HttpGet(APIConstant.TimeGetAll)]
+        [HttpGet(ApiConstant.TimeGetAll)]
         public async Task<ApiResult<List<TimeVMD>>> GetAllAsync()
         {
             var result = await _timeService.GetAllAsync();
             return result;
         }
 
-        [HttpPost(APIConstant.TimePaging)]
+        [HttpPost(ApiConstant.TimePaging)]
         public async Task<ApiResult<PageResult<TimeVMD>>> PagingAsync(TimePagingRequest request)
         {
             var result = await _timeService.GetPagingAsync(request);

@@ -129,8 +129,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             if (!string.IsNullOrWhiteSpace(request.Keyword))
             {
                 query = query.Where(x => x.r.Id.ToString().Contains(request.Keyword));
-
-
             }
 
             int totalRow = await query.CountAsync();
@@ -147,11 +145,16 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     MovieName = x.m.Name,
                     Poster = $"{_configuration["BackEndServer"]}/" +
                              $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
+                    PaidName = x.r.PaymentStatusNavigation.Name
 
                 }).ToList();
+            foreach (var reservation in items)
+            {
+                reservation.Tickets = await GetTicketsAsync(reservation.Id);
+            }
             foreach (var item in items)
             {
-                item.TotalPrice = CallTotal(item.Id);
+                item.TotalPrice = item.Tickets.Sum(x => x.Price);
             }
             var pageResult = new PageResult<ReservationVMD>()
             {
@@ -192,7 +195,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     Employee = x.e.LastName + " " + x.e.FirstName,
                     CustomerName = x.c.LastName + " " + x.c.FirstName,
                     ScreeningId = x.r.ScreeningId,
-                    MovieName = x.r.Screening.Movie.Id,
+                    MovieName = x.r.Screening.Movie.Name,
                     StartTime = x.r.Screening.StartTime,
                     AuditoriumId = x.r.Screening.AuditoriumId,
                     AuditoriumFormatName = x.r.Screening.Auditorium.Format.Name,
@@ -218,10 +221,12 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             var tickets = await query.OrderBy(x => x.se.RowId).Select(x => new TicketVMD()
             {
                 Film = x.m.Name,
-                //Price = x.t.Price,
+                Price = x.t.Price,
                 Room = x.r.Name,
-                Seat = x.se.Number.ToString(),
-                Time = x.s.StartTime
+                Seat = x.se.Row.Name + x.se.Number.ToString(),
+                Time = x.s.StartTime,
+                CustomerType = x.t.CustomerTypeNavigation.Name,
+                SeatType = x.se.Type.Name,
             }).ToListAsync();
 
             return tickets;
@@ -307,15 +312,15 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 Active = x.r.Active,
                 ReservationType = x.rt.Name,
                 Time = x.r.Time,
-                Employee = x.e.LastName + " " + x.e.FirstName,
-                CustomerName = x.c.LastName + " " + x.c.FirstName
+                Employee = x.e.LastName + x.e.FirstName,
+                CustomerName = x.c.LastName + " " + x.c.FirstName,
+                
             }).ToList();
 
             foreach (var reservation in res)
             {
                 reservation.Tickets = await GetTicketsAsync(reservation.Id);
             }
-
 
             return new ApiSuccessResult<List<ReservationVMD>>(res);
         }

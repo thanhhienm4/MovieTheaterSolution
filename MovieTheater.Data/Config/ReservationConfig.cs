@@ -59,6 +59,8 @@ namespace MovieTheater.Data.Config
                 .HasForeignKey(d => d.TypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
+
+
             //builder.HasOne(d => d.Voucher)
             //    .WithMany(p => p.Reservations)
             //    .HasForeignKey(d => d.VoucherId)

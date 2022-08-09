@@ -46,6 +46,8 @@ namespace MovieTheater.Data.Models
         public virtual DbSet<Voucher> Vouchers { get; set; }
         public virtual DbSet<staff> Staffs { get; set; }
         public virtual DbSet<SeatModel> SeatModel { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -84,6 +86,8 @@ namespace MovieTheater.Data.Models
             modelBuilder.ApplyConfiguration(new TimeConfig());
             modelBuilder.ApplyConfiguration(new VoucherConfig());
             modelBuilder.ApplyConfiguration(new StaffConfig());
+            modelBuilder.ApplyConfiguration(new InvoiceConfig());
+            modelBuilder.ApplyConfiguration(new PaymentConfig());
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

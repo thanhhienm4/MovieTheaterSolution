@@ -7,13 +7,14 @@ namespace MovieTheater.Models.Catalog.Reservation
     {
         public int Id { get; set; }
         public string Paid { get; set; }
+        public string PaidName { get; set; }
         public bool Active { get; set; }
         public string ReservationType { get; set; }
         public string CustomerName { get; set; }
         public string Employee { get; set; }
         public DateTime Time { get; set; }
         public List<TicketVMD> Tickets { get; set; }
-        public long TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
         public int ScreeningId { get; set; }
         public string MovieName { get; set; }
         public string Poster { get; set; }

@@ -24,35 +24,35 @@ namespace MovieTheater.BackEnd.Controllers
             _filmService = filmService;
         }
 
-        [HttpPost(APIConstant.MovieCreate)]
+        [HttpPost(ApiConstant.MovieCreate)]
         public async Task<ApiResult<bool>> CreateAsync([FromForm] MovieCreateRequest model)
         {
             var result = await _filmService.CreateAsync(model);
             return result;
         }
 
-        [HttpPut(APIConstant.MovieUpdate)]
+        [HttpPut(ApiConstant.MovieUpdate)]
         public async Task<ApiResult<bool>> UpdateAsync([FromForm] MovieUpdateRequest request)
         {
             var result = await _filmService.UpdateAsync(request);
             return result;
         }
 
-        [HttpDelete(APIConstant.MovieDelete)]
+        [HttpDelete(ApiConstant.MovieDelete)]
         public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             var result = await _filmService.DeleteAsync(id);
             return result;
         }
 
-        [HttpPost(APIConstant.GetMoviePaging)]
+        [HttpPost(ApiConstant.GetMoviePaging)]
         public async Task<ApiResult<PageResult<MovieVMD>>> GetPaging(FilmPagingRequest request)
         {
             var result = await _filmService.GetPagingAsync(request);
             return result;
         }
 
-        [HttpGet(APIConstant.MovieGetById)]
+        [HttpGet(ApiConstant.MovieGetById)]
         public async Task<ApiResult<MovieMD>> GetByIdAsync(string id)
         {
             var result = await _filmService.GetById(id);

@@ -68,14 +68,7 @@ namespace MovieTheater.WebApp.Controllers
 
             if (result.IsSuccessed)
             {
-                ViewBag.Reservation = result.ResultObj;
-                var updateRequest = new ReservationUpdateRequest()
-                {
-                    Id = result.ResultObj.Id,
-                    Paid = result.ResultObj.Paid,
-                    Active = result.ResultObj.Active
-                };
-                return View(updateRequest);
+                return View(result.ResultObj);
             }
 
             return RedirectToAction("Error", "Home");
@@ -108,8 +101,15 @@ namespace MovieTheater.WebApp.Controllers
             return View(payment);
         }
 
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var reservation = _reservationApiClient.DeleteAsync(id).Result.ResultObj;   
+            return RedirectToAction("Index", "Reservation");
+        }
+
         [HttpPost]
-        public bool Delete(int id)
+        public bool DeletePost(int id)
         {
             var reservation = _reservationApiClient.DeleteAsync(id).Result.ResultObj;
             return reservation;

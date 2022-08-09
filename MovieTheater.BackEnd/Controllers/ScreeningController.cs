@@ -25,28 +25,28 @@ namespace MovieTheater.BackEnd.Controllers
             _screeningService = screeningService;
         }
 
-        [HttpPost(APIConstant.ScreeningCreate)]
+        [HttpPost(ApiConstant.ScreeningCreate)]
         public async Task<ApiResult<bool>> CreateAsync(ScreeningCreateRequest model)
         {
             var result = await _screeningService.CreateAsync(model);
             return result;
         }
 
-        [HttpPut(APIConstant.ScreeningUpdate)]
+        [HttpPut(ApiConstant.ScreeningUpdate)]
         public async Task<ApiResult<bool>> UpdateAsync(ScreeningUpdateRequest request)
         {
             var result = await _screeningService.UpdateAsync(request);
             return result;
         }
 
-        [HttpDelete(APIConstant.ScreeningDelete +"/{id}")]
+        [HttpDelete(ApiConstant.ScreeningDelete +"/{id}")]
         public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             var result = await _screeningService.DeleteAsync(id);
             return result;
         }
 
-        [HttpPost(APIConstant.ScreeningGetPaging)]
+        [HttpPost(ApiConstant.ScreeningGetPaging)]
         public async Task<ApiResult<PageResult<ScreeningVMD>>> GetPagingAsync(ScreeningPagingRequest request)
         {
             var result = await _screeningService.GetScreeningPagingAsync(request);
@@ -70,7 +70,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet(APIConstant.ScreeningGetScreeningInDate)]
+        [HttpGet(ApiConstant.ScreeningGetScreeningInDate)]
         public async Task<ApiResult<List<MovieScreeningVMD>>> GetMovieScreeningInDate([FromQuery] DateTime? date)
         {
             var result = await _screeningService.GetFilmScreeningInday(date);

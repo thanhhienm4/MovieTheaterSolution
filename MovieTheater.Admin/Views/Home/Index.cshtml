@@ -2,7 +2,8 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
+@*<script src="/js/chart.min.js"></script>
+<script src="/js/chartjs-plugin-colorschemes.min.js"></script>*@
 <div class="container-fluid">
 
     @section Scripts{
@@ -97,18 +98,18 @@
     </div>
 </div>
 <script>
-    var colors = ['#007bff', '#28a745', '#333333', '#c3e6cb', '#dc3545', '#6c757d'];
     $(document).ready(function() {
 
         $.ajax({
             type: "GET",
 
-            url: "/Statitic/GetTopRevenueMovie",
+            url: "/Statitic/GetTopRevenueFilm",
             success: function(res) {
-
+                console.log(res);
                 var chBar = document.getElementById("TopRevenueBar");
 
                 if (chBar) {
+                    Chart.defaults.global.datasets.bar.categoryPercentage = 0.95;
                     new Chart(chBar,
                         {
                             type: 'bar',
@@ -116,23 +117,22 @@
                                 labels: res.lables,
                                 datasets: [
                                     {
-                                        data: res.dataRows[1],
-                                        backgroundColor: ["rgba(255, 0, 0, 0.5)", "rgba(255, 0, 0, 0.5)"]
+                                        data: res.dataRows[1]
                                     }
                                 ]
                             },
                             options: {
-                                legend: {
-                                    display: false
-                                },
-                                scales: {
-                                    xAxes: [
-                                        {
-                                            barPercentage: 0.4,
-                                            categoryPercentage: 0.5
-                                        }
-                                    ]
+
+                                plugins: {
+
+                                    colorschemes: {
+
+                                        scheme: 'tableau.Tableau20'
+
+                                    }
+
                                 }
+
                             }
                         });
                 }
@@ -153,11 +153,20 @@
                             datasets: [
                                 {
                                     data: res.dataRows[1],
-                                    backgroundColor: ["rgba(255, 0, 0, 0.5)", "rgba(100, 255, 0, 0.5)"]
+                                   
                                 }
                             ]
                         },
                         options: {
+                            plugins: {
+
+                                colorschemes: {
+
+                                    scheme: 'tableau.Tableau20'
+
+                                }
+
+                            },
                             title: {
                                 display: true,
                                 text: 'Kiểu đặt hàng'

@@ -21,12 +21,12 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<string>> LoginStaffAsync(LoginRequest request)
         {
-            return await PostAsync<string>($"{APIConstant.ApiUser}/{APIConstant.UserLogin}", request);
+            return await PostAsync<string>($"{ApiConstant.ApiUser}/{ApiConstant.UserLogin}", request);
         }
 
         public async Task<ApiResult<bool>> CreateStaffAsync(UserRegisterRequest request)
         {
-            return await PostAsync<bool>($"{APIConstant.ApiUser}/{APIConstant.UserRegister}", request);
+            return await PostAsync<bool>($"{ApiConstant.ApiUser}/{ApiConstant.UserRegister}", request);
         }
 
         public async Task<ApiResult<bool>> UpdateStaffAsync(UserUpdateRequest request)
@@ -36,7 +36,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request)
         {
-            return await PostAsync<string>($"{APIConstant.ApiCustomer}/{APIConstant.CustomerLogin}", request);
+            return await PostAsync<string>($"{ApiConstant.ApiCustomer}/{ApiConstant.CustomerLogin}", request);
         }
 
         public async Task<ApiResult<bool>> CreateCustomerAsync(UserRegisterRequest request)

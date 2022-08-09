@@ -26,7 +26,7 @@ namespace MovieTheater.BackEnd.Controllers
             _roleService = roleService;
         }
 
-        [HttpGet(APIConstant.RoleGetAll)]
+        [HttpGet(ApiConstant.RoleGetAll)]
         public async Task<ApiResult<List<RoleVMD>>> GetAllAsync()
         {
             var result = await _roleService.GetAllAsync();

@@ -21,17 +21,17 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<bool>> CreateAsync(TicketCreateRequest request)
         {
-            return await PostAsync<bool>($"{APIConstant.ApiTicket}/{APIConstant.TicketCreate}", request);
+            return await PostAsync<bool>($"{ApiConstant.ApiTicket}/{ApiConstant.TicketCreate}", request);
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(TicketUpdateRequest request)
         {
-            return await PutAsync<bool>($"{APIConstant.ApiTicket}/{APIConstant.TicketUpdate}", request);
+            return await PutAsync<bool>($"{ApiConstant.ApiTicket}/{ApiConstant.TicketUpdate}", request);
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(TicketCreateRequest request)
         {
-            return await PostAsync<bool>($"{APIConstant.ApiTicket}/{APIConstant.TicketDelete}", request);
+            return await PostAsync<bool>($"{ApiConstant.ApiTicket}/{ApiConstant.TicketDelete}", request);
         }
     }
 }

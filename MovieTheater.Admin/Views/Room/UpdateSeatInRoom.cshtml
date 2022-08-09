@@ -42,7 +42,7 @@
     }
 
     #place li {
-        list-style: none outside none;kindofseatid
+        list-style: none outside none;
         position: absolute;
     }
 
@@ -105,7 +105,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "/Auditorium/GetSeatInAuditorium",
+                    url: "/Room/GetSeatInRoom",
                     data: { roomId : "@ViewBag.AuditoriumId" },
                     success: function (res) {
                         for (var i = 0; i < res.length;i++)
@@ -159,10 +159,10 @@ $('#btnUpdate').click(function () {
 
     $.ajax({
         type: "Post",
-        url: "/Auditorium/UpdateSeatInAuditorium",
+        url: "/Room/UpdateSeatInRoom",
         data: { Seats: seats, AuditoriumId: "@ViewBag.AuditoriumId" },
         success: function (res) {
-            location.href = '/Auditorium'
+            location.href = '/Room'
         }
         });
     })

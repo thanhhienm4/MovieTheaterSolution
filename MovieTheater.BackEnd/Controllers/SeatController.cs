@@ -45,14 +45,14 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet(APIConstant.SeatGetAllInRoom + "/{id}")]
+        [HttpGet(ApiConstant.SeatGetAllInRoom + "/{id}")]
         public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(string id)
         {
             var result = await _seatService.GetAllInRoomAsync(id);
             return result;
         }
 
-        [HttpPut(APIConstant.SeatUpdateInRoom)]
+        [HttpPut(ApiConstant.SeatUpdateInRoom)]
         public async Task<ApiResult<bool>> UpdateInRoomAsync(SeatsInRoomUpdateRequest request)
         {
             var result = await _seatService.UpdateInRoomAsync(request);
@@ -60,7 +60,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet(APIConstant.SeatGetListSeatReserve + "/{screeningId}")]
+        [HttpGet(ApiConstant.SeatGetListSeatReserve + "/{screeningId}")]
         public async Task<ApiResult<List<SeatModel>>> GetListSeatReserved(int screeningId)
         {
             var result = await _seatService.GetListReserved(screeningId);

@@ -78,7 +78,7 @@
         var endDate = document.getElementById('endDate').value;
         $.ajax({
             type: "GET",
-            url: "/Statitic/GetTopRevenueMovie",
+            url: "/Statitic/GetTopRevenueFilm",
             data: { startDate: startDate, endDate: endDate },
             success: function(data) {
                 document.getElementById("tbbodyFilmRevenue").innerHTML = "";
@@ -87,8 +87,6 @@
                     str += "<tr><td>" + data.lables[i] + "</td><td>" + data.dataRows[1][i].toString() + "</td></tr>";
                 }
                 document.getElementById("tbbodyFilmRevenue").innerHTML = str;
-
-
             }
         });
     }
@@ -99,7 +97,7 @@
         var endDate = document.getElementById('endDate').value;
         $.ajax({
             type: "POST",
-            url: "/Statitic/MovieRevenueReport",
+            url: "/Statitic/FilmRevenueReport",
             data: { startDate: startDate, endDate: endDate, renderType: mode },
             success: function(data) {
                 var linkSource;

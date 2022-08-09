@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Common.Constants
 {
-    public static class APIConstant
+    public static class ApiConstant
     {
         #region Controller
 
@@ -21,7 +21,7 @@ namespace MovieTheater.Common.Constants
         public const string ApiTime = "api/Time";
         public const string ApiTicket = "api/Ticket";
         public const string ApiRole = "api/Role";
-
+        public const string ApiInvoice = "api/Invoice";
         #endregion
 
         #region Customerr
@@ -113,6 +113,12 @@ namespace MovieTheater.Common.Constants
         #region role
 
         public const string RoleGetAll = "getAll";
+
+        #endregion
+
+        #region Invoice
+
+        public const string InvoiceCreate = "create";
 
         #endregion
     }

@@ -23,17 +23,17 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<bool>> CreateAsync(ScreeningCreateRequest request)
         {
-            return await PostAsync<bool>($"{APIConstant.ApiScreening}/{APIConstant.ScreeningCreate}", request);
+            return await PostAsync<bool>($"{ApiConstant.ApiScreening}/{ApiConstant.ScreeningCreate}", request);
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(ScreeningUpdateRequest request)
         {
-            return await PutAsync<bool>($"{APIConstant.ApiScreening}/{APIConstant.ScreeningUpdate}", request);
+            return await PutAsync<bool>($"{ApiConstant.ApiScreening}/{ApiConstant.ScreeningUpdate}", request);
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-            return await DeleteAsync<bool>($"{APIConstant.ApiScreening}/{APIConstant.ScreeningDelete}/{id}");
+            return await DeleteAsync<bool>($"{ApiConstant.ApiScreening}/{ApiConstant.ScreeningDelete}/{id}");
         }
 
         public async Task<ApiResult<ScreeningMD>> GetScreeningMDByIdAsync(int id)
@@ -53,13 +53,13 @@ namespace MovieTheater.Api
                 { "date", date.ToString() }
             };
             return await GetAsync<List<MovieScreeningVMD>>(
-                $"{APIConstant.ApiScreening}/{APIConstant.ScreeningGetScreeningInDate}", queryParams);
+                $"{ApiConstant.ApiScreening}/{ApiConstant.ScreeningGetScreeningInDate}", queryParams);
         }
 
         public async Task<ApiResult<PageResult<ScreeningVMD>>> GetPagingAsync(ScreeningPagingRequest request)
         {
             return await PostAsync<PageResult<ScreeningVMD>>(
-                $"{APIConstant.ApiScreening}/{APIConstant.ScreeningGetPaging}", request);
+                $"{ApiConstant.ApiScreening}/{ApiConstant.ScreeningGetPaging}", request);
         }
 
 

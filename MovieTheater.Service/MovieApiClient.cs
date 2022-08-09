@@ -47,7 +47,7 @@ namespace MovieTheater.Api
             requestContent.Add(new StringContent(request.TrailerURL), nameof(request.TrailerURL));
             HttpClient client = GetHttpClient();
 
-            var response = await client.PostAsync($"{APIConstant.ApiMovie}/{APIConstant.MovieCreate}", requestContent);
+            var response = await client.PostAsync($"{ApiConstant.ApiMovie}/{ApiConstant.MovieCreate}", requestContent);
 
             return await GetResultAsync<bool>(response);
         }
@@ -78,7 +78,7 @@ namespace MovieTheater.Api
             //return await PutAsync<bool>("Api/Movie/Update", requestContent);
 
             HttpClient client = GetHttpClient();
-            var response = await client.PutAsync($"{APIConstant.ApiMovie}/{APIConstant.MovieUpdate}", requestContent);
+            var response = await client.PutAsync($"{ApiConstant.ApiMovie}/{ApiConstant.MovieUpdate}", requestContent);
 
             return await GetResultAsync<bool>(response);
         }
@@ -89,12 +89,12 @@ namespace MovieTheater.Api
             {
                 { "id", id }
             };
-            return await DeleteAsync<bool>($"{APIConstant.ApiMovie}/{APIConstant.MovieDelete}", queryParams);
+            return await DeleteAsync<bool>($"{ApiConstant.ApiMovie}/{ApiConstant.MovieDelete}", queryParams);
         }
 
         public async Task<ApiResult<PageResult<MovieVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
         {
-            return await PostAsync<PageResult<MovieVMD>>($"{APIConstant.ApiMovie}/{APIConstant.GetMoviePaging}",
+            return await PostAsync<PageResult<MovieVMD>>($"{ApiConstant.ApiMovie}/{ApiConstant.GetMoviePaging}",
                 request);
         }
 
@@ -110,7 +110,7 @@ namespace MovieTheater.Api
                 { "id", id }
             };
             // ReSharper disable once FormatStringProblem
-            return await GetAsync<MovieMD>($"{APIConstant.ApiMovie}/{APIConstant.MovieGetById}", queryParams);
+            return await GetAsync<MovieMD>($"{ApiConstant.ApiMovie}/{ApiConstant.MovieGetById}", queryParams);
         }
 
         public async Task<ApiResult<List<MovieVMD>>> GetAllFilmAsync()

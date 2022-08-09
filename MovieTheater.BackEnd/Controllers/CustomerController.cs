@@ -27,14 +27,14 @@ namespace MovieTheater.BackEnd.Controllers
             _customerService = customerService;
         }
 
-        [HttpPost(APIConstant.CustomerLogin)]
+        [HttpPost(ApiConstant.CustomerLogin)]
         public async Task<ApiResult<string>> LoginCustomerAsync([FromBody] LoginRequest request)
         {
             var result = await _customerService.LoginAsync(request);
             return result;
         }
 
-        [HttpPost(APIConstant.CustomerRegister)]
+        [HttpPost(ApiConstant.CustomerRegister)]
         public async Task<ApiResult<bool>> CreateStaffAsync([FromBody] UserRegisterRequest request)
         {
             var result = await _customerService.RegisterAsync(request);

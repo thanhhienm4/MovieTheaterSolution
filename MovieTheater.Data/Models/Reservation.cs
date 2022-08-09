@@ -28,7 +28,7 @@ namespace MovieTheater.Data.Models
         public virtual staff Employee { get; set; }
         public virtual PaymentStatus PaymentStatusNavigation { get; set; }
         public virtual Screening Screening { get; set; }
-
+        public virtual Invoice Invoice { get; set; }
         public virtual ReservationType Type { get; set; }
 
         //public virtual Voucher Voucher { get; set; }

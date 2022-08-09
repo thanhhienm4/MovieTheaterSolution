@@ -20,7 +20,7 @@ namespace MovieTheater.Api
         public async Task<ApiResult<IList<MovieCensorshipVMD>>> GetAllAsync()
         {
             return await GetAsync<IList<MovieCensorshipVMD>>(
-                $"{APIConstant.ApiMovieCensorship}/{APIConstant.GetMovieCensorship}");
+                $"{ApiConstant.ApiMovieCensorship}/{ApiConstant.GetMovieCensorship}");
         }
     }
 }

@@ -32,7 +32,7 @@ namespace MovieTheater.BackEnd.Controllers
             _hubContext = hubContext;
         }
 
-        [HttpPost(APIConstant.TicketCreate)]
+        [HttpPost(ApiConstant.TicketCreate)]
         public async Task<ApiResult<bool>> CreateAsync(TicketCreateRequest request)
         {
             var result = await _ticketService.CreateAsync(request);
@@ -41,14 +41,14 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpPut(APIConstant.TicketUpdate)]
+        [HttpPut(ApiConstant.TicketUpdate)]
         public async Task<ApiResult<bool>> UpdateAsync(TicketUpdateRequest request)
         {
             var result = await _ticketService.UpdateAsync(request);
             return result;
         }
 
-        [HttpPost(APIConstant.TicketDelete)]
+        [HttpPost(ApiConstant.TicketDelete)]
         public async Task<ApiResult<bool>> DeleteAsync(TicketCreateRequest request)
         {
             var result = await _ticketService.DeleteAsync(request);

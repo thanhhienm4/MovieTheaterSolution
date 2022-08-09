@@ -25,42 +25,42 @@ namespace MovieTheater.BackEnd.Controllers
             _roomService = roomService;
         }
 
-        [HttpPost(APIConstant.AuditoriumCreate)]
+        [HttpPost(ApiConstant.AuditoriumCreate)]
         public async Task<ApiResult<bool>> CreateAsync(AuditoriumCreateRequest model)
         {
             var result = await _roomService.CreateAsync(model);
             return result;
         }
 
-        [HttpPost(APIConstant.AuditoriumUpdate)]
+        [HttpPost(ApiConstant.AuditoriumUpdate)]
         public async Task<ApiResult<bool>> UpdateAsync(AuditoriumUpdateRequest request)
         {
             var result = await _roomService.UpdateAsync(request);
             return result;
         }
 
-        [HttpDelete(APIConstant.AuditoriumDelete + "/{id}")]
+        [HttpDelete(ApiConstant.AuditoriumDelete + "/{id}")]
         public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
             var result = await _roomService.DeleteAsync(id);
             return result;
         }
 
-        [HttpPost(APIConstant.AuditoriumGetPaging)]
+        [HttpPost(ApiConstant.AuditoriumGetPaging)]
         public async Task<ApiResult<PageResult<AuditoriumVMD>>> GetPagingAsync(AuditoriumPagingRequest request)
         {
             var result = await _roomService.GetPagingAsync(request);
             return result;
         }
 
-        [HttpGet(APIConstant.AuditoriumGetById)]
+        [HttpGet(ApiConstant.AuditoriumGetById)]
         public async Task<ApiResult<RoomMD>> GetByIdAsync(string id)
         {
             var result = await _roomService.GetById(id);
             return result;
         }
 
-        [HttpGet(APIConstant.AuditoriumGetAll)]
+        [HttpGet(ApiConstant.AuditoriumGetAll)]
         public async Task<ApiResult<List<AuditoriumVMD>>> GetAllAsync()
         {
             var result = await _roomService.GetAllAsync();
@@ -68,7 +68,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet(APIConstant.AuditoriumGetCoordinate)]
+        [HttpGet(ApiConstant.AuditoriumGetCoordinate)]
         public async Task<ApiResult<RoomCoordinate>> GetCoordinateAsync(string id)
         {
             var result = await _roomService.GetCoordinateAsync(id);

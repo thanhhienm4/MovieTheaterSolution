@@ -27,6 +27,7 @@ using MovieTheater.Application.FilmServices.MovieGenres;
 using MovieTheater.Application.FilmServices.Movies;
 using MovieTheater.Application.FilmServices.Actors;
 using MovieTheater.Application.FilmServices.Positions;
+using MovieTheater.Application.ReservationServices.InvoiceServices;
 using MovieTheater.Application.ReservationServices.Reservations;
 using MovieTheater.Application.ReservationServices.ReservationTypes;
 using MovieTheater.Application.ReservationServices.Tickets;
@@ -80,7 +81,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IMailService, MailService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IVnPayService, VnPayService>();
-
+            services.AddTransient<IInvoiceService, InvoiceService>();
             // For Identity
 
 

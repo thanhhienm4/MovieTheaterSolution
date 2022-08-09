@@ -21,7 +21,7 @@ namespace MovieTheater.BackEnd.Controllers
             _movieCensorshipService = movieCensorshipService;
         }
 
-        [HttpGet(APIConstant.GetMovieCensorship)]
+        [HttpGet(ApiConstant.GetMovieCensorship)]
         public async Task<ApiResult<List<MovieCensorshipVMD>>> GetAllBanAsync()
         {
             var result = await _movieCensorshipService.GetAllBanAsync();

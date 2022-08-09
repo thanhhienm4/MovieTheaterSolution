@@ -21,18 +21,18 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<List<SeatVMD>>> GetSeatInRoomAsync(string roomId)
         {
-            return await GetAsync<List<SeatVMD>>($"{APIConstant.ApiSeat}/{APIConstant.SeatGetAllInRoom}/{roomId}");
+            return await GetAsync<List<SeatVMD>>($"{ApiConstant.ApiSeat}/{ApiConstant.SeatGetAllInRoom}/{roomId}");
         }
 
         public async Task<ApiResult<bool>> UpdateSeatInRoomAsync(SeatsInRoomUpdateRequest request)
         {
-            return await PutAsync<bool>($"{APIConstant.ApiSeat}/{APIConstant.SeatUpdateInRoom}", request);
+            return await PutAsync<bool>($"{ApiConstant.ApiSeat}/{ApiConstant.SeatUpdateInRoom}", request);
         }
 
         public async Task<ApiResult<List<SeatModel>>> GetListSeatReserved(int screeningId)
         {
             return await GetAsync<List<SeatModel>>(
-                $"{APIConstant.ApiSeat}/{APIConstant.SeatGetListSeatReserve}/{screeningId}");
+                $"{ApiConstant.ApiSeat}/{ApiConstant.SeatGetListSeatReserve}/{screeningId}");
         }
 
         public async Task<ApiResult<bool>> CreateKindOfseatAsync(SeatTypeCreateRequest request)

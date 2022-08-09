@@ -28,7 +28,7 @@ namespace MovieTheater.BackEnd.Payment
             //Save order to db
             order.OrderId = reservation.Id; // Giả lập mã giao dịch hệ thống merchant gửi sang VNPAY
             order.Amount =
-                reservation.TotalPrice; // Giả lập số tiền thanh toán hệ thống merchant gửi sang VNPAY 100,000 VND
+                (long)reservation.TotalPrice; // Giả lập số tiền thanh toán hệ thống merchant gửi sang VNPAY 100,000 VND
             order.Status = "0"; //0: Trạng thái thanh toán "chờ thanh toán" hoặc "Pending"
             order.OrderDesc = "Thanh toán vé xem phim tại GG";
             order.CreatedDate = DateTime.Now;

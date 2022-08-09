@@ -11,11 +11,11 @@ namespace MovieTheater.Admin.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly StatiticApiClient _statiticApiClient;
+        private readonly StatiticApiClient _statisticApiClient;
 
-        public HomeController(StatiticApiClient statiticApiClient)
+        public HomeController(StatiticApiClient statisticApiClient)
         {
-            _statiticApiClient = statiticApiClient;
+            _statisticApiClient = statisticApiClient;
         }
 
         public async Task<IActionResult> Index()

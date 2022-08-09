@@ -26,17 +26,17 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<bool>> CreateAsync(TimeCreateRequest request)
         {
-            return await PostAsync<bool>($"{APIConstant.ApiTime}/{APIConstant.TimeCreate}", request);
+            return await PostAsync<bool>($"{ApiConstant.ApiTime}/{ApiConstant.TimeCreate}", request);
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(TimeUpdateRequest request)
         {
-            return await PostAsync<bool>($"{APIConstant.ApiTime}/{APIConstant.TimeUpdate}", request);
+            return await PostAsync<bool>($"{ApiConstant.ApiTime}/{ApiConstant.TimeUpdate}", request);
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
-            return await DeleteAsync<bool>($"{APIConstant.ApiTime}/{APIConstant.TimeDelete}/{id}");
+            return await DeleteAsync<bool>($"{ApiConstant.ApiTime}/{ApiConstant.TimeDelete}/{id}");
         }
 
         public async Task<ApiResult<TimeVMD>> GetByIdAsync(string id)
@@ -45,17 +45,17 @@ namespace MovieTheater.Api
             {
                 { "id", id }
             };
-            return await GetAsync<TimeVMD>($"{APIConstant.ApiTime}/{APIConstant.TimeGetById}", queryParams);
+            return await GetAsync<TimeVMD>($"{ApiConstant.ApiTime}/{ApiConstant.TimeGetById}", queryParams);
         }
 
         public async Task<ApiResult<List<TimeVMD>>> GetAllAsync()
         {
-            return await GetAsync<List<TimeVMD>>($"{APIConstant.ApiTime}/{APIConstant.TimeGetAll}");
+            return await GetAsync<List<TimeVMD>>($"{ApiConstant.ApiTime}/{ApiConstant.TimeGetAll}");
         }
 
         public async Task<ApiResult<PageResult<TimeVMD>>> GetPagingAsync(TimePagingRequest request)
         {
-            return await PostAsync<PageResult<TimeVMD>>($"{APIConstant.ApiTime}/{APIConstant.TimePaging}", request);
+            return await PostAsync<PageResult<TimeVMD>>($"{ApiConstant.ApiTime}/{ApiConstant.TimePaging}", request);
         }
     }
 }

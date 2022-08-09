@@ -21,7 +21,7 @@ namespace MovieTheater.BackEnd.Controllers
             _movieGenreService = movieGenreService;
         }
 
-        [HttpGet(APIConstant.GetMovieGenre)]
+        [HttpGet(ApiConstant.GetMovieGenre)]
         public async Task<ApiResult<List<MovieGenreVMD>>> GetAllMovieGenreAsync()
         {
             var result = await _movieGenreService.GetAllMovieGenreAsync();
