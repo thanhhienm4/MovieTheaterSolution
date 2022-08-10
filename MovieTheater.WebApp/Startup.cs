@@ -33,9 +33,10 @@ namespace MovieTheater.WebApp
             services.AddTransient<AuditoriumApiClient, AuditoriumApiClient>();
             services.AddTransient<ScreeningApiClient, ScreeningApiClient>();
             services.AddTransient<MovieCensorshipApiClient, MovieCensorshipApiClient>();
-            services.AddTransient<StatiticApiClient, StatiticApiClient>();
+            services.AddTransient<StatisticApiClient, StatisticApiClient>();
             services.AddTransient<PositionApiClient, PositionApiClient>();
             services.AddTransient<TicketApiClient, TicketApiClient>();
+            services.AddTransient<InvoiceApiClient, InvoiceApiClient>();
 
             services.AddHttpClient();
             services.AddHttpContextAccessor();

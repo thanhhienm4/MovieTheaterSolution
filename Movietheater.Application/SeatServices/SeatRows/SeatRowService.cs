@@ -10,7 +10,7 @@ using MovieTheater.Data.Models;
 
 namespace MovieTheater.Application.SeatServices.SeatRows
 {
-    public class SeatRowService : ISeatRowService
+    public class SeatRowService : IPriceService
     {
         private readonly MoviesContext _context;
 
@@ -55,15 +55,15 @@ namespace MovieTheater.Application.SeatServices.SeatRows
 
         public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
-            SeatRow seatrow = await _context.SeatRows.FindAsync(id);
-            if (seatrow == null)
+            SeatRow seatRow = await _context.SeatRows.FindAsync(id);
+            if (seatRow == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy");
             }
             else
             {
-                if (!_context.Seats.Any(x => x.RowId == seatrow.Id))
-                    _context.SeatRows.Remove(seatrow);
+                if (!_context.Seats.Any(x => x.RowId == seatRow.Id))
+                    _context.SeatRows.Remove(seatRow);
                 else
                 {
                     return new ApiErrorResult<bool>("Xóa thất bại");

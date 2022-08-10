@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Models.Common.Paging;
-using System.Threading.Tasks;
 
-namespace MovieTheater.Admin.Controllers.Components
+namespace MovieTheater.WebApp.Controllers.Components
 {
     public class PagerViewComponent : ViewComponent
     {

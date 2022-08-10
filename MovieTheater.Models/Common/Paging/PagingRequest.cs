@@ -1,4 +1,4 @@
-﻿namespace MovieTheater.Models.Common
+﻿namespace MovieTheater.Models.Common.Paging
 {
     public class PagingRequest
     {

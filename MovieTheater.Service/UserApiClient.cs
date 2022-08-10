@@ -84,7 +84,7 @@ namespace MovieTheater.Api
             return await PostAsync<bool>("Api/User/ForgotStaffPassword", mail);
         }
 
-        public async Task<ApiResult<bool>> ForgotCuistomerPasswordAsync(string mail)
+        public async Task<ApiResult<bool>> ForgotCustomerPasswordAsync(string mail)
         {
             return await PostAsync<bool>("Api/User/ForgotCustomerPassword", mail);
         }

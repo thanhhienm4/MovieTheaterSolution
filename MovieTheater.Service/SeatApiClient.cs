@@ -35,7 +35,7 @@ namespace MovieTheater.Api
                 $"{ApiConstant.ApiSeat}/{ApiConstant.SeatGetListSeatReserve}/{screeningId}");
         }
 
-        public async Task<ApiResult<bool>> CreateKindOfseatAsync(SeatTypeCreateRequest request)
+        public async Task<ApiResult<bool>> CreateKindOfSeatAsync(SeatTypeCreateRequest request)
         {
             return await PostAsync<bool>("Api/KindOfSeat/Create", request);
         }
@@ -45,7 +45,7 @@ namespace MovieTheater.Api
             return await PutAsync<bool>("Api/KindOfSeat/Update", request);
         }
 
-        public async Task<ApiResult<bool>> DeleteKindofSeatAsync(int id)
+        public async Task<ApiResult<bool>> DeleteKindOfSeatAsync(int id)
         {
             return await DeleteAsync<bool>($"Api/KindOfSeat/Delete/{id}");
         }

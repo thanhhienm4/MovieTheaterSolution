@@ -1,5 +1,6 @@
 ﻿using MovieTheater.Models.Common;
 using System;
+using MovieTheater.Models.Common.Paging;
 
 namespace MovieTheater.Models.Catalog.Reservation
 {

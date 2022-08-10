@@ -16,9 +16,9 @@ namespace MovieTheater.BackEnd.Controllers
     [Authorize(Roles = "Admin")]
     public class SeatRowController : BaseController
     {
-        private readonly ISeatRowService _seatRowService;
+        private readonly IPriceService _seatRowService;
 
-        public SeatRowController(ISeatRowService seatRowService, IUserService userService) : base(userService)
+        public SeatRowController(IPriceService seatRowService, IUserService userService) : base(userService)
         {
             _seatRowService = seatRowService;
         }

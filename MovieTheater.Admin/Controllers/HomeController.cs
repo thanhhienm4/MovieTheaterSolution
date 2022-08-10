@@ -11,9 +11,9 @@ namespace MovieTheater.Admin.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly StatiticApiClient _statisticApiClient;
+        private readonly StatisticApiClient _statisticApiClient;
 
-        public HomeController(StatiticApiClient statisticApiClient)
+        public HomeController(StatisticApiClient statisticApiClient)
         {
             _statisticApiClient = statisticApiClient;
         }

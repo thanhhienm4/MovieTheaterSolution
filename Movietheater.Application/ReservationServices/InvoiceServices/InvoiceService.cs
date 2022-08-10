@@ -27,7 +27,10 @@ namespace MovieTheater.Application.ReservationServices.InvoiceServices
                 Price = request.Price,
                 ReservationId = request.ReservationId
             };
+
+
             await _context.Invoices.AddAsync(invoice);
+            _context.SaveChanges();
             if(invoice.Id > 0)
                 return new ApiSuccessResult<bool>(true, "Thêm thành công");
             else

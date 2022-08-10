@@ -15,10 +15,10 @@ namespace MovieTheater.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class StatiticController : Controller
     {
-        private readonly StatiticApiClient _statisticApiClient;
+        private readonly StatisticApiClient _statisticApiClient;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public StatiticController(StatiticApiClient statisticApiClient, IWebHostEnvironment webHostEnvironment)
+        public StatiticController(StatisticApiClient statisticApiClient, IWebHostEnvironment webHostEnvironment)
         {
             _statisticApiClient = statisticApiClient;
             _webHostEnvironment = webHostEnvironment;
@@ -114,13 +114,15 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<ChartData> GetTopRevenueFilm(CalRevenueRequest? request)
+        public async Task<ChartData> GetTopRevenueFilm(CalRevenueRequest request)
         {
             if (request.StartDate == DateTime.MinValue && request.EndDate == DateTime.MinValue)
             {
-                request = new CalRevenueRequest();
-                request.StartDate = DateTime.Now.AddMonths(-1);
-                request.EndDate = DateTime.Now;
+                request = new CalRevenueRequest
+                {
+                    StartDate = DateTime.Now.AddMonths(-1),
+                    EndDate = DateTime.Now
+                };
             }
 
             var result = (await _statisticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;

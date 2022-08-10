@@ -51,7 +51,7 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
 
-            var result = await _seatApiClient.CreateKindOfseatAsync(request);
+            var result = await _seatApiClient.CreateKindOfSeatAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
@@ -119,7 +119,7 @@ namespace MovieTheater.Admin.Controllers
         [HttpPost]
         public async Task<ApiResult<bool>> Delete(int id)
         {
-            var result = await _seatApiClient.DeleteKindofSeatAsync(id);
+            var result = await _seatApiClient.DeleteKindOfSeatAsync(id);
 
             TempData["Result"] = result.Message;
             return result;

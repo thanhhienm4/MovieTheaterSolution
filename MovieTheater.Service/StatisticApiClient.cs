@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Api
 {
-    public class StatiticApiClient : BaseApiClient
+    public class StatisticApiClient : BaseApiClient
     {
-        public StatiticApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
+        public StatisticApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
             httpContextAccessor)
         { }

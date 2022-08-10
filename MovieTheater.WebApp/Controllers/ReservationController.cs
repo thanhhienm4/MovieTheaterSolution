@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MovieTheater.Common.Constants;
 using MovieTheater.Data.Models;
+using MovieTheater.Models.Catalog.Invoice;
 using MovieTheater.Models.Payment;
 
 namespace MovieTheater.WebApp.Controllers
@@ -15,23 +16,25 @@ namespace MovieTheater.WebApp.Controllers
     public class ReservationController : BaseController
     {
         private readonly ReservationApiClient _reservationApiClient;
+        private readonly InvoiceApiClient _invoiceApiClient;
 
-        public ReservationController(ReservationApiClient ReservationApiClient)
+        public ReservationController(ReservationApiClient reservationApiClient, InvoiceApiClient invoiceApiClient)
         {
-            _reservationApiClient = ReservationApiClient;
+            _reservationApiClient = reservationApiClient;
+            _invoiceApiClient = invoiceApiClient;
         }
 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
-            var request = new ReservationPagingRequest()
+            var request = new ReservationPagingRequest
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
+                userId = GetUserId()
             };
-            request.userId = GetUserId();
 
             ViewBag.KeyWord = keyword;
             ViewBag.SuccessMsg = TempData["Result"];
@@ -84,13 +87,13 @@ namespace MovieTheater.WebApp.Controllers
             if (vnp_ResponseCode == "00")
             {
                 payment.Message = "Thanh toán thành công";
-                await _reservationApiClient.UpdatePaymentAsync(
-                    new ReservationUpdatePaymentRequest()
-                    {
-                        Id = Int32.Parse(vnp_TxnRef),
-                        Status = PaymentStatusType.Done
-                    }
-                );
+                await  _invoiceApiClient.CreateAsync(new InvoiceCreateRequest()
+                {
+                    Date = DateTime.Now,
+                    PaymentId = PaymentType.VNPAY,
+                    Price = vnp_Amount/100,
+                    ReservationId = Int32.Parse(vnp_TxnRef)
+                });
             }
 
             else

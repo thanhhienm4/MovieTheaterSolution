@@ -73,7 +73,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IScreeningService, ScreeningService>();
             services.AddTransient<ISeatService, SeatService>();
             services.AddTransient<ISeatTypeService, SeatTypeService>();
-            services.AddTransient<ISeatRowService, SeatRowService>();
+            services.AddTransient<IPriceService, SeatRowService>();
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IMovieCensorshipService, MovieCensorshipService>();
             services.AddTransient<IStatisticService, StatisticService>();

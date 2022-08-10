@@ -87,7 +87,7 @@ namespace MovieTheater.WebApp.Controllers
                 return View(model);
             else
             {
-                var response = await _userApiClient.ForgotCuistomerPasswordAsync(model.Email);
+                var response = await _userApiClient.ForgotCustomerPasswordAsync(model.Email);
                 if (response.IsSuccessed == true)
                 {
                     ViewBag.Message = "Đã gửi link xác nhận về địa chỉ mail của bạn";

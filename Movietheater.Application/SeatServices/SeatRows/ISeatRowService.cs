@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MovieTheater.Application.SeatServices.SeatRows
 {
-    public interface ISeatRowService
+    public interface IPriceService
     {
         Task<ApiResult<bool>> CreateAsync(SeatRowCreateRequest request);
 
