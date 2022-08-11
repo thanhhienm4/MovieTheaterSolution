@@ -14,9 +14,9 @@ namespace MovieTheater.Application.MailServices
 
         private readonly ILogger<MailService> _logger;
 
-        public MailService(IOptions<MailSettings> _mailSettings, ILogger<MailService> _logger)
+        public MailService(IOptions<MailSettings> mailSettings, ILogger<MailService> _logger)
         {
-            this._mailSettings = _mailSettings.Value;
+            this._mailSettings = mailSettings.Value;
             this._logger = _logger;
             this._logger.LogInformation("Create SendMailService");
         }
@@ -30,8 +30,10 @@ namespace MovieTheater.Application.MailServices
             email.To.Add(MailboxAddress.Parse(mailContent.To));
             email.Subject = mailContent.Subject;
 
-            var builder = new BodyBuilder();
-            builder.HtmlBody = mailContent.Body;
+            var builder = new BodyBuilder
+            {
+                HtmlBody = mailContent.Body
+            };
             email.Body = builder.ToMessageBody();
 
             // dùng SmtpClient của MailKit
@@ -39,23 +41,22 @@ namespace MovieTheater.Application.MailServices
 
             try
             {
-                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+                await smtp.ConnectAsync(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                await smtp.AuthenticateAsync(_mailSettings.Mail, _mailSettings.Password);
                 await smtp.SendAsync(email);
             }
             catch (Exception ex)
             {
                 // Gửi mail thất bại, nội dung email sẽ lưu vào thư mục mailssave
                 System.IO.Directory.CreateDirectory("mailssave");
-                var emailsavefile = string.Format(@"mailssave/{0}.eml", Guid.NewGuid());
-                await email.WriteToAsync(emailsavefile);
+                var fileName = $@"mailssave/{Guid.NewGuid()}.eml";
+                await email.WriteToAsync(fileName);
 
-                _logger.LogInformation("Lỗi gửi mail, lưu tại - " + emailsavefile);
+                _logger.LogInformation("Lỗi gửi mail, lưu tại - " + fileName);
                 _logger.LogError(ex.Message);
             }
 
-            smtp.Disconnect(true);
-
+            await smtp.DisconnectAsync(true);
             _logger.LogInformation("send mail to " + mailContent.To);
         }
 

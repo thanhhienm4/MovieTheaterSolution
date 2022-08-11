@@ -13,10 +13,10 @@ namespace MovieTheater.Models.Price.TicketPrice
         public string AuditoriumFormat { get; set; }
 
         [Display(Name = "Ngày bắt đầu")]
-        public DateTime? FromTime { get; set; }
+        public DateTime FromTime { get; set; }
 
         [Display(Name = "Ngày kết thúc")]
-        public DateTime? ToTime { get; set; }
+        public DateTime ToTime { get; set; }
 
         [Display(Name = "Giá")]
         public decimal Price { get; set; }

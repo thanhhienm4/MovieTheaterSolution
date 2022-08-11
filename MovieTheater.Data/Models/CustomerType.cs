@@ -14,7 +14,6 @@ namespace MovieTheater.Data.Models
 
         public string Id { get; set; }
         public string Name { get; set; }
-        public bool IsDefault { get; set; }
 
         public virtual ICollection<TicketPrice> TicketPrices { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }

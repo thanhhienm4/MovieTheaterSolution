@@ -1,7 +1,7 @@
-﻿using MovieTheater.Models.Common.ApiResult;
+﻿using System.Threading.Tasks;
+using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Price.TicketPrice;
-using System.Threading.Tasks;
 
 namespace MovieTheater.Application.PriceServices
 {

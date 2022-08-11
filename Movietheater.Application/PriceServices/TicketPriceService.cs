@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Price.TicketPrice;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MovieTheater.Application.PriceServices
 {
@@ -35,7 +35,6 @@ namespace MovieTheater.Application.PriceServices
             {
                 return new ApiErrorResult<bool>("Tạo mới thất bại");
             }
-
             return new ApiSuccessResult<bool>(true);
         }
 
@@ -85,7 +84,7 @@ namespace MovieTheater.Application.PriceServices
         public async Task<ApiResult<PageResult<TicketPriceVmd>>> GetTicketPricePagingAsync(TicketPricePagingRequest request)
         {
             var ticketPrice = _context.TicketPrices.Where(x =>
-                (x.FromTime >= request.FromTime && x.FromTime <= x.ToTime) || (x.ToTime >= request.FromTime && x.FromTime <= x.ToTime));
+                x.FromTime >= request.FromTime && x.FromTime <= x.ToTime || x.ToTime >= request.FromTime && x.FromTime <= x.ToTime);
             int totalRow = await ticketPrice.CountAsync();
 
             var items = ticketPrice.OrderBy(x => x.FromTime).ThenBy(
@@ -93,14 +92,17 @@ namespace MovieTheater.Application.PriceServices
                 .ThenBy(x => x.CustomerType)
                 .ThenBy(x => x.TimeId)
                 .Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
-                .Select(x => new TicketPriceVmd(x));
+                .Include(x => x.Time)
+                .Include(x => x.AuditoriumFormatNavigation)
+                .Include(x => x.CustomerTypeNavigation)
+                .ToList().Select(x => new TicketPriceVmd(x)).ToList();
 
             var pageResult = new PageResult<TicketPriceVmd>()
             {
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
-                Item = new List<TicketPriceVmd>(),
+                Item = items,
             };
 
             return new ApiSuccessResult<PageResult<TicketPriceVmd>>(pageResult);

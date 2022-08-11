@@ -5,6 +5,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Content Remove="Views\TicketPrice\Create.cshtml" />
+		<Content Remove="Views\TicketPrice\Edit.cshtml" />
+		<Content Remove="Views\TicketPrice\Index.cshtml" />
 		<Content Remove="Views\Time\Create.cshtml" />
 		<Content Remove="Views\Time\Edit.cshtml" />
 		<Content Remove="Views\Time\Index.cshtml" />
@@ -32,6 +35,9 @@
 		<None Include="Views\Seat\CreateKindOfSeat.cshtml" />
 		<None Include="Views\Seat\EditKindOfSeat.cshtml" />
 		<None Include="Views\Seat\KindOfSeat.cshtml" />
+		<None Include="Views\TicketPrice\Create.cshtml" />
+		<None Include="Views\TicketPrice\Edit.cshtml" />
+		<None Include="Views\TicketPrice\Index.cshtml" />
 		<None Include="Views\Time\Create.cshtml" />
 		<None Include="Views\Time\Edit.cshtml" />
 		<None Include="Views\Time\Index.cshtml" />

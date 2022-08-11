@@ -2,7 +2,7 @@
 
 namespace MovieTheater.Models.Price.Surcharge
 {
-    public class SurChargeVMD
+    public class SurchargeVmd
     {
         public string SeatType { get; set; }
         public string SeatTypeName { get; set; }
@@ -12,5 +12,19 @@ namespace MovieTheater.Models.Price.Surcharge
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int Id { get; set; }
+
+        public SurchargeVmd(Data.Models.Surcharge surcharge)
+        {
+            SeatType = surcharge.SeatType;
+            Id = surcharge.Id;
+            Price = surcharge.Price;
+            AuditoriumFormatId = surcharge.AuditoriumFormatId;
+            AuditoriumFormatName = surcharge.AuditoriumFormat.Name;
+            StartDate = surcharge.StartDate;
+            EndDate = surcharge.EndDate;
+            Price = surcharge.Price;
+            SeatType = surcharge.SeatType;
+            SeatTypeName = surcharge.SeatTypeNavigation.Name;
+        }
     }
 }

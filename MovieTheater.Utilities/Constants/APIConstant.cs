@@ -12,6 +12,8 @@
         public const string ApiSeat = "api/Seat";
         public const string ApiScreening = "api/Screening";
         public const string ApiTime = "api/Time";
+        public const string ApiTicketPrice = "api/TicketPrice";
+        public const string ApiSurcharge = "api/Surcharge";
         public const string ApiTicket = "api/Ticket";
         public const string ApiRole = "api/Role";
         public const string ApiInvoice = "api/Invoice";
@@ -115,5 +117,21 @@
         public const string InvoiceCreate = "create";
 
         #endregion Invoice
+
+        #region TicketPrivce
+        public const string TicketPriceCreate = "create";
+        public const string TicketPriceUpdate = "update";
+        public const string TicketPriceDelete = "delete";
+        public const string TicketPricePaging = "paging";
+        public const string TicketPriceGetById = "getById";
+        #endregion TicketPrivce
+
+        #region Surcharge
+        public const string SurchargeCreate = "create";
+        public const string SurchargeUpdate = "update";
+        public const string SurchargeDelete = "delete";
+        public const string SurchargePaging = "paging";
+        public const string SurchargeGetById = "getById";
+        #endregion Surcharge
     }
 }

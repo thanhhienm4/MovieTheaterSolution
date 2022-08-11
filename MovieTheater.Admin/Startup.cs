@@ -37,7 +37,8 @@ namespace MovieTheater.Admin
             services.AddTransient<StatisticApiClient, StatisticApiClient>();
             services.AddTransient<PositionApiClient, PositionApiClient>();
             services.AddTransient<TimeApiClient, TimeApiClient>();
-
+            services.AddTransient<TicketPriceApiClient, TicketPriceApiClient>();
+            services.AddTransient<SurchargeApiClient, SurchargeApiClient>();
             services.AddHttpClient();
             services.AddHttpContextAccessor();
             services.AddRazorPages().AddRazorRuntimeCompilation();
