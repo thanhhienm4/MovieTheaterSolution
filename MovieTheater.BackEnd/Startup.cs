@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,23 +8,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieTheater.Application.Common;
-using MovieTheater.Application.MailServices;
-using MovieTheater.Application.RoomServices;
-using MovieTheater.Application.ScreeningServices;
-using MovieTheater.Application.Statitic;
-using MovieTheater.Application.UserServices;
-using MovieTheater.Models.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using AspNetCore.ReportingServices.ReportProcessing.ReportObjectModel;
 using MovieTheater.Application.CustomerServices;
+using MovieTheater.Application.FilmServices.Actors;
 using MovieTheater.Application.FilmServices.MovieCensorshipes;
-using MovieTheater.Data.Models;
 using MovieTheater.Application.FilmServices.MovieGenres;
 using MovieTheater.Application.FilmServices.Movies;
-using MovieTheater.Application.FilmServices.Actors;
 using MovieTheater.Application.FilmServices.Positions;
+using MovieTheater.Application.MailServices;
 using MovieTheater.Application.ReservationServices.InvoiceServices;
 using MovieTheater.Application.ReservationServices.Reservations;
 using MovieTheater.Application.ReservationServices.ReservationTypes;
@@ -35,12 +23,18 @@ using MovieTheater.Application.RoleService;
 using MovieTheater.Application.RoomServices.Auditoriums;
 using MovieTheater.Application.RoomServices.RoomFormats;
 using MovieTheater.Application.ScreeningServices.Screenings;
-using MovieTheater.Application.SeatServices.Seats;
 using MovieTheater.Application.SeatServices.SeatRows;
+using MovieTheater.Application.SeatServices.Seats;
 using MovieTheater.Application.SeatServices.SeatTypes;
+using MovieTheater.Application.Statitic;
 using MovieTheater.Application.TimeServices;
+using MovieTheater.Application.UserServices;
 using MovieTheater.BackEnd.Hub;
 using MovieTheater.BackEnd.Payment;
+using MovieTheater.Data.Models;
+using MovieTheater.Models.Utilities;
+using System.Collections.Generic;
+using System.Text;
 
 namespace MovieTheater.BackEnd
 {
@@ -83,7 +77,6 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IVnPayService, VnPayService>();
             services.AddTransient<IInvoiceService, InvoiceService>();
             // For Identity
-
 
             services.AddDbContext<MoviesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MovieDBContext")));

@@ -1,5 +1,4 @@
 ﻿using MovieTheater.Data.Enums;
-using MovieTheater.Models.Common;
 using MovieTheater.Models.Common.Paging;
 
 namespace MovieTheater.Models.User

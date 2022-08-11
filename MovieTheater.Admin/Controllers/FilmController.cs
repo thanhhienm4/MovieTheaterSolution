@@ -53,7 +53,6 @@ namespace MovieTheater.Admin.Controllers
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
 
-
             ViewBag.Bans = result.ResultObj.Select(x => new SelectListItem()
             {
                 Text = x.Name,
@@ -202,7 +201,6 @@ namespace MovieTheater.Admin.Controllers
         {
             var filmObject = await _filmApiClient.GetFilmVMDByIdAsync(id);
             var result = (await _filmApiClient.GetAllFilmGenreAsync());
-
 
             var genreAssignRequest = new GenreAssignRequest();
             genreAssignRequest.MovieId = id;

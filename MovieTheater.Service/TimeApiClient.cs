@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Price.Time;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
-using MovieTheater.Models.Infra.RoomModels;
-using MovieTheater.Models.Infra.RoomModels.Format;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Api
 {

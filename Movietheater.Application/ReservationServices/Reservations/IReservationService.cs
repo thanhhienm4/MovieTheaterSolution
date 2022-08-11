@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using MovieTheater.Models.Catalog.Reservation;
+﻿using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.ReservationServices.Reservations
 {

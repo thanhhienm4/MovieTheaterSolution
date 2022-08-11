@@ -1,17 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.FilmServices.Actors;
-using MovieTheater.Application.UserServices;
-using MovieTheater.Models.Catalog.Film;
-using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Common.Paging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using MovieTheater.Application.ReservationServices.Tickets;
+using MovieTheater.Application.UserServices;
 using MovieTheater.BackEnd.Hub;
 using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Reservation;
+using MovieTheater.Models.Common.ApiResult;
+using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
 {

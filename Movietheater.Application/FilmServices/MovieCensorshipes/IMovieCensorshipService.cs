@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MovieTheater.Models.Catalog.Film.MovieCensorships;
+﻿using MovieTheater.Models.Catalog.Film.MovieCensorships;
 using MovieTheater.Models.Common.ApiResult;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.FilmServices.MovieCensorshipes
 {

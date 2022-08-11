@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MovieTheater.Models.Catalog.Reservation
+﻿namespace MovieTheater.Models.Catalog.Reservation
 {
     public class ReservationCreateRequest
     {

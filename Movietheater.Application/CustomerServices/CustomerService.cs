@@ -1,24 +1,21 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using MovieTheater.Application.MailServices;
+using MovieTheater.Common.Constants;
+using MovieTheater.Common.Helper;
+using MovieTheater.Data.Models;
+using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
+using MovieTheater.Models.User;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using MovieTheater.Application.MailServices;
-using MovieTheater.Common.Constants;
-using MovieTheater.Common.Helper;
-using MovieTheater.Data.Enums;
-using MovieTheater.Data.Models;
-using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Common.Paging;
-using MovieTheater.Models.User;
 
 namespace MovieTheater.Application.CustomerServices
 {
@@ -52,7 +49,6 @@ namespace MovieTheater.Application.CustomerServices
                 if (user.Password != request.Password.Encrypt())
                     return new ApiErrorResult<string>("Mật khẩu không chính xác");
 
-
                 claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
@@ -61,7 +57,6 @@ namespace MovieTheater.Application.CustomerServices
                     new Claim(ClaimTypes.Role, RoleConstant.Customer)
                 };
             }
-
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -143,7 +138,6 @@ namespace MovieTheater.Application.CustomerServices
                 return new ApiSuccessResult<CustomerVMD>(user);
             }
         }
-
 
         public Task<ApiResult<PageResult<CustomerVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {

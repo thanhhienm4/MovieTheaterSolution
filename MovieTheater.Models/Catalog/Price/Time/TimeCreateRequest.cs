@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
-using MovieTheater.Models.Catalog.Film;
+﻿using FluentValidation;
+using System;
 
 namespace MovieTheater.Models.Catalog.Price.Time
 {
@@ -18,6 +13,7 @@ namespace MovieTheater.Models.Catalog.Price.Time
         public string Name { get; set; }
         public bool IsDelete { get; set; }
     }
+
     public class TimeCreateValidator : AbstractValidator<TimeCreateRequest>
     {
         public TimeCreateValidator()

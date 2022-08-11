@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieTheater.Application.SeatServices.SeatTypes;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat.KindOfSeat;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using MovieTheater.Application.SeatServices.SeatTypes;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -49,7 +47,5 @@ namespace MovieTheater.BackEnd.Controllers
             var res = await _kindOfSeatService.GetAllAsync();
             return res;
         }
-
-       
     }
 }

@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
+using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Reservation;
+using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
-using MovieTheater.Data.Models;
-using MovieTheater.Models.Common.ApiResult;
 using CustomerType = MovieTheater.Common.Constants.CustomerType;
 using ReservationType = MovieTheater.Common.Constants.ReservationType;
 

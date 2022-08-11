@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MovieTheater.Common.Constants
+﻿namespace MovieTheater.Common.Constants
 {
     public static class ApiConstant
     {
@@ -22,33 +15,34 @@ namespace MovieTheater.Common.Constants
         public const string ApiTicket = "api/Ticket";
         public const string ApiRole = "api/Role";
         public const string ApiInvoice = "api/Invoice";
-        #endregion
+
+        #endregion Controller
 
         #region Customerr
 
         public const string CustomerRegister = "Register";
         public const string CustomerLogin = "Login";
 
-        #endregion
+        #endregion Customerr
 
         #region User
 
         public const string UserLogin = "Login";
         public const string UserRegister = "Register";
 
-        #endregion
+        #endregion User
 
         #region MovieCensorship
 
         public const string GetMovieCensorship = "GetAllMovieCensorship";
 
-        #endregion
+        #endregion MovieCensorship
 
         #region MovieGenre
 
         public const string GetMovieGenre = "GetAllMovieGenre";
 
-        #endregion
+        #endregion MovieGenre
 
         #region Movie
 
@@ -58,7 +52,7 @@ namespace MovieTheater.Common.Constants
         public const string MovieDelete = "Delete";
         public const string MovieGetById = "AuditoriumGetById";
 
-        #endregion
+        #endregion Movie
 
         #region Auditorium
 
@@ -70,7 +64,7 @@ namespace MovieTheater.Common.Constants
         public const string AuditoriumGetAll = "GetAll";
         public const string AuditoriumGetCoordinate = "GetCoordinate";
 
-        #endregion
+        #endregion Auditorium
 
         #region Seat
 
@@ -78,7 +72,7 @@ namespace MovieTheater.Common.Constants
         public const string SeatGetAllInRoom = "GetAllInRoom";
         public const string SeatGetListSeatReserve = "GetListSeatReverve";
 
-        #endregion
+        #endregion Seat
 
         #region Screening
 
@@ -89,7 +83,7 @@ namespace MovieTheater.Common.Constants
         public const string ScreeningGetById = "GetById";
         public const string ScreeningGetScreeningInDate = "GetSceeningInDate";
 
-        #endregion
+        #endregion Screening
 
         #region Time
 
@@ -100,7 +94,7 @@ namespace MovieTheater.Common.Constants
         public const string TimeGetById = "GetById";
         public const string TimePaging = "GetPaging";
 
-        #endregion
+        #endregion Time
 
         #region Ticket
 
@@ -108,18 +102,18 @@ namespace MovieTheater.Common.Constants
         public const string TicketUpdate = "update";
         public const string TicketDelete = "delete";
 
-        #endregion
+        #endregion Ticket
 
         #region role
 
         public const string RoleGetAll = "getAll";
 
-        #endregion
+        #endregion role
 
         #region Invoice
 
         public const string InvoiceCreate = "create";
 
-        #endregion
+        #endregion Invoice
     }
 }

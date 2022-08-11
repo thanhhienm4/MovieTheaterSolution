@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using MovieTheater.Common.Constants;
+using MovieTheater.Data.Results;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
 using MovieTheater.Models.Infra.Seat.KindOfSeat;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
-using MovieTheater.Data.Results;
 
 namespace MovieTheater.Api
 {

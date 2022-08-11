@@ -48,7 +48,6 @@ namespace MovieTheater.Admin.Controllers
             }).OrderBy(x => x.Text));
             ViewBag.RoomFormats = formats;
 
-
             ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
             var result = await _roomApiClient.GetPagingAsync(request);
@@ -275,7 +274,6 @@ namespace MovieTheater.Admin.Controllers
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
-
 
         [Authorize(Roles = "Admin")]
         [HttpPost]

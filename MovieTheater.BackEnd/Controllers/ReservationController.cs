@@ -1,20 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.ReservationServices;
-using MovieTheater.Application.UserServices;
-using MovieTheater.Models.Catalog.Reservation;
-using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Common.Paging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using MovieTheater.Application.CustomerServices;
 using MovieTheater.Application.ReservationServices.Reservations;
+using MovieTheater.Application.UserServices;
 using MovieTheater.BackEnd.Payment;
 using MovieTheater.Common.Constants;
-using MovieTheater.Data.Models;
-using MovieTheater.Models.User;
+using MovieTheater.Models.Catalog.Reservation;
+using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.Paging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -60,7 +56,6 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-
         [HttpPost("GetReservationPaging")]
         public async Task<ApiResult<PageResult<ReservationVMD>>> GetPeoplePaging(ReservationPagingRequest request)
         {
@@ -88,7 +83,6 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _reservationService.CalPrePriceAsync(tickets);
             return result;
         }
-       
 
         [HttpPost("Payment")]
         public async Task<ApiResult<string>> CreateAsync([FromBody] int id)

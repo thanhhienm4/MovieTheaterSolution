@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.UserServices;
-using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Common.Paging;
-using MovieTheater.Models.Identity.Role;
-using MovieTheater.Models.User;
-using System;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Application.CustomerServices;
+using MovieTheater.Application.UserServices;
 using MovieTheater.Common.Constants;
-using MovieTheater.Data.Models;
+using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.User;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -48,7 +43,6 @@ namespace MovieTheater.BackEnd.Controllers
         //    var result = await _customerService.UpdateAsync(request);
         //    return result;
         //}
-
 
         //[HttpPost("CreateCustomer")]
         //public async Task<ApiResult<bool>> CreateCustomerAsync([FromBody] UserCreateRequest request)

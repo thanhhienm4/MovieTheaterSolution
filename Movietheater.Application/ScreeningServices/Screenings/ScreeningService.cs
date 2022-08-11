@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using MovieTheater.Application.FilmServices.Movies;
+using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
@@ -8,9 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
-using MovieTheater.Data.Models;
-using Org.BouncyCastle.Asn1;
 
 namespace MovieTheater.Application.ScreeningServices.Screenings
 {
@@ -33,7 +32,7 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
                 return new ApiErrorResult<bool>("Thời gian chiếu không được trước ngày công chiếu " +
                                                 publishDate.ToString("dd/MM/yyyy"));
 
-            if(!CheckTime(request.FilmId,request.AuditoriumId,request.StartTime))
+            if (!CheckTime(request.FilmId, request.AuditoriumId, request.StartTime))
                 return new ApiErrorResult<bool>("Vui lòng kiểm tra lại thời gian bắt đầu");
 
             Screening screening = new Screening()
@@ -96,9 +95,9 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
         public async Task<ApiResult<PageResult<ScreeningVMD>>> GetScreeningPagingAsync(ScreeningPagingRequest request)
         {
             var query = from s in _context.Screenings
-                join f in _context.Movies on s.MovieId equals f.Id
-                join r in _context.Auditoriums on s.AuditoriumId equals r.Id
-                select new { s, f, r };
+                        join f in _context.Movies on s.MovieId equals f.Id
+                        join r in _context.Auditoriums on s.AuditoriumId equals r.Id
+                        select new { s, f, r };
 
             if (request.Keyword != null)
             {
@@ -116,13 +115,13 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
             result.PageSize = request.PageSize;
 
             var rooms = query.Select(x => new ScreeningVMD()
-                {
-                    Id = x.s.Id,
-                    Movie = x.f.Name,
-                    Auditorium = x.r.Name,
-                    StartTime = x.s.StartTime,
-                    FinishTime = x.s.StartTime.AddMinutes(x.f.Length),
-                }).OrderByDescending(x => x.StartTime).Skip((request.PageIndex - 1) * request.PageSize)
+            {
+                Id = x.s.Id,
+                Movie = x.f.Name,
+                Auditorium = x.r.Name,
+                StartTime = x.s.StartTime,
+                FinishTime = x.s.StartTime.AddMinutes(x.f.Length),
+            }).OrderByDescending(x => x.StartTime).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize).ToList();
             result.Item = rooms;
 
@@ -208,9 +207,9 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
             else
             {
                 var query = from s in _context.Screenings
-                    join f in _context.Movies on s.MovieId equals f.Id
-                    join r in _context.Auditoriums on s.AuditoriumId equals r.Id
-                    select new { s, f, r };
+                            join f in _context.Movies on s.MovieId equals f.Id
+                            join r in _context.Auditoriums on s.AuditoriumId equals r.Id
+                            select new { s, f, r };
                 var screeningVMD = await query.Select(x => new ScreeningVMD()
                 {
                     Id = x.s.Id,
@@ -267,12 +266,12 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
             var screenings = await _context.Screenings.Where(x => x.StartTime.Date >= DateTime.Now.Date &&
                                                                   x.StartTime <= DateTime.Now.AddDays(6).Date &&
                                                                   x.MovieId == movieId).Select(x => new ScreeningMD()
-            {
-                Id = x.Id,
-                StartTime = x.StartTime,
-                MovieId = x.MovieId,
-                AuditoriumId = x.MovieId
-            }).ToListAsync();
+                                                                  {
+                                                                      Id = x.Id,
+                                                                      StartTime = x.StartTime,
+                                                                      MovieId = x.MovieId,
+                                                                      AuditoriumId = x.MovieId
+                                                                  }).ToListAsync();
 
             ScreeningOfFilmInWeekVMD sof = new ScreeningOfFilmInWeekVMD();
             sof.Movie = (await _filmService.GetFilmVMDById(movieId)).ResultObj;
@@ -296,13 +295,12 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
                 Direction = System.Data.ParameterDirection.Output,
             };
             var startTime = new SqlParameter("@startTime", time);
-            var movie = new SqlParameter("@movieId",movieId);
+            var movie = new SqlParameter("@movieId", movieId);
             var auditorium = new SqlParameter("@auditoriumId", auditoriumId);
 
+            var data = _context.Database.ExecuteSqlRaw("set @ReturnValue = dbo.[Function_CheckTime] ( @startTime , @movieId , @auditoriumId)", parameterReturn, startTime, movie, auditorium);
 
-            var data =  _context.Database.ExecuteSqlRaw("set @ReturnValue = dbo.[Function_CheckTime] ( @startTime , @movieId , @auditoriumId)", parameterReturn, startTime, movie, auditorium);
-
-            return  (bool)parameterReturn.Value;
+            return (bool)parameterReturn.Value;
         }
     }
 }

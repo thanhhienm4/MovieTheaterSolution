@@ -2,14 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
+using MovieTheater.Data.Results;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Infra.Seat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MovieTheater.Data.Results;
 
 namespace MovieTheater.Admin.Controllers
 {

@@ -1,9 +1,9 @@
-﻿using MovieTheater.Models.Catalog.Reservation;
-using MovieTheater.Models.Common.ApiResult;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MovieTheater.Application.ReservationServices.Reservations;
 using MovieTheater.Data.Models;
+using MovieTheater.Models.Catalog.Reservation;
+using MovieTheater.Models.Common.ApiResult;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.ReservationServices.Tickets
 {

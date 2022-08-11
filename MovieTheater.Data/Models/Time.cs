@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MovieTheater.Data.Models
 {
-    public partial class 
+    public partial class
         Time
     {
         public Time()

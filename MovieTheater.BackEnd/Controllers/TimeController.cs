@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Application.TimeServices;
 using MovieTheater.Application.UserServices;
 using MovieTheater.Common.Constants;
-using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Price.Time;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MovieTheater.BackEnd.Controllers
 {

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AspNetCore.Reporting;
+﻿using AspNetCore.Reporting;
+using System;
 
 namespace MovieTheater.Models.Report
 {

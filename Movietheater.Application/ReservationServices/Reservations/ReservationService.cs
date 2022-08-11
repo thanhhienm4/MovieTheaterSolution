@@ -1,9 +1,4 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MovieTheater.Application.Common;
@@ -12,8 +7,10 @@ using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
-using Org.BouncyCastle.Asn1.Nist;
-using Org.BouncyCastle.Math.EC.Rfc7748;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.ReservationServices.Reservations
 {
@@ -117,7 +114,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                         join s in _context.Staffs on r.EmployeeId equals s.UserName into rec
                         from s in rec.DefaultIfEmpty()
                         join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                        join sr  in _context.Screenings on r.ScreeningId equals sr.Id
+                        join sr in _context.Screenings on r.ScreeningId equals sr.Id
                         join m in _context.Movies on sr.MovieId equals m.Id
                         select new { r, c, rt, s, m, sr };
 
@@ -146,7 +143,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     Poster = $"{_configuration["BackEndServer"]}/" +
                              $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                     PaidName = x.r.PaymentStatusNavigation.Name
-
                 }).ToList();
             foreach (var reservation in items)
             {
@@ -177,13 +173,13 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             else
             {
                 var query = from r in _context.Reservations
-                    join c in _context.Customers on r.Customer equals c.Id into rc
-                    from c in rc.DefaultIfEmpty()
-                    join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
-                    from e in rec.DefaultIfEmpty()
-                    join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                    where r.Id == Id
-                    select new { r, c, rt, e };
+                            join c in _context.Customers on r.Customer equals c.Id into rc
+                            from c in rc.DefaultIfEmpty()
+                            join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
+                            from e in rec.DefaultIfEmpty()
+                            join rt in _context.ReservationTypes on r.TypeId equals rt.Id
+                            where r.Id == Id
+                            select new { r, c, rt, e };
 
                 var res = query.Select(x => new ReservationVMD()
                 {
@@ -210,13 +206,13 @@ namespace MovieTheater.Application.ReservationServices.Reservations
         public async Task<List<TicketVMD>> GetTicketsAsync(int reservationId)
         {
             var query = from t in _context.Tickets
-                join re in _context.Reservations on t.ReservationId equals re.Id
-                join s in _context.Screenings on re.ScreeningId equals s.Id
-                join m in _context.Movies on s.MovieId equals m.Id
-                join r in _context.Auditoriums on s.AuditoriumId equals r.Id
-                join se in _context.Seats on t.Seat.Id equals se.Id
-                where t.ReservationId == reservationId
-                select new { t, s, m, r, se };
+                        join re in _context.Reservations on t.ReservationId equals re.Id
+                        join s in _context.Screenings on re.ScreeningId equals s.Id
+                        join m in _context.Movies on s.MovieId equals m.Id
+                        join r in _context.Auditoriums on s.AuditoriumId equals r.Id
+                        join se in _context.Seats on t.Seat.Id equals se.Id
+                        where t.ReservationId == reservationId
+                        select new { t, s, m, r, se };
 
             var tickets = await query.OrderBy(x => x.se.RowId).Select(x => new TicketVMD()
             {
@@ -263,7 +259,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             var seatParam = new SqlParameter("@SeatId", ticket.SeatId);
             var customerParam = new SqlParameter("@customerType", ticket.CustomerType);
 
-
             var data = await _context.Database.ExecuteSqlRawAsync(
                 "EXEC @returnValue = [dbo].[CalPrePrice] @reservationId, @SeatId, @customerType", parameterReturn,
                 reservationParam, seatParam, customerParam);
@@ -292,17 +287,16 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             }
         }
 
-
         public async Task<ApiResult<List<ReservationVMD>>> GetByUserId(string userId)
         {
             var query = from r in _context.Reservations
-                join c in _context.Customers on r.Customer equals c.Id into rc
-                from c in rc.DefaultIfEmpty()
-                join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
-                from e in rec.DefaultIfEmpty()
-                join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                where c.Id == userId
-                select new { r, c, rt, e };
+                        join c in _context.Customers on r.Customer equals c.Id into rc
+                        from c in rc.DefaultIfEmpty()
+                        join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
+                        from e in rec.DefaultIfEmpty()
+                        join rt in _context.ReservationTypes on r.TypeId equals rt.Id
+                        where c.Id == userId
+                        select new { r, c, rt, e };
 
             int totalRow = await query.CountAsync();
             var res = query.Select(x => new ReservationVMD()
@@ -314,7 +308,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 Time = x.r.Time,
                 Employee = x.e.LastName + x.e.FirstName,
                 CustomerName = x.c.LastName + " " + x.c.FirstName,
-                
             }).ToList();
 
             foreach (var reservation in res)
@@ -324,7 +317,6 @@ namespace MovieTheater.Application.ReservationServices.Reservations
 
             return new ApiSuccessResult<List<ReservationVMD>>(res);
         }
-
 
         private long CallTotal(int id)
         {

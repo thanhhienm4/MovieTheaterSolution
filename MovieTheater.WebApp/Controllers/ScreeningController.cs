@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
-using MovieTheater.Models.Infra.Seat;
+using MovieTheater.Data.Results;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MovieTheater.Data.Results;
 
 namespace MovieTheater.WebApp.Controllers
 {

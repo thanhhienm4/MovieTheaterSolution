@@ -1,8 +1,8 @@
-﻿using MovieTheater.Models.Common.ApiResult;
+﻿using MovieTheater.Data.Results;
+using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MovieTheater.Data.Results;
 
 namespace MovieTheater.Application.SeatServices.Seats
 {

@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.Models;
+using MovieTheater.Data.Results;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MovieTheater.Data.Models;
-using MovieTheater.Data.Results;
-using Org.BouncyCastle.Crypto.Agreement.JPake;
 
 namespace MovieTheater.Application.SeatServices.Seats
 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
@@ -9,7 +10,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
 
 namespace MovieTheater.Api
 {
@@ -61,7 +61,6 @@ namespace MovieTheater.Api
             return await PostAsync<PageResult<ScreeningVMD>>(
                 $"{ApiConstant.ApiScreening}/{ApiConstant.ScreeningGetPaging}", request);
         }
-
 
         public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeekAsync(int filmId)
         {

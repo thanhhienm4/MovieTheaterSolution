@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MovieTheater.Application.Common;
@@ -12,6 +6,12 @@ using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.FilmServices.Movies
 {
@@ -129,8 +129,8 @@ namespace MovieTheater.Application.FilmServices.Movies
         public async Task<ApiResult<List<MovieVMD>>> GetAllAsync()
         {
             var query = from m in _context.Movies
-                join c in _context.MovieCensorships on m.CensorshipId equals c.Id
-                select new { m, c };
+                        join c in _context.MovieCensorships on m.CensorshipId equals c.Id
+                        select new { m, c };
 
             var Movies = await query.Select(x => new MovieVMD()
             {
@@ -151,11 +151,11 @@ namespace MovieTheater.Application.FilmServices.Movies
         {
             var nextWeek = DateTime.Now.Date.AddDays(7);
             var query = from m in _context.Movies
-                join c in _context.MovieCensorships on m.CensorshipId equals c.Id
-                join s in _context.Screenings on m.Id equals s.MovieId
-                where s.StartTime.Date >= DateTime.Now.Date
-                && s.StartTime.Date <= nextWeek
-                select new { m, c };
+                        join c in _context.MovieCensorships on m.CensorshipId equals c.Id
+                        join s in _context.Screenings on m.Id equals s.MovieId
+                        where s.StartTime.Date >= DateTime.Now.Date
+                        && s.StartTime.Date <= nextWeek
+                        select new { m, c };
 
             var Movies = await query.Distinct().Select(x => new MovieVMD()
             {
@@ -176,9 +176,9 @@ namespace MovieTheater.Application.FilmServices.Movies
         public async Task<ApiResult<List<MovieVMD>>> GetAllUpcomingAsync()
         {
             var query = from m in _context.Movies
-                join c in _context.MovieCensorships on m.CensorshipId equals c.Id
-                where m.PublishDate.Date > DateTime.Now.Date
-                select new { m, c };
+                        join c in _context.MovieCensorships on m.CensorshipId equals c.Id
+                        where m.PublishDate.Date > DateTime.Now.Date
+                        select new { m, c };
 
             var Movies = await query.Select(x => new MovieVMD()
             {
@@ -199,8 +199,8 @@ namespace MovieTheater.Application.FilmServices.Movies
         public async Task<ApiResult<PageResult<MovieVMD>>> GetPagingAsync(FilmPagingRequest request)
         {
             var query = from m in _context.Movies
-                join c in _context.MovieCensorships on m.CensorshipId equals c.Id
-                select new { m, c };
+                        join c in _context.MovieCensorships on m.CensorshipId equals c.Id
+                        select new { m, c };
 
             if (!string.IsNullOrWhiteSpace(request.Keyword))
                 query = query.Where(x => x.m.Name.Contains(request.Keyword)
@@ -273,9 +273,9 @@ namespace MovieTheater.Application.FilmServices.Movies
             else
             {
                 var query = from m in _context.Movies
-                    join c in _context.MovieCensorships on m.CensorshipId equals c.Id
-                    where m.Id == id
-                    select new { m, c };
+                            join c in _context.MovieCensorships on m.CensorshipId equals c.Id
+                            where m.Id == id
+                            select new { m, c };
 
                 var movieVMD = await query.Select(x => new MovieVMD()
                 {

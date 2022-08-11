@@ -1,6 +1,5 @@
 ﻿using MovieTheater.Data.Enums;
 using System;
-using System.Collections.Generic;
 
 namespace MovieTheater.Models.User
 {

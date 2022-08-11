@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 
 namespace MovieTheater.BackEnd.Payment
 {
@@ -60,7 +59,6 @@ namespace MovieTheater.BackEnd.Payment
             String signData = queryString;
             if (signData.Length > 0)
             {
-
                 signData = signData.Remove(data.Length - 1, 1);
             }
             string vnp_SecureHash = Utils.HmacSHA512(vnp_HashSecret, signData);
@@ -69,9 +67,7 @@ namespace MovieTheater.BackEnd.Payment
             return baseUrl;
         }
 
-
-
-        #endregion
+        #endregion Request
 
         #region Response process
 
@@ -81,9 +77,9 @@ namespace MovieTheater.BackEnd.Payment
             string myChecksum = Utils.HmacSHA512(secretKey, rspRaw);
             return myChecksum.Equals(inputHash, StringComparison.InvariantCultureIgnoreCase);
         }
+
         private string GetResponseData()
         {
-
             StringBuilder data = new StringBuilder();
             if (_responseData.ContainsKey("vnp_SecureHashType"))
             {
@@ -108,13 +104,11 @@ namespace MovieTheater.BackEnd.Payment
             return data.ToString();
         }
 
-        #endregion
+        #endregion Response process
     }
 
     public class Utils
     {
-
-
         public static String HmacSHA512(string key, String inputData)
         {
             var hash = new StringBuilder();
@@ -131,10 +125,10 @@ namespace MovieTheater.BackEnd.Payment
 
             return hash.ToString();
         }
+
         public static string GetIpAddress()
         {
             string ipAddress = "127.0.0.1";
-            
 
             return ipAddress;
         }

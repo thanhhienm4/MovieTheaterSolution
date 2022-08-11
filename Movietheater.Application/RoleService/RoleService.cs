@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Identity.Role;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.RoleService
 {
@@ -16,7 +16,6 @@ namespace MovieTheater.Application.RoleService
         {
             _context = context;
         }
-
 
         public async Task<ApiResult<List<RoleVMD>>> GetAllAsync()
         {

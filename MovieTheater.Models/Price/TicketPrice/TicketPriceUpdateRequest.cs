@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.ComponentModel.DataAnnotations;
-using FluentValidation;
 
 namespace MovieTheater.Models.Price.TicketPrice
 {
@@ -8,16 +8,22 @@ namespace MovieTheater.Models.Price.TicketPrice
     {
         [Display(Name = "Loại khách hàng")]
         public string CustomerType { get; set; }
+
         [Display(Name = "Định dạng")]
         public string AuditoriumFormat { get; set; }
+
         [Display(Name = "Ngày bắt đầu")]
         public DateTime? FromTime { get; set; }
+
         [Display(Name = "Ngày kết thúc")]
         public DateTime? ToTime { get; set; }
+
         [Display(Name = "Giá")]
         public decimal Price { get; set; }
+
         [Display(Name = "Thời gian")]
         public string TimeId { get; set; }
+
         [Display(Name = "Mã Giá")]
         public int Id { get; set; }
     }

@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MovieTheater.Data.Models;
 
 namespace MovieTheater.Application.FilmServices.Positions
 {

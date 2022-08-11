@@ -1,8 +1,5 @@
 ﻿#nullable disable
 
-using System.Collections.Generic;
-using MovieTheater.Data.Models;
-
 namespace MovieTheater.Data.Results
 {
     public partial class SeatModel

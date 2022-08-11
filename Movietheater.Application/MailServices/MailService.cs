@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using MailKit.Security;
+﻿using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MovieTheater.Models.Utilities;
+using System;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.MailServices
 {
@@ -13,7 +13,6 @@ namespace MovieTheater.Application.MailServices
         private readonly MailSettings _mailSettings;
 
         private readonly ILogger<MailService> _logger;
-
 
         public MailService(IOptions<MailSettings> _mailSettings, ILogger<MailService> _logger)
         {
@@ -30,7 +29,6 @@ namespace MovieTheater.Application.MailServices
             email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
             email.To.Add(MailboxAddress.Parse(mailContent.To));
             email.Subject = mailContent.Subject;
-
 
             var builder = new BodyBuilder();
             builder.HtmlBody = mailContent.Body;

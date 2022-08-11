@@ -8,6 +8,7 @@ namespace MovieTheater.Models.Common.Paging
         {
             Item = new List<T>();
         }
+
         public List<T> Item { get; set; }
     }
 }

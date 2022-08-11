@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
 using MovieTheater.Application.Helper.Extension;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Price.Time;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.TimeServices
 {
-    public class 
+    public class
         TimeService : ITimeService
     {
         private readonly MoviesContext _context;
@@ -44,7 +41,6 @@ namespace MovieTheater.Application.TimeServices
             if (res > 0)
                 return new ApiSuccessResult<bool>(false, "Thêm thành công");
             return new ApiErrorResult<bool>("Thêm thất bại");
-
         }
 
         public async Task<ApiResult<bool>> UpdateAsync(TimeUpdateRequest request)
@@ -105,7 +101,6 @@ namespace MovieTheater.Application.TimeServices
                 return new ApiErrorResult<TimeVMD>("Không tìm thấy");
 
             return new ApiSuccessResult<TimeVMD>(time.ToVMD());
-
         }
 
         public async Task<ApiResult<List<TimeVMD>>> GetAllAsync()
@@ -114,6 +109,7 @@ namespace MovieTheater.Application.TimeServices
 
             return new ApiSuccessResult<List<TimeVMD>>(res);
         }
+
         public async Task<ApiResult<PageResult<TimeVMD>>> GetPagingAsync(TimePagingRequest request)
         {
             var seatRow = _context.Times.Select(x => x);

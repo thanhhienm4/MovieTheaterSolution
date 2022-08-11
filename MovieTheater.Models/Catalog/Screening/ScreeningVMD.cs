@@ -19,6 +19,5 @@ namespace MovieTheater.Models.Catalog.Screening
 
         [Display(Name = "Tên phòng")]
         public string Auditorium { get; set; }
-
     }
 }

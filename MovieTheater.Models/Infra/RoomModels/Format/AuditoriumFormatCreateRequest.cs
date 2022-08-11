@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using FluentValidation;
+﻿using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieTheater.Models.Infra.RoomModels.Format
 {

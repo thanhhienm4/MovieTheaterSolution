@@ -63,7 +63,6 @@ namespace MovieTheater.WebApp.Controllers
                 userPrincipal,
                 authProperties);
 
-
             if (string.IsNullOrWhiteSpace(request.RedirectUrl))
             {
                 return RedirectToAction("Index", "Home");
@@ -131,7 +130,6 @@ namespace MovieTheater.WebApp.Controllers
                 return View(request);
             }
         }
-
 
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {

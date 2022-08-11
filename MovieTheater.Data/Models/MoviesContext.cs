@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.Config;
 using MovieTheater.Data.Results;
 
@@ -90,6 +88,6 @@ namespace MovieTheater.Data.Models
             modelBuilder.ApplyConfiguration(new PaymentConfig());
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

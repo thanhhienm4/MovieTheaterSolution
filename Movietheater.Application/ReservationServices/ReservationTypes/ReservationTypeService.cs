@@ -1,7 +1,7 @@
-﻿using MovieTheater.Models.Catalog.Reservation;
+﻿using MovieTheater.Data.Models;
+using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
-using MovieTheater.Data.Models;
 
 namespace MovieTheater.Application.ReservationServices.ReservationTypes
 {

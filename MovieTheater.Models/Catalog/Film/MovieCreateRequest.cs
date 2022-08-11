@@ -29,6 +29,7 @@ namespace MovieTheater.Models.Catalog.Film
 
         [Display(Name = "Poster")] public IFormFile Poster { get; set; }
     }
+
     public class MovieCreateValidator : AbstractValidator<MovieCreateRequest>
     {
         public MovieCreateValidator()
@@ -43,5 +44,4 @@ namespace MovieTheater.Models.Catalog.Film
             RuleFor(x => x.Poster).NotEmpty().WithMessage("Poster phim không được bỏ trống");
         }
     }
-
 }

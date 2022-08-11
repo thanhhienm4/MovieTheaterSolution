@@ -7,7 +7,7 @@ namespace MovieTheater.Application.Helper.Extension
     {
         public static TimeVMD ToVMD(this Time time)
         {
-            if(time == null)
+            if (time == null)
                 return null;
             else
             {

@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Application.FilmServices.MovieGenres;
 using MovieTheater.Application.UserServices;
+using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Film.MovieGenres;
 using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
 
 namespace MovieTheater.BackEnd.Controllers
 {

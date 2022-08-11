@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Models.Common.Paging;
+using System.Threading.Tasks;
 
 namespace MovieTheater.WebApp.Controllers.Components
 {

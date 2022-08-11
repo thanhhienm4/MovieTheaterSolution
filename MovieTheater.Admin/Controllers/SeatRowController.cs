@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Infra.Seat;
 using MovieTheater.Models.Infra.Seat.SeatRow;
 using System.Collections.Generic;
 using System.Threading.Tasks;

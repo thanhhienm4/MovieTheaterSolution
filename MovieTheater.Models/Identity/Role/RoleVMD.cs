@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MovieTheater.Models.Identity.Role
+﻿namespace MovieTheater.Models.Identity.Role
 {
     public class RoleVMD
     {

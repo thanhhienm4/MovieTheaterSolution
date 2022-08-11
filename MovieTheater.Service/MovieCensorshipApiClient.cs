@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Film.MovieCensorships;
 using MovieTheater.Models.Common.ApiResult;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
 
 namespace MovieTheater.Api
 {

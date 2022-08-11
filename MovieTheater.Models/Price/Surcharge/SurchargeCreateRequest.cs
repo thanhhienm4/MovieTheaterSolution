@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.ComponentModel.DataAnnotations;
-using FluentValidation;
 
 namespace MovieTheater.Models.Price.Surcharge
 {
@@ -8,12 +8,16 @@ namespace MovieTheater.Models.Price.Surcharge
     {
         [Display(Name = "Loại ghế")]
         public string SeatType { get; set; }
+
         [Display(Name = "Định dạng phòng")]
         public string AuditoriumFormatId { get; set; }
+
         [Display(Name = "Phụ phí")]
         public decimal Price { get; set; }
+
         [Display(Name = "Ngày bắt đầu")]
         public DateTime StartDate { get; set; }
+
         [Display(Name = "Ngày kết thúc")]
         public DateTime EndDate { get; set; }
     }

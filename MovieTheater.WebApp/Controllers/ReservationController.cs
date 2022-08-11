@@ -1,15 +1,12 @@
-﻿using System;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
-using MovieTheater.Models.Catalog.Reservation;
-using MovieTheater.Models.Common.ApiResult;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MovieTheater.Common.Constants;
-using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Invoice;
+using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Payment;
+using System;
+using System.Threading.Tasks;
 
 namespace MovieTheater.WebApp.Controllers
 {
@@ -87,15 +84,14 @@ namespace MovieTheater.WebApp.Controllers
             if (vnp_ResponseCode == "00")
             {
                 payment.Message = "Thanh toán thành công";
-                await  _invoiceApiClient.CreateAsync(new InvoiceCreateRequest()
+                await _invoiceApiClient.CreateAsync(new InvoiceCreateRequest()
                 {
                     Date = DateTime.Now,
                     PaymentId = PaymentType.VNPAY,
-                    Price = vnp_Amount/100,
+                    Price = vnp_Amount / 100,
                     ReservationId = Int32.Parse(vnp_TxnRef)
                 });
             }
-
             else
             {
                 payment.Message = "Thanh toán thất bại";
@@ -107,7 +103,7 @@ namespace MovieTheater.WebApp.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var reservation = _reservationApiClient.DeleteAsync(id).Result.ResultObj;   
+            var reservation = _reservationApiClient.DeleteAsync(id).Result.ResultObj;
             return RedirectToAction("Index", "Reservation");
         }
 

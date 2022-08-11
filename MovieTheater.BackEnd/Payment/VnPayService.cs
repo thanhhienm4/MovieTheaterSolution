@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
-using MovieTheater.Data.Models;
+﻿using Microsoft.Extensions.Configuration;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.User;
+using System;
 
 namespace MovieTheater.BackEnd.Payment
 {
@@ -17,11 +16,10 @@ namespace MovieTheater.BackEnd.Payment
 
         public string CreateRequest(ReservationVMD reservation, CustomerVMD user)
         {
-            string vnp_Returnurl = _configuration["vnp_Returnurl"]; //URL nhan ket qua tra ve 
-            string vnp_Url = _configuration["vnp_Url"]; //URL thanh toan cua VNPAY 
+            string vnp_Returnurl = _configuration["vnp_Returnurl"]; //URL nhan ket qua tra ve
+            string vnp_Url = _configuration["vnp_Url"]; //URL thanh toan cua VNPAY
             string vnp_TmnCode = _configuration["vnp_TmnCode"]; //Ma website
             string vnp_HashSecret = _configuration["vnp_HashSecret"]; //Chuoi bi mat
-
 
             //Get payment input
             OrderInfo order = new OrderInfo();

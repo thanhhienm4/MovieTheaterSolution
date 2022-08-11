@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MovieTheater.Models.Common.ApiResult;
+﻿using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Price.TicketPrice;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.PriceServices
 {
@@ -14,9 +13,8 @@ namespace MovieTheater.Application.PriceServices
 
         Task<ApiResult<bool>> DeleteAsync(int id);
 
+        Task<ApiResult<PageResult<TicketPriceVmd>>> GetTicketPricePagingAsync(TicketPricePagingRequest request);
 
-        Task<ApiResult<PageResult<TicketPriceVMD>>> GetTicketPricePagingAsync(TicketPricePagingRequest request);
-
-        Task<ApiResult<TicketPriceVMD>> GetTicketPriceById(int id);
+        Task<ApiResult<TicketPriceVmd>> GetTicketPriceById(int id);
     }
 }

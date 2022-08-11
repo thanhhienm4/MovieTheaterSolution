@@ -12,7 +12,6 @@ namespace MovieTheater.Common.Helper
         //.SetBasePath(Directory.GetCurrentDirectory())
         //.AddJsonFile("appsettings.json").Build()["AppSettings:Secret"];
 
-
         public static string Encrypt(this string data)
         {
             return Encrypt(EncryptedText, data);
@@ -82,7 +81,7 @@ namespace MovieTheater.Common.Helper
             return result;
         }
 
-        static string EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
+        private static string EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
         {
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
@@ -123,7 +122,7 @@ namespace MovieTheater.Common.Helper
             return Convert.ToBase64String(encrypted);
         }
 
-        static string DecryptStringFromBytes_Aes(string encryt, byte[] Key, byte[] IV)
+        private static string DecryptStringFromBytes_Aes(string encryt, byte[] Key, byte[] IV)
         {
             byte[] cipherText = Convert.FromBase64String(encryt);
             // Check arguments.

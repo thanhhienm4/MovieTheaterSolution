@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Application.SeatServices.Seats;
 using MovieTheater.Application.UserServices;
+using MovieTheater.Common.Constants;
+using MovieTheater.Data.Results;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
-using MovieTheater.Data.Results;
 
 namespace MovieTheater.BackEnd.Controllers
 {

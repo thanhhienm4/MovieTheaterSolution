@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.User;
-using System;
 using System.Threading.Tasks;
 
 namespace MovieTheater.WebApp.Controllers

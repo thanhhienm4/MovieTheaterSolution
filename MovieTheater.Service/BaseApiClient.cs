@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using MovieTheater.Models.Common.ApiResult;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -40,7 +39,6 @@ namespace MovieTheater.Api
 
             return await GetResultAsync<TResponse>(response);
         }
-
 
         // post data to Api
         protected async Task<ApiResult<TResponse>> PostAsync<TResponse>(string url, object obj)
@@ -128,7 +126,6 @@ namespace MovieTheater.Api
         private string GetRoute(string url, NameValueCollection queryParams = null)
         {
             string route = url;
-
 
             if (queryParams != null && queryParams.Count > 0)
             {

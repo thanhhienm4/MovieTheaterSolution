@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Application.ScreeningServices.Screenings;
 using MovieTheater.Application.UserServices;
+using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Screening;
 using MovieTheater.Models.Common.ApiResult;
@@ -9,7 +10,6 @@ using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -39,7 +39,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [HttpDelete(ApiConstant.ScreeningDelete +"/{id}")]
+        [HttpDelete(ApiConstant.ScreeningDelete + "/{id}")]
         public async Task<ApiResult<bool>> DeleteAsync(int id)
         {
             var result = await _screeningService.DeleteAsync(id);

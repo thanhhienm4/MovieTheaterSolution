@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Catalog.Film.MovieGenres;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
 
 namespace MovieTheater.Api
 {

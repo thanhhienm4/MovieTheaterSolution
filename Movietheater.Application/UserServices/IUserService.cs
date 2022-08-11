@@ -2,9 +2,7 @@
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
-using System;
 using System.Threading.Tasks;
-using MovieTheater.Data.Models;
 
 namespace MovieTheater.Application.UserServices
 {

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MovieTheater.Models.Catalog.Invoice;
+﻿using MovieTheater.Models.Catalog.Invoice;
 using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Infra.Seat.KindOfSeat;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.ReservationServices.InvoiceServices
 {

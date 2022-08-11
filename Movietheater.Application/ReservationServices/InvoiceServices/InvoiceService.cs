@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using MovieTheater.Data.Models;
+﻿using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Invoice;
 using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Infra.Seat.KindOfSeat;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.ReservationServices.InvoiceServices
 {
@@ -28,10 +24,9 @@ namespace MovieTheater.Application.ReservationServices.InvoiceServices
                 ReservationId = request.ReservationId
             };
 
-
             await _context.Invoices.AddAsync(invoice);
             _context.SaveChanges();
-            if(invoice.Id > 0)
+            if (invoice.Id > 0)
                 return new ApiSuccessResult<bool>(true, "Thêm thành công");
             else
             {

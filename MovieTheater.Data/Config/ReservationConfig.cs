@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieTheater.Data.Models;
 
@@ -58,8 +53,6 @@ namespace MovieTheater.Data.Config
                 .WithMany(p => p.Reservations)
                 .HasForeignKey(d => d.TypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
-
-
 
             //builder.HasOne(d => d.Voucher)
             //    .WithMany(p => p.Reservations)

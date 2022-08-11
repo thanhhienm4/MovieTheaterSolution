@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MovieTheater.Models.Utilities
+﻿namespace MovieTheater.Models.Utilities
 {
     public class MailSettings
     {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.Models;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat.KindOfSeat;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MovieTheater.Data.Models;
 
 namespace MovieTheater.Application.SeatServices.SeatTypes
 {

@@ -5,7 +5,6 @@ using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 

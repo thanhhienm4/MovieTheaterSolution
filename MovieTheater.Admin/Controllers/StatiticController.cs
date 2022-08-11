@@ -52,7 +52,6 @@ namespace MovieTheater.Admin.Controllers
             dt.Columns.Add("Revenue");
             dt.Columns.Add("Proportion");
 
-
             var topRevenueFilm = (await _statisticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
             DataRow row;
             for (int i = 0; i < topRevenueFilm.Lables.Count; i++)
@@ -89,24 +88,24 @@ namespace MovieTheater.Admin.Controllers
             switch (request.RenderType)
             {
                 case RenderType.Pdf:
-                {
-                    report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
-                    file = File(report.MainStream, "application/pdf");
-                    break;
-                }
+                    {
+                        report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
+                        file = File(report.MainStream, "application/pdf");
+                        break;
+                    }
                     ;
                 case RenderType.Excel:
-                {
-                    report = localReport.Execute(RenderType.Excel, extenstion, parameters, mimetype);
-                    file = File(report.MainStream, "application/excel");
-                    break;
-                }
+                    {
+                        report = localReport.Execute(RenderType.Excel, extenstion, parameters, mimetype);
+                        file = File(report.MainStream, "application/excel");
+                        break;
+                    }
                 default:
-                {
-                    report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
-                    file = File(report.MainStream, "application/pdf");
-                    break;
-                }
+                    {
+                        report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
+                        file = File(report.MainStream, "application/pdf");
+                        break;
+                    }
             }
 
             var data = Convert.ToBase64String(file.FileContents);

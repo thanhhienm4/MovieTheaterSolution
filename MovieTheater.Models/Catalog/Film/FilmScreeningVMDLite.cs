@@ -2,7 +2,7 @@
 
 namespace MovieTheater.Application.FilmServices
 {
-    partial class ScreeningVMDLite
+    internal partial class ScreeningVMDLite
     {
         public int Id { get; set; }
         public DateTime StartTime { get; set; }

@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.RoomServices;
+using MovieTheater.Application.RoomServices.Auditoriums;
 using MovieTheater.Application.UserServices;
+using MovieTheater.Common.Constants;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.RoomModels;
 using MovieTheater.Models.Infra.RoomModels.Format;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MovieTheater.Application.RoomServices.Auditoriums;
-using MovieTheater.Common.Constants;
 
 namespace MovieTheater.BackEnd.Controllers
 {

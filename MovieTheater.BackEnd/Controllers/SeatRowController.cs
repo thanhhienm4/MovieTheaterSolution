@@ -4,7 +4,6 @@ using MovieTheater.Application.SeatServices.SeatRows;
 using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
-using MovieTheater.Models.Infra.Seat;
 using MovieTheater.Models.Infra.Seat.SeatRow;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.RoomModels;
 using MovieTheater.Models.Infra.RoomModels.Format;
 using MovieTheater.Models.Infra.Seat;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.RoomServices.Auditoriums
 {
@@ -107,8 +107,8 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
         public async Task<ApiResult<PageResult<AuditoriumVMD>>> GetPagingAsync(AuditoriumPagingRequest request)
         {
             var query = from r in _context.Auditoriums
-                join f in _context.AuditoriumFormats on r.FormatId equals f.Id
-                select new { r, f };
+                        join f in _context.AuditoriumFormats on r.FormatId equals f.Id
+                        select new { r, f };
 
             if (request.Keyword != null)
             {
@@ -165,8 +165,8 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
         public async Task<ApiResult<List<AuditoriumVMD>>> GetAllAsync()
         {
             var query = from r in _context.Auditoriums
-                join f in _context.AuditoriumFormats on r.FormatId equals f.Id
-                select new { r, f };
+                        join f in _context.AuditoriumFormats on r.FormatId equals f.Id
+                        select new { r, f };
 
             var rooms = await query.Select(x => new AuditoriumVMD()
             {
@@ -183,16 +183,16 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
             RoomCoordinate coordinate = new RoomCoordinate();
 
             var queryRow = from sr in _context.SeatRows
-                join s in _context.Seats on sr.Id equals s.RowId
-                where s.IsActive == true && s.AuditoriumId == id
-                select sr;
+                           join s in _context.Seats on sr.Id equals s.RowId
+                           where s.IsActive == true && s.AuditoriumId == id
+                           select sr;
 
             coordinate.Bottom = await queryRow.MinAsync(x => x.Id);
             coordinate.Top = await queryRow.MaxAsync(x => x.Id);
 
             var queryCol = from s in _context.Seats
-                where s.IsActive == true && s.AuditoriumId == id
-                select s;
+                           where s.IsActive == true && s.AuditoriumId == id
+                           select s;
 
             coordinate.Right = await queryCol.MaxAsync(s => s.Number);
             coordinate.Left = await queryCol.MinAsync(s => s.Number);

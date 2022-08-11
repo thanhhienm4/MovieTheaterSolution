@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MovieTheater.Models.Infra.Seat.KindOfSeat
+﻿namespace MovieTheater.Models.Infra.Seat.KindOfSeat
 {
     public class SeatTypeVMD
     {

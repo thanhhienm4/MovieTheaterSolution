@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.UserServices;
+using MovieTheater.Application.CustomerServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using MovieTheater.Application.CustomerServices;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -21,6 +17,7 @@ namespace MovieTheater.BackEnd.Controllers
         {
             _loginService = loginService;
         }
+
         //[HttpPost("LoginStaff")]
         //public async Task<ApiResult<string>> LoginStaffAsync([FromBody] LoginRequest request)
         //{

@@ -6,11 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Data.Enums;
-using MovieTheater.Models.Common;
 using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -118,7 +115,6 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
 
-
             var result = await _userApiClient.GetUserByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
@@ -179,7 +175,6 @@ namespace MovieTheater.Admin.Controllers
             TempData["Result"] = result.Message;
             return result;
         }
-
 
         [HttpGet]
         [Authorize]

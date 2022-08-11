@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Application.UserServices;
+using MovieTheater.Common.Constants;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
-using System;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
-using MovieTheater.Data.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,6 +22,7 @@ namespace MovieTheater.BackEnd.Controllers
         {
             _userService = userService;
         }
+
         //private readonly IUserService _userService;
 
         [HttpPost(ApiConstant.UserLogin)]
@@ -48,7 +47,6 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _userService.UpdateAsync(request);
             return result;
         }
-
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{id}")]
@@ -90,7 +88,6 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-
         [AllowAnonymous]
         [HttpPost("ForgotStaffPassword")]
         public async Task<ApiResult<bool>> ForgotStaffPassword([FromBody] string mail)
@@ -98,7 +95,6 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _userService.ForgotPasswordAsync(mail);
             return result;
         }
-
 
         [AllowAnonymous]
         [HttpPost("ResetPassword")]

@@ -14,6 +14,7 @@ namespace MovieTheater.Application.SeatServices.SeatTypes
         Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<List<SeatTypeVMD>>> GetAllAsync();
+
         Task<ApiResult<SeatTypeVMD>> GetByIdAsync(int id);
     }
 }

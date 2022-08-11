@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Infra.Seat.KindOfSeat;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers

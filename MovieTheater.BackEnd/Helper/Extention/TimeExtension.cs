@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using MovieTheater.Data.Models;
+﻿using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Price.Time;
 
 namespace MovieTheater.BackEnd.Helper.Extention
@@ -8,7 +7,7 @@ namespace MovieTheater.BackEnd.Helper.Extention
     {
         public static TimeVMD ToVMD(this Time time)
         {
-            if(time == null)
+            if (time == null)
                 return null;
             else
             {

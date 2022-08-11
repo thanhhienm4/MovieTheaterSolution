@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Price.Time;
 using MovieTheater.Models.Common.ApiResult;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Admin.Controllers
 {
@@ -35,7 +34,6 @@ namespace MovieTheater.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             return View(result.ResultObj);
         }
-
 
         [HttpGet]
         public IActionResult Create()

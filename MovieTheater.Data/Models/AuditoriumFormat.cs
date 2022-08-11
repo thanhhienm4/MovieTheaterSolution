@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 #nullable disable
 
@@ -12,7 +11,6 @@ namespace MovieTheater.Data.Models
             Auditoriums = new HashSet<Auditorium>();
             TicketPrices = new HashSet<TicketPrice>();
             Surcharges = new HashSet<Surcharge>();
-
         }
 
         public string Id { get; set; }
@@ -21,6 +19,5 @@ namespace MovieTheater.Data.Models
         public virtual ICollection<Auditorium> Auditoriums { get; set; }
         public virtual ICollection<TicketPrice> TicketPrices { get; set; }
         public virtual ICollection<Surcharge> Surcharges { get; set; }
-
     }
 }

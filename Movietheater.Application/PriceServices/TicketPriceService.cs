@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Price.TicketPrice;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.PriceServices
 {
@@ -28,7 +28,6 @@ namespace MovieTheater.Application.PriceServices
                 FromTime = request.FromTime,
                 TimeId = request.TimeId,
                 ToTime = request.ToTime
-                
             };
             _context.TicketPrices.Add(ticketPrice);
             int result = await _context.SaveChangesAsync();
@@ -58,8 +57,7 @@ namespace MovieTheater.Application.PriceServices
 
                 if (await _context.SaveChangesAsync() != 0)
                     return new ApiSuccessResult<bool>(true);
-                else
-                    return new ApiErrorResult<bool>("Cập nhật thất bại");
+                return new ApiErrorResult<bool>("Cập nhật thất bại");
             }
         }
 
@@ -84,38 +82,42 @@ namespace MovieTheater.Application.PriceServices
             }
         }
 
-        public async Task<ApiResult<PageResult<TicketPriceVMD>>> GetTicketPricePagingAsync(TicketPricePagingRequest request)
+        public async Task<ApiResult<PageResult<TicketPriceVmd>>> GetTicketPricePagingAsync(TicketPricePagingRequest request)
         {
-            var ticketPrice = _context.TicketPrices.Select(x => x);
-            //    Where(x => x.from);
+            var ticketPrice = _context.TicketPrices.Where(x =>
+                (x.FromTime >= request.FromTime && x.FromTime <= x.ToTime) || (x.ToTime >= request.FromTime && x.FromTime <= x.ToTime));
             int totalRow = await ticketPrice.CountAsync();
-            
-            var pageResult = new PageResult<TicketPriceVMD>()
+
+            var items = ticketPrice.OrderBy(x => x.FromTime).ThenBy(
+                    x => x.AuditoriumFormat)
+                .ThenBy(x => x.CustomerType)
+                .ThenBy(x => x.TimeId)
+                .Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
+                .Select(x => new TicketPriceVmd(x));
+
+            var pageResult = new PageResult<TicketPriceVmd>()
             {
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
-                Item = new List<TicketPriceVMD>(),
+                Item = new List<TicketPriceVmd>(),
             };
 
-            return new ApiSuccessResult<PageResult<TicketPriceVMD>>(pageResult);
+            return new ApiSuccessResult<PageResult<TicketPriceVmd>>(pageResult);
         }
 
-        public async Task<ApiResult<TicketPriceVMD>> GetTicketPriceById(int id)
+        public async Task<ApiResult<TicketPriceVmd>> GetTicketPriceById(int id)
         {
-            TicketPrice TicketPrice = await _context.TicketPrices.FindAsync(id);
-            if (TicketPrice == null)
+            TicketPrice ticketPrice = await _context.TicketPrices.FindAsync(id);
+            if (ticketPrice == null)
             {
-                return new ApiErrorResult<TicketPriceVMD>("Không tìm thấy");
+                return new ApiErrorResult<TicketPriceVmd>("Không tìm thấy");
             }
             else
             {
-                var result = new TicketPriceVMD()
-                {
-                    Id = TicketPrice.Id,
-                    Name = TicketPrice.Name
-                };
-                return new ApiSuccessResult<TicketPriceVMD>(result);
+                var result = new TicketPriceVmd(ticketPrice);
+
+                return new ApiSuccessResult<TicketPriceVmd>(result);
             }
         }
     }

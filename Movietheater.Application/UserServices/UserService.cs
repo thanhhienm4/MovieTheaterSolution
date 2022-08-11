@@ -1,28 +1,22 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MovieTheater.Application.MailServices;
+using MovieTheater.Common.Helper;
 using MovieTheater.Data.Enums;
+using MovieTheater.Data.Models;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
-using MovieTheater.Common.Helper;
-using MovieTheater.Data.Models;
 
 namespace MovieTheater.Application.UserServices
 {
@@ -55,7 +49,6 @@ namespace MovieTheater.Application.UserServices
             if (staff.Password != request.Password.Encrypt())
                 return new ApiErrorResult<string>("Mật khẩu không chính xác");
 
-
             claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, staff.UserName),
@@ -63,7 +56,6 @@ namespace MovieTheater.Application.UserServices
                 new Claim(ClaimTypes.Email, staff.Mail),
                 new Claim(ClaimTypes.Role, staff.Role)
             };
-
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -153,7 +145,6 @@ namespace MovieTheater.Application.UserServices
             }
         }
 
-
         public Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)
         {
             throw new NotImplementedException();
@@ -207,7 +198,6 @@ namespace MovieTheater.Application.UserServices
                                          || x.PhoneNumber.Contains(request.Keyword)
                                          || x.UserName.Contains(request.Keyword)
                                          || x.FirstName.Contains(request.Keyword));
-
 
             var total = query.Count();
             var res = query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize).ToList();

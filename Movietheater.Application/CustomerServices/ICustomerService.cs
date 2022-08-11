@@ -1,6 +1,5 @@
 ﻿using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
-using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System;
 using System.Threading.Tasks;

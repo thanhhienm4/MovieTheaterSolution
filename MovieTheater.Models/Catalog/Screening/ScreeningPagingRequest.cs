@@ -1,6 +1,5 @@
-﻿using MovieTheater.Models.Common;
+﻿using MovieTheater.Models.Common.Paging;
 using System;
-using MovieTheater.Models.Common.Paging;
 
 namespace MovieTheater.Models.Catalog.Screening
 {

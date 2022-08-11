@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MovieTheater.Models.Common.ApiResult;
+﻿using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.Infra.RoomModels;
 using MovieTheater.Models.Infra.RoomModels.Format;
 using MovieTheater.Models.Infra.Seat;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.RoomServices.Auditoriums
 {

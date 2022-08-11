@@ -2,18 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Application.FilmServices.Movies;
 using MovieTheater.Application.UserServices;
+using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MovieTheater.Common.Constants;
 
 namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
     [Authorize(Roles = "Admin")]
     public class MovieController : BaseController
     {
@@ -91,7 +90,6 @@ namespace MovieTheater.BackEnd.Controllers
 
         [AllowAnonymous]
         [HttpGet("getAllUpcomingFilm")]
-        
         public async Task<ApiResult<List<MovieVMD>>> GetAllUpcomingBanAsync()
         {
             var result = await _filmService.GetAllUpcomingAsync();

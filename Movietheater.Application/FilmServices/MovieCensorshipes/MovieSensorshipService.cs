@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Film.MovieCensorships;
 using MovieTheater.Models.Common.ApiResult;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MovieTheater.Application.FilmServices.MovieCensorshipes
 {
