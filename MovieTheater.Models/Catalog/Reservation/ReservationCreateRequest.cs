@@ -7,6 +7,7 @@
         public string ReservationTypeId { get; set; }
         public string CustomerId { get; set; }
         public string EmployeeId { get; set; }
+
         public int ScreeningId { get; set; }
         //public List<TicketCreateRequest> Tickets { get; set; }
     }

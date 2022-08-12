@@ -15,7 +15,8 @@ namespace MovieTheater.BackEnd.Controllers
     {
         private readonly ITicketPriceService _ticketPriceService;
 
-        public TicketPriceController(IUserService userService, ITicketPriceService ticketPriceService) : base(userService)
+        public TicketPriceController(IUserService userService, ITicketPriceService ticketPriceService) : base(
+            userService)
         {
             _ticketPriceService = ticketPriceService;
         }

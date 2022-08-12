@@ -105,7 +105,7 @@ namespace MovieTheater.Application.TimeServices
 
         public async Task<ApiResult<List<TimeVMD>>> GetAllAsync()
         {
-            var res = await _context.Times.Select(x => x.ToVMD()).ToListAsync();
+            var res = _context.Times.ToList().Select(x => x.ToVMD()).ToList();
 
             return new ApiSuccessResult<List<TimeVMD>>(res);
         }

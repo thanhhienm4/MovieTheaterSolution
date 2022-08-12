@@ -6,26 +6,19 @@ namespace MovieTheater.Models.Price.TicketPrice
 {
     public class TicketPriceUpdateRequest
     {
-        [Display(Name = "Loại khách hàng")]
-        public string CustomerType { get; set; }
+        [Display(Name = "Loại khách hàng")] public string CustomerType { get; set; }
 
-        [Display(Name = "Định dạng")]
-        public string AuditoriumFormat { get; set; }
+        [Display(Name = "Định dạng")] public string AuditoriumFormat { get; set; }
 
-        [Display(Name = "Ngày bắt đầu")]
-        public DateTime FromTime { get; set; }
+        [Display(Name = "Ngày bắt đầu")] public DateTime FromTime { get; set; }
 
-        [Display(Name = "Ngày kết thúc")]
-        public DateTime ToTime { get; set; }
+        [Display(Name = "Ngày kết thúc")] public DateTime ToTime { get; set; }
 
-        [Display(Name = "Giá")]
-        public decimal Price { get; set; }
+        [Display(Name = "Giá")] public decimal Price { get; set; }
 
-        [Display(Name = "Thời gian")]
-        public string TimeId { get; set; }
+        [Display(Name = "Thời gian")] public string TimeId { get; set; }
 
-        [Display(Name = "Mã Giá")]
-        public int Id { get; set; }
+        [Display(Name = "Mã Giá")] public int Id { get; set; }
     }
 
     public class TicketPriceUpdateValidator : AbstractValidator<TicketPriceUpdateRequest>

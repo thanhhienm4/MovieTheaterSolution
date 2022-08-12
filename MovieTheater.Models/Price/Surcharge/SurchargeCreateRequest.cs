@@ -6,20 +6,15 @@ namespace MovieTheater.Models.Price.Surcharge
 {
     public class SurchargeCreateRequest
     {
-        [Display(Name = "Loại ghế")]
-        public string SeatType { get; set; }
+        [Display(Name = "Loại ghế")] public string SeatType { get; set; }
 
-        [Display(Name = "Định dạng phòng")]
-        public string AuditoriumFormatId { get; set; }
+        [Display(Name = "Định dạng phòng")] public string AuditoriumFormatId { get; set; }
 
-        [Display(Name = "Phụ phí")]
-        public decimal Price { get; set; }
+        [Display(Name = "Phụ phí")] public decimal Price { get; set; }
 
-        [Display(Name = "Ngày bắt đầu")]
-        public DateTime StartDate { get; set; }
+        [Display(Name = "Ngày bắt đầu")] public DateTime StartDate { get; set; }
 
-        [Display(Name = "Ngày kết thúc")]
-        public DateTime EndDate { get; set; }
+        [Display(Name = "Ngày kết thúc")] public DateTime EndDate { get; set; }
     }
 
     public class SurChargeCreateValidator : AbstractValidator<SurchargeCreateRequest>

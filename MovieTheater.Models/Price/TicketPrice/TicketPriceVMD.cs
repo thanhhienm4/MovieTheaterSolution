@@ -17,16 +17,19 @@ namespace MovieTheater.Models.Price.TicketPrice
 
         public TicketPriceVmd(Data.Models.TicketPrice ticketPrice)
         {
+            if (ticketPrice == null)
+                return;
+
             Id = ticketPrice.Id;
             AuditoriumFormat = ticketPrice.AuditoriumFormat;
             TimeId = ticketPrice.TimeId;
             Price = ticketPrice.Price;
-            AuditoriumFormatName = ticketPrice.AuditoriumFormatNavigation.Name;
+            AuditoriumFormatName = ticketPrice.AuditoriumFormatNavigation?.Name;
             CustomerType = ticketPrice.CustomerType;
             ToTime = ticketPrice.ToTime;
             FromTime = ticketPrice.FromTime;
-            CustomerTypeName = ticketPrice.CustomerType;
-            TimeName = ticketPrice.Time.Name;
+            CustomerTypeName = ticketPrice.CustomerTypeNavigation?.Name;
+            TimeName = ticketPrice.Time?.Name;
         }
     }
 }

@@ -19,7 +19,8 @@ namespace MovieTheater.BackEnd.Controllers
         private readonly IInvoiceService _invoiceService;
         private readonly IReservationService _reservationService;
 
-        public InvoiceController(IInvoiceService invoiceService, IUserService userService, IReservationService reservationService) : base(userService)
+        public InvoiceController(IInvoiceService invoiceService, IUserService userService,
+            IReservationService reservationService) : base(userService)
         {
             _invoiceService = invoiceService;
             _reservationService = reservationService;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Application.CustomerServices;
 using MovieTheater.Application.UserServices;
 using MovieTheater.Common.Constants;
@@ -33,6 +34,13 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResult<bool>> CreateStaffAsync([FromBody] UserRegisterRequest request)
         {
             var result = await _customerService.RegisterAsync(request);
+            return result;
+        }
+
+        [HttpGet(ApiConstant.CustomerTypeGetAll)]
+        public async Task<ApiResult<IList<CustomerTypeVmd>>> GetAllCustomerType()
+        {
+            var result = await _customerService.GetAllCustomerType();
             return result;
         }
 

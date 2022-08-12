@@ -16,7 +16,8 @@ namespace MovieTheater.WebApp.Controllers
         private readonly SeatRowApiClient _seatRowApiClient;
         private readonly AuditoriumApiClient _roomApiClient;
 
-        public RoomController(SeatApiClient seatApiClient, SeatRowApiClient seatRowApiClient, AuditoriumApiClient roomApiClient)
+        public RoomController(SeatApiClient seatApiClient, SeatRowApiClient seatRowApiClient,
+            AuditoriumApiClient roomApiClient)
         {
             _seatApiCient = seatApiClient;
             _seatRowApiClient = seatRowApiClient;
@@ -45,6 +46,7 @@ namespace MovieTheater.WebApp.Controllers
             {
                 TempData["Result"] = result.Message;
             }
+
             return result;
         }
 

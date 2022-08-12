@@ -12,7 +12,8 @@ namespace MovieTheater.Api
         public InvoiceApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
             httpContextAccessor)
-        { }
+        {
+        }
 
         public async Task<ApiResult<bool>> CreateAsync(InvoiceCreateRequest request)
         {

@@ -12,75 +12,82 @@
             Chi tiết đặt hàng
         </div>
     </div>
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-lg-10 col-xl-8">
-        <div class="card" style="border-radius: 10px;">
-          <div class="card-header px-4 py-5">
-            <h5 class="text-muted mb-0">Cảm ơn vì bạn đã chọn chúng tôi, <span style="color: #a8729a;">@Model.CustomerName</span>!</h5>
-          </div>
-            <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <p class="lead fw-normal mb-0" style="color: #a8729a;">@Model.MovieName</p>
-                    <p class="small text-muted mb-0">Thời gian bắt đầu: @Model.StartTime.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")</p>
-                </div>
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <p class="lead fw-normal mb-0" style="color: #a8729a;">Vé</p>
-                    <p class="small text-muted mb-0">Mã đơn hàng: @Model.Id</p>
-                </div>
-                @foreach (var item in Model.Tickets)
-                {
-                    <div class="card shadow-0 border mb-4">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <img src="/img/ticket.jpg"
-                                         class="img-fluid" alt="Ticket">
-                                </div>
-                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                    <p class="text-muted mb-0">Ghế: @item.Seat
-                                    </p>
-                                </div>
-                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                    <p class="text-muted mb-0 small">@Model.AuditoriumFormatName</p>
-                                </div>
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-10 col-xl-8">
+                <div class="card" style="border-radius: 10px;">
+                    <div class="card-header px-4 py-5">
+                        <h5 class="text-muted mb-0">Cảm ơn vì bạn đã chọn chúng tôi, <span style="color: #a8729a;">@Model.CustomerName</span>!</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0" style="color: #a8729a;">@Model.MovieName</p>
+                            <p class="small text-muted mb-0">Thời gian bắt đầu: @Model.StartTime.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0" style="color: #a8729a;">Vé</p>
+                            <p class="small text-muted mb-0">Mã đơn hàng: @Model.Id</p>
+                        </div>
+                        @foreach (var item in Model.Tickets)
+                        {
+                            <div class="card shadow-0 border mb-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <img src="/img/ticket.jpg"
+                                                 class="img-fluid" alt="Ticket">
+                                        </div>
+                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0">
+                                                Ghế: @item.Seat
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0 small">@Model.AuditoriumFormatName</p>
+                                        </div>
 
-                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                    <p class="text-muted mb-0 small">@item.SeatType</p>
-                                </div>
-                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                    <p class="text-muted mb-0 small">@item.CustomerType</p>
-                                </div>
-                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                    <p class="text-muted mb-0 small"> @string.Format( new CultureInfo("vi-VN"), "{0:C}",item.Price)</p>
+                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0 small">@item.SeatType</p>
+                                        </div>
+                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0 small">@item.CustomerType</p>
+                                        </div>
+                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0 small"> @string.Format(new CultureInfo("vi-VN"), "{0:C}", item.Price)</p>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
+                        }
 
+                        <div class="d-flex justify-content-between pt-2">
+                            <p class="fw-bold mb-0">Chi tiết đơn hàng</p>
+                            <p class="text-muted mb-0">
+                                <span class="fw-bold me-4">Tổng giá: &nbsp;</span>@string.Format(new CultureInfo("vi-VN"), "{0:C}", Model.TotalPrice)
+                            </p>
                         </div>
+
+                        <div class="d-flex justify-content-between pt-2">
+                            <p class="text-muted mb-0">Trạng thái thanh toán</p>
+                            <p class="text-muted mb-0">
+                                <span class="fw-bold me-4">@Model.PaidName</span>
+                            </p>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <p class="text-muted mb-0">Ngày đặt hàng</p>
+                            <p class="text-muted mb-0">
+                                <span class="fw-bold me-4"> @Model.Time.ToString("dd-MM-yyyy")</span>
+                            </p>
+                        </div>
+
                     </div>
-                }
-
-                <div class="d-flex justify-content-between pt-2">
-                    <p class="fw-bold mb-0">Chi tiết đơn hàng</p>
-                    <p class="text-muted mb-0"><span class="fw-bold me-4">Tổng giá: &nbsp;</span>@string.Format( new CultureInfo("vi-VN"), "{0:C}",Model.TotalPrice)</p>
                 </div>
-
-                <div class="d-flex justify-content-between pt-2">
-                    <p class="text-muted mb-0">Trạng thái thanh toán</p>
-                    <p class="text-muted mb-0"><span class="fw-bold me-4">@Model.PaidName</span></p>
-                </div>
-
-                <div class="d-flex justify-content-between">
-                    <p class="text-muted mb-0">Ngày đặt hàng</p>
-                    <p class="text-muted mb-0"><span class="fw-bold me-4"> @Model.Time.ToString("dd-MM-yyyy")</span></p>
-                </div>
-
             </div>
         </div>
-      </div>
     </div>
-  </div>
-   
+
 </div>
 
 

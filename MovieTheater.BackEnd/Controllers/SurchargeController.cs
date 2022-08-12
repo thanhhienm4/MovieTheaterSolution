@@ -49,7 +49,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost(ApiConstant.SurchargePaging)]
-        public async Task<ApiResult<PageResult<SurchargeVmd>>> PagingAsync(SurChargePagingRequest request)
+        public async Task<ApiResult<PageResult<SurchargeVmd>>> PagingAsync(SurchargePagingRequest request)
         {
             var result = await _surchargeService.GetSurchargePagingAsync(request);
             return result;

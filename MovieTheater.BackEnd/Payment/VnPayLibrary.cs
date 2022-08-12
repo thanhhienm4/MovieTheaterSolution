@@ -53,6 +53,7 @@ namespace MovieTheater.BackEnd.Payment
                     data.Append(WebUtility.UrlEncode(kv.Key) + "=" + WebUtility.UrlEncode(kv.Value) + "&");
                 }
             }
+
             string queryString = data.ToString();
 
             baseUrl += "?" + queryString;
@@ -61,6 +62,7 @@ namespace MovieTheater.BackEnd.Payment
             {
                 signData = signData.Remove(data.Length - 1, 1);
             }
+
             string vnp_SecureHash = Utils.HmacSHA512(vnp_HashSecret, signData);
             baseUrl += "vnp_SecureHash=" + vnp_SecureHash;
 
@@ -85,10 +87,12 @@ namespace MovieTheater.BackEnd.Payment
             {
                 _responseData.Remove("vnp_SecureHashType");
             }
+
             if (_responseData.ContainsKey("vnp_SecureHash"))
             {
                 _responseData.Remove("vnp_SecureHash");
             }
+
             foreach (KeyValuePair<string, string> kv in _responseData)
             {
                 if (!String.IsNullOrEmpty(kv.Value))
@@ -96,11 +100,13 @@ namespace MovieTheater.BackEnd.Payment
                     data.Append(WebUtility.UrlEncode(kv.Key) + "=" + WebUtility.UrlEncode(kv.Value) + "&");
                 }
             }
+
             //remove last '&'
             if (data.Length > 0)
             {
                 data.Remove(data.Length - 1, 1);
             }
+
             return data.ToString();
         }
 

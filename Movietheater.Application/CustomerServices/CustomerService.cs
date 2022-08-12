@@ -24,7 +24,7 @@ namespace MovieTheater.Application.CustomerServices
         private readonly IHttpContextAccessor _accessor;
         private readonly IMailService _mailService;
         private readonly IConfiguration _configuration;
-        private MoviesContext _context;
+        private readonly MoviesContext _context;
 
         public CustomerService(MoviesContext context, IHttpContextAccessor accessor, IMailService mailService,
             IConfiguration configuration)
@@ -157,6 +157,12 @@ namespace MovieTheater.Application.CustomerServices
         public Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ApiResult<IList<CustomerTypeVmd>>> GetAllCustomerType()
+        {
+            var res = await _context.CustomerTypes.Select(x => new CustomerTypeVmd(x)).ToListAsync();
+            return new ApiSuccessResult<IList<CustomerTypeVmd>>(res);
         }
 
         public string CreateCustomerUser(string currentIndex)

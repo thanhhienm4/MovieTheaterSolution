@@ -2,6 +2,7 @@
 using MovieTheater.Models.Common.Paging;
 using MovieTheater.Models.User;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MovieTheater.Application.CustomerServices
@@ -27,5 +28,7 @@ namespace MovieTheater.Application.CustomerServices
         Task<ApiResult<bool>> ForgotPasswordAsync(string mail);
 
         Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request);
+
+        Task<ApiResult<IList<CustomerTypeVmd>>> GetAllCustomerType();
     }
 }

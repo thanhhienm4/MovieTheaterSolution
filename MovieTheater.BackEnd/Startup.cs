@@ -36,6 +36,7 @@ using MovieTheater.Models.Utilities;
 using System.Collections.Generic;
 using System.Text;
 using MovieTheater.Application.PriceServices;
+using MovieTheater.Application.SurchargeServices;
 
 namespace MovieTheater.BackEnd
 {
@@ -78,6 +79,7 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IVnPayService, VnPayService>();
             services.AddTransient<IInvoiceService, InvoiceService>();
             services.AddTransient<ITicketPriceService, TicketPriceService>();
+            services.AddTransient<ISurchargeService, SurchargeService>();
             // For Identity
 
             services.AddDbContext<MoviesContext>(options =>
@@ -138,8 +140,8 @@ namespace MovieTheater.BackEnd
                     }
                 });
             });
-            var mailsettings = Configuration.GetSection("MailSettings");
-            services.Configure<MailSettings>(mailsettings);
+            var mailSettings = Configuration.GetSection("MailSettings");
+            services.Configure<MailSettings>(mailSettings);
             services.AddControllersWithViews();
             services.AddSignalR(options => { options.EnableDetailedErrors = true; });
             ;

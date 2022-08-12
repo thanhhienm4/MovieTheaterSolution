@@ -6,26 +6,23 @@ using MovieTheater.Api;
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MovieTheater.Data.Models;
-using MovieTheater.Models.Price.TicketPrice;
+using MovieTheater.Models.Price.Surcharge;
 
 namespace MovieTheater.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class TicketPriceController : Controller
+    public class SurchargeController : Controller
     {
-        private readonly TicketPriceApiClient _ticketPriceApiClient;
-        private readonly TimeApiClient _timeApiClient;
+        private readonly SurchargeApiClient _surchargeApiClient;
+        private readonly SeatApiClient _seatApiClient;
         private readonly AuditoriumApiClient _auditoriumApiClient;
-        private readonly CustomerTypeApiClient _customerTypeApiClient;
 
-        public TicketPriceController(TicketPriceApiClient ticketPriceApiClient, TimeApiClient timeApiClient,
-            AuditoriumApiClient auditoriumApiClient, CustomerTypeApiClient customerTypeApiClient)
+        public SurchargeController(SurchargeApiClient surchargeApiClient,
+            AuditoriumApiClient auditoriumApiClient, SeatApiClient seatApiClient)
         {
-            _ticketPriceApiClient = ticketPriceApiClient;
-            _timeApiClient = timeApiClient;
+            _surchargeApiClient = surchargeApiClient;
             _auditoriumApiClient = auditoriumApiClient;
-            _customerTypeApiClient = customerTypeApiClient;
+            _seatApiClient = seatApiClient;
         }
 
         public async Task<IActionResult> Index(DateTime? fromDate, DateTime? toDate, int pageIndex = 1,
@@ -33,10 +30,10 @@ namespace MovieTheater.Admin.Controllers
         {
             DateTime now = DateTime.Now;
 
-            fromDate = fromDate ?? new DateTime(now.Year, 1, 1);
-            toDate = toDate ?? new DateTime(now.Year + 1, 1, 1).AddDays(-1);
+            fromDate ??= new DateTime(now.Year, 1, 1);
+            toDate ??= new DateTime(now.Year + 1, 1, 1).AddDays(-1);
 
-            var request = new TicketPricePagingRequest()
+            var request = new SurchargePagingRequest()
             {
                 FromTime = fromDate,
                 ToTime = toDate,
@@ -47,7 +44,7 @@ namespace MovieTheater.Admin.Controllers
             ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.FromDate = fromDate;
             ViewBag.ToDate = toDate;
-            var result = await _ticketPriceApiClient.GetPagingAsync(request);
+            var result = await _surchargeApiClient.GetPagingAsync(request);
             if (result.IsReLogin)
                 return RedirectToAction("Index", "Login");
             return View(result.ResultObj);
@@ -61,7 +58,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(TicketPriceCreateRequest request)
+        public async Task<IActionResult> Create(SurchargeCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -69,13 +66,13 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
 
-            var result = await _ticketPriceApiClient.CreateAsync(request);
+            var result = await _surchargeApiClient.CreateAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = "Tạo mới thành công";
-                return RedirectToAction("Index", "TicketPrice");
+                return RedirectToAction("Index", "Surcharge");
             }
 
             SetViewBagAsync();
@@ -92,22 +89,21 @@ namespace MovieTheater.Admin.Controllers
                 return View();
             }
 
-            var result = await _ticketPriceApiClient.GetByIdAsync(id);
+            var result = await _surchargeApiClient.GetByIdAsync(id);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
 
             if (result.IsSuccessed)
             {
-                var ticketPrice = result.ResultObj;
-                var updateRequest = new TicketPriceUpdateRequest()
+                var surcharge = result.ResultObj;
+                var updateRequest = new SurchargeUpdateRequest()
                 {
-                    Id = ticketPrice.Id,
-                    AuditoriumFormat = ticketPrice.AuditoriumFormat,
-                    Price = ticketPrice.Price,
-                    CustomerType = ticketPrice.CustomerType,
-                    ToTime = ticketPrice.ToTime,
-                    FromTime = ticketPrice.FromTime,
-                    TimeId = ticketPrice.TimeId
+                    Id = surcharge.Id,
+                    Price = surcharge.Price,
+                    AuditoriumFormatId = surcharge.AuditoriumFormatId,
+                    EndDate = surcharge.EndDate,
+                    SeatType = surcharge.SeatType,
+                    StartDate = surcharge.StartDate
                 };
                 return View(updateRequest);
             }
@@ -116,7 +112,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(TicketPriceUpdateRequest request)
+        public async Task<IActionResult> Edit(SurchargeUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -125,13 +121,13 @@ namespace MovieTheater.Admin.Controllers
                 return View(request);
             }
 
-            var result = await _ticketPriceApiClient.UpdateAsync(request);
+            var result = await _surchargeApiClient.UpdateAsync(request);
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
                 TempData["Result"] = "Chỉnh sửa thành công";
-                return RedirectToAction("Index", "TicketPrice");
+                return RedirectToAction("Index", "Surcharge");
             }
 
             SetViewBagAsync();
@@ -142,7 +138,7 @@ namespace MovieTheater.Admin.Controllers
         [HttpPost]
         public async Task<ApiResult<bool>> Delete(string id)
         {
-            var result = await _ticketPriceApiClient.DeleteAsync(id);
+            var result = await _surchargeApiClient.DeleteAsync(id);
             if (result.IsSuccessed)
                 TempData["Result"] = result.Message;
             return result;
@@ -150,26 +146,18 @@ namespace MovieTheater.Admin.Controllers
 
         private void SetViewBagAsync()
         {
-            ViewBag.Times = _timeApiClient.GetAllAsync().Result.ResultObj.Select(x => new SelectListItem()
+            ViewBag.SeatTypes = _seatApiClient.GetAllKindOfSeatAsync().Result.ResultObj.Select(x => new SelectListItem()
             {
                 Text = x.Name,
-                Value = x.TimeId
+                Value = x.Id
             });
-            ;
-            ViewBag.CustomerTypes = _customerTypeApiClient.GetAllAsync().Result.ResultObj.Select(x =>
-                new SelectListItem()
-                {
-                    Text = x.Name,
-                    Value = x.Id
-                });
-            ;
+
             ViewBag.AuditoriumFormats = _auditoriumApiClient.GetAllRoomFormatAsync().Result.ResultObj.Select(x =>
                 new SelectListItem()
                 {
                     Text = x.Name,
                     Value = x.Id
                 });
-            ;
         }
     }
 }

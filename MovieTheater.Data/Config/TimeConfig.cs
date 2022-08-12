@@ -26,7 +26,22 @@ namespace MovieTheater.Data.Config
 
             builder.Property(e => e.Name)
                 .IsRequired()
-                .HasMaxLength(2550)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+
+            builder.Property(e => e.HourStart)
+                .IsRequired()
+                .HasMaxLength(10)
+                .IsUnicode(false);
+
+            builder.Property(e => e.HourEnd)
+                .IsRequired()
+                .HasMaxLength(10)
+                .IsUnicode(false);
+
+            builder.Property(e => e.IsDelete)
+                .IsRequired()
+                .HasMaxLength(10)
                 .IsUnicode(false);
         }
     }

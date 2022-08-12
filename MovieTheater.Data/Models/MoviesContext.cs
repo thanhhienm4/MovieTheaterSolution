@@ -88,6 +88,6 @@ namespace MovieTheater.Data.Models
             modelBuilder.ApplyConfiguration(new PaymentConfig());
         }
 
-         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

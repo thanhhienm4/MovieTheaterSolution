@@ -26,7 +26,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<bool>> UpdateAsync(SurchargeUpdateRequest request)
         {
-            return await PostAsync<bool>($"{ApiConstant.ApiSurcharge}/{ApiConstant.SurchargeUpdate}", request);
+            return await PutAsync<bool>($"{ApiConstant.ApiSurcharge}/{ApiConstant.SurchargeUpdate}", request);
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(string id)
@@ -34,19 +34,21 @@ namespace MovieTheater.Api
             return await DeleteAsync<bool>($"{ApiConstant.ApiSurcharge}/{ApiConstant.SurchargeDelete}/{id}");
         }
 
-        public async Task<ApiResult<SurchargeVmd>> GetByIdAsync(string id)
+        public async Task<ApiResult<SurchargeVmd>> GetByIdAsync(int id)
         {
             var queryParams = new NameValueCollection()
             {
-                { "id", id }
+                { "id", id.ToString() }
             };
-            return await GetAsync<SurchargeVmd>($"{ApiConstant.ApiSurcharge}/{ApiConstant.SurchargeGetById}", queryParams);
+            return await GetAsync<SurchargeVmd>($"{ApiConstant.ApiSurcharge}/{ApiConstant.SurchargeGetById}",
+                queryParams);
         }
 
 
-        public async Task<ApiResult<PageResult<SurchargeVmd>>> GetPagingAsync(SurChargePagingRequest request)
+        public async Task<ApiResult<PageResult<SurchargeVmd>>> GetPagingAsync(SurchargePagingRequest request)
         {
-            return await PostAsync<PageResult<SurchargeVmd>>($"{ApiConstant.ApiSurcharge}/{ApiConstant.SurchargePaging}", request);
+            return await PostAsync<PageResult<SurchargeVmd>>(
+                $"{ApiConstant.ApiSurcharge}/{ApiConstant.SurchargePaging}", request);
         }
     }
 }

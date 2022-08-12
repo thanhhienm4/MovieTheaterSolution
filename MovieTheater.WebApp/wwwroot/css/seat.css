@@ -20,30 +20,22 @@
     border: 0px;
 }
 
-.vipSeat {
-    background-color: #d4b15f;
-}
+.vipSeat { background-color: #d4b15f; }
 
-.normalSeat {
-    background-color: #4e73df;
-}
+.normalSeat { background-color: #4e73df; }
 
-.seat.normalSeat.selectingSeat {
-    background-color: #00b300;
-}
+.seat.normalSeat.selectingSeat { background-color: #00b300; }
 
-.seat.vipSeat.selectingSeat {
-    background-color: #00b300;
-}
+.seat.vipSeat.selectingSeat { background-color: #00b300; }
 
 .seat.vipSeat.taken {
     cursor: not-allowed;
-    background: repeating-linear-gradient( 45deg, rgba(212,177,95,.4), rgba(212,177,95,.4) 10px, rgba(212,177,95,.6) 0, rgba(212,177,95,.6) 20px)
+    background: repeating-linear-gradient(45deg, rgba(212, 177, 95, .4), rgba(212, 177, 95, .4) 10px, rgba(212, 177, 95, .6) 0, rgba(212, 177, 95, .6) 20px)
 }
 
 .seat.normalSeat.taken {
     cursor: not-allowed;
-    background: repeating-linear-gradient( 45deg, rgba(78, 115, 223,.4), rgba(78, 115, 223,0.4) 10px, rgba(78, 115, 223,.6) 0, rgba(78, 115, 223,.6) 20px)
+    background: repeating-linear-gradient(45deg, rgba(78, 115, 223, .4), rgba(78, 115, 223, 0.4) 10px, rgba(78, 115, 223, .6) 0, rgba(78, 115, 223, .6) 20px)
 }
 
 .time {

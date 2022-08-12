@@ -11,7 +11,7 @@ namespace MovieTheater.Data.Config
             builder.ToTable("Payment");
             builder.HasKey(x => x.Id);
             builder.Property(e => e.Id)
-               .IsUnicode(false);
+                .IsUnicode(false);
         }
     }
 }

@@ -10,9 +10,10 @@ namespace MovieTheater.Api
     public class StatisticApiClient : BaseApiClient
     {
         public StatisticApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
-           IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
+            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration,
             httpContextAccessor)
-        { }
+        {
+        }
 
         public async Task<ApiResult<ChartData>> GetTopRevenueFilmAsync(CalRevenueRequest request)
         {

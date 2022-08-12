@@ -25,7 +25,7 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<bool>> UpdateAsync(TicketPriceUpdateRequest request)
         {
-            return await PostAsync<bool>($"{ApiConstant.ApiTicketPrice}/{ApiConstant.TicketPriceUpdate}", request);
+            return await PutAsync<bool>($"{ApiConstant.ApiTicketPrice}/{ApiConstant.TicketPriceUpdate}", request);
         }
 
         public async Task<ApiResult<bool>> DeleteAsync(string id)
@@ -39,12 +39,14 @@ namespace MovieTheater.Api
             {
                 { "id", id.ToString() }
             };
-            return await GetAsync<TicketPriceVmd>($"{ApiConstant.ApiTicketPrice}/{ApiConstant.TicketPriceGetById}", queryParams);
+            return await GetAsync<TicketPriceVmd>($"{ApiConstant.ApiTicketPrice}/{ApiConstant.TicketPriceGetById}",
+                queryParams);
         }
 
         public async Task<ApiResult<PageResult<TicketPriceVmd>>> GetPagingAsync(TicketPricePagingRequest request)
         {
-            return await PostAsync<PageResult<TicketPriceVmd>>($"{ApiConstant.ApiTicketPrice}/{ApiConstant.TicketPricePaging}", request);
+            return await PostAsync<PageResult<TicketPriceVmd>>(
+                $"{ApiConstant.ApiTicketPrice}/{ApiConstant.TicketPricePaging}", request);
         }
     }
 }

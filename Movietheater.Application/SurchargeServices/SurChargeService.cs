@@ -27,7 +27,6 @@ namespace MovieTheater.Application.SurchargeServices
                 Price = request.Price,
                 StartDate = request.StartDate,
                 SeatType = request.SeatType
-                
             };
             _context.Surcharges.Add(surcharge);
             int result = await _context.SaveChangesAsync();
@@ -81,25 +80,29 @@ namespace MovieTheater.Application.SurchargeServices
             }
         }
 
-        public async Task<ApiResult<PageResult<SurchargeVmd>>> GetSurchargePagingAsync(SurChargePagingRequest request)
+        public async Task<ApiResult<PageResult<SurchargeVmd>>> GetSurchargePagingAsync(SurchargePagingRequest request)
         {
             var surcharge = _context.Surcharges.Where(x =>
-                x.StartDate >= request.FromTime && x.StartDate <= x.EndDate || x.EndDate >= request.ToTime && x.StartDate <= x.EndDate);
+                x.StartDate >= request.FromTime && x.StartDate <= x.EndDate ||
+                x.EndDate >= request.ToTime && x.StartDate <= x.EndDate);
             int totalRow = await surcharge.CountAsync();
 
             var items = surcharge.OrderBy(x => x.StartDate).ThenBy(
                     x => x.AuditoriumFormat)
                 .ThenBy(x => x.AuditoriumFormatId)
                 .ThenBy(x => x.SeatType)
+                .Include(x => x.AuditoriumFormat)
+                .Include(x => x.SeatTypeNavigation)
                 .Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
-                .Select(x => new SurchargeVmd(x));
+                .ToListAsync().Result
+                .Select(x => new SurchargeVmd(x)).ToList();
 
             var pageResult = new PageResult<SurchargeVmd>()
             {
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
-                Item = new List<SurchargeVmd>(),
+                Item = items,
             };
 
             return new ApiSuccessResult<PageResult<SurchargeVmd>>(pageResult);

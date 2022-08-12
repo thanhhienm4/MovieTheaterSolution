@@ -21,12 +21,13 @@ namespace MovieTheater.Application.Statitic
         public async Task<ApiResult<ChartData>> GetTopRevenueFilmAsync(CalRevenueRequest request)
         {
             var query = from m in _context.Movies
-                        join s in _context.Screenings on m.Id equals s.MovieId
-                        join r in _context.Reservations on s.Id equals r.ScreeningId into sr
-                        from r in sr.DefaultIfEmpty()
-                        join t in _context.Tickets on r.Id equals t.ReservationId
-                        where r.Time.Date >= request.StartDate.Date && r.Time.Date <= request.EndDate.Date && s.Active == true && r.Active == true
-                        select new { s, m, t };
+                join s in _context.Screenings on m.Id equals s.MovieId
+                join r in _context.Reservations on s.Id equals r.ScreeningId into sr
+                from r in sr.DefaultIfEmpty()
+                join t in _context.Tickets on r.Id equals t.ReservationId
+                where r.Time.Date >= request.StartDate.Date && r.Time.Date <= request.EndDate.Date &&
+                      s.Active == true && r.Active == true
+                select new { s, m, t };
 
             var Revenue = await query.GroupBy(x => new { x.m.Name, x.m.Id }).Select(x => new
             {
@@ -43,11 +44,11 @@ namespace MovieTheater.Application.Statitic
         public async Task<ApiResult<long>> GetRevenueAsync(CalRevenueRequest request)
         {
             var query = from s in _context.Screenings
-                        join r in _context.Reservations on s.Id equals r.ScreeningId
-                        join t in _context.Tickets on r.Id equals t.ReservationId
-
-                        where r.Time.Date >= request.StartDate.Date && r.Time.Date <= request.EndDate.Date && s.Active == true && r.Active == true
-                        select t;
+                join r in _context.Reservations on s.Id equals r.ScreeningId
+                join t in _context.Tickets on r.Id equals t.ReservationId
+                where r.Time.Date >= request.StartDate.Date && r.Time.Date <= request.EndDate.Date &&
+                      s.Active == true && r.Active == true
+                select t;
 
             long revenue = (long)await query.SumAsync(x => x.Price);
             return new ApiSuccessResult<long>(revenue);
@@ -56,12 +57,12 @@ namespace MovieTheater.Application.Statitic
         public async Task<ApiResult<ChartData>> GetRevenueTypeAsync(CalRevenueRequest request)
         {
             var query = from s in _context.Screenings
-                        join r in _context.Reservations on s.Id equals r.ScreeningId
-                        join t in _context.Tickets on r.Id equals t.ReservationId
-                        join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                        where r.Time.Date > request.StartDate && r.Time.Date < request.EndDate
-                        && s.Active == true && r.Active == true
-                        select new { rt, t };
+                join r in _context.Reservations on s.Id equals r.ScreeningId
+                join t in _context.Tickets on r.Id equals t.ReservationId
+                join rt in _context.ReservationTypes on r.TypeId equals rt.Id
+                where r.Time.Date > request.StartDate && r.Time.Date < request.EndDate
+                                                      && s.Active == true && r.Active == true
+                select new { rt, t };
 
             var Revenue = await query.GroupBy(x => new { x.rt.Name }).Select(x => new
             {
@@ -91,17 +92,18 @@ namespace MovieTheater.Application.Statitic
                     EndDate = GetDateEndMonth(date)
                 })).ResultObj);
             }
+
             return new ApiSuccessResult<ChartData>(chartData);
         }
 
         public async Task<ApiResult<ChartData>> GetRevenueInNMonthOfYear(int year)
         {
             var query = from s in _context.Screenings
-                        join r in _context.Reservations on s.Id equals r.ScreeningId
-                        join t in _context.Tickets on r.Id equals t.ReservationId
-                        join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                        where r.Time.Year == year
-                        select new { rt, t, r };
+                join r in _context.Reservations on s.Id equals r.ScreeningId
+                join t in _context.Tickets on r.Id equals t.ReservationId
+                join rt in _context.ReservationTypes on r.TypeId equals rt.Id
+                where r.Time.Year == year
+                select new { rt, t, r };
 
             var revenue = await query.GroupBy(x => new { x.r.Time.Month })
                 .Select(x => new

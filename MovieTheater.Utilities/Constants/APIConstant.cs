@@ -24,6 +24,7 @@
 
         public const string CustomerRegister = "Register";
         public const string CustomerLogin = "Login";
+        public const string CustomerTypeGetAll = "GetAllCustomerType";
 
         #endregion Customerr
 
@@ -119,19 +120,23 @@
         #endregion Invoice
 
         #region TicketPrivce
+
         public const string TicketPriceCreate = "create";
         public const string TicketPriceUpdate = "update";
         public const string TicketPriceDelete = "delete";
         public const string TicketPricePaging = "paging";
         public const string TicketPriceGetById = "getById";
+
         #endregion TicketPrivce
 
         #region Surcharge
+
         public const string SurchargeCreate = "create";
         public const string SurchargeUpdate = "update";
         public const string SurchargeDelete = "delete";
         public const string SurchargePaging = "paging";
         public const string SurchargeGetById = "getById";
+
         #endregion Surcharge
     }
 }

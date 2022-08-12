@@ -7,17 +7,13 @@ namespace MovieTheater.Models.Catalog.Film
 {
     public class MovieCreateRequest
     {
-        [Display(Name = "Mã phim")]
-        public string Id { get; set; }
+        [Display(Name = "Mã phim")] public string Id { get; set; }
 
-        [Display(Name = "Tên phim")]
-        public string Name { get; set; }
+        [Display(Name = "Tên phim")] public string Name { get; set; }
 
-        [Display(Name = "Mô tả ")]
-        public string Description { get; set; }
+        [Display(Name = "Mô tả ")] public string Description { get; set; }
 
-        [Display(Name = "Ngày ra rạp")]
-        public DateTime PublishDate { get; set; }
+        [Display(Name = "Ngày ra rạp")] public DateTime PublishDate { get; set; }
 
         [Display(Name = "Đường dẫn của Trailer")]
         public string TrailerURL { get; set; }

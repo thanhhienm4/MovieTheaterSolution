@@ -9,7 +9,7 @@
     position: absolute;
     top: 30%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     color: white;
 }
 
@@ -18,7 +18,7 @@
     position: absolute;
     top: 55%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     color: white;
 }
 
@@ -39,22 +39,22 @@
     border-bottom: 1px solid #4caf50;
 }
 
-    .textbox i {
-        width: 26px;
-        float: left;
-        text-align: center;
-    }
+.textbox i {
+    width: 26px;
+    float: left;
+    text-align: center;
+}
 
-    .textbox input {
-        border: none;
-        outline: none;
-        background: none;
-        color: white;
-        font-size: 18px;
-        width: 80%;
-        float: left;
-        margin: 0 10px;
-    }
+.textbox input {
+    border: none;
+    outline: none;
+    background: none;
+    color: white;
+    font-size: 18px;
+    width: 80%;
+    float: left;
+    margin: 0 10px;
+}
 
 .btn {
     width: 100%;
@@ -67,9 +67,7 @@
     margin: 12px 0;
 }
 
-body {
-    margin: 2rem;
-}
+body { margin: 2rem; }
 
 .modalVideo-body {
     position: relative;

@@ -15,16 +15,19 @@ namespace MovieTheater.Models.Price.Surcharge
 
         public SurchargeVmd(Data.Models.Surcharge surcharge)
         {
+            if (surcharge == null)
+                return;
+
             SeatType = surcharge.SeatType;
             Id = surcharge.Id;
             Price = surcharge.Price;
             AuditoriumFormatId = surcharge.AuditoriumFormatId;
-            AuditoriumFormatName = surcharge.AuditoriumFormat.Name;
+            AuditoriumFormatName = surcharge.AuditoriumFormat?.Name;
             StartDate = surcharge.StartDate;
             EndDate = surcharge.EndDate;
             Price = surcharge.Price;
             SeatType = surcharge.SeatType;
-            SeatTypeName = surcharge.SeatTypeNavigation.Name;
+            SeatTypeName = surcharge.SeatTypeNavigation?.Name;
         }
     }
 }

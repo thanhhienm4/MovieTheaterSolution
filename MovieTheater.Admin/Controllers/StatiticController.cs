@@ -88,24 +88,24 @@ namespace MovieTheater.Admin.Controllers
             switch (request.RenderType)
             {
                 case RenderType.Pdf:
-                    {
-                        report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
-                        file = File(report.MainStream, "application/pdf");
-                        break;
-                    }
+                {
+                    report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
+                    file = File(report.MainStream, "application/pdf");
+                    break;
+                }
                     ;
                 case RenderType.Excel:
-                    {
-                        report = localReport.Execute(RenderType.Excel, extenstion, parameters, mimetype);
-                        file = File(report.MainStream, "application/excel");
-                        break;
-                    }
+                {
+                    report = localReport.Execute(RenderType.Excel, extenstion, parameters, mimetype);
+                    file = File(report.MainStream, "application/excel");
+                    break;
+                }
                 default:
-                    {
-                        report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
-                        file = File(report.MainStream, "application/pdf");
-                        break;
-                    }
+                {
+                    report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
+                    file = File(report.MainStream, "application/pdf");
+                    break;
+                }
             }
 
             var data = Convert.ToBase64String(file.FileContents);

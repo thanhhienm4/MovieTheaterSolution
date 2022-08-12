@@ -35,6 +35,7 @@ namespace MovieTheater.Application.PriceServices
             {
                 return new ApiErrorResult<bool>("Tạo mới thất bại");
             }
+
             return new ApiSuccessResult<bool>(true);
         }
 
@@ -81,14 +82,16 @@ namespace MovieTheater.Application.PriceServices
             }
         }
 
-        public async Task<ApiResult<PageResult<TicketPriceVmd>>> GetTicketPricePagingAsync(TicketPricePagingRequest request)
+        public async Task<ApiResult<PageResult<TicketPriceVmd>>> GetTicketPricePagingAsync(
+            TicketPricePagingRequest request)
         {
             var ticketPrice = _context.TicketPrices.Where(x =>
-                x.FromTime >= request.FromTime && x.FromTime <= x.ToTime || x.ToTime >= request.FromTime && x.FromTime <= x.ToTime);
+                x.FromTime >= request.FromTime && x.FromTime <= x.ToTime ||
+                x.ToTime >= request.FromTime && x.FromTime <= x.ToTime);
             int totalRow = await ticketPrice.CountAsync();
 
-            var items = ticketPrice.OrderBy(x => x.FromTime).ThenBy(
-                    x => x.AuditoriumFormat)
+            var items = ticketPrice.OrderBy(x => x.FromTime)
+                .ThenBy(x => x.AuditoriumFormat)
                 .ThenBy(x => x.CustomerType)
                 .ThenBy(x => x.TimeId)
                 .Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
@@ -102,7 +105,7 @@ namespace MovieTheater.Application.PriceServices
                 TotalRecord = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
-                Item = items,
+                Item = items
             };
 
             return new ApiSuccessResult<PageResult<TicketPriceVmd>>(pageResult);

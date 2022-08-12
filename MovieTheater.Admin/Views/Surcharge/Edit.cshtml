@@ -1,4 +1,4 @@
-﻿@model MovieTheater.Models.Price.TicketPrice.TicketPriceUpdateRequest
+﻿@model MovieTheater.Models.Price.Surcharge.SurchargeUpdateRequest
 
 @{
     ViewData["Title"] = "Edit";
@@ -27,22 +27,22 @@
             <div class="form-row">
                 <div class="col-md">
                     <div class="form-group">
-                        <label asp-for="CustomerType" class="control-label"></label>
-                        <select asp-for="TimeId" asp-items="@ViewBag.Times" class="form-control" id="timeId" disabled=""></select>
-                        <span asp-validation-for="CustomerType" class="text-danger"></span>
+                        <label asp-for="SeatType" class="control-label"></label>
+                        <select asp-for="SeatType" asp-items="@ViewBag.SeatTypes" class="form-control" id="seatTypeId" disabled=""></select>
+                        <span asp-validation-for="SeatType" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="form-group">
-                        <label asp-for="AuditoriumFormat" class="control-label"></label>
-                        <select asp-for="AuditoriumFormat" asp-items="@ViewBag.AuditoriumFormats" class="form-control" id="auditoriumFormatId" disabled=""></select>
-                        <span asp-validation-for="AuditoriumFormat" class="text-danger"></span>
+                        <label asp-for="AuditoriumFormatId" class="control-label"></label>
+                        <select asp-for="AuditoriumFormatId" asp-items="@ViewBag.AuditoriumFormats" class="form-control" id="auditoriumFormatId" disabled=""></select>
+                        <span asp-validation-for="AuditoriumFormatId" class="text-danger"></span>
                     </div>
                 </div>
             </div>
 
             <div class="form-row">
-                <div class="col-md">
+                @*<div class="col-md">
                     <div class="form-group">
                         <label asp-for="TimeId" class="control-label"></label>
                         <div class="row">
@@ -52,11 +52,11 @@
                         </div>
                         <span asp-validation-for="TimeId" class="text-danger"></span>
                     </div>
-                </div>
+                </div>*@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="Price" class="control-label"></label>
-                        <input asp-for="Price" value="@Model.Price" class="form-control" id="price" disabled>
+                        <input asp-for="Price" value="@Model.Price" class="form-control" id="price" disabled id="price" type="number" min="0" step="1">
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                 </div>
@@ -64,16 +64,16 @@
             <div class="form-row">
                 <div class="col-md">
                     <div class="form-group">
-                        <label asp-for="FromTime" class="control-label"></label>
-                        <input asp-for="FromTime" class="form-control" type="date" id="fromTime" disabled/>
-                        <span asp-validation-for="FromTime" class="text-danger"></span>
+                        <label asp-for="StartDate" class="control-label"></label>
+                        <input asp-for="StartDate" class="form-control" type="date" id="startDate" disabled/>
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="form-group">
-                        <label asp-for="ToTime" class="control-label"></label>
-                        <input asp-for="ToTime" class="form-control" type="date" id="toTime" disabled/>
-                        <span asp-validation-for="ToTime" class="text-danger"></span>
+                        <label asp-for="EndDate" class="control-label"></label>
+                        <input asp-for="EndDate" class="form-control" type="date" id="endDate" disabled/>
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -86,11 +86,11 @@
 
 <script>
     function enableElements() {
-        document.getElementById("timeId").disabled = false;
+
         document.getElementById("auditoriumFormatId").disabled = false;
-        document.getElementById("customerTypeId").disabled = false;
-        document.getElementById("fromTime").disabled = false;
-        document.getElementById("toTime").disabled = false;
+        document.getElementById("seatTypeId").disabled = false;
+        document.getElementById("startDate").disabled = false;
+        document.getElementById("endDate").disabled = false;
         document.getElementById("price").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";

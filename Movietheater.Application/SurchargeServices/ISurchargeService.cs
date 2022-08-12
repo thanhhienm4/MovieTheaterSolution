@@ -13,7 +13,7 @@ namespace MovieTheater.Application.SurchargeServices
 
         Task<ApiResult<bool>> DeleteAsync(int id);
 
-        Task<ApiResult<PageResult<SurchargeVmd>>> GetSurchargePagingAsync(SurChargePagingRequest request);
+        Task<ApiResult<PageResult<SurchargeVmd>>> GetSurchargePagingAsync(SurchargePagingRequest request);
 
         Task<ApiResult<SurchargeVmd>> GetSurchargeById(int id);
     }
