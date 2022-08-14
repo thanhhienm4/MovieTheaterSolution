@@ -1,21 +1,25 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieTheater.Application.Statitic;
+using MovieTheater.Application.Statistic;
 using MovieTheater.Application.UserServices;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.ChartTable;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
+using MovieTheater.Models.Catalog.Invoice;
 
 namespace MovieTheater.BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin")]
-    public class StatiticController : BaseController
+    public class StatisticController : BaseController
     {
         private readonly IStatisticService _statisticService;
 
-        public StatiticController(IStatisticService statisticService, IUserService userService) : base(userService)
+        public StatisticController(IStatisticService statisticService, IUserService userService) : base(userService)
         {
             _statisticService = statisticService;
         }
@@ -47,5 +51,20 @@ namespace MovieTheater.BackEnd.Controllers
             var result = await _statisticService.GetRevenueInNMonthAsync(n);
             return result;
         }
+
+        [HttpGet(ApiConstant.StatisticGetRawData)]
+        public async Task<ApiResult<IList<InvoiceRawData>>> GetRawData(DateTime fromDate, DateTime toDate)
+        {
+            var result = await _statisticService.GetRawData(fromDate, toDate);
+            return result;
+        }
+
+        [HttpGet(ApiConstant.StatisticGetRevenueDayInWeek)]
+        public async Task<ApiResult<ChartData>> GetRevenueDayInWeek(DateTime fromDate, DateTime toDate)
+        {
+            var result = await _statisticService.GetRevenueDayInWeek(fromDate, toDate);
+            return result;
+        }
+
     }
 }

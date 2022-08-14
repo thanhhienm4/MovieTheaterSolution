@@ -1,13 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MovieTheater.Data.Models;
-using MovieTheater.Models.Common.ApiResult;
-using MovieTheater.Models.Common.ChartTable;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MovieTheater.Data.Models;
+using MovieTheater.Models.Catalog.Invoice;
+using MovieTheater.Models.Common.ApiResult;
+using MovieTheater.Models.Common.ChartTable;
 
-namespace MovieTheater.Application.Statitic
+namespace MovieTheater.Application.Statistic
 {
     public class StatisticService : IStatisticService
     {
@@ -35,7 +36,8 @@ namespace MovieTheater.Application.Statitic
                 Revenue = (decimal)x.Sum(sft => sft.t.Price)
             }).OrderByDescending(x => x.Revenue).ToListAsync();
 
-            ChartData chartData = new ChartData();
+            ChartData 
+                chartData = new ChartData();
             chartData.Lables = Revenue.Select(x => x.Name).ToList();
             chartData.DataRows[0] = Revenue.Select(x => x.Revenue).ToList();
             return new ApiSuccessResult<ChartData>(chartData);
@@ -123,9 +125,14 @@ namespace MovieTheater.Application.Statitic
             }
 
             revenue.OrderBy(x => x.Month);
-            ChartData chartData = new ChartData();
-            chartData.Lables = revenue.Select(x => x.Month.ToString()).ToList();
-            chartData.DataRows[0] = revenue.Select(x => x.Revenue).ToList();
+            ChartData chartData = new ChartData
+            {
+                Lables = revenue.Select(x => x.Month.ToString()).ToList(),
+                DataRows =
+                {
+                    [0] = revenue.Select(x => x.Revenue).ToList()
+                }
+            };
             return new ApiSuccessResult<ChartData>(chartData);
         }
 
@@ -141,5 +148,57 @@ namespace MovieTheater.Application.Statitic
         {
             return new DateTime(date.Year, date.Month, 1);
         }
+
+        public async Task<ApiResult<IList<InvoiceRawData>>> GetRawData(DateTime fromDate, DateTime toDate)
+        {
+            var res = await _context.Invoices
+                .Where(x => x.Date.Date  >= fromDate.Date && x.Date.Date <= toDate.Date)
+                .Include(x => x.Payment)
+                .Include(x => x.Reservation)
+                .Include(x => x.Reservation.Screening)
+                .Include(x => x.Reservation.Screening.Movie)
+                .Include(x => x.Reservation.Screening.Auditorium.Format)
+                .Include(x => x.Reservation.Tickets)
+                .Select(x => new InvoiceRawData()
+                {
+                    MovieId = x.Reservation.Screening.MovieId,
+                    MovieName = x.Reservation.Screening.Movie.Name,
+                    Date = x.Date,
+                    InvoiceId = x.Id,
+                    Payment = x.Payment.Name,
+                    TotalPrice = x.Price,
+                    ReservationId = x.ReservationId,
+                    ScreeningTime = x.Reservation.Screening.StartTime,
+                    Tickets = x.Reservation.Tickets.Count
+                }).ToListAsync();
+            return new ApiSuccessResult<IList<InvoiceRawData>> (res);
+        }
+
+        public async Task<ApiResult<ChartData>> GetRevenueDayInWeek(DateTime fromDate, DateTime toDate)
+        {
+            var firstSunday = new DateTime();
+            while (firstSunday.DayOfWeek != DayOfWeek.Sunday)
+            {
+                firstSunday = firstSunday.AddDays(1);
+            }
+
+            var revenue  = _context.Invoices
+                .Where(x => x.Date.Date >= fromDate.Date && x.Date.Date <= toDate.Date)
+                .GroupBy(x => EF.Functions.DateDiffDay(firstSunday, x.Date)%7)
+                .Select(x => new { Day = x.Key, Revenue = x.Sum(x => x.Price) }).ToList();
+
+            var charData = new ChartData
+            {
+                Lables = revenue.Select(x => x.Day.ToString()).ToList(),
+                DataRows =
+                {
+                    [0] = revenue.Select(x => x.Revenue).ToList()
+                }
+            };
+            return new ApiSuccessResult<ChartData> (charData);
+        }
+
+
+
     }
 }

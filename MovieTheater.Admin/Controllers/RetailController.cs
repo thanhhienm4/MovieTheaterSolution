@@ -5,22 +5,20 @@ using MovieTheater.Models.Catalog.Reservation;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
 
 namespace MovieTheater.Admin.Controllers
 {
     [Authorize(Roles = "Admin,Employee")]
-    public class RetailController : Controller
+    public class RetailController : BaseController
     {
         private readonly ScreeningApiClient _screeningApiClient;
-        private readonly MovieApiClient _filmApiClient;
         private readonly ReservationApiClient _reservationApiClient;
 
-        public RetailController(ScreeningApiClient screeningApiClient, ReservationApiClient reservationApiClient,
-            MovieApiClient filmApiClient)
+        public RetailController(ScreeningApiClient screeningApiClient, ReservationApiClient reservationApiClient)
         {
             _screeningApiClient = screeningApiClient;
             _reservationApiClient = reservationApiClient;
-            _filmApiClient = filmApiClient;
         }
 
         public async Task<IActionResult> ChooseSeat(int id)
@@ -29,8 +27,17 @@ namespace MovieTheater.Admin.Controllers
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
 
-            ViewBag.Film = (await _filmApiClient.GetFilmVMDByIdAsync(result.ResultObj.MovieId)).ResultObj;
-            return View(result.ResultObj);
+            var reservation = _reservationApiClient.CreateAsync(new ReservationCreateRequest()
+            {
+                ScreeningId = id,
+                Paid = PaymentStatusType.None,
+                Active = true,
+                EmployeeId = GetUserId(),
+                ReservationTypeId = ReservationType.Offline,
+
+            }).Result;
+
+            return Redirect($"/Retail/Create/{reservation.ResultObj}");
         }
 
         public async Task<IActionResult> Index(DateTime? date)
@@ -43,12 +50,11 @@ namespace MovieTheater.Admin.Controllers
             return View(result.ResultObj);
         }
 
-        [HttpPost]
-        public async Task<decimal> CalPrePrice(List<TicketCreateRequest> tickets)
+        [HttpGet]
+        public IActionResult Create(int id)
         {
-            if (tickets == null)
-                return 0;
-            return (await _reservationApiClient.CalPrePriceAsync(tickets)).ResultObj;
+            var reservation = _reservationApiClient.GetReservationByIdAsync(id).Result.ResultObj;
+            return View(reservation);
         }
     }
 }

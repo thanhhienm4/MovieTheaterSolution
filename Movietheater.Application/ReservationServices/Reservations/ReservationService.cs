@@ -277,7 +277,12 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             }
             else
             {
+                if(!((rv.PaymentStatus == PaymentStatusType.None && request.Status == PaymentStatusType.Inprogress))
+                   || (rv.PaymentStatus == PaymentStatusType.Inprogress && request.Status == PaymentStatusType.Done))
+                    return new ApiErrorResult<bool>("Lỗi");
+
                 rv.PaymentStatus = request.Status;
+                rv.Time = DateTime.Now;
                 _context.Update(rv);
                 int rs = await _context.SaveChangesAsync();
                 if (rs == 0)

@@ -18,11 +18,11 @@ namespace MovieTheater.Application.FilmServices.Movies
 
         Task<ApiResult<MovieMD>> GetById(string id);
 
-        Task<ApiResult<MovieVMD>> GetFilmVMDById(string id);
+        Task<ApiResult<MovieVMD>> GetMovieVmdById(string id);
 
         Task<ApiResult<List<MovieVMD>>> GetAllAsync();
 
-        //Task<ApiResult<bool>> GenreAssignAsync(GenreAssignRequest request);
+        Task<ApiResult<bool>> GenreAssignAsync(GenreAssignRequest request);
 
         Task<ApiResult<List<MovieVMD>>> GetAllPlayingAsync();
 

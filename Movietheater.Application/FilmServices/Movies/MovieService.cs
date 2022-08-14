@@ -263,7 +263,7 @@ namespace MovieTheater.Application.FilmServices.Movies
             }
         }
 
-        public async Task<ApiResult<MovieVMD>> GetFilmVMDById(string id)
+        public async Task<ApiResult<MovieVMD>> GetMovieVmdById(string id)
         {
             Movie movie = await _context.Movies.FindAsync(id);
             if (movie == null)
@@ -277,7 +277,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                     where m.Id == id
                     select new { m, c };
 
-                var movieVMD = await query.Select(x => new MovieVMD()
+                var movieVmd = await query.Select(x => new MovieVMD()
                 {
                     Id = x.m.Id,
                     Length = x.m.Length,
@@ -289,131 +289,33 @@ namespace MovieTheater.Application.FilmServices.Movies
                     Description = x.m.Description,
                     TrailerURL = x.m.TrailerUrl,
                 }).FirstOrDefaultAsync();
-                movieVMD.Genres = GetGenres(movieVMD.Id);
-                movieVMD.Directors = GetDirectors(movieVMD.Id);
-                movieVMD.Actors = GetActors(movieVMD.Id);
-                return new ApiSuccessResult<MovieVMD>(movieVMD);
+                movieVmd.Genres = GetGenres(movieVmd.Id);
+                return new ApiSuccessResult<MovieVMD>(movieVmd);
             }
         }
 
-        //public async Task<ApiResult<bool>> GenreAssignAsync(GenreAssignRequest request)
-        //{
-        //    var film = await _context.Movies.FindAsync(request.MovieId);
-        //    if (film == null)
-        //    {
-        //        return new ApiErrorResult<bool>("Phim không tồn tại");
-        //    }
+        public async Task<ApiResult<bool>> GenreAssignAsync(GenreAssignRequest request)
+        {
+            var film = await _context.Movies.FindAsync(request.MovieId);
+            if (film == null)
+            {
+                return new ApiErrorResult<bool>("Phim không tồn tại");
+            }
 
-        //    // check genres available
-        //    List<int> genres = request.Genres.Select(x => int.Parse(x.Id)).ToList();
-        //    if (!CheckGenres(genres))
-        //    {
-        //        return new ApiErrorResult<bool>("Yêu cầu không hợp lệ");
-        //    }
+            var filmInGenres = _context.MovieInGenres.Where(X => X.MovieId == request.MovieId).Select(x => x);
+            _context.MovieInGenres.RemoveRange(filmInGenres);
 
-        //    var filmInGenres = _context.MovieInGenres.Where(X => X.MovieId == request.MovieId).Select(x => x);
-        //    _context.MovieInGenres.RemoveRange(filmInGenres);
+            var activeGenres = request.Genres.Where(x => x.Selected == true).Select(x => new MovieInGenre()
+            {
+                MovieId = request.MovieId,
+                GenreId = x.Id
+            });
+            _context.MovieInGenres.AddRange(activeGenres);
 
-        //    var activeGenres = request.Genres.Where(x => x.Selected == true).Select(x => new MovieInGenre()
-        //    {
-        //        MovieId = request.MovieId,
-        //        GenreId = x.Id
-        //    });
-        //    _context.MovieInGenres.AddRange(activeGenres);
+            await _context.SaveChangesAsync();
 
-        //    await _context.SaveChangesAsync();
-
-        //    return new ApiSuccessResult<bool>(true, "Gán danh mục phim thành công");
-        //}
-
-        //public async Task<ApiResult<bool>> PosAssignAsync(PosAssignRequest request)
-        //{
-        //    if (await _context.Movies.FindAsync(request.Id) == null)
-        //        return new ApiErrorResult<bool>("Không tìm thấy phim");
-        //    if (await _context.Peoples.FindAsync(request.PeopleId) == null)
-        //        return new ApiErrorResult<bool>("Không tìm thấy nghệ sĩ");
-        //    if (await _context.Positions.FindAsync(request.PosId) == null)
-        //        return new ApiErrorResult<bool>("Không tìm vai trò");
-
-        //    var joining = await _context.Joinings.FindAsync(request.Id, request.PeopleId, request.PosId);
-        //    if (joining != null)
-        //        return new ApiErrorResult<bool>("Đã tồn tại");
-
-        //    try
-        //    {
-        //        Joining jn = new Joining()
-        //        {
-        //            Id = request.Id,
-        //            PeppleId = request.PeopleId,
-        //            PositionId = request.PosId
-        //        };
-
-        //        await _context.Joinings.AddAsync(jn);
-        //        await _context.SaveChangesAsync();
-        //        return new ApiSuccessResult<bool>(true);
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        return new ApiErrorResult<bool>("Thêm thất bại");
-        //    }
-        //}
-
-        //public async Task<ApiResult<bool>> DeletePosAssignAsync(PosAssignRequest request)
-        //{
-        //    var joining = await _context.Joinings.Where(x => x.Id == request.Id &&
-        //                                                 x.PositionId == request.PosId &&
-        //                                                 x.PeppleId == request.PeopleId).FirstOrDefaultAsync();
-        //    if (joining == null)
-        //        return new ApiErrorResult<bool>("Yêu cầu không hợp lệ");
-        //    else
-        //    {
-        //        _context.Joinings.Remove(joining);
-        //        _context.SaveChanges();
-        //        return new ApiSuccessResult<bool>(true, "Xóa phim thành công");
-        //    }
-        //}
-
-        //public async Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id)
-        //{
-        //    var query = from j in _context.Joinings
-        //                join p in _context.Peoples on j.PeppleId equals p.Id
-        //                where j.Id == id
-        //                select new { j, p };
-
-        //    var res = new List<JoiningPosVMD>();
-
-        //    var positions = await _context.Positions.ToListAsync();
-        //    foreach (var position in positions)
-        //    {
-        //        JoiningPosVMD joiningPos = new JoiningPosVMD();
-        //        joiningPos.RowName = position.RowName;
-        //        joiningPos.Joinings = query.Where(x => x.j.PositionId == position.Id).Select(x =>
-        //                                    new JoiningVMD()
-        //                                    {
-        //                                        Id = x.j.Id,
-        //                                        PeopleId = x.j.PeppleId,
-        //                                        PosId = x.j.PositionId,
-        //                                        RowName = x.p.RowName
-        //                                    }).ToList();
-        //        res.Add(joiningPos);
-        //    }
-
-        //    return new ApiSuccessResult<List<JoiningPosVMD>>(res);
-        //}
-
-        //private bool CheckGenres(List<int> genres)
-        //{
-        //    var query = genres.Join(_context.FilmGenre,
-        //        x => x,
-        //        fg => fg.Id,
-        //        (x, fg) => x).ToList();
-
-        //    HashSet<int> setGenres = new HashSet<int>(genres);
-        //    if (setGenres.Count == query.Count)
-        //        return true;
-        //    else
-        //        return false;
-        //}
+            return new ApiSuccessResult<bool>(true, "Gán danh mục phim thành công");
+        }
 
         private async Task<string> SaveFile(IFormFile file)
         {

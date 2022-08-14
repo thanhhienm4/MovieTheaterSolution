@@ -26,7 +26,7 @@ using MovieTheater.Application.ScreeningServices.Screenings;
 using MovieTheater.Application.SeatServices.SeatRows;
 using MovieTheater.Application.SeatServices.Seats;
 using MovieTheater.Application.SeatServices.SeatTypes;
-using MovieTheater.Application.Statitic;
+using MovieTheater.Application.Statistic;
 using MovieTheater.Application.TimeServices;
 using MovieTheater.Application.UserServices;
 using MovieTheater.BackEnd.Hub;

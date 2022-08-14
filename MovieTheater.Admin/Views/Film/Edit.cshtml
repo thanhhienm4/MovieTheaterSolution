@@ -92,11 +92,12 @@
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
     }
-    ClassicEditor
+    var ckEditor = ClassicEditor
         .create( document.querySelector( '#editor' ) )
         .catch( error => {
             console.error( error );
         } );
+   
 </script>
 
 @if (ViewBag.IsEdit != null)

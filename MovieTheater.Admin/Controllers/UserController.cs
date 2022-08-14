@@ -191,7 +191,7 @@ namespace MovieTheater.Admin.Controllers
         [Authorize]
         public async Task<IActionResult> ChangPassword(ChangePwRequest request)
         {
-            request.UserName = User.Identity.Name;
+            request.UserName = GetUserId();
             ViewBag.UserName = request.UserName;
             if (!ModelState.IsValid)
             {
@@ -204,7 +204,7 @@ namespace MovieTheater.Admin.Controllers
             if (res.IsSuccessed)
             {
                 TempData["Result"] = res.Message;
-                if (User.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value == "Admin").Count() != 0)
+                if (User.Claims.Count(x => x.Type == ClaimTypes.Role && x.Value == "Admin") != 0)
                 {
                     return RedirectToAction("Index", "Home");
                 }

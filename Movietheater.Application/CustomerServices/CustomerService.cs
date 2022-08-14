@@ -16,6 +16,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Utils = MovieTheater.Common.Helper.Utils;
 
 namespace MovieTheater.Application.CustomerServices
 {
@@ -105,9 +106,24 @@ namespace MovieTheater.Application.CustomerServices
             }
         }
 
-        public Task<ApiResult<bool>> UpdateAsync(UserUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateAsync(UserUpdateRequest request)
         {
-            throw new NotImplementedException();
+            var customer = await _context.Customers.Where(x => x.Mail == request.UserName).FirstOrDefaultAsync();
+            if (customer == null)
+                return new ApiErrorResult<bool>("Không tồn tại user");
+            else
+            {
+                customer.Dob = request.Dob;
+                customer.FirstName = request.FirstName;
+                customer.LastName = request.LastName;
+                customer.Mail = request.Email;
+                customer.Phone = request.PhoneNumber;
+
+                _context.Update(customer);
+                if (await _context.SaveChangesAsync() > 0)
+                    return new ApiSuccessResult<bool>(true);
+                return new ApiErrorResult<bool>("Cập nhật thất bại");
+            }
         }
 
         public Task<ApiResult<bool>> DeleteAsync(Guid id)
@@ -115,9 +131,21 @@ namespace MovieTheater.Application.CustomerServices
             throw new NotImplementedException();
         }
 
-        public Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)
+        public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)
         {
-            throw new NotImplementedException();
+            var customer = await _context.Customers.Where(x => x.Mail == request.UserName).FirstOrDefaultAsync();
+            if (customer == null)
+                return new ApiErrorResult<bool>("Không tồn tại user");
+            else
+            {
+                if (request.OldPassword.Encrypt() != customer.Password)
+                    return new ApiErrorResult<bool>("Sai mật khẩu");
+                customer.Password = request.NewPassword.Encrypt();
+
+                if (await _context.SaveChangesAsync() > 0)
+                    return new ApiSuccessResult<bool>(true);
+                return new ApiErrorResult<bool>("Cập nhật thất bại");
+            }
         }
 
         public async Task<ApiResult<CustomerVMD>> GetById(string id)
@@ -149,9 +177,24 @@ namespace MovieTheater.Application.CustomerServices
             throw new NotImplementedException();
         }
 
-        public Task<ApiResult<bool>> ForgotPasswordAsync(string mail)
+        public async Task<ApiResult<bool>> ForgotPasswordAsync(string mail)
         {
-            throw new NotImplementedException();
+            var customer = await _context.Customers.Where(x => x.Mail == mail).FirstOrDefaultAsync();
+            if (customer == null)
+                return new ApiErrorResult<bool>("Không tồn tại user");
+            else
+            {
+                var password = Utils.RandPassword();
+                customer.Password = password.Encrypt();
+
+                await _mailService.SendEmailAsync(customer.Mail, "Khôi phục mật khẩu",
+                    "Mật khẩu mới tại GG Theater của bạn là: " + password);
+                
+
+                if (await _context.SaveChangesAsync() > 0)
+                    return new ApiSuccessResult<bool>(true);
+                return new ApiErrorResult<bool>("Thất bại");
+            }
         }
 
         public Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request)

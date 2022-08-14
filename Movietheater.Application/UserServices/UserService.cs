@@ -145,9 +145,22 @@ namespace MovieTheater.Application.UserServices
             }
         }
 
-        public Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)
+        public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)
         {
-            throw new NotImplementedException();
+            var staff = await _context.Staffs.FindAsync(request.UserName);
+            if (staff == null)
+                return new ApiErrorResult<bool>("Không tồn tại user");
+            else
+            {
+                if (request.OldPassword.Encrypt() != staff.Password)
+                    return new ApiErrorResult<bool>("Sai mật khẩu");
+
+                staff.Password = request.NewPassword.Encrypt();
+                
+                if (await _context.SaveChangesAsync() > 0)
+                    return new ApiSuccessResult<bool>(true);
+                return new ApiErrorResult<bool>("Cập nhật thất bại");
+            }
         }
 
         public Task<ApiResult<bool>> RoleAssignAsync(RoleAssignRequest request)
@@ -211,9 +224,23 @@ namespace MovieTheater.Application.UserServices
             return new ApiSuccessResult<PageResult<UserVMD>>(pageResult);
         }
 
-        public Task<ApiResult<bool>> ForgotPasswordAsync(string mail)
+        public async Task<ApiResult<bool>> ForgotPasswordAsync(string mail)
         {
-            throw new NotImplementedException();
+            var staff = await _context.Staffs.Where(x => x.Mail == mail).FirstOrDefaultAsync();
+            if (staff == null)
+                return new ApiErrorResult<bool>("Không tồn tại user");
+            else
+            {
+                var password = Utils.RandPassword();
+                staff.Password = password.Encrypt();
+
+                await _mailService.SendEmailAsync(staff.Mail, "Khôi phục mật khẩu",
+                    "Mật khẩu mới tại GG Theater của bạn là: " + password);
+
+                if (await _context.SaveChangesAsync() > 0)
+                    return new ApiSuccessResult<bool>(true);
+                return new ApiErrorResult<bool>("Thất bại");
+            }
         }
 
         public Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request)

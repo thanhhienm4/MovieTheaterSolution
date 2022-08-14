@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
+using MovieTheater.Common.Constants;
+using MovieTheater.Models.Catalog.Invoice;
 
 namespace MovieTheater.Admin.Controllers
 {
@@ -11,10 +14,12 @@ namespace MovieTheater.Admin.Controllers
     public class ReservationController : BaseController
     {
         private readonly ReservationApiClient _reservationApiClient;
+        private readonly InvoiceApiClient _invoiceApiClient;
 
-        public ReservationController(ReservationApiClient ReservationApiClient)
+        public ReservationController(ReservationApiClient reservationApiClient, InvoiceApiClient invoiceApiClient)
         {
-            _reservationApiClient = ReservationApiClient;
+            _reservationApiClient = reservationApiClient;
+            _invoiceApiClient = invoiceApiClient;
         }
 
         [HttpGet]
@@ -110,5 +115,55 @@ namespace MovieTheater.Admin.Controllers
             TempData["Result"] = result.Message;
             return result;
         }
+
+        [HttpPost]
+        public bool DeletePost(int id)
+        {
+            var reservation = _reservationApiClient.DeleteAsync(id).Result.ResultObj;
+            return reservation;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> WaitPayment(int id)
+        {
+            var reservation = _reservationApiClient.GetReservationByIdAsync(id).Result.ResultObj;
+            await _reservationApiClient.UpdatePaymentAsync(new ReservationUpdatePaymentRequest()
+            {
+                Id = id,
+                Status = PaymentStatusType.Inprogress
+            });
+            return View(reservation);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CompletePayment(int id)
+        {
+            var reservation = _reservationApiClient.GetReservationByIdAsync(id).Result.ResultObj;
+            if (reservation == null)
+                Redirect("Home");
+            await _invoiceApiClient.CreateAsync(new InvoiceCreateRequest()
+            {
+                Date = DateTime.Now,
+                PaymentId = PaymentType.CASH,
+                Price = reservation.TotalPrice,
+                ReservationId = id
+            });
+            return Redirect($"/Reservation/Detail/{id}");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(int id)
+        {
+            var result = await _reservationApiClient.GetReservationByIdAsync(id);
+
+            if (result.IsSuccessed)
+            {
+                return View(result.ResultObj);
+            }
+
+            return RedirectToAction("Error", "Home");
+        }
+
+
     }
 }

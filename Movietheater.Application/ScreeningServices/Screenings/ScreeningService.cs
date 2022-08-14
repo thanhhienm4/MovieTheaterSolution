@@ -253,7 +253,7 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
             {
                 filmScreenings.Add(new MovieScreeningVMD()
                 {
-                    Movie = (await _filmService.GetFilmVMDById(pair.Key)).ResultObj,
+                    Movie = (await _filmService.GetMovieVmdById(pair.Key)).ResultObj,
                     ListScreening = pair.Value,
                 });
             }
@@ -274,7 +274,7 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
             }).ToListAsync();
 
             ScreeningOfFilmInWeekVMD sof = new ScreeningOfFilmInWeekVMD();
-            sof.Movie = (await _filmService.GetFilmVMDById(movieId)).ResultObj;
+            sof.Movie = (await _filmService.GetMovieVmdById(movieId)).ResultObj;
             sof.Screenings = new List<List<ScreeningMD>>();
 
             for (int i = 0; i <= 6; i++)

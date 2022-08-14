@@ -127,7 +127,7 @@ namespace MovieTheater.Api
         {
             string route = url;
 
-            if (queryParams != null && queryParams.Count > 0)
+            if (queryParams is { Count: > 0 })
             {
                 NameValueCollection httpValueCollection = HttpUtility.ParseQueryString(String.Empty);
                 httpValueCollection.Add(queryParams);

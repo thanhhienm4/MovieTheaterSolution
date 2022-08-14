@@ -11,15 +11,12 @@ namespace MovieTheater.WebApp.Controllers
 {
     public class UserController : BaseController
     {
-        private readonly UserApiClient _userApiClient;
-        private readonly RoleApiClient _roleApiClient;
+        private readonly CustomerApiClient _customerApiClient;
         private readonly ReservationApiClient _reservationApiClient;
 
-        public UserController(UserApiClient userApiClient, RoleApiClient roleApiClient,
-            ReservationApiClient reservationApiClient)
+        public UserController(CustomerApiClient customerApiClient, ReservationApiClient reservationApiClient)
         {
-            _userApiClient = userApiClient;
-            _roleApiClient = roleApiClient;
+            _customerApiClient = customerApiClient;
             _reservationApiClient = reservationApiClient;
         }
 
@@ -44,7 +41,7 @@ namespace MovieTheater.WebApp.Controllers
                 return View(request);
             }
 
-            var result = await _userApiClient.CreateCustomerAsync(request);
+            var result = await _customerApiClient.CreateCustomerAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
@@ -64,7 +61,7 @@ namespace MovieTheater.WebApp.Controllers
                 return View();
             }
 
-            var result = await _userApiClient.GetCustomerByIdAsync(id);
+            var result = await _customerApiClient.GetCustomerByIdAsync(id);
 
             if (result.IsSuccessed)
             {
@@ -94,7 +91,7 @@ namespace MovieTheater.WebApp.Controllers
                 return View(request);
             }
 
-            var result = await _userApiClient.UpdateCustomerAsync(request);
+            var result = await _customerApiClient.UpdateCustomerAsync(request);
             if (result.IsSuccessed)
             {
                 TempData["Result"] = result.Message;
@@ -109,7 +106,7 @@ namespace MovieTheater.WebApp.Controllers
         [Authorize]
         public async Task<IActionResult> ChangPassword(string id)
         {
-            var result = (await _userApiClient.GetCustomerByIdAsync(id));
+            var result = (await _customerApiClient.GetCustomerByIdAsync(id));
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
             ViewBag.UserName = result.ResultObj.UserName;
@@ -127,7 +124,7 @@ namespace MovieTheater.WebApp.Controllers
                 return View(request);
             }
 
-            var res = (await _userApiClient.ChangePasswordAsync(request));
+            var res = (await _customerApiClient.ChangePasswordAsync(request));
             if (res.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
             if (res.IsSuccessed)

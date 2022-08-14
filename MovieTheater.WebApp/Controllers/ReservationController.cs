@@ -44,7 +44,6 @@ namespace MovieTheater.WebApp.Controllers
         [HttpPost]
         public async Task<string> Payment(int id)
         {
-            //can fix
             var result = await _reservationApiClient.PaymentAsync(id);
             return result.ResultObj;
         }
@@ -59,11 +58,6 @@ namespace MovieTheater.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
             var result = await _reservationApiClient.GetReservationByIdAsync(id);
 
             if (result.IsSuccessed)

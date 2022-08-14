@@ -29,7 +29,6 @@ namespace MovieTheater.Admin.Controllers
             _filmApiClient = filmApiClient;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<List<SeatModel>> GetListSeatReserved(int id)
         {

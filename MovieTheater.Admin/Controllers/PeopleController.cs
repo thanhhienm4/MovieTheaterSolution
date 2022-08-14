@@ -29,7 +29,7 @@ namespace MovieTheater.Admin.Controllers
             ViewBag.SuccessMsg = TempData["Result"];
             ViewBag.KeyWord = keyword;
             var result = await _peopleApiClient.GetPeoplePagingAsync(request);
-            if (result.IsReLogin == true)
+            if (result.IsReLogin)
                 return RedirectToAction("Index", "Login");
 
             return View(result.ResultObj);
@@ -50,7 +50,7 @@ namespace MovieTheater.Admin.Controllers
             }
 
             var result = await _peopleApiClient.CreateAsync(request);
-            if (result.IsReLogin == true)
+            if (result.IsReLogin)
                 return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {
@@ -71,7 +71,7 @@ namespace MovieTheater.Admin.Controllers
             }
 
             var result = await _peopleApiClient.GetPeopleByIdAsync(id);
-            if (result.IsReLogin == true)
+            if (result.IsReLogin)
                 return RedirectToAction("Index", "Login");
 
             if (result.IsSuccessed)
@@ -99,7 +99,7 @@ namespace MovieTheater.Admin.Controllers
             }
 
             var result = await _peopleApiClient.UpdateAsync(request);
-            if (result.IsReLogin == true)
+            if (result.IsReLogin)
                 return RedirectToAction("Index", "Login");
             if (result.IsSuccessed)
             {

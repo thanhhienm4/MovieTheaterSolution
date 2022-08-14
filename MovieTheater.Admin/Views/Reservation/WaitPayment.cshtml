@@ -1,0 +1,168 @@
+﻿@model MovieTheater.Models.Catalog.Reservation.ReservationVMD
+
+@{
+    ViewData["Title"] = "ChooseSeatAsync";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/signalr/signalr.js"></script>
+
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            Đặt vé
+        </div>
+        <button href="/Reservation" class="btn btn-danger" onclick="exit()">Hủy và trở về trang đặt vé</button>
+    </div>
+
+    <div class="container py-5 h-100" style="padding-top: 20px !important">
+        <div class="d-flex caution">
+           Thời gian thanh toán là 5 phút
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div >
+                    <span>Phim</span>
+                    <span style="font-weight: bold">@Model.MovieName</span>
+                </div>
+                <div>
+                    <span>Suất</span>
+                    <span style="font-weight: bold">@Model.Time.ToString("HH:mm")</span>
+                    <span>-</span>
+                    <span style="font-weight: bold">@Model.Time.ToString("dd/MM")</span>
+                </div>
+                <div>
+                    <span>Định dạng </span>
+                    <span style="font-weight: bold">@Model.AuditoriumFormatName</span>
+                </div>
+                <div>
+                    <span>Tổng tiền</span>
+                    <span style="font-weight: bold">@Model.TotalPrice</span>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <hr/>
+        <button id="stop-watch" class="btn btn-primary btn-block">
+        </button>
+        <br/>
+        <button class="btn btn-success btn-block" onclick="confirm()">Thanh toán</button>
+        <br/>
+
+    </div>
+</div>
+
+<input id="reserId" type="hidden"/>
+<div style="float: left;">
+</div>
+
+<link rel="stylesheet" type="text/css" href="/css/seat.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<style type="text/css">
+
+    #place {
+        position: relative;
+        margin: 7px;
+    }
+
+    #place a { font-size: 0.6em; }
+
+    #place li {
+        list-style: none outside none;
+        position: absolute;
+    }
+
+    .caution {
+        background-color: #f6c343;
+        padding: 8px;
+        margin: 10px 0px 0px 0px;
+        color: #283e59;
+    }
+
+    #place .row-3, #place .row-4 { margin-top: 10px; }
+</style>
+<script type="text/javascript">
+    var stopwatch = document.getElementById('stop-watch');
+    var x = setInterval(function() {
+            var endTime = new Date(@Model.Time.AddMinutes(5).ToString("yyyy,MM-1,dd,HH,mm,ss"));
+
+            var distance = endTime - Date.now();
+
+            // Time calculations for days, hours, minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            stopwatch.innerHTML = String(minutes).padStart(2, 0) + ':' + String(seconds).padStart(2, 0);
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("stop-watch").innerHTML = "EXPIRED";
+                document.getElementById("btnCloseModal").style.display = "none";
+                document.getElementById("notiMes").innerHTML = "Thời gian thanh toán của bạn đã kết thúc";
+                $('#notifyModal').modal('show');
+            }
+        },
+        1000);
+    
+    function deleteReservation() {
+        $.ajax({
+            type: "Post",
+            url: '/Reservation/DeletePost',
+            data: { id: @Model.Id },
+            success: function(res) {
+                location.replace('/');
+            }
+        });
+    }
+
+    function confirm() {
+        $('#notifyModalPayment').modal('show');
+    }
+
+    function exit() {
+        $('btnCloseModal').show(100);
+        document.getElementById("notiMes").innerHTML = "Khi rời khỏi dữ liệu đặt vé của bạn sẽ mất";
+        $('#notifyModal').modal('show');
+    }
+
+</script>
+<script type="text/javascript">
+
+</script>
+
+<div class="modal fade" id="notifyModal" data-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-center">
+                    <h5 id="ModalLabel">Thông báo</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="notiMes">Thời gian thanh toán của bạn đã kết thúc</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCloseModal" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="btnPrintTicket" onclick="deleteReservation()">Trở lại đặt vé</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="notifyModalPayment" data-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-center">
+                    <h5 id="ModalLabel">Thông báo</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="notiMes">Thời gian thanh toán của bạn đã kết thúc</div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btnCloseModal" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <a type="button" class="btn btn-success"  asp-action="CompletePayment" asp-route-id="@Model.Id">Xác nhận thanh toán</a>
+            </div>
+        </div>
+    </div>
+</div>

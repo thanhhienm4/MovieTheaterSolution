@@ -7,6 +7,7 @@
         public const string ApiUser = "api/User";
         public const string ApiCustomer = "api/Customer";
         public const string ApiMovie = "api/Movie";
+        public const string ApiMovieGenre = "api/MovieGenre";
         public const string ApiMovieCensorship = "api/MovieCensorship";
         public const string ApiAuditorium = "api/Auditorium";
         public const string ApiSeat = "api/Seat";
@@ -17,6 +18,7 @@
         public const string ApiTicket = "api/Ticket";
         public const string ApiRole = "api/Role";
         public const string ApiInvoice = "api/Invoice";
+        public const string ApiStatistic  = "api/Statistic";
 
         #endregion Controller
 
@@ -25,6 +27,8 @@
         public const string CustomerRegister = "Register";
         public const string CustomerLogin = "Login";
         public const string CustomerTypeGetAll = "GetAllCustomerType";
+        public const string CustomerForgotPassword = "ForgotPassword";
+        public const string CustomerChangePassword = "ChangePassword";
 
         #endregion Customerr
 
@@ -32,6 +36,7 @@
 
         public const string UserLogin = "Login";
         public const string UserRegister = "Register";
+
 
         #endregion User
 
@@ -44,6 +49,7 @@
         #region MovieGenre
 
         public const string GetMovieGenre = "GetAllMovieGenre";
+        public const string MovieGenreGetByMovieId = "GetByMovieId";
 
         #endregion MovieGenre
 
@@ -138,5 +144,13 @@
         public const string SurchargeGetById = "getById";
 
         #endregion Surcharge
+
+        #region ApiStatistic
+
+        public const string StatisticGetRawData = "getRawData";
+        public const string StatisticGetRevenueDayInWeek = "getRevenueDayInWeek";
+
+        #endregion
+
     }
 }

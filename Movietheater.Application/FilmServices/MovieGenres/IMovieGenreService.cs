@@ -14,5 +14,6 @@ namespace MovieTheater.Application.FilmServices.MovieGenres
         Task<ApiResult<bool>> DeleteAsync(int id);
 
         Task<ApiResult<List<MovieGenreVMD>>> GetAllMovieGenreAsync();
+        Task<ApiResult<List<MovieGenreVMD>>> GetByMovieIdAsync(string movieId);
     }
 }

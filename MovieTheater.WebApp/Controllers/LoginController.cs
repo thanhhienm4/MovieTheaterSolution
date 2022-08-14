@@ -19,12 +19,12 @@ namespace MovieTheater.WebApp.Controllers
     [AllowAnonymous]
     public class LoginController : Controller
     {
-        private readonly UserApiClient _userApiClient;
+        private readonly CustomerApiClient _customerApiClient;
         private readonly IConfiguration _configuration;
 
-        public LoginController(UserApiClient userApiClient, IConfiguration configuration)
+        public LoginController(CustomerApiClient customerApiClient, IConfiguration configuration)
         {
-            _userApiClient = userApiClient;
+            _customerApiClient = customerApiClient;
             _configuration = configuration;
         }
 
@@ -42,7 +42,7 @@ namespace MovieTheater.WebApp.Controllers
             Response.Cookies.Delete("Token");
             if (ModelState.IsValid == false)
                 return View();
-            var respond = await _userApiClient.LoginCustomerAsync(request);
+            var respond = await _customerApiClient.LoginCustomerAsync(request);
             if (respond.IsSuccessed == false)
             {
                 ModelState.AddModelError("", respond.Message);
@@ -86,10 +86,10 @@ namespace MovieTheater.WebApp.Controllers
                 return View(model);
             else
             {
-                var response = await _userApiClient.ForgotCustomerPasswordAsync(model.Email);
+                var response = await _customerApiClient.ForgotCustomerPasswordAsync(model.Email);
                 if (response.IsSuccessed == true)
                 {
-                    ViewBag.Message = "Đã gửi link xác nhận về địa chỉ mail của bạn";
+                    ViewBag.Message = "Đã gửi Mật khẩu mới vào mail của bạn";
                 }
                 else
                 {
@@ -97,37 +97,6 @@ namespace MovieTheater.WebApp.Controllers
                 }
 
                 return View(model);
-            }
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(request);
-            }
-            else
-            {
-                var response = await _userApiClient.ResetPasswordAsync(request);
-                if (response.IsSuccessed == true)
-                {
-                    return RedirectToAction("Index", "Login");
-                }
-                else
-                {
-                    ViewBag.Message = response.Message;
-                }
-
-                return View(request);
             }
         }
 

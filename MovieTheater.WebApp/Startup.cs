@@ -23,8 +23,7 @@ namespace MovieTheater.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddTransient<UserApiClient, UserApiClient>();
-            services.AddTransient<RoleApiClient, RoleApiClient>();
+            services.AddTransient<CustomerApiClient, CustomerApiClient>();
             services.AddTransient<MovieApiClient, MovieApiClient>();
             services.AddTransient<PeopleApiClient, PeopleApiClient>();
             services.AddTransient<ReservationApiClient, ReservationApiClient>();

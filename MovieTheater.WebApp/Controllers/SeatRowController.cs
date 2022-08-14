@@ -12,7 +12,7 @@ namespace MovieTheater.WebApp.Controllers
     {
         private readonly SeatRowApiClient _seatRowApiClient;
 
-        public SeatRowController(SeatRowApiClient seatRowApiClient, RoleApiClient roleApiClient)
+        public SeatRowController(SeatRowApiClient seatRowApiClient)
         {
             _seatRowApiClient = seatRowApiClient;
         }

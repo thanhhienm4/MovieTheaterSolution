@@ -79,27 +79,20 @@ namespace MovieTheater.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-            else
-            {
-                var response = await _userApiClient.ForgotStaffPasswordAsync(model.Email);
-                if (response.IsSuccessed == true)
-                {
-                    ViewBag.Message = "Đã gửi link xác nhận về địa chỉ mail của bạn";
-                }
-                else
-                {
-                    ViewBag.Message = response.Message;
-                }
 
-                return View(model);
-            }
+            var response = await _userApiClient.ForgotStaffPasswordAsync(model.Email);
+            ViewBag.Message = response.IsSuccessed == true ? "Đã gửi link xác nhận về địa chỉ mail của bạn" : response.Message;
+            if(response.IsSuccessed)
+                ViewBag.Status = true;
+
+            return View(model);
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword()
+        public Task<IActionResult> ResetPassword()
         {
-            return View();
+            return Task.FromResult<IActionResult>(View());
         }
 
         [HttpPost]
@@ -113,7 +106,7 @@ namespace MovieTheater.Admin.Controllers
             else
             {
                 var response = await _userApiClient.ResetPasswordAsync(request);
-                if (response.IsSuccessed == true)
+                if (response.IsSuccessed)
                 {
                     return RedirectToAction("Index", "Login");
                 }

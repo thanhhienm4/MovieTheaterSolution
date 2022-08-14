@@ -6,6 +6,7 @@ using MovieTheater.Common.Constants;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.User;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,7 +17,6 @@ namespace MovieTheater.BackEnd.Controllers
     public class CustomerController : BaseController
     {
         private readonly ICustomerService _customerService;
-        //private readonly IUserService _userService;
 
         public CustomerController(ICustomerService customerService, IUserService userService) : base(userService)
         {
@@ -99,13 +99,6 @@ namespace MovieTheater.BackEnd.Controllers
         //    return result;
         //}
 
-        //[Authorize(Roles = "Admin")]
-        //[HttpPut("RoleAssign")]
-        //public async Task<ApiResult<bool>> RoleAssignAsync([FromBody] RoleAssignRequest request)
-        //{
-        //    var result = await _customerService.RoleAssignAsync(request);
-        //    return result;
-        //}
 
         //[Authorize]
         //[HttpGet("GetCustomerById/{id}")]
@@ -115,21 +108,14 @@ namespace MovieTheater.BackEnd.Controllers
         //    return result;
         //}
 
-        //[AllowAnonymous]
-        //[HttpPost("ForgotStaffPassword")]
-        //public async Task<ApiResult<bool>> ForgotStaffPassword([FromBody] string mail)
-        //{
-        //    var result =  await _customerService.ForgotPasswordAsync(mail);
-        //    return result;
-        //}
 
-        //[AllowAnonymous]
-        //[HttpPost("ForgotCustomerPassword")]
-        //public async Task<ApiResult<bool>> ForgotCustomerPassword([FromBody] string mail)
-        //{
-        //    var result = await _customerService.ForgotCustomerPasswordAsync(mail);
-        //    return result;
-        //}
+        [AllowAnonymous]
+        [HttpPost(ApiConstant.CustomerForgotPassword)]
+        public async Task<ApiResult<bool>> ForgotCustomerPassword([FromBody] string mail)
+        {
+            var result = await _customerService.ForgotPasswordAsync(mail);
+            return result;
+        }
 
         //[AllowAnonymous]
         //[HttpPost("ResetPassword")]

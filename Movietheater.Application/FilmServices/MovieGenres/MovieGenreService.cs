@@ -85,5 +85,16 @@ namespace MovieTheater.Application.FilmServices.MovieGenres
 
             return new ApiSuccessResult<List<MovieGenreVMD>>(genres);
         }
+        public async Task<ApiResult<List<MovieGenreVMD>>> GetByMovieIdAsync(string movieId)
+        {
+            var genres = await _context.MovieInGenres.Where(x => x.MovieId == movieId)
+                .Select(x => new MovieGenreVMD()
+                {
+                    Id = x.Genre.Id,
+                    Name = x.Genre.Name
+                }).ToListAsync();
+
+            return new ApiSuccessResult<List<MovieGenreVMD>>(genres);
+        }
     }
 }

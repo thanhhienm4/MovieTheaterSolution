@@ -1,0 +1,110 @@
+﻿@using System.Globalization
+@model MovieTheater.Models.Catalog.Reservation.ReservationVMD
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item">
+        <a href="/">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Đặt vé</li>
+</ol>
+<div >
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-10 col-xl-8">
+                <div class="card" style="border-radius: 10px;">
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-column">
+                            <p >Mã đơn hàng: @Model.Id</p>
+                            <p >Tên phim: @Model.MovieName</p>
+                            <p >Thời gian bắt đầu: @Model.StartTime.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")</p>
+                           
+                        </div>
+                        @foreach (var item in Model.Tickets)
+                        {
+                            <div class="card shadow-0 border mb-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <img src="/img/ticket.jpg"
+                                                 class="img-fluid" alt="Ticket">
+                                        </div>
+                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0">
+                                                Ghế: @item.Seat
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0 small">@Model.AuditoriumFormatName</p>
+                                        </div>
+
+                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0 small">@item.SeatType</p>
+                                        </div>
+                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0 small">@item.CustomerType</p>
+                                        </div>
+                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0 small"> @string.Format(new CultureInfo("vi-VN"), "{0:C}", item.Price)</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+                        <div class="d-flex justify-content-between pt-2">
+                            <p class="fw-bold mb-0">Chi tiết đơn hàng</p>
+                            <p class="text-muted mb-0">
+                                <span class="fw-bold me-4">Tổng giá: &nbsp;</span>@string.Format(new CultureInfo("vi-VN"), "{0:C}", Model.TotalPrice)
+                            </p>
+                        </div>
+
+                        <div class="d-flex justify-content-between pt-2">
+                            <p class="text-muted mb-0">Trạng thái thanh toán</p>
+                            <p class="text-muted mb-0">
+                                <span class="fw-bold me-4">@Model.PaidName</span>
+                            </p>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <p class="text-muted mb-0">Ngày đặt hàng</p>
+                            <p class="text-muted mb-0">
+                                <span class="fw-bold me-4"> @Model.Time.ToString("dd-MM-yyyy")</span>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="deleteReser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-center">
+                    <h5 id="ModalLabel">Thông báo</h5>
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="deleteMeg">"Bạn có chắc muốn xóa đơn hàng"</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" onclick="deleteReser()">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>

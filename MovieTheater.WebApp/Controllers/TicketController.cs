@@ -54,7 +54,7 @@ namespace MovieTheater.WebApp.Controllers
             return (await _reservationApiClient.CalPrePriceAsync(tickets)).ResultObj;
         }
 
-        [Authorize()]
+        [Authorize]
         [HttpPost]
         public async Task<ApiResult<bool>> Create(TicketCreateRequest ticket)
         {

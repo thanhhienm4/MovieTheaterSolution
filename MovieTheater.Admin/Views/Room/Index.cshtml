@@ -91,7 +91,7 @@
 
                                 <td>
                                     @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
-                                    <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteAuditorium" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
+                                    <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteRoom" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|&nbsp;
                                     @Html.ActionLink("Cập nhật sơ đồ ghế", "UpdateSeatInRoom", new { roomId = item.Id })
                                 </td>
                             </tr>
@@ -154,7 +154,7 @@
         var userId = $("#idRoom").val();
         $.ajax({
             type: "POST",
-            url: "/Auditorium/Delete",
+            url: "/Room/Delete",
             data: { id: userId },
             success: function () {
                 location.reload();

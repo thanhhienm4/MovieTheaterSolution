@@ -176,7 +176,7 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GenreAssign(GenreAssignRequest request)
+        public async Task<IActionResult> AssignGenre(GenreAssignRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -199,7 +199,7 @@ namespace MovieTheater.Admin.Controllers
 
         private async Task<GenreAssignRequest> GetGenreAssignRequest(string id)
         {
-            var filmObject = await _filmApiClient.GetFilmVMDByIdAsync(id);
+            var filmObject = await _filmApiClient.GetMovieGenreByMovieAsync(id);
             var result = (await _filmApiClient.GetAllFilmGenreAsync());
 
             var genreAssignRequest = new GenreAssignRequest();
@@ -210,58 +210,13 @@ namespace MovieTheater.Admin.Controllers
                 {
                     Id = genre.Id.ToString(),
                     Name = genre.Name,
-                    Selected = filmObject.ResultObj.Genres.Contains(genre.Name)
+                    Selected = filmObject.ResultObj.Exists(x => x.Id == genre.Id)
                 });
             }
 
             return genreAssignRequest;
         }
 
-        [HttpPost]
-        public async Task<ApiResult<bool>> PosAssign(PosAssignRequest request)
-        {
-            var res = (await _filmApiClient.PosAssignAsync(request));
-            return res;
-        }
-
-        [HttpPost]
-        public async Task<ApiResult<bool>> DeletePosAssign(PosAssignRequest request)
-        {
-            var res = (await _filmApiClient.DeletePosAssignAsync(request));
-            return res;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> PosAssign(string id)
-        {
-            var film = (await _filmApiClient.GetFilmVMDByIdAsync(id)).ResultObj;
-
-            await SetViewBagForPosAssignAsync();
-            return View(film);
-        }
-
-        [HttpGet]
-        public async Task<List<JoiningPosVMD>> GetJoining(int id)
-        {
-            var res = (await _filmApiClient.GetJoiningAsync(id)).ResultObj;
-            return res;
-        }
-
-        private async Task SetViewBagForPosAssignAsync()
-        {
-            var peoples = (await _peopleApiClient.GetAllPeopleAsync()).ResultObj;
-            ViewBag.Peoples = peoples.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            });
-
-            var positions = (await _positionApiClient.GetAllPositionAsync()).ResultObj;
-            ViewBag.Positions = positions.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            });
-        }
+       
     }
 }

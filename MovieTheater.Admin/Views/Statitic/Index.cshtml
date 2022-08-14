@@ -1,6 +1,9 @@
 ﻿@model MovieTheater.Models.Common.ChartTable.CalRevenueRequest
 @using MovieTheater.Models.Common.ChartTable
 @using AspNetCore.Reporting
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Globalization
+@using System.Text.Json;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,78 +22,127 @@
 
             <div class="ml-auto p-2">
                 <div class="row">
-
-                    <div>
-                        <input id="startDate" class="form-control" type="date"/>
-                    </div>
-                    <div>
-                        &nbsp;
-                    </div>
-                    <div>
-                        <input id="endDate" class="form-control" type="date"/>
-                    </div>
-                    <div>
-                        &nbsp;
-                    </div>
-                    <div>
-                        <button onclick="loadFilmRevenue()" class="btn btn-primary">Tìm</button>
-                    </div>
+                    <form asp-action="Index" class="d-flex" method="get">
+                        <div>
+                            <input id="startDate" class="form-control" type="date" asp-for="StartDate"/>
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <input id="endDate" class="form-control" type="date" asp-for="EndDate"/>
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Tìm</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="card-body">
-        <div class="card">
-            <div class="card-header">
-                Top doanh thu
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>
-                                Phim
-                            </th>
-                            <th>
-                                Doanh thu
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody id="tbbodyFilmRevenue">
+    <div class="card-body d-flex align-items-stretch">
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Top doanh thu
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Phim
+                                </th>
+                                <th>
+                                    Doanh thu
+                                </th>
+                            </tr>
+                            @{
+                                var topRevenue = (ChartData)ViewData["TopRevenueFilm"];
+                                for (int i = 0; i < topRevenue.Lables.Count; i++)
+                                {
+                                    <tr>
+                                        <td>@topRevenue.Lables[i]</td>
+                                        <td class="text-right">
+                                            @string.Format(new CultureInfo("vi-VN"), "{0:C}", topRevenue.DataRows[1][i])
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            </thead>
+                            <tbody id="tbbodyFilmRevenue">
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+
+                    <a class="btn btn-primary" onclick="dowloadFilmRevenue(@((int)RenderType.Excel))">Tải xuống file Excel</a>
+                    <a class="btn btn-primary" asp-action="DownloadRawData" asp-route-fromDate="@Model.StartDate"
+                       asp-route-toDate="@Model.EndDate">Export Rawdata</a>
                 </div>
             </div>
-            <div class="card-footer">
-
-                <a class="btn btn-primary" onclick="dowloadFilmRevenue(@((int)RenderType.Excel))">Tải xuống file Excel</a>
+        </div>
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <p class="m-0 font-weight-bold text-primary">Danh thu theo ngày trong tuần</p>
+                </div>
+                <div class="card-body">
+                    <canvas id="RevenueDateInWeek" class="fa-chart-pie"></canvas>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
+<script src="/vendor/chart.js/Chart.js"></script>
+<script src="/vendor/chart.js/chartjs-plugin-colorschemes.min.js"></script>
 <script>
-    function loadFilmRevenue() {
-        var startDate = document.getElementById('startDate').value;
-        var endDate = document.getElementById('endDate').value;
-        $.ajax({
-            type: "GET",
-            url: "/Statitic/GetTopRevenueFilm",
-            data: { startDate: startDate, endDate: endDate },
-            success: function(data) {
-                document.getElementById("tbbodyFilmRevenue").innerHTML = "";
-                str = "";
-                for (var i = 0; i < data.lables.length; i++) {
-                    str += "<tr><td>" + data.lables[i] + "</td><td>" + data.dataRows[1][i].toString() + "</td></tr>";
+    var startDate = document.getElementById('startDate').value;
+    var endDate = document.getElementById('endDate').value;
+    function showChar() {
+        var ctx = $("#RevenueDateInWeek");
+
+        var chartData = @Json.Serialize(ViewData["RevenueDataInWeek"]);
+        console.log(chartData);
+        var myLineChart = new Chart(ctx,
+            {
+                type: 'pie',
+                data: {
+                    labels: chartData.lables,
+                    datasets: [
+                        {
+                            data: chartData.dataRows[1],
+                                   
+                        }
+                    ]
+                },
+                options: {
+                    plugins: {
+
+                        colorschemes: {
+
+                            scheme: 'tableau.Tableau20'
+
+                        }
+
+                    },
+                    title: {
+                        display: true,
+                        text: 'Danh thu theo tuần'
+                    }
                 }
-                document.getElementById("tbbodyFilmRevenue").innerHTML = str;
-            }
-        });
+            });
     }
 
+    showChar();
     function dowloadFilmRevenue(mode) {
         var fileName = "report";
         var startDate = document.getElementById('startDate').value;

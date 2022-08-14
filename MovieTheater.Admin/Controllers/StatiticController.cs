@@ -8,7 +8,11 @@ using MovieTheater.Models.Report;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using MovieTheater.Admin.Helpers;
 
 namespace MovieTheater.Admin.Controllers
 {
@@ -28,9 +32,10 @@ namespace MovieTheater.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(CalRevenueRequest? request)
         {
-            if (request.StartDate == DateTime.MinValue && request.EndDate == DateTime.MinValue)
+            if (request != null && request.StartDate == DateTime.MinValue && request.EndDate == DateTime.MinValue)
             {
                 request.EndDate = DateTime.Now;
+                request.StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             }
 
             var result = (await _statisticApiClient.GetTopRevenueFilmAsync(request));
@@ -38,9 +43,10 @@ namespace MovieTheater.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             var topRevenueFilm = result.ResultObj;
 
-            var Revenue = (await _statisticApiClient.GetRevenueTypeAsync(request)).ResultObj;
+            var revenue = (await _statisticApiClient.GetRevenueTypeAsync(request)).ResultObj;
             ViewData["TopRevenueFilm"] = topRevenueFilm;
-            ViewData["Revenue"] = Revenue;
+            ViewData["Revenue"] = revenue;
+            ViewData["RevenueDataInWeek"] = (await _statisticApiClient.GetRevenueInWeek(request.StartDate, request.EndDate)).ResultObj;
 
             return View(request);
         }
@@ -119,7 +125,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 request = new CalRevenueRequest
                 {
-                    StartDate = DateTime.Now.AddMonths(-1),
+                    StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month,1),
                     EndDate = DateTime.Now
                 };
             }
@@ -167,6 +173,15 @@ namespace MovieTheater.Admin.Controllers
             };
             var result = (await _statisticApiClient.GetRevenueTypeAsync(request)).ResultObj;
             return result;
+        }
+
+        public IActionResult DownloadRawData(DateTime fromDate, DateTime toDate)
+        {
+            var data =  _statisticApiClient.GetRawData(fromDate, toDate).Result;
+            var templateFileInfo = new FileInfo(Path.Combine(_webHostEnvironment.WebRootPath, "Template", "RawData.xlsx"));
+            var stream = Utils.GetExcelRawData(fromDate, toDate, data.ResultObj.ToList(), templateFileInfo);
+            string timestamp = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToUpper().Replace(':', '_').Replace('.', '_').Replace(' ', '_').Trim();
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "RevenueReport" + timestamp + ".xlsx");
         }
     }
 }

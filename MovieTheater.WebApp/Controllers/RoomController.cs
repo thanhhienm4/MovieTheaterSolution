@@ -12,14 +12,14 @@ namespace MovieTheater.WebApp.Controllers
 {
     public class RoomController : Controller
     {
-        private readonly SeatApiClient _seatApiCient;
+        private readonly SeatApiClient _seatApiClient;
         private readonly SeatRowApiClient _seatRowApiClient;
         private readonly AuditoriumApiClient _roomApiClient;
 
         public RoomController(SeatApiClient seatApiClient, SeatRowApiClient seatRowApiClient,
             AuditoriumApiClient roomApiClient)
         {
-            _seatApiCient = seatApiClient;
+            _seatApiClient = seatApiClient;
             _seatRowApiClient = seatRowApiClient;
             _roomApiClient = roomApiClient;
         }
@@ -27,7 +27,7 @@ namespace MovieTheater.WebApp.Controllers
         [HttpGet]
         public async Task<List<SeatVMD>> GetSeatInRoom(string roomId)
         {
-            var seats = (await _seatApiCient.GetSeatInRoomAsync(roomId)).ResultObj;
+            var seats = (await _seatApiClient.GetSeatInRoomAsync(roomId)).ResultObj;
             return seats;
         }
 
@@ -41,7 +41,7 @@ namespace MovieTheater.WebApp.Controllers
         [HttpPost]
         public async Task<ApiResult<bool>> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
         {
-            var result = await _seatApiCient.UpdateSeatInRoomAsync(request);
+            var result = await _seatApiClient.UpdateSeatInRoomAsync(request);
             if (result.IsSuccessed == true)
             {
                 TempData["Result"] = result.Message;

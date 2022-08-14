@@ -23,7 +23,7 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
 
         public async Task<ApiResult<bool>> CreateAsync(AuditoriumCreateRequest request)
         {
-            var maxId = await _context.Auditoriums.Select(x => x.Id).FirstOrDefaultAsync();
+            var maxId = await _context.Auditoriums.OrderByDescending(x => x.Id).Select(x => x.Id).FirstOrDefaultAsync();
             string id = CreateAuditoriumId(maxId);
             if (_context.Auditoriums.Count(x => x.Name == request.Name) != 0)
                 return new ApiErrorResult<bool>("Tên phòng đã bị trùng");
@@ -207,7 +207,7 @@ namespace MovieTheater.Application.RoomServices.Auditoriums
 
             int number = Int32.Parse(currentIndex.Substring(2));
             number += 1;
-            return $"P{number.ToString().PadRight(4, '0')}";
+            return $"P{number.ToString().PadLeft(4, '0')}";
         }
     }
 }

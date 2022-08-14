@@ -1,0 +1,466 @@
+﻿@model MovieTheater.Models.Catalog.Reservation.ReservationVMD
+
+@{
+    ViewData["Title"] = "ChooseSeatAsync";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/signalr/signalr.js"></script>
+
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            Đặt vé
+        </div>
+        <button href="/Reservation" class="btn btn-danger" onclick="exit()">Hủy và trở về trang đặt vé</button>
+    </div>
+
+    <div class="container py-5 h-100" style="padding-top: 20px !important">
+        <div class="d-flex caution">
+            Lưu ý bạn có 7 phút để chọn ghế và 5 phút để thanh toán vé. Sau thời gian trên nếu chưa thanh toán đơn hàng sẽ tự động bị xóa bởi hệ thống.
+            Bạn có thể truy cập đơn đặt hàng để tiếp tục đơn đặt hàng của bạn.
+        </div>
+        <div class="row" style="padding: 30px">
+            <div class="col-9">
+                <ul class="d-flex justify-content-around">
+                    <div class="d-flex">
+                        <div class="seat normalSeat"></div>
+                        <span style="margin: auto">&nbsp; Ghế thường</span>
+                    </div>
+                    <div class="d-flex">
+                        <div class="seat vipSeat"></div>
+                        <span style="margin: auto">&nbsp; Ghế VIP</span>
+                    </div>
+                    <div class="d-flex">
+                        <div class="seat normalSeat selectingSeat"></div>
+                        <span style="margin: auto">&nbsp; Ghế đang chọn</span>
+                    </div>
+                </ul>
+                <div class="card bg-secondary text-white">
+                    <div class="card-body d-flex justify-content-center" style="font-size: 120%">
+                        Màn hình
+                    </div>
+                </div>
+
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div style="overflow-x: auto;">
+                                <ul id="place">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br/>>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div >
+                            <span>Phim</span>
+                            <span style="font-weight: bold">@Model.MovieName</span>
+                        </div>
+                        <div>
+                            <span>Suất</span>
+                            <span style="font-weight: bold">@Model.Time.ToString("HH:mm")</span>
+                            <span>-</span>
+                            <span style="font-weight: bold">@Model.Time.ToString("dd/MM")</span>
+                        </div>
+                        <div>
+                            <span>Định dạng </span>
+                            <span style="font-weight: bold">@Model.AuditoriumFormatName</span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-center">
+                            <p>Thành tiền</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p id="seatsName"></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <p style="color: red" class="p-2">Tổng tiền: </p>
+                            <div class="ml-auto p-2">
+                                <strong id="price">
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <button id="stop-watch" class="btn btn-primary btn-block">
+                </button>
+                <br/>
+                <a class="btn btn-success btn-block" id="btnReserve" asp-controller="Reservation" asp-action="WaitPayment" asp-route-id="@Model.Id">Thanh toán</a>
+                <br/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input id="reserId" type="hidden"/>
+<div style="float: left;">
+</div>
+
+<link rel="stylesheet" type="text/css" href="/css/seat.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<style type="text/css">
+
+    #place {
+        position: relative;
+        margin: 7px;
+    }
+
+    #place a { font-size: 0.6em; }
+
+    #place li {
+        list-style: none outside none;
+        position: absolute;
+    }
+
+    .caution {
+        background-color: #f6c343;
+        padding: 8px;
+        margin: 10px 0px 0px 0px;
+        color: #283e59;
+    }
+
+    #place .row-3, #place .row-4 { margin-top: 10px; }
+</style>
+<script type="text/javascript">
+    var stopwatch = document.getElementById('stop-watch');
+    var x = setInterval(function() {
+            var endTime = new Date(@Model.Time.AddMinutes(7).ToString("yyyy,MM-1,dd,HH,mm,ss"));
+
+            var distance = endTime - Date.now();
+
+            // Time calculations for days, hours, minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            stopwatch.innerHTML = String(minutes).padStart(2, 0) + ':' + String(seconds).padStart(2, 0);
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("stop-watch").innerHTML = "EXPIRED";
+                document.getElementById("btnCloseModal").style.display = "none";
+                document.getElementById("notiMes").innerHTML = "Thời gian giữ ghế của bạn đã kết thúc";
+                $('#notifyModal').modal('show');
+
+            }
+        },
+        1000);
+    var mode = { normal: "normal", vip: "vip" };
+    var settings = {
+        rows: 10,
+        cols: 25,
+        rowCssPrefix: 'row-',
+        colCssPrefix: 'col-',
+        seatWidth: 35,
+        seatHeight: 35,
+        seatCss: 'seat',
+        vipSeatCss: 'vipSeat',
+        normalSeatCss: 'normalSeat',
+        selectingSeatCss: 'selectingSeat'
+    };
+    var listRow = [];
+
+
+    function addTicket(data) {
+        $.ajax({
+            type: "POST",
+            url: "/Ticket/Create",
+            data: data,
+            error: function(msg) {
+                alert(msg);
+            }
+        });
+    }
+
+    function deleteTicket(data) {
+        $.ajax({
+            type: "POST",
+            url: "/Ticket/Delete",
+            data: data,
+            error: function(msg) {
+                alert(msg);
+            }
+        });
+    }
+
+    function exit() {
+        $('btnCloseModal').show(100);
+        document.getElementById("notiMes").innerHTML = "Khi rời khỏi dữ liệu đặt vé của bạn sẽ mất";
+        $('#notifyModal').modal('show');
+
+    }
+
+    function reload() {
+        window.location.href = "/Reservation/edit/" + $('#reserId').val().toString();
+    }
+</script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded',
+        function() {
+
+            // Start the connection.
+            var connection = new signalR.HubConnectionBuilder()
+                .withUrl('https://localhost:5002/reservationHub',
+                    {
+                        skipNegotiation: true,
+                        transport: signalR.HttpTransportType.WebSockets
+                    })
+                .build();
+
+            connection.on('disableSeat',
+                function(seatId) {
+                    $(`[data-id=${seatId}]`).addClass('taken');
+
+                });
+
+            connection.on('enableSeat',
+                function(seatId) {
+                    var seat = document.querySelector(`[data-id="${seatId}"]`);
+                    $(`[data-id=${seatId}]`).removeClass('taken');
+                });
+
+            // Transport fallback functionality is now built into start.
+            connection.start()
+                .then(function() {
+                    console.log("connect to signal R");
+                    connection.invoke('addToGroup', @Model.ScreeningId);
+                })
+                .catch(error => {
+                    console.error(error.messageReservationHub);
+                });
+
+            $(document).ready(function() {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/SeatRow/GetAllSeatRows",
+                    success: function(result) {
+
+                        var init = function() {
+
+                            var left = 0;
+                            var right = 0;
+                            var top = 0;
+                            var bottom = 0;
+                            $.ajax({
+                                type: "GET",
+                                url: "/Room/GetCoordinate",
+                                data: { id: '@Model.AuditoriumId' },
+                                success: function(res) {
+                                    top = res.resultObj.top;
+                                    right = res.resultObj.right;
+                                    left = res.resultObj.left;
+                                    bottom = res.resultObj.bottom;
+
+                                    var str = [], seatNo, className;
+                                    settings.rows = result.length;
+                                    for (i = 0; i < settings.rows; i++) {
+                                        if (result[i].id <= top) {
+                                            str.push('<div class="row">');
+                                            str.push('<div class="btn-group">');
+                                            for (j = 0; j <= settings.cols; j++) {
+
+                                                if (j == 0) {
+                                                    //str.push('<button style="color:green;font-size:30px; "class = "seat1"><a>' + result[i].name + '</a></button>');
+                                                } else if (j <= right) {
+                                                    seatNo = result[i].name + j.toString();
+                                                    className = settings.seatCss;
+
+                                                    str.push('<button id = "' +
+                                                        result[i].id +
+                                                        '_' +
+                                                        j.toString() +
+                                                        '" class = "' +
+                                                        className +
+                                                        '"' +
+                                                        'data-kindofseatid="' +
+                                                        result[i].TypeId +
+                                                        '"data-row="' +
+                                                        result[i].id +
+                                                        '"data-num="' +
+                                                        j.toString() +
+                                                        '" disabled > ' +
+                                                        '</button>');
+                                                }
+
+                                            }
+                                            str.push('</div>');
+                                            str.push('</div>');
+                                        }
+
+                                    }
+                                    $('#place').html(str.join(''));
+
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "/Screening/GetListSeatReserved",
+                                        data: { id: @Model.Id },
+                                        success: function(res) {
+                                            for (var i = 0; i < res.length; i++) {
+                                                var idElement = res[i].rowId + '_' + res[i].number.toString();
+                                                var btn = document.getElementById(idElement);
+                                                $(btn).attr("disabled", false);
+                                                $(btn).attr('data-name', res[i].rowName + res[i].number);
+                                                $(btn).attr('data-id', res[i].id);
+                                                if (res[i].typeId === mode.normal) {
+                                                    $(btn).addClass(settings.normalSeatCss);
+                                                } else {
+                                                    $(btn).addClass(settings.vipSeatCss);
+                                                }
+                                                $(btn).attr('data-kindofseatid', res[i].typeId);
+
+                                                $(btn).html('<a title="' + res[i].rowName + res[i].number + '">' + res[i].rowName + res[i].number + '</a>');
+                                                console.log(res[i].rowName + res[i].number);
+
+                                                if (res[i].status === 2) {
+                                                    $(btn).addClass('selectingSeat');
+                                                }
+
+                                                if (res[i].status === 1)
+                                                    $(btn).addClass('taken');
+
+
+                                            };
+                                            checkExist();
+                                            callPrePrice();
+                                            $('#place button.' + settings.seatCss).click(function() {
+                                                $(this).toggleClass(settings.selectingSeatCss);
+
+                                                //insert new ticket
+                                                var data = { ReservationId: @Model.Id, SeatId: $(this).attr('data-id'), ScreeningId: @Model.ScreeningId };
+                                                if ($(this).hasClass(settings.selectingSeatCss)) {
+                                                    addTicket(data);
+                                                    connection.invoke('disableSeat', @Model.ScreeningId, parseInt(data.SeatId));
+                                                } else {
+                                                    deleteTicket(data);
+                                                    connection.invoke('enableSeat', @Model.ScreeningId, parseInt(data.SeatId));
+                                                }
+
+                                                checkExist();
+                                                callPrePrice();
+
+
+                                            });
+
+                                        }
+                                    });
+
+                                }
+
+                            });
+
+                        };
+                        //case I: Show from starting
+
+                        //Case II: If already booked
+                        init();
+
+                    }
+                });
+
+                
+            });
+        });
+
+    function callPrePrice() {
+        var seatsName = '';
+        var tickets = [];
+        $.each($('#place button.' + settings.selectingSeatCss),
+            function(index, value) {
+                if (!this.classList.contains('taken')) {
+                    seatsName += $(this).attr('data-name') + ', ';
+                    var ticket = {
+                        ReservationId: @Model.Id,
+                        SeatId: $(this).attr('data-id'),
+                    };
+                    tickets.push(ticket);
+                }
+            });
+        $("#seatsName").text(seatsName);
+
+        $.ajax({
+            type: "POST",
+            url: "/Ticket/CalPrePrice",
+            data: { tickets },
+            success: function(res) {
+                $('#price').html(res.toLocaleString('vi-VN',
+                    {
+                        style: 'currency',
+                        currency: 'VND',
+                    }));
+            }
+        });
+    }
+
+    function deleteReservation() {
+        $.ajax({
+            type: "Post",
+            url: '/Reservation/DeletePost',
+            data: { id: @Model.Id },
+            success: function(res) {
+                location.replace('/');
+            }
+        });
+    }
+
+    function checkExist() {
+        var numItems = $('#place button.' + settings.selectingSeatCss).length;
+        if (numItems > 0) {
+            document.getElementById("btnReserve").disabled = false;
+        } else {
+            document.getElementById("btnReserve").disabled = true;
+        }
+    }
+
+    function updateReservation(id) {
+       
+    }
+</script>
+
+<div class="modal fade" id="notifyModal" data-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-center">
+                    <h5 id="ModalLabel">Thông báo</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="notiMes">Thời gian giữ vé của bạn đã kết thúc</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCloseModal" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="btnPrintTicket" onclick="deleteReservation()">Trở lại đặt vé</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="notifyModalPayment" data-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-center">
+                    <h5 id="ModalLabel">Thông báo</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="notiMes">Thời gian giữ vé của bạn đã kết thúc</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCloseModal" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-success" id="btnPrintTicket" onclick="updateReservation(@Model.Id)">Xác nhận thanh toán</button>
+            </div>
+        </div>
+    </div>
+</div>

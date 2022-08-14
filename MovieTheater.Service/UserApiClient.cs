@@ -33,21 +33,6 @@ namespace MovieTheater.Api
             return await PutAsync<bool>("Api/User/UpdateStaff", request);
         }
 
-        public async Task<ApiResult<string>> LoginCustomerAsync(LoginRequest request)
-        {
-            return await PostAsync<string>($"{ApiConstant.ApiCustomer}/{ApiConstant.CustomerLogin}", request);
-        }
-
-        public async Task<ApiResult<bool>> CreateCustomerAsync(UserRegisterRequest request)
-        {
-            return await PostAsync<bool>("Api/User/CreateCustomer", request);
-        }
-
-        public async Task<ApiResult<bool>> UpdateCustomerAsync(UserUpdateRequest request)
-        {
-            return await PutAsync<bool>("Api/User/UpdateCustomer", request);
-        }
-
         public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
         {
             return await PostAsync<PageResult<UserVMD>>("/api/User/GetUserPaging", request);
@@ -68,11 +53,6 @@ namespace MovieTheater.Api
             return await GetAsync<UserVMD>($"Api/User/GetCustomerById/{id}");
         }
 
-        public async Task<ApiResult<bool>> RoleAssignAsync(RoleAssignRequest request)
-        {
-            return await PutAsync<bool>("Api/User/RoleAssign", request);
-        }
-
         public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)
         {
             return await PutAsync<bool>("Api/User/ChangePassword", request);
@@ -81,11 +61,6 @@ namespace MovieTheater.Api
         public async Task<ApiResult<bool>> ForgotStaffPasswordAsync(string mail)
         {
             return await PostAsync<bool>("Api/User/ForgotStaffPassword", mail);
-        }
-
-        public async Task<ApiResult<bool>> ForgotCustomerPasswordAsync(string mail)
-        {
-            return await PostAsync<bool>("Api/User/ForgotCustomerPassword", mail);
         }
 
         public async Task<ApiResult<bool>> ResetPasswordAsync(ResetPasswordRequest request)

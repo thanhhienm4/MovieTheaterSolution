@@ -10,7 +10,7 @@
         <a href="/">Trang chủ</a>
     </li>
     <li class="breadcrumb-item">
-        <a href="/SeatRow">Hàng ghế</a>
+        <a href="/SeatRow">Loại ghế</a>
     </li>
     <li class="breadcrumb-item active">Loại ghế</li>
 </ol>
@@ -52,13 +52,6 @@
                 <th>
                     Tên
                 </th>
-                <th>
-                    Giá
-                </th>
-                <th>
-                    Khác
-                </th>
-
             </tr>
             </thead>
             <tbody>
@@ -73,10 +66,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                    <td>
+                   @* <td>
                         @Html.ActionLink("Chi tiết", "EditKindOfSeat", new { id = item.Id }) |
                         <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteKindOfSeat" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;
-                    </td>
+                    </td>*@
                 </tr>
             }
             </tbody>

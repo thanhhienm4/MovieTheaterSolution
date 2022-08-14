@@ -103,8 +103,7 @@
                     <td>
                         @Html.ActionLink("Chi tiết", "Edit", new { id = item.Id }) |
                         <a href="" data-toggle="modal" data-name="@item.Name" data-target="#deleteMovie" onclick="holdData(this)" data-id="@item.Id">Xóa</a>&nbsp;|
-                        @Html.ActionLink("Gán danh mục", "AssignGenre", new { id = item.Id }) &nbsp;|&nbsp;
-                        @Html.ActionLink("Tham gia", "PosAssign", new { id = item.Id })
+                        @Html.ActionLink("Gán danh mục", "AssignGenre", new { id = item.Id })
                     </td>
                 </tr>
             }
@@ -167,7 +166,7 @@
         var userId = $("#idFilm").val();
         $.ajax({
             type: "POST",
-            url: "/Movie/Delete",
+            url: "/Film/Delete",
             data: { id: userId },
             success: function(res) {
                 if (res.isReLogin == true) {

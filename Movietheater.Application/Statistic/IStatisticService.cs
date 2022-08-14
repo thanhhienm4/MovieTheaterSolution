@@ -1,8 +1,11 @@
-﻿using MovieTheater.Models.Common.ApiResult;
+﻿using System;
+using System.Collections.Generic;
+using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.ChartTable;
 using System.Threading.Tasks;
+using MovieTheater.Models.Catalog.Invoice;
 
-namespace MovieTheater.Application.Statitic
+namespace MovieTheater.Application.Statistic
 {
     public interface IStatisticService
     {
@@ -13,5 +16,7 @@ namespace MovieTheater.Application.Statitic
         Task<ApiResult<ChartData>> GetRevenueTypeAsync(CalRevenueRequest request);
 
         Task<ApiResult<ChartData>> GetRevenueInNMonthAsync(int n);
+        Task<ApiResult<IList<InvoiceRawData>>> GetRawData(DateTime fromDate, DateTime toDate);
+        Task<ApiResult<ChartData>> GetRevenueDayInWeek(DateTime fromDate, DateTime toDate);
     }
 }

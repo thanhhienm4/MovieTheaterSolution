@@ -134,22 +134,16 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<List<MovieGenreVMD>>> GetAllFilmGenreAsync()
         {
-            return await GetAsync<List<MovieGenreVMD>>($"Api/FilmGenre/GetAllFilmGenre");
+            return await GetAsync<List<MovieGenreVMD>>($"{ApiConstant.ApiMovieGenre}/{ApiConstant.GetMovieGenre}");
         }
 
-        public async Task<ApiResult<bool>> PosAssignAsync(PosAssignRequest request)
+        public async Task<ApiResult<List<MovieGenreVMD>>> GetMovieGenreByMovieAsync(string movieId)
         {
-            return await PostAsync<bool>($"Api/Movie/PosAssign", request);
-        }
-
-        public async Task<ApiResult<bool>> DeletePosAssignAsync(PosAssignRequest request)
-        {
-            return await PostAsync<bool>($"Api/Movie/DeletePosAssign", request);
-        }
-
-        public async Task<ApiResult<List<JoiningPosVMD>>> GetJoiningAsync(int id)
-        {
-            return await GetAsync<List<JoiningPosVMD>>($"Api/Movie/GetJoining/{id}");
+            NameValueCollection queryParams = new NameValueCollection()
+            {
+                { "movieId", movieId }
+            };
+            return await GetAsync<List<MovieGenreVMD>>($"{ApiConstant.ApiMovieGenre}/{ApiConstant.MovieGenreGetByMovieId}",queryParams);
         }
     }
 }
