@@ -13,6 +13,7 @@ namespace MovieTheater.Data.Models
         public DateTime Date { get; set; }
 
         public string PaymentId { get; set; }
+        public string TransactionId { get; set; }
 
         public virtual Payment Payment { get; set; }
 

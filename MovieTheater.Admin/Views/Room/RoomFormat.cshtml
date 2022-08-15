@@ -53,9 +53,6 @@
                     Tên
                 </th>
                 <th>
-                    Giá
-                </th>
-                <th>
                     Khác
                 </th>
 
@@ -72,9 +69,6 @@
 
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
                         @Html.ActionLink("Chi tiết", "FormatEdit", new { id = item.Id }) |
@@ -96,7 +90,7 @@
 <input id="nameRoomFormat" hidden/>
 <input id="idRoomFormat" hidden/>
 
-<div class="modal fade" id="deleteRoomFormat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteAuditoriumFormat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

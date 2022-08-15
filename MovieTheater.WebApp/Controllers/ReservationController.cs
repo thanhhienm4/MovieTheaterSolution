@@ -78,13 +78,21 @@ namespace MovieTheater.WebApp.Controllers
             if (vnp_ResponseCode == "00")
             {
                 payment.Message = "Thanh toán thành công";
-                await _invoiceApiClient.CreateAsync(new InvoiceCreateRequest()
+                int rvId = Int32.Parse(vnp_TxnRef);
+                var reservation = _reservationApiClient.GetReservationByIdAsync(rvId).Result.ResultObj;
+                if (reservation.Paid == PaymentStatusType.Inprogress)
                 {
-                    Date = DateTime.Now,
-                    PaymentId = PaymentType.VNPAY,
-                    Price = vnp_Amount / 100,
-                    ReservationId = Int32.Parse(vnp_TxnRef)
-                });
+                    await _invoiceApiClient.CreateAsync(new InvoiceCreateRequest()
+                    {
+                        Date = DateTime.Now,
+                        PaymentId = PaymentType.VNPAY,
+                        Price = vnp_Amount / 100,
+                        ReservationId = rvId,
+                        TransactionId = vnp_BankTranNo
+                    });
+                }
+                else
+                    return View();
             }
             else
             {

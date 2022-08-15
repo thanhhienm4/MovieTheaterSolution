@@ -205,18 +205,17 @@ namespace MovieTheater.Admin.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> FormatEdit(int id)
+        public async Task<IActionResult> FormatEdit(string id)
         {
             var result = await _roomApiClient.GetRoomFormatByIdAsync(id);
-            var roomformat = new AuditoriumFormatUpdateRequest()
+            var format = new AuditoriumFormatUpdateRequest()
             {
                 Id = result.ResultObj.Id,
                 Name = result.ResultObj.Name,
-                Price = result.ResultObj.Price
             };
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
-            return View(roomformat);
+            return View(format);
         }
 
         [Authorize(Roles = "Admin")]

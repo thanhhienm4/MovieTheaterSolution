@@ -29,30 +29,29 @@
             <div class="form-row">
                 <div class="col-md">
                     <div class="form-group">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" value="@Model.Id" class="form-control" disabled></input>
+                        <span asp-validation-for="AuditoriumId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-group">
                         <label asp-for="FilmId" class="control-label"></label>
                         <div class="row">
                             <div class="col-md">
                                 <select id="selectFilm" asp-for="FilmId" asp-items="@ViewBag.Films" class="form-control chosen-select" disabled></select>
                             </div>
                         </div>
-
                         <span asp-validation-for="FilmId" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="form-group">
-                        <label asp-for="AuditoriumId" class="control-label"></label>
-                        <select id="selectRoom" asp-for="AuditoriumId" asp-items="@ViewBag.Rooms" class="form-control" disabled></select>
-                        <span asp-validation-for="AuditoriumId" class="text-danger"></span>
                     </div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-md">
                     <div class="form-group">
-                        <label asp-for="KindOfScreeningId" class="control-label"></label>
-                        <select id="selectKOS" asp-for="KindOfScreeningId" asp-items="@ViewBag.KindOfScreenings" class="form-control" disabled></select>
-                        <span asp-validation-for="KindOfScreeningId" class="text-danger"></span>
+                        <label asp-for="AuditoriumId" class="control-label"></label>
+                        <select id="selectRoom" asp-for="AuditoriumId" asp-items="@ViewBag.Rooms" class="form-control" disabled></select>
+                        <span asp-validation-for="AuditoriumId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md">
@@ -79,7 +78,6 @@
     function enableElements() {
         document.getElementById("selectFilm").disabled = false;
         document.getElementById("selectRoom").disabled = false;
-        document.getElementById("selectKOS").disabled = false;
         document.getElementById("input").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";

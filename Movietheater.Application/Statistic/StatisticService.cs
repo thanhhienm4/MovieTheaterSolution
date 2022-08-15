@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -45,12 +46,7 @@ namespace MovieTheater.Application.Statistic
 
         public async Task<ApiResult<long>> GetRevenueAsync(CalRevenueRequest request)
         {
-            var query = from s in _context.Screenings
-                join r in _context.Reservations on s.Id equals r.ScreeningId
-                join t in _context.Tickets on r.Id equals t.ReservationId
-                where r.Time.Date >= request.StartDate.Date && r.Time.Date <= request.EndDate.Date &&
-                      s.Active == true && r.Active == true
-                select t;
+            var query = _context.Invoices.Where(i => i.Date.Date > request.StartDate && i.Date.Date < request.EndDate);
 
             long revenue = (long)await query.SumAsync(x => x.Price);
             return new ApiSuccessResult<long>(revenue);
@@ -58,23 +54,21 @@ namespace MovieTheater.Application.Statistic
 
         public async Task<ApiResult<ChartData>> GetRevenueTypeAsync(CalRevenueRequest request)
         {
-            var query = from s in _context.Screenings
-                join r in _context.Reservations on s.Id equals r.ScreeningId
-                join t in _context.Tickets on r.Id equals t.ReservationId
+            var query = from i in _context.Invoices
+                join r in _context.Reservations on i.ReservationId equals r.Id
                 join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                where r.Time.Date > request.StartDate && r.Time.Date < request.EndDate
-                                                      && s.Active == true && r.Active == true
-                select new { rt, t };
+                where i.Date.Date > request.StartDate && i.Date.Date < request.EndDate
+                select new { rt, i};
 
-            var Revenue = await query.GroupBy(x => new { x.rt.Name }).Select(x => new
+            var revenue = await query.GroupBy(x => new { x.rt.Name }).Select(x => new
             {
                 RowName = x.Key.Name,
-                Revenue = (decimal)x.Sum(sft => sft.t.Price)
+                Revenue = (decimal)x.Sum(sft => sft.i.Price)
             }).ToListAsync();
 
             ChartData chartData = new ChartData();
-            chartData.Lables = Revenue.Select(x => x.RowName).ToList();
-            chartData.DataRows[0] = Revenue.Select(x => x.Revenue).ToList();
+            chartData.Lables = revenue.Select(x => x.RowName).ToList();
+            chartData.DataRows[0] = revenue.Select(x => x.Revenue).ToList();
 
             return new ApiSuccessResult<ChartData>(chartData);
         }
@@ -100,18 +94,13 @@ namespace MovieTheater.Application.Statistic
 
         public async Task<ApiResult<ChartData>> GetRevenueInNMonthOfYear(int year)
         {
-            var query = from s in _context.Screenings
-                join r in _context.Reservations on s.Id equals r.ScreeningId
-                join t in _context.Tickets on r.Id equals t.ReservationId
-                join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                where r.Time.Year == year
-                select new { rt, t, r };
+            var query =  _context.Invoices.Where(x => x.Date.Year == year);
 
-            var revenue = await query.GroupBy(x => new { x.r.Time.Month })
+            var revenue = await query.GroupBy(x => new { x.Date.Month })
                 .Select(x => new
                 {
                     Month = x.Key.Month,
-                    Revenue = x.Sum(cb => cb.t.Price)
+                    Revenue = x.Sum(cb => cb.Price)
                 }).ToListAsync();
 
             for (int i = 1; i <= 12; i++)
@@ -139,7 +128,7 @@ namespace MovieTheater.Application.Statistic
         private DateTime GetDateEndMonth(DateTime date)
         {
             var temp = date.AddMonths(1);
-            var startNextMounth = new DateTime(temp.Year, temp.Month, 1);
+            var startNextMonth = new DateTime(temp.Year, temp.Month, 1);
             DateTime endDate = temp.AddDays(-1);
             return endDate;
         }
@@ -182,14 +171,16 @@ namespace MovieTheater.Application.Statistic
                 firstSunday = firstSunday.AddDays(1);
             }
 
-            var revenue  = _context.Invoices
-                .Where(x => x.Date.Date >= fromDate.Date && x.Date.Date <= toDate.Date)
-                .GroupBy(x => EF.Functions.DateDiffDay(firstSunday, x.Date)%7)
-                .Select(x => new { Day = x.Key, Revenue = x.Sum(x => x.Price) }).ToList();
+            var revenue  = await _context.Invoices
+                .Include(x => x.Reservation)
+                .ThenInclude(x => x.Screening)
+                .Where(x => x.Reservation.Screening.StartTime.Date >= fromDate.Date && x.Reservation.Screening.StartTime.Date <= toDate.Date)
+                .GroupBy(x => EF.Functions.DateDiffDay(firstSunday, x.Reservation.Screening.StartTime.Date)%7)
+                .Select(x => new { Day = x.Key, Revenue = x.Sum(invoice => invoice.Price) }).ToListAsync();
 
             var charData = new ChartData
             {
-                Lables = revenue.Select(x => x.Day.ToString()).ToList(),
+                Lables = revenue.Select(x => firstSunday.AddDays(x.Day).ToString("ddd", new CultureInfo("vi-VN"))).ToList(),
                 DataRows =
                 {
                     [0] = revenue.Select(x => x.Revenue).ToList()
@@ -197,6 +188,8 @@ namespace MovieTheater.Application.Statistic
             };
             return new ApiSuccessResult<ChartData> (charData);
         }
+
+        
 
 
 

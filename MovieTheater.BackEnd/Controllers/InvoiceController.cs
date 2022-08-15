@@ -30,12 +30,7 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResult<bool>> CreateAsync(InvoiceCreateRequest model)
         {
             var result = await _invoiceService.CreateAsync(model);
-            if (result.IsSuccessed)
-                await _reservationService.UpdatePaymentStatus(new ReservationUpdatePaymentRequest()
-                {
-                    Id = model.ReservationId,
-                    Status = PaymentStatusType.Done
-                });
+            
             return result;
         }
     }

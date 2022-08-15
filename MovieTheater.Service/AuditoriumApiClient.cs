@@ -70,7 +70,7 @@ namespace MovieTheater.Api
                 queryParams);
         }
 
-        public async Task<ApiResult<AuditoriumFormatVMD>> GetRoomFormatByIdAsync(int id)
+        public async Task<ApiResult<AuditoriumFormatVMD>> GetRoomFormatByIdAsync(string id)
         {
             return await GetAsync<AuditoriumFormatVMD>($"Api/RoomFormat/GetRoomFormatById/{id}");
         }
