@@ -41,6 +41,9 @@ namespace MovieTheater.Admin
             services.AddTransient<SurchargeApiClient, SurchargeApiClient>();
             services.AddTransient<CustomerTypeApiClient, CustomerTypeApiClient>();
             services.AddTransient<TicketApiClient, TicketApiClient>();
+            services.AddTransient<InvoiceApiClient, InvoiceApiClient>();
+
+
 
 
             services.AddHttpClient();

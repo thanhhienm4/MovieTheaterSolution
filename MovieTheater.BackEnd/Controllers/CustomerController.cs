@@ -44,7 +44,7 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        //[Authorize(Roles = "Admin,Employee")]
+        //[Authorize(Roles = "Admin,EmployeeName")]
         //[HttpPut("UpdateStaff")]
         //public async Task<ApiResult<bool>> UpdateAsync([FromBody] UserUpdateRequest request)
         //{

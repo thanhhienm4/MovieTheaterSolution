@@ -9,10 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieTheater.Models.Utilities;
 
 namespace MovieTheater.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Employee")]
     public class ScreeningController : Controller
     {
         private readonly SeatApiClient _seatApiClient;
@@ -29,12 +30,15 @@ namespace MovieTheater.Admin.Controllers
             _filmApiClient = filmApiClient;
         }
 
+        
         [HttpGet]
         public async Task<List<SeatModel>> GetListSeatReserved(int id)
         {
             var result = (await _seatApiClient.GetListSeatReserved(id)).ResultObj;
             return result;
         }
+
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> Index(string keyword, DateTime? date = null, int pageIndex = 1,
             int pageSize = 15)
@@ -56,12 +60,15 @@ namespace MovieTheater.Admin.Controllers
             return View(result.ResultObj);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             await SetViewBagAsync();
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
 
         [HttpPost]
         public async Task<IActionResult> Create(ScreeningCreateRequest request)
@@ -86,6 +93,7 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -116,6 +124,7 @@ namespace MovieTheater.Admin.Controllers
             return RedirectToAction("Error", "Home");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(ScreeningUpdateRequest request)
         {
@@ -142,6 +151,7 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ApiResult<bool>> Delete(int id)
         {
@@ -150,6 +160,15 @@ namespace MovieTheater.Admin.Controllers
             return result;
         }
 
+
+        [Authorize(Roles = "Admin")]
+        public async Task<List<FullCalendarEvent>> GetByAuditorium(DateTime fromDate, DateTime toDate, string auditoriumId)
+        {
+            return (await _screeningApiClient.GetByAuditorium(fromDate, toDate, auditoriumId)).ResultObj;
+            
+        }
+
+        [Authorize(Roles = "Admin")]
         private async Task SetViewBagAsync()
         {
             var rooms = (await _roomApiClient.GetAllAsync()).ResultObj;

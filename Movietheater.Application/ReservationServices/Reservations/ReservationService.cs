@@ -137,7 +137,8 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     Active = x.r.Active,
                     ReservationType = x.rt.Name,
                     Time = x.r.Time,
-                    Employee = x.s.LastName + " " + x.s.FirstName,
+                    EmployeeName = x.s.LastName + " " + x.s.FirstName,
+                    Employee = x.s.UserName,
                     CustomerName = x.c.LastName + " " + x.c.FirstName,
                     MovieName = x.m.Name,
                     Poster = $"{_configuration["BackEndServer"]}/" +
@@ -175,22 +176,25 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             else
             {
                 var query = from r in _context.Reservations
+                    join p in _context.PaymentStatuses on r.PaymentStatus equals p.Id
                     join c in _context.Customers on r.Customer equals c.Id into rc
                     from c in rc.DefaultIfEmpty()
                     join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
                     from e in rec.DefaultIfEmpty()
                     join rt in _context.ReservationTypes on r.TypeId equals rt.Id
                     where r.Id == Id
-                    select new { r, c, rt, e };
+                    select new { r, c, rt, e , p };
 
                 var res = query.Select(x => new ReservationVMD()
                 {
                     Id = x.r.Id,
                     Paid = x.r.PaymentStatus,
+                    PaidName = x.p.Name,
                     Active = x.r.Active,
                     ReservationType = x.rt.Name,
                     Time = x.r.Time,
-                    Employee = x.e.LastName + " " + x.e.FirstName,
+                    Employee = x.e.UserName,
+                    EmployeeName = x.e.LastName + " " + x.e.FirstName,
                     CustomerName = x.c.LastName + " " + x.c.FirstName,
                     ScreeningId = x.r.ScreeningId,
                     MovieName = x.r.Screening.Movie.Name,
@@ -199,8 +203,8 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     AuditoriumFormatName = x.r.Screening.Auditorium.Format.Name,
                     Customer = x.r.Customer
                 }).FirstOrDefault();
-                res.TotalPrice = CallTotal(res.Id);
                 res.Tickets = await GetTicketsAsync(Id);
+                res.TotalPrice = res.Tickets.Sum(x => x.Price);
                 return new ApiSuccessResult<ReservationVMD>(res);
             }
         }
@@ -313,7 +317,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 Active = x.r.Active,
                 ReservationType = x.rt.Name,
                 Time = x.r.Time,
-                Employee = x.e.LastName + x.e.FirstName,
+                EmployeeName = x.e.LastName + x.e.FirstName,
                 CustomerName = x.c.LastName + " " + x.c.FirstName,
             }).ToList();
 

@@ -1,4 +1,5 @@
 ﻿@using System.Globalization
+@using MovieTheater.Common.Constants
 @model MovieTheater.Models.Catalog.Reservation.ReservationVMD
 
 @{
@@ -12,16 +13,21 @@
     <li class="breadcrumb-item active">Đặt vé</li>
 </ol>
 <div >
+
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-lg-10 col-xl-8">
+                @if (Model.Paid == PaymentStatusType.Done)
+                {
+                    <button class="btn btn-primary" style="margin-bottom: 10px;">In vé</button>
+                }
                 <div class="card" style="border-radius: 10px;">
                     <div class="card-body p-4">
                         <div class="d-flex flex-column">
                             <p >Mã đơn hàng: @Model.Id</p>
                             <p >Tên phim: @Model.MovieName</p>
                             <p >Thời gian bắt đầu: @Model.StartTime.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")</p>
-                           
+
                         </div>
                         @foreach (var item in Model.Tickets)
                         {

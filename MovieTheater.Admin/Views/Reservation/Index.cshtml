@@ -1,5 +1,8 @@
 ﻿@using MovieTheater.Models.Common.Paging
 @using MovieTheater.Models.Catalog.Reservation
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using MovieTheater.Common.Constants
 @model PageResult<ReservationVMD>
 @{
     ViewData["Title"] = "Index";
@@ -97,7 +100,7 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.Paid)
+                        @Html.DisplayFor(modelItem => item.PaidName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Active)
@@ -112,7 +115,7 @@
                     </td>
                     <td>
 
-                        @Html.DisplayFor(modelItem => item.Employee)
+                        @Html.DisplayFor(modelItem => item.EmployeeName)
                     </td>
                     <td>
 
@@ -120,6 +123,12 @@
                     </td>
                     <td>
                         @Html.ActionLink("Chi tiết", "Detail", new { id = item.Id })
+                        @if (item.Employee == (User.Identity as ClaimsIdentity).Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value)
+                            .FirstOrDefault() && item.Paid != PaymentStatusType.Done)
+                        {
+                            <button class="btn btn-danger" data-toggle="modal"  data-target="#deleteRes" onclick="holdData(@item.Id)" data-id="@item.Id">Xóa</button>
+
+                        }
                     </td>
                 </tr>
             }
@@ -132,3 +141,57 @@
         </div>
     </div>
 </div>
+<!--model delete-->
+<input id="nameRoom" hidden />
+<input id="idRoom" hidden />
+
+<div class="modal fade" id="deleteRes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-center">
+                    <h5 id="ModalLabel">Thông báo</h5>
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="deleteMeg"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" onclick="deleteRoom()">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function holdData(id) {
+        $("#idRoom").val(id);
+        $("#deleteMeg").text("Bạn muốn xóa đơn đặt hàng " + id);
+        $("#deleteRes").show();
+    }
+
+    $(function () {
+
+        $("#deleteRes").on('show.bs.modal', function () {
+            name = $("#nameRoom").val();
+
+        });
+
+    });
+
+    function deleteRoom() {
+        var id = $("#idRoom").val();
+        $.ajax({
+            type: "POST",
+            url: "/Reservation/Delete",
+            data: { id: id },
+            success: function() {
+                location.reload();
+            }
+        });
+    }
+</script>

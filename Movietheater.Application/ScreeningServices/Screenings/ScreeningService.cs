@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MovieTheater.Models.Utilities;
 
 namespace MovieTheater.Application.ScreeningServices.Screenings
 {
@@ -72,7 +73,7 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
             {
                 try
                 {
-                    if (screening.Reservations != null)
+                    if (screening.Reservations.Count != 0)
                     {
                         screening.Active = false;
                         _context.Screenings.Update(screening);
@@ -152,12 +153,14 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
                     return new ApiErrorResult<bool>("Không thể cập nhật xuất chiếu đó xuất chiếu đã diễn ra");
                 }
 
+
+                if (!CheckTime(request.FilmId, request.AuditoriumId, request.StartTime, request.Id))
+                    return new ApiErrorResult<bool>("Vui lòng kiểm tra lại thời gian bắt đầu");
+
                 screening.Id = request.Id;
                 screening.StartTime = request.StartTime;
-
                 screening.MovieId = request.FilmId;
                 screening.AuditoriumId = request.AuditoriumId;
-
                 _context.Update(screening);
 
                 try
@@ -261,6 +264,22 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
             return new ApiSuccessResult<List<MovieScreeningVMD>>(filmScreenings);
         }
 
+        public async Task<ApiResult<List<FullCalendarEvent>>> GetByAuditorium(DateTime fromDate, DateTime toDate, string auditoriumId)
+        {
+            var res = await  _context.Screenings
+                .Where(x=>x.StartTime.Date >= fromDate.Date
+                          && x.StartTime.Date <= toDate.Date 
+                          && x.AuditoriumId == auditoriumId)
+                .Include(x => x.Movie)
+                .Select(x => new FullCalendarEvent()
+                {
+                    Start = x.StartTime,
+                    End = x.StartTime.AddMinutes(x.Movie.Length),
+                    Title = x.Movie.Name
+                }).ToListAsync();
+            return new ApiSuccessResult<List<FullCalendarEvent>>(res);
+        }
+
         public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListOfMovieInWeek(string movieId)
         {
             var screenings = await _context.Screenings.Where(x => x.StartTime.Date >= DateTime.Now.Date &&
@@ -286,7 +305,7 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
             return new ApiSuccessResult<ScreeningOfFilmInWeekVMD>(sof);
         }
 
-        public bool CheckTime(string movieId, string auditoriumId, DateTime time)
+        public bool CheckTime(string movieId, string auditoriumId, DateTime time, int? screeningId = null)
         {
             var parameterReturn = new SqlParameter
             {
@@ -297,10 +316,11 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
             var startTime = new SqlParameter("@startTime", time);
             var movie = new SqlParameter("@movieId", movieId);
             var auditorium = new SqlParameter("@auditoriumId", auditoriumId);
+            var screening = new SqlParameter("@screeningId", screeningId);
 
             var data = _context.Database.ExecuteSqlRaw(
-                "set @ReturnValue = dbo.[Function_CheckTime] ( @startTime , @movieId , @auditoriumId)", parameterReturn,
-                startTime, movie, auditorium);
+                "set @ReturnValue = dbo.[Function_CheckTime] ( @startTime , @movieId , @auditoriumId, @screeningId)", parameterReturn,
+                startTime, movie, auditorium, screening);
 
             return (bool)parameterReturn.Value;
         }

@@ -5,6 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="~/fullcalendar/lib/main.js"></script>
+<link href="~/fullcalendar/lib/main.css"  rel='stylesheet'/>
+<style>
+    #calendar {
+        margin: 0 auto;
+    }
+</style>
+
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item">
         <a href="/">Trang chủ</a>
@@ -20,8 +28,8 @@
 </div>
 
 <hr/>
-
-<div class="card">
+<div class="d-flex">
+    <div class="card col-xl-5">
     <div class="card-body">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -50,7 +58,7 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label asp-for="AuditoriumId" class="control-label"></label>
-                        <select id="selectRoom" asp-for="AuditoriumId" asp-items="@ViewBag.Rooms" class="form-control" disabled></select>
+                        <select id="auditoriumId" asp-for="AuditoriumId" asp-items="@ViewBag.Rooms" class="form-control" disabled></select>
                         <span asp-validation-for="AuditoriumId" class="text-danger"></span>
                     </div>
                 </div>
@@ -69,19 +77,71 @@
         </form>
     </div>
 </div>
+    <div class="col-xl-7">
+        <div id='calendar'></div>
+    </div>
+</div>
+
 <script src="/docsupport/jquery-3.2.1.min.js" type="text/javascript"></script>
-<script src="/chosen.jquery.js" type="text/javascript"></script>
-<script src="/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
-<script src="/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
 <script>
 
     function enableElements() {
         document.getElementById("selectFilm").disabled = false;
-        document.getElementById("selectRoom").disabled = false;
+        document.getElementById("auditoriumId").disabled = false;
         document.getElementById("input").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
     }
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var  calendar = new FullCalendar.Calendar(calendarEl, {
+            initialDate: '@DateTime.Now.ToString("yyyy-MM-dd")',
+            initialView: 'timeGridWeek',
+            nowIndicator: true,
+            headerToolbar: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            },
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            selectable: true,
+            selectMirror: true,
+            dayMaxEvents: true // allow "more" link when too many events
+            
+        });
+
+        calendar.render();
+        loadEvent();
+
+        $('button.fc-button-primary').click(function() {
+            loadEvent();
+        });
+
+
+        $('#auditoriumId').change(function(){
+            loadEvent();
+        });
+
+
+        function loadEvent() {
+            $.ajax({
+                type: "GET",
+                url: "/Screening/GetByAuditorium?auditoriumId=" + $('#auditoriumId').val() + "&fromDate=" + calendar.view.activeStart.toISOString() + "&toDate=" + calendar.view.activeEnd.toISOString(),
+                success: function(events) {
+                    calendar.batchRendering(() => {
+                        // remove all events
+                        calendar.getEvents().forEach(event => event.remove());
+                        // add your new events source
+                        calendar.addEventSource(events);
+                    });
+
+                }
+            });
+
+        }
+    });
 </script>
 @if (ViewBag.IsEdit != null)
 {

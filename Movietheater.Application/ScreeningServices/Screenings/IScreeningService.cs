@@ -5,6 +5,7 @@ using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieTheater.Models.Utilities;
 
 namespace MovieTheater.Application.ScreeningServices.Screenings
 {
@@ -25,7 +26,9 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
         Task<PageResult<MovieScreeningVMD>> GetScreeningTimePagingAsync(ScreeningPagingRequest request);
 
         Task<ApiResult<List<MovieScreeningVMD>>> GetFilmScreeningInday(DateTime? date);
+        Task<ApiResult<List<FullCalendarEvent>>> GetByAuditorium(DateTime fromDate, DateTime toDate, string auditoriumId);
 
         Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListOfMovieInWeek(string movieId);
+
     }
 }

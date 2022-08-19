@@ -67,13 +67,13 @@ namespace MovieTheater.Api
                 requestContent.Add(bytes, "Poster", request.Poster.FileName);
             }
 
-            requestContent.Add(new StringContent(request.Description.ToString()), "Description");
-            requestContent.Add(new StringContent(request.Id.ToString()), "Id");
-            requestContent.Add(new StringContent(request.CensorshipId), "CensorshipId");
-            requestContent.Add(new StringContent(request.Length.ToString()), "Length");
-            requestContent.Add(new StringContent(request.Name.ToString()), "RowName");
-            requestContent.Add(new StringContent(request.PublishDate.ToString()), "PublishDate");
-            requestContent.Add(new StringContent(request.TrailerURL.ToString()), "TrailerURL");
+            requestContent.Add(new StringContent(request.Id), nameof(request.Id));
+            requestContent.Add(new StringContent(request.Description), nameof(request.Description));
+            requestContent.Add(new StringContent(request.CensorshipId), nameof(request.CensorshipId));
+            requestContent.Add(new StringContent(request.Length.ToString()), nameof(request.Length));
+            requestContent.Add(new StringContent(request.Name), nameof(request.Name));
+            requestContent.Add(new StringContent(request.PublishDate.ToShortDateString()), nameof(request.PublishDate));
+            requestContent.Add(new StringContent(request.TrailerURL), nameof(request.TrailerURL));
             //return await PutAsync<bool>("Api/Movie/Update", requestContent);
 
             HttpClient client = GetHttpClient();

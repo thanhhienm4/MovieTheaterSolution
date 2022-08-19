@@ -110,8 +110,11 @@ namespace MovieTheater.Admin.Controllers
         [HttpPost]
         public async Task<ApiResult<bool>> Delete(int id)
         {
-            var result = await _reservationApiClient.DeleteAsync(id);
+            var reservation = _reservationApiClient.GetReservationByIdAsync(id).Result.ResultObj;
+            if (reservation.Employee != GetUserId())
+                return new ApiErrorResult<bool>();
 
+            var result = await _reservationApiClient.DeleteAsync(id);
             TempData["Result"] = result.Message;
             return result;
         }

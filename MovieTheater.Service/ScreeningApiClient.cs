@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MovieTheater.Models.Utilities;
 
 namespace MovieTheater.Api
 {
@@ -55,7 +56,18 @@ namespace MovieTheater.Api
             return await GetAsync<List<MovieScreeningVMD>>(
                 $"{ApiConstant.ApiScreening}/{ApiConstant.ScreeningGetScreeningInDate}", queryParams);
         }
+        public async Task<ApiResult<List<FullCalendarEvent>>> GetByAuditorium(DateTime fromDate, DateTime toDate, string auditoriumId)
+        {
+            var queryParams = new NameValueCollection()
+            {
+                { "fromDate", fromDate.ToString()},
+                { "toDate", toDate.ToString()},
+                { "auditoriumId", auditoriumId}
 
+            };
+            return await GetAsync<List<FullCalendarEvent>>(
+                $"{ApiConstant.ApiScreening}/{ApiConstant.ScreeningGetByAuditorium}", queryParams);
+        }
         public async Task<ApiResult<PageResult<ScreeningVMD>>> GetPagingAsync(ScreeningPagingRequest request)
         {
             return await PostAsync<PageResult<ScreeningVMD>>(

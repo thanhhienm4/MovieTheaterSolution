@@ -11,6 +11,7 @@ namespace MovieTheater.Models.Catalog.Reservation
         public bool Active { get; set; }
         public string ReservationType { get; set; }
         public string CustomerName { get; set; }
+        public string EmployeeName { get; set; }
         public string Employee { get; set; }
         public DateTime Time { get; set; }
         public List<TicketVMD> Tickets { get; set; }

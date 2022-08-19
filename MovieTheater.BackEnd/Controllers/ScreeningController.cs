@@ -10,6 +10,7 @@ using MovieTheater.Models.Common.Paging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieTheater.Models.Utilities;
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -66,6 +67,14 @@ namespace MovieTheater.BackEnd.Controllers
         public async Task<ApiResult<ScreeningVMD>> GetVMDByIdAsync(int id)
         {
             var result = await _screeningService.GetVMDByIdAsync(id);
+            return result;
+        }
+
+        [AllowAnonymous]
+        [HttpGet(ApiConstant.ScreeningGetByAuditorium)]
+        public async Task<ApiResult<List<FullCalendarEvent>>> GetByAuditorium(DateTime fromDate, DateTime toDate, string auditoriumId )
+        {
+            var result = await _screeningService.GetByAuditorium(fromDate, toDate, auditoriumId);
             return result;
         }
 

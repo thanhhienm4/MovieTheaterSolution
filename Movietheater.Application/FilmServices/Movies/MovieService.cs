@@ -73,14 +73,15 @@ namespace MovieTheater.Application.FilmServices.Movies
                     try
                     {
                         await _storageService.DeleteFileAsync(movie.Poster);
+                        string newPosterPath = await SaveFile(request.Poster);
+                        movie.Poster = newPosterPath;
                     }
                     catch
                     {
-                        // ignored
+
                     }
 
-                    string newPosterPath = await SaveFile(request.Poster);
-                    movie.Poster = newPosterPath;
+                    
                 }
 
                 _context.Movies.Update(movie);
