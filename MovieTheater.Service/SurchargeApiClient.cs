@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using MovieTheater.Common.Constants;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
 using System.Threading.Tasks;

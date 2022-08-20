@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MovieTheater.Models.Utilities;
+using Rotativa;
 
 namespace MovieTheater.Admin.Controllers
 {
@@ -171,18 +172,23 @@ namespace MovieTheater.Admin.Controllers
         [Authorize(Roles = "Admin")]
         private async Task SetViewBagAsync()
         {
-            var rooms = (await _roomApiClient.GetAllAsync()).ResultObj;
-            ViewBag.Rooms = rooms.Select(x => new SelectListItem()
+            var rooms =  _roomApiClient.GetAllAsync();
+            var films = _filmApiClient.GetAllFilmAsync();
+
+            Task.WaitAll(rooms, films);
+            ViewBag.Rooms = rooms.Result.ResultObj.Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
-            var films = (await _filmApiClient.GetAllFilmAsync()).ResultObj;
-            ViewBag.Films = films.Select(x => new SelectListItem()
+           
+            ViewBag.Films = films.Result.ResultObj.Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
         }
+
+        
     }
 }

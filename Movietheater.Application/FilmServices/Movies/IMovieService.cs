@@ -14,7 +14,7 @@ namespace MovieTheater.Application.FilmServices.Movies
 
         Task<ApiResult<bool>> DeleteAsync(string id);
 
-        Task<ApiResult<PageResult<MovieVMD>>> GetPagingAsync(FilmPagingRequest request);
+        Task<ApiResult<PageResult<MovieVMD>>> GetPagingAsync(MoviePagingRequest request);
 
         Task<ApiResult<MovieMD>> GetById(string id);
 

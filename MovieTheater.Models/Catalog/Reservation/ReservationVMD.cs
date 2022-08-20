@@ -21,7 +21,9 @@ namespace MovieTheater.Models.Catalog.Reservation
         public string Poster { get; set; }
         public DateTime StartTime { get; set; }
         public string AuditoriumId { get; set; }
+        public string AuditoriumName { get; set; }
         public string Customer { get; set; }
         public string AuditoriumFormatName { get; set; }
+        public string MovieCensorship { get; set; }
     }
 }

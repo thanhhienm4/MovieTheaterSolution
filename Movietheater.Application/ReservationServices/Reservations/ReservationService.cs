@@ -166,9 +166,9 @@ namespace MovieTheater.Application.ReservationServices.Reservations
             return new ApiSuccessResult<PageResult<ReservationVMD>>(pageResult);
         }
 
-        public async Task<ApiResult<ReservationVMD>> GetById(int Id)
+        public async Task<ApiResult<ReservationVMD>> GetById(int id)
         {
-            Reservation reservation = await _context.Reservations.FindAsync(Id);
+            Reservation reservation = await _context.Reservations.FindAsync(id);
             if (reservation == null)
             {
                 return new ApiErrorResult<ReservationVMD>("Không tìm thấy");
@@ -182,7 +182,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     join e in _context.Staffs on r.EmployeeId equals e.UserName into rec
                     from e in rec.DefaultIfEmpty()
                     join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                    where r.Id == Id
+                    where r.Id == id
                     select new { r, c, rt, e , p };
 
                 var res = query.Select(x => new ReservationVMD()
@@ -201,9 +201,11 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                     StartTime = x.r.Screening.StartTime,
                     AuditoriumId = x.r.Screening.AuditoriumId,
                     AuditoriumFormatName = x.r.Screening.Auditorium.Format.Name,
-                    Customer = x.r.Customer
+                    Customer = x.r.Customer,
+                    AuditoriumName = x.r.Screening.Auditorium.Name,
+                    MovieCensorship = x.r.Screening.Movie.Censorship.Name
                 }).FirstOrDefault();
-                res.Tickets = await GetTicketsAsync(Id);
+                res.Tickets = await GetTicketsAsync(id);
                 res.TotalPrice = res.Tickets.Sum(x => x.Price);
                 return new ApiSuccessResult<ReservationVMD>(res);
             }
@@ -229,6 +231,7 @@ namespace MovieTheater.Application.ReservationServices.Reservations
                 Time = x.s.StartTime,
                 CustomerType = x.t.CustomerTypeNavigation.Name,
                 SeatType = x.se.Type.Name,
+                Id = x.t.Id
             }).ToListAsync();
 
             return tickets;

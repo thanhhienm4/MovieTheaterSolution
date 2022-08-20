@@ -14,56 +14,75 @@
 </ol>
 <div >
 
-    <div class="container py-5 h-100">
+    <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-lg-10 col-xl-8">
-                @if (Model.Paid == PaymentStatusType.Done)
-                {
-                    <button class="btn btn-primary" style="margin-bottom: 10px;">In vé</button>
-                }
+            <div class="col-10">
                 <div class="card" style="border-radius: 10px;">
-                    <div class="card-body p-4">
-                        <div class="d-flex flex-column">
-                            <p >Mã đơn hàng: @Model.Id</p>
-                            <p >Tên phim: @Model.MovieName</p>
-                            <p >Thời gian bắt đầu: @Model.StartTime.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")</p>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <p><span class="font-weight-bold">Mã đơn hàng:</span> @Model.Id</p>
+                                <p><span class="font-weight-bold">Tên phim:</span> @Model.MovieName</p>
+                                <p><span class="font-weight-bold">Thời gian bắt đầu:</span> @Model.StartTime.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")</p>
 
-                        </div>
-                        @foreach (var item in Model.Tickets)
-                        {
-                            <div class="card shadow-0 border mb-4">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <img src="/img/ticket.jpg"
-                                                 class="img-fluid" alt="Ticket">
-                                        </div>
-                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                            <p class="text-muted mb-0">
-                                                Ghế: @item.Seat
-                                            </p>
-                                        </div>
-                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                            <p class="text-muted mb-0 small">@Model.AuditoriumFormatName</p>
-                                        </div>
-
-                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                            <p class="text-muted mb-0 small">@item.SeatType</p>
-                                        </div>
-                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                            <p class="text-muted mb-0 small">@item.CustomerType</p>
-                                        </div>
-                                        <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                            <p class="text-muted mb-0 small"> @string.Format(new CultureInfo("vi-VN"), "{0:C}", item.Price)</p>
-                                        </div>
-                                    </div>
-
-                                </div>
                             </div>
-                        }
+                            <div class="col-6">
+                                @if (!string.IsNullOrEmpty(Model.Employee))
+                                {
+                                    <p><span class="font-weight-bold">Nhân viên:</span> @Model.EmployeeName</p>
+                                }
+                                else
+                                {
+                                    <p><span class="font-weight-bold">Khách hàng:</span> @Model.CustomerName</p>
+                                }
+                                <p><span class="font-weight-bold">Thời gian đặt:</span> @Model.Time.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")</p>
+                                <p><span class="font-weight-bold">Định dạng:</span> @Model.AuditoriumFormatName</p>
+                                @*<p><span class="font-weight-bold">Mã đơn hàng:</span> @Model.Id</p>*@
+                            </div>
+                        </div>
+                        <table class="w-100 table table-bordered">
+                            <tr style="height: 35px">
+                                <th class="text-center">
+                                    STT
+                                </th>
+                                <th class="text-center">
+                                    Ghế
+                                </th>
+                                <th class="text-center">
+                                    Loại ghế
+                                </th>
+                                <th class="text-center">
+                                    Khách hàng
+                                </th>
+                                <th class="text-center">
+                                    Giá vé
+                                </th>
+                            </tr>
+                            @for (var i=0 ;i < Model.Tickets.Count; i++)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        @(i +1)
+                                    </td>
+                                    <td class="text-center">
+                                        @Model.Tickets[i].Seat
+                                    </td>
+                                    <td class="text-center">
+                                        @Model.Tickets[i].SeatType
+                                    </td>
+                                    <td class="text-center">
+                                        @Model.Tickets[i].CustomerType
+                                    </td>
+                                    <td class="text-right">
+                                        @string.Format(new CultureInfo("vi-VN"), "{0:C}", @Model.Tickets[i].Price)
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                      
 
                         <div class="d-flex justify-content-between pt-2">
-                            <p class="fw-bold mb-0">Chi tiết đơn hàng</p>
+                            <p class="fw-bold mb-0"></p>
                             <p class="text-muted mb-0">
                                 <span class="fw-bold me-4">Tổng giá: &nbsp;</span>@string.Format(new CultureInfo("vi-VN"), "{0:C}", Model.TotalPrice)
                             </p>
@@ -76,15 +95,14 @@
                             </p>
                         </div>
 
-                        <div class="d-flex justify-content-between">
-                            <p class="text-muted mb-0">Ngày đặt hàng</p>
-                            <p class="text-muted mb-0">
-                                <span class="fw-bold me-4"> @Model.Time.ToString("dd-MM-yyyy")</span>
-                            </p>
-                        </div>
-
                     </div>
                 </div>
+                @if (Model.Paid == PaymentStatusType.Done)
+                {
+                    <a class="btn btn-primary float-right" style="margin-top: 10px;"
+                       asp-action="ListTicket" asp-route-id="@Model.Id"
+                       >In vé</a>
+                }
             </div>
         </div>
     </div>

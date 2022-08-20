@@ -1,0 +1,49 @@
+﻿@using System.Globalization
+@model MovieTheater.Models.Catalog.Reservation.ReservationVMD
+<div>
+    <div style="margin: auto; width: 500px">
+        @foreach (var item in Model.Tickets)
+        {
+            <div style="padding: 50px; border-bottom: 1px dashed black">
+                <div class="card p-3">
+                    <div style="text-align: center; font-weight: bold">
+                        Vé xem phim
+                    </div>
+                    <br/>
+                    <div style="display: flex; flex-direction: row; justify-content: space-between">
+                        <div style="display: flex; flex-direction: column">
+                            <span>Mã vé : @item.Id</span>
+                            <span>@Model.Time.ToString("hh:mm dd/MM/yyyy")</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column">
+                            <span style="text-align: right">@Model.Id</span>
+                            <span style="text-align: right">GG theater</span>
+                        </div>
+                    </div>
+                    <hr/>
+                    <span >
+                        <span style="font-weight: bold">@Model.MovieName</span>
+                        @Model.AuditoriumFormatName @Model.MovieCensorship
+                    </span>
+                    <p>Thời gian: @Model.StartTime.ToString("hh:mm dd/MM/yyyy")</p>
+                    <p><span>@Model.AuditoriumName - </span>@item.Seat</p>
+                    <hr/>
+                    <div style="display: flex; flex-direction: row; justify-content: space-between">
+                        <p>
+                            @item.SeatType
+                        </p>
+                        <div>
+                            <p  style="text-align: right">
+                                @string.Format(new CultureInfo("vi-VN"), "{0:C}", item.Price)
+                            </p>
+                            <p  style="text-align: right">Đã vao gồm VAT</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+        }
+    </div>
+</div>
+
+

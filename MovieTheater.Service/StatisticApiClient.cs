@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -8,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.ChartTable;
 using System.Net.Http;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Invoice;

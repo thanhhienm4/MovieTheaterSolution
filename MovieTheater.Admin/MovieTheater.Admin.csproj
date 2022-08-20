@@ -25,9 +25,6 @@
 		<None Include="Views\Film\Create.cshtml" />
 		<None Include="Views\Film\Edit.cshtml" />
 		<None Include="Views\Film\Index.cshtml" />
-		<None Include="Views\People\Create.cshtml" />
-		<None Include="Views\People\Edit.cshtml" />
-		<None Include="Views\People\Index.cshtml" />
 		<None Include="Views\Room\Create.cshtml" />
 		<None Include="Views\Room\Edit.cshtml" />
 		<None Include="Views\Room\Index.cshtml" />
@@ -213,6 +210,8 @@
 		<None Include="wwwroot\img\undraw_profile_3.svg" />
 		<None Include="wwwroot\img\undraw_rocket.svg" />
 		<None Include="wwwroot\js\site.js" />
+		<None Include="wwwroot\Rotativa\wkhtmltoimage.exe" />
+		<None Include="wwwroot\Rotativa\wkhtmltopdf.exe" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -227,6 +226,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.6" />
+		<PackageReference Include="Rotativa.AspNetCore" Version="1.2.0" />
 		<PackageReference Include="System.CodeDom" Version="6.0.0" />
 	</ItemGroup>
 

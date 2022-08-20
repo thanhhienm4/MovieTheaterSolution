@@ -14,10 +14,9 @@ namespace MovieTheater.Api
 {
     public class BaseApiClient
     {
-        protected readonly IHttpClientFactory _httpClientFactory;
-        protected readonly IConfiguration _configuration;
-        protected readonly IHttpContextAccessor _httpContextAccessor;
-
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public BaseApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor)
         {

@@ -45,7 +45,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost(ApiConstant.GetMoviePaging)]
-        public async Task<ApiResult<PageResult<MovieVMD>>> GetPaging(FilmPagingRequest request)
+        public async Task<ApiResult<PageResult<MovieVMD>>> GetPaging(MoviePagingRequest request)
         {
             var result = await _movieService.GetPagingAsync(request);
             return result;

@@ -16,22 +16,17 @@ namespace MovieTheater.Admin.Controllers
     {
         private readonly MovieApiClient _filmApiClient;
         private readonly MovieCensorshipApiClient _banApiClient;
-        private readonly PositionApiClient _positionApiClient;
-        private readonly PeopleApiClient _peopleApiClient;
 
-        public FilmController(MovieApiClient filmApiClient, MovieCensorshipApiClient banApiClient,
-            PositionApiClient positionApiClient, PeopleApiClient peopleApiClient)
+        public FilmController(MovieApiClient filmApiClient, MovieCensorshipApiClient banApiClient)
         {
             _filmApiClient = filmApiClient;
             _banApiClient = banApiClient;
-            _positionApiClient = positionApiClient;
-            _peopleApiClient = peopleApiClient;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 15)
         {
-            var request = new FilmPagingRequest()
+            var request = new MoviePagingRequest()
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,

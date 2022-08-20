@@ -26,15 +26,14 @@ namespace MovieTheater.Application.Statistic
                 join s in _context.Screenings on m.Id equals s.MovieId
                 join r in _context.Reservations on s.Id equals r.ScreeningId into sr
                 from r in sr.DefaultIfEmpty()
-                join t in _context.Tickets on r.Id equals t.ReservationId
-                where r.Time.Date >= request.StartDate.Date && r.Time.Date <= request.EndDate.Date &&
-                      s.Active == true && r.Active == true
-                select new { s, m, t };
+                join i in _context.Invoices on r.Id equals i.ReservationId
+                where i.Date.Date >= request.StartDate.Date && i.Date.Date <= request.EndDate.Date
+                        select new{m,i};
 
-            var Revenue = await query.GroupBy(x => new { x.m.Name, x.m.Id }).Select(x => new
+                      var Revenue = await query.GroupBy(x => new { x.m.Name, x.m.Id }).Select(x => new
             {
                 Name = x.Key.Name,
-                Revenue = (decimal)x.Sum(sft => sft.t.Price)
+                Revenue = (decimal)x.Sum(sft => sft.i.Price)
             }).OrderByDescending(x => x.Revenue).ToListAsync();
 
             ChartData 

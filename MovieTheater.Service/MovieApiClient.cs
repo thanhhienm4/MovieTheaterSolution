@@ -91,7 +91,7 @@ namespace MovieTheater.Api
             return await DeleteAsync<bool>($"{ApiConstant.ApiMovie}/{ApiConstant.MovieDelete}", queryParams);
         }
 
-        public async Task<ApiResult<PageResult<MovieVMD>>> GetFilmPagingAsync(FilmPagingRequest request)
+        public async Task<ApiResult<PageResult<MovieVMD>>> GetFilmPagingAsync(MoviePagingRequest request)
         {
             return await PostAsync<PageResult<MovieVMD>>($"{ApiConstant.ApiMovie}/{ApiConstant.GetMoviePaging}",
                 request);

@@ -5,8 +5,11 @@ using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Reservation;
 using MovieTheater.Models.Common.ApiResult;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MovieTheater.Common.Constants;
 using MovieTheater.Models.Catalog.Invoice;
+using Rotativa;
+using Rotativa.AspNetCore;
 
 namespace MovieTheater.Admin.Controllers
 {
@@ -166,6 +169,15 @@ namespace MovieTheater.Admin.Controllers
 
             return RedirectToAction("Error", "Home");
         }
+
+        public IActionResult ListTicket(int id)
+        {
+            var result =  _reservationApiClient.GetReservationByIdAsync(id).Result;
+            return new ViewAsPdf(result.ResultObj);
+            //return View(result.ResultObj);
+        }
+
+        
 
 
     }

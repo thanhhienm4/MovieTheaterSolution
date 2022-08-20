@@ -25,7 +25,6 @@ namespace MovieTheater.WebApp
             services.AddControllersWithViews();
             services.AddTransient<CustomerApiClient, CustomerApiClient>();
             services.AddTransient<MovieApiClient, MovieApiClient>();
-            services.AddTransient<PeopleApiClient, PeopleApiClient>();
             services.AddTransient<ReservationApiClient, ReservationApiClient>();
             services.AddTransient<SeatApiClient, SeatApiClient>();
             services.AddTransient<SeatRowApiClient, SeatRowApiClient>();
@@ -33,7 +32,6 @@ namespace MovieTheater.WebApp
             services.AddTransient<ScreeningApiClient, ScreeningApiClient>();
             services.AddTransient<MovieCensorshipApiClient, MovieCensorshipApiClient>();
             services.AddTransient<StatisticApiClient, StatisticApiClient>();
-            services.AddTransient<PositionApiClient, PositionApiClient>();
             services.AddTransient<TicketApiClient, TicketApiClient>();
             services.AddTransient<InvoiceApiClient, InvoiceApiClient>();
 

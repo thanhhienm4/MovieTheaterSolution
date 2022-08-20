@@ -18,18 +18,14 @@ namespace MovieTheater.Data.Models
         }
 
         public virtual DbSet<Customer> Customers { get; set; }
-
-        public virtual DbSet<Actor> Actors { get; set; }
         public virtual DbSet<Auditorium> Auditoriums { get; set; }
         public virtual DbSet<AuditoriumFormat> AuditoriumFormats { get; set; }
         public virtual DbSet<CustomerType> CustomerTypes { get; set; }
-        public virtual DbSet<Joining> Joinings { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<MovieCensorship> MovieCensorships { get; set; }
         public virtual DbSet<MovieGenre> MovieGenres { get; set; }
         public virtual DbSet<MovieInGenre> MovieInGenres { get; set; }
         public virtual DbSet<PaymentStatus> PaymentStatuses { get; set; }
-        public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
         public virtual DbSet<ReservationType> ReservationTypes { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
@@ -62,15 +58,12 @@ namespace MovieTheater.Data.Models
             modelBuilder.ApplyConfiguration(new CustomerConfig());
             modelBuilder.ApplyConfiguration(new MovieCensorshipConfig());
             modelBuilder.ApplyConfiguration(new MovieGenreConfig());
-            modelBuilder.ApplyConfiguration(new ActorConfig());
             modelBuilder.ApplyConfiguration(new AuditoriumConfig());
             modelBuilder.ApplyConfiguration(new AuditoriumFormatConfig());
             modelBuilder.ApplyConfiguration(new CustomerTypeConfig());
-            modelBuilder.ApplyConfiguration(new JoiningConfig());
             modelBuilder.ApplyConfiguration(new MovieConfig());
             modelBuilder.ApplyConfiguration(new MovieInGenreConfig());
             modelBuilder.ApplyConfiguration(new PaymentStatusConfig());
-            modelBuilder.ApplyConfiguration(new PositionConfig());
             modelBuilder.ApplyConfiguration(new ReservationConfig());
             modelBuilder.ApplyConfiguration(new ReservationTypeConfig());
             modelBuilder.ApplyConfiguration(new RoleConfig());

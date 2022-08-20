@@ -21,10 +21,5 @@ namespace MovieTheater.Api
         {
             return await GetAsync<List<RoleVMD>>("/api/Role/GetAll");
         }
-
-        public async Task<ApiResult<List<RoleVMD>>> GetRolesOfUserAsync(Guid userId)
-        {
-            return await GetAsync<List<RoleVMD>>($"/api/Role/User/{userId}");
-        }
     }
 }

@@ -6,8 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MovieTheater.Api;
-using MovieTheater.Data.Models;
 using MovieTheater.Models.User;
+using Rotativa.AspNetCore;
 
 namespace MovieTheater.Admin
 {
@@ -27,7 +27,6 @@ namespace MovieTheater.Admin
             services.AddTransient<UserApiClient, UserApiClient>();
             services.AddTransient<RoleApiClient, RoleApiClient>();
             services.AddTransient<MovieApiClient, MovieApiClient>();
-            services.AddTransient<PeopleApiClient, PeopleApiClient>();
             services.AddTransient<ReservationApiClient, ReservationApiClient>();
             services.AddTransient<SeatApiClient, SeatApiClient>();
             services.AddTransient<SeatRowApiClient, SeatRowApiClient>();
@@ -35,7 +34,6 @@ namespace MovieTheater.Admin
             services.AddTransient<ScreeningApiClient, ScreeningApiClient>();
             services.AddTransient<MovieCensorshipApiClient, MovieCensorshipApiClient>();
             services.AddTransient<StatisticApiClient, StatisticApiClient>();
-            services.AddTransient<PositionApiClient, PositionApiClient>();
             services.AddTransient<TimeApiClient, TimeApiClient>();
             services.AddTransient<TicketPriceApiClient, TicketPriceApiClient>();
             services.AddTransient<SurchargeApiClient, SurchargeApiClient>();
@@ -89,6 +87,7 @@ namespace MovieTheater.Admin
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            RotativaConfiguration.Setup((Microsoft.AspNetCore.Hosting.IHostingEnvironment)env);
         }
     }
 }

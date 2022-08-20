@@ -9,7 +9,6 @@ namespace MovieTheater.Data.Models
     {
         public Movie()
         {
-            Joinings = new HashSet<Joining>();
             MovieInGenres = new HashSet<MovieInGenre>();
             Screenings = new HashSet<Screening>();
         }
@@ -24,7 +23,6 @@ namespace MovieTheater.Data.Models
         public string CensorshipId { get; set; }
 
         public virtual MovieCensorship Censorship { get; set; }
-        public virtual ICollection<Joining> Joinings { get; set; }
         public virtual ICollection<MovieInGenre> MovieInGenres { get; set; }
         public virtual ICollection<Screening> Screenings { get; set; }
     }

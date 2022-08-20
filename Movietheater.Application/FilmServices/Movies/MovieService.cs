@@ -97,7 +97,7 @@ namespace MovieTheater.Application.FilmServices.Movies
 
         public async Task<ApiResult<bool>> DeleteAsync(string id)
         {
-            using var transaction = _context.Database.BeginTransaction();
+            using var transaction = await _context.Database.BeginTransactionAsync();
             Movie movie = await _context.Movies.FindAsync(id);
             if (movie == null)
             {
@@ -109,9 +109,6 @@ namespace MovieTheater.Application.FilmServices.Movies
                     return new ApiErrorResult<bool>("Xóa thất bại");
                 try
                 {
-                    _context.Joinings.RemoveRange(_context.Joinings.Where(x => x.MovieId == id));
-                    _context.SaveChanges();
-
                     string poster = movie.Poster;
                     _context.Movies.Remove(movie);
                     _context.SaveChanges();
@@ -197,7 +194,7 @@ namespace MovieTheater.Application.FilmServices.Movies
             return new ApiSuccessResult<List<MovieVMD>>(Movies);
         }
 
-        public async Task<ApiResult<PageResult<MovieVMD>>> GetPagingAsync(FilmPagingRequest request)
+        public async Task<ApiResult<PageResult<MovieVMD>>> GetPagingAsync(MoviePagingRequest request)
         {
             var query = from m in _context.Movies
                 join c in _context.MovieCensorships on m.CensorshipId equals c.Id
@@ -334,20 +331,5 @@ namespace MovieTheater.Application.FilmServices.Movies
                 (fig, fg) => fg.Name).ToList();
         }
 
-        private List<string> GetActors(string id)
-        {
-            return _context.Joinings.Where(x => x.MovieId == id).Join(_context.Actors,
-                fig => fig.ActorId,
-                p => p.Id,
-                (fig, p) => p.Name).ToList();
-        }
-
-        private List<string> GetDirectors(string id)
-        {
-            return _context.Joinings.Where(x => x.MovieId == id).Join(_context.Actors,
-                fig => fig.ActorId,
-                p => p.Id,
-                (fig, p) => p.Name).ToList();
-        }
     }
 }

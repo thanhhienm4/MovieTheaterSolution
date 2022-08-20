@@ -9,11 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieTheater.Application.Common;
 using MovieTheater.Application.CustomerServices;
-using MovieTheater.Application.FilmServices.Actors;
 using MovieTheater.Application.FilmServices.MovieCensorshipes;
 using MovieTheater.Application.FilmServices.MovieGenres;
 using MovieTheater.Application.FilmServices.Movies;
-using MovieTheater.Application.FilmServices.Positions;
 using MovieTheater.Application.MailServices;
 using MovieTheater.Application.ReservationServices.InvoiceServices;
 using MovieTheater.Application.ReservationServices.Reservations;
@@ -59,7 +57,6 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IMovieCensorshipService, MovieCensorshipService>();
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IMovieGenreService, MovieGenreService>();
-            services.AddTransient<IActorService, ActorService>();
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IReservationTypeService, ReservationTypeService>();
             services.AddTransient<ITicketService, TicketService>();
@@ -73,7 +70,6 @@ namespace MovieTheater.BackEnd
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IMovieCensorshipService, MovieCensorshipService>();
             services.AddTransient<IStatisticService, StatisticService>();
-            services.AddTransient<IPositionService, PositionService>();
             services.AddTransient<IMailService, MailService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IVnPayService, VnPayService>();
