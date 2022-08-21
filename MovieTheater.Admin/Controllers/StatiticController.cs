@@ -51,71 +51,17 @@ namespace MovieTheater.Admin.Controllers
             return View(request);
         }
 
-        private async Task<DataTable> GetDataReport(CalRevenueRequest request)
+        public IActionResult DownloadMovieRevenue(DateTime fromDate, DateTime toDate)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Film");
-            dt.Columns.Add("Revenue");
-            dt.Columns.Add("Proportion");
-
-            var topRevenueFilm = (await _statisticApiClient.GetTopRevenueFilmAsync(request)).ResultObj;
-            DataRow row;
-            for (int i = 0; i < topRevenueFilm.Lables.Count; i++)
+            var data = _statisticApiClient.GetTopRevenueFilmAsync(new CalRevenueRequest()
             {
-                row = dt.NewRow();
-                row["Film"] = topRevenueFilm.Lables[i];
-                row["Revenue"] = topRevenueFilm.DataRows[1][i];
-                dt.Rows.Add(row);
-            }
-
-            return dt;
-        }
-
-        public async Task<string> FilmRevenueReport(FilmReportRequest request)
-        {
-            string mimetype = "";
-            int extenstion = 1;
-            CalRevenueRequest calRevenueRequest = new CalRevenueRequest()
-            {
-                StartDate = request.StartDate,
-                EndDate = request.EndDate
-            };
-
-            DataTable dt = await GetDataReport(calRevenueRequest);
-            var path = $"{this._webHostEnvironment.WebRootPath}\\Reports\\RprtFilm.rdlc";
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("prm",
-                $"Thống kê kết quả từ ngày {request.StartDate.ToString("dd/MM/yyyy")} đến ngày {request.EndDate.ToString("dd/MM/yyyy")}");
-            LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("TopRevenueFilm", dt);
-            ReportResult report;
-            FileContentResult file;
-
-            switch (request.RenderType)
-            {
-                case RenderType.Pdf:
-                {
-                    report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
-                    file = File(report.MainStream, "application/pdf");
-                    break;
-                }
-                    ;
-                case RenderType.Excel:
-                {
-                    report = localReport.Execute(RenderType.Excel, extenstion, parameters, mimetype);
-                    file = File(report.MainStream, "application/excel");
-                    break;
-                }
-                default:
-                {
-                    report = localReport.Execute(RenderType.Pdf, extenstion, parameters, mimetype);
-                    file = File(report.MainStream, "application/pdf");
-                    break;
-                }
-            }
-
-            var data = Convert.ToBase64String(file.FileContents);
-            return data;
+                EndDate = toDate,
+                StartDate = fromDate
+            }).Result;
+            var templateFileInfo = new FileInfo(Path.Combine(_webHostEnvironment.WebRootPath, "Template", "MovieRevenue.xlsx"));
+            var stream = Utils.GetExcelMovieRevenue(fromDate, toDate, data.ResultObj, templateFileInfo);
+            string timestamp = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToUpper().Replace(':', '_').Replace('.', '_').Replace(' ', '_').Trim();
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "MovieRevenue" + timestamp + ".xlsx");
         }
 
         [HttpGet]

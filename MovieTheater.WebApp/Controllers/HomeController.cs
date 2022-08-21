@@ -6,20 +6,20 @@ namespace MovieTheater.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ScreeningApiClient _screeningApiClient;
         private readonly MovieApiClient _filmApiClient;
 
-        public HomeController(ScreeningApiClient screeningApiClient, MovieApiClient filmApiClient)
+        public HomeController( MovieApiClient filmApiClient)
         {
-            _screeningApiClient = screeningApiClient;
             _filmApiClient = filmApiClient;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            ViewBag.SuccessMsg = TempData["Result"];
-            ViewData["PlayingFilms"] = (await _filmApiClient.GetAllPlayingFilmAsync()).ResultObj;
-            ViewData["UpcomingFilms"] = (await _filmApiClient.GetAllUpcomingFilmAsync()).ResultObj;
+            var playingFilms = _filmApiClient.GetAllPlayingFilmAsync();
+            var upComingFilms =  _filmApiClient.GetAllUpcomingFilmAsync();
+            Task.WaitAll(playingFilms, upComingFilms);
+            ViewData["PlayingFilms"] = playingFilms.Result.ResultObj;
+            ViewData["UpcomingFilms"] = upComingFilms.Result.ResultObj;
             return View();
         }
     }

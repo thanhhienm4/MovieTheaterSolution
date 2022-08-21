@@ -238,32 +238,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="ReportDataSets\TopFilmRevenue.Designer.cs">
-			<DependentUpon>TopFilmRevenue.xsd</DependentUpon>
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Update="Views\Login\ResetPassword.cshtml">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="ReportDataSets\TopFilmRevenue.xsc">
-			<DependentUpon>TopFilmRevenue.xsd</DependentUpon>
-		</None>
-		<None Update="ReportDataSets\TopFilmRevenue.xsd">
-			<SubType>Designer</SubType>
-			<LastGenOutput>TopFilmRevenue.Designer.cs</LastGenOutput>
-			<Generator>MSDataSetGenerator</Generator>
-		</None>
-		<None Update="ReportDataSets\TopFilmRevenue.xss">
-			<DependentUpon>TopFilmRevenue.xsd</DependentUpon>
-		</None>
 	</ItemGroup>
 
 </Project>

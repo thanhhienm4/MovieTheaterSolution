@@ -81,8 +81,8 @@
                     </div>
                 </div>
                 <div class="card-footer">
-
-                    <a class="btn btn-primary" onclick="dowloadFilmRevenue(@((int)RenderType.Excel))">Tải xuống file Excel</a>
+                    <a class="btn btn-primary" asp-action="DownloadMovieRevenue" asp-route-fromDate="@Model.StartDate"
+                       asp-route-toDate="@Model.EndDate">Export doanh thu</a>
                     <a class="btn btn-primary" asp-action="DownloadRawData" asp-route-fromDate="@Model.StartDate"
                        asp-route-toDate="@Model.EndDate">Export Rawdata</a>
                 </div>
@@ -143,41 +143,5 @@
     }
 
     showChar();
-    function dowloadFilmRevenue(mode) {
-        var fileName = "report";
-        var startDate = document.getElementById('startDate').value;
-        var endDate = document.getElementById('endDate').value;
-        $.ajax({
-            type: "POST",
-            url: "/Statitic/FilmRevenueReport",
-            data: { startDate: startDate, endDate: endDate, renderType: mode },
-            success: function(data) {
-                var linkSource;
-                var downloadLink;
-                var fileName;
-
-                switch (mode) {
-                case @((int)(RenderType.Pdf)):
-                {
-                    linkSource = `data:application/pdf;base64,${data}`;
-                    downloadLink = document.createElement("a");
-                    fileName = "TopDanhThu.pdf";
-                    break;
-                }
-                case @((int)(RenderType.Excel)):
-                {
-                    linkSource = `data:application/excel;base64,${data}`;
-                    downloadLink = document.createElement("a");
-                    fileName = "TopDanhThu.xls";
-                    break;
-                }
-                }
-
-                downloadLink.href = linkSource;
-                downloadLink.download = fileName;
-                downloadLink.click();
-            }
-        });
-    }
 
 </script>
