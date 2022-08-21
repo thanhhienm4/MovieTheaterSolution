@@ -163,11 +163,6 @@ namespace MovieTheater.Application.UserServices
             }
         }
 
-        public Task<ApiResult<bool>> RoleAssignAsync(RoleAssignRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ApiResult<UserVMD>> GetUserByIdAsync(string id)
         {
             var user = await _context.Staffs.Where(x => x.UserName == id).Select(x => new UserVMD()

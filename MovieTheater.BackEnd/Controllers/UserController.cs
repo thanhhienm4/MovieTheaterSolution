@@ -80,14 +80,6 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPut("RoleAssign")]
-        public async Task<ApiResult<bool>> RoleAssignAsync([FromBody] RoleAssignRequest request)
-        {
-            var result = await _userService.RoleAssignAsync(request);
-            return result;
-        }
-
         [AllowAnonymous]
         [HttpPost("ForgotStaffPassword")]
         public async Task<ApiResult<bool>> ForgotStaffPassword([FromBody] string mail)

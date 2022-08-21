@@ -18,8 +18,6 @@ namespace MovieTheater.Application.UserServices
 
         Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request);
 
-        Task<ApiResult<bool>> RoleAssignAsync(RoleAssignRequest request);
-
         Task<ApiResult<UserVMD>> GetUserByIdAsync(string id);
 
         Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request);
