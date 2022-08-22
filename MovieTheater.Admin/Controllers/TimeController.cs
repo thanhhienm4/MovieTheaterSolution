@@ -131,13 +131,13 @@ namespace MovieTheater.Admin.Controllers
         {
             ViewBag.DateOfWeek = new List<SelectListItem>()
             {
-                new SelectListItem() { Text = "Thứ 2", Value = "Mon" },
-                new SelectListItem() { Text = "Thứ 3", Value = "Tue" },
-                new SelectListItem() { Text = "Thứ 4", Value = "Web" },
-                new SelectListItem() { Text = "Thứ 5", Value = "Thus" },
-                new SelectListItem() { Text = "Thứ 6", Value = "Fri" },
-                new SelectListItem() { Text = "Thứ 7", Value = "Sat" },
-                new SelectListItem() { Text = "Chủ nhật", Value = "Sun" },
+                new SelectListItem() { Text = "Thứ 2", Value = "0" },
+                new SelectListItem() { Text = "Thứ 3", Value = "1" },
+                new SelectListItem() { Text = "Thứ 4", Value = "2" },
+                new SelectListItem() { Text = "Thứ 5", Value = "3" },
+                new SelectListItem() { Text = "Thứ 6", Value = "4" },
+                new SelectListItem() { Text = "Thứ 7", Value = "5" },
+                new SelectListItem() { Text = "Chủ nhật", Value = "6" },
             };
         }
     }

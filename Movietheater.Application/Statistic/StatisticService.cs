@@ -22,24 +22,23 @@ namespace MovieTheater.Application.Statistic
 
         public async Task<ApiResult<ChartData>> GetTopRevenueFilmAsync(CalRevenueRequest request)
         {
-            var query = from m in _context.Movies
-                join s in _context.Screenings on m.Id equals s.MovieId
+            var query = from s in _context.Screenings
+                join m in _context.Movies on s.MovieId equals m.Id
                 join r in _context.Reservations on s.Id equals r.ScreeningId into sr
-                from r in sr.DefaultIfEmpty()
-                join i in _context.Invoices on r.Id equals i.ReservationId
-                where i.Date.Date >= request.StartDate.Date && i.Date.Date <= request.EndDate.Date
-                        select new{m,i};
+                from mr in sr.DefaultIfEmpty()
+                where s.StartTime.Date >= request.StartDate.Date && s.StartTime.Date <= request.EndDate.Date
+                select new{m,mr};
 
-                      var Revenue = await query.GroupBy(x => new { x.m.Name, x.m.Id }).Select(x => new
+            var revenue = await query.GroupBy(x => new { x.m.Name, x.m.Id }).Select(x => new
             {
                 Name = x.Key.Name,
-                Revenue = (decimal)x.Sum(sft => sft.i.Price)
+                Revenue = (decimal)x.Sum(sft => sft.mr.Invoice.Price)
             }).OrderByDescending(x => x.Revenue).ToListAsync();
 
             ChartData 
                 chartData = new ChartData();
-            chartData.Lables = Revenue.Select(x => x.Name).ToList();
-            chartData.DataRows[0] = Revenue.Select(x => x.Revenue).ToList();
+            chartData.Lables = revenue.Select(x => x.Name).ToList();
+            chartData.DataRows[0] = revenue.Select(x => x.Revenue).ToList();
             return new ApiSuccessResult<ChartData>(chartData);
         }
 
@@ -56,7 +55,7 @@ namespace MovieTheater.Application.Statistic
             var query = from i in _context.Invoices
                 join r in _context.Reservations on i.ReservationId equals r.Id
                 join rt in _context.ReservationTypes on r.TypeId equals rt.Id
-                where i.Date.Date > request.StartDate && i.Date.Date < request.EndDate
+                where r.Screening.StartTime.Date >= request.StartDate.Date && r.Screening.StartTime.Date <= request.EndDate.Date
                 select new { rt, i};
 
             var revenue = await query.GroupBy(x => new { x.rt.Name }).Select(x => new
@@ -140,10 +139,10 @@ namespace MovieTheater.Application.Statistic
         public async Task<ApiResult<IList<InvoiceRawData>>> GetRawData(DateTime fromDate, DateTime toDate)
         {
             var res = await _context.Invoices
-                .Where(x => x.Date.Date  >= fromDate.Date && x.Date.Date <= toDate.Date)
                 .Include(x => x.Payment)
                 .Include(x => x.Reservation)
                 .Include(x => x.Reservation.Screening)
+                .Where(x => x.Reservation.Screening.StartTime >= fromDate.Date && x.Reservation.Screening.StartTime.Date <= toDate.Date)
                 .Include(x => x.Reservation.Screening.Movie)
                 .Include(x => x.Reservation.Screening.Auditorium.Format)
                 .Include(x => x.Reservation.Tickets)

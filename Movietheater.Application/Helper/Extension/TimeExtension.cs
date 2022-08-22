@@ -1,4 +1,6 @@
-﻿using MovieTheater.Data.Models;
+﻿using System;
+using System.Globalization;
+using MovieTheater.Data.Models;
 using MovieTheater.Models.Catalog.Price.Time;
 
 namespace MovieTheater.Application.Helper.Extension
@@ -18,9 +20,22 @@ namespace MovieTheater.Application.Helper.Extension
                     DateStart = time.DateStart,
                     HourEnd = time.HourEnd,
                     HourStart = time.HourStart,
-                    TimeId = time.TimeId
+                    TimeId = time.TimeId,
+                    DateEndName = GetNameTime(time.DateEnd),
+                    DateStartName = GetNameTime(time.DateStart)
                 };
             }
+        }
+
+        public static string GetNameTime(int n)
+        {
+            var firstMonday = DateTime.MinValue;
+            while (firstMonday.DayOfWeek != DayOfWeek.Monday)
+            {
+                firstMonday = firstMonday.AddDays(1);
+            }
+
+            return firstMonday.AddDays(n).ToString("ddd", new CultureInfo("vi-VN"));
         }
     }
 }
