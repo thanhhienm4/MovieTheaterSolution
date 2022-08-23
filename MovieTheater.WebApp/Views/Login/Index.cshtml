@@ -47,10 +47,10 @@
                                                placeholder="Mật khẩu" asp-for="Password">
                                         <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
-                                  @*  <div class="form-group">
+                                    <div class="form-group">
                                         <input type="text" class="form-control form-control-user"
-                                               placeholder="Mật khẩu" asp-for="RedirectUrl" value="@(ViewContext.url)">
-                                    </div>*@
+                                               placeholder="Mật khẩu" asp-for="RedirectUrl" value="@(ViewContext.HttpContext.Request.Query["RedirectURL"])" hidden>
+                                    </div>
                                     <div class="form-group">
                                         <div class="row col-auto">
 
