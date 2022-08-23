@@ -87,7 +87,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("GetListOfMovieInWeek/{filmId}")]
+        [HttpGet(ApiConstant.ScreeningGetListOfFimInWeek + "/{filmId}")]
         public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListScreeningOfMovieInWeek(string filmId)
         {
             var result = await _screeningService.GetListOfMovieInWeek(filmId);

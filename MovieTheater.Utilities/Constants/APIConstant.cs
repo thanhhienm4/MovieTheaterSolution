@@ -90,6 +90,7 @@
         public const string ScreeningUpdate = "Update";
         public const string ScreeningDelete = "Delete";
         public const string ScreeningGetById = "GetById";
+        public const string ScreeningGetListOfFimInWeek = "GetListOfFilmInWeek";
         public const string ScreeningGetByAuditorium = "GetByAuditorium";
         public const string ScreeningGetScreeningInDate = "GetSceeningInDate";
 

@@ -22,9 +22,9 @@ namespace MovieTheater.WebApp.Controllers
             return View(result);
         }
 
-        public async Task<IActionResult> ScreeningInWeek(int id)
+        public async Task<IActionResult> ScreeningInWeek(string id)
         {
-            var res = (await _screeningApiClient.GetListCreeningOfFilmInWeekAsync(id)).ResultObj;
+            var res = (await _screeningApiClient.GetListScreeningOfFilmInWeekAsync(id)).ResultObj;
             return View(res);
         }
 

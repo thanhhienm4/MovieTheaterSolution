@@ -14,7 +14,5 @@ namespace MovieTheater.Models.Catalog.Film
         public string Ban { get; set; }
         public string Poster { get; set; }
         public List<string> Genres { get; set; }
-        public List<string> Actors { get; set; }
-        public List<string> Directors { get; set; }
     }
 }

@@ -298,14 +298,14 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
 
             for (int i = 0; i <= 6; i++)
             {
-                var listScrening = screenings.Where(x => x.StartTime.Date == DateTime.Now.AddDays(i).Date).ToList();
-                sof.Screenings.Add(listScrening);
+                var screening = screenings.Where(x => x.StartTime.Date == DateTime.Now.AddDays(i).Date).ToList();
+                sof.Screenings.Add(screening);
             }
 
             return new ApiSuccessResult<ScreeningOfFilmInWeekVMD>(sof);
         }
 
-        public bool CheckTime(string movieId, string auditoriumId, DateTime time, int? screeningId = null)
+        public bool CheckTime(string movieId, string auditoriumId, DateTime time, int? screeningId = Int32.MinValue)
         {
             var parameterReturn = new SqlParameter
             {

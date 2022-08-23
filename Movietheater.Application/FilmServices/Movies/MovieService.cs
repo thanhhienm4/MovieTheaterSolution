@@ -135,7 +135,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                 Id = x.m.Id,
                 Name = x.m.Name,
                 PublishDate = x.m.PublishDate,
-                Ban = x.c.Name,
+                Ban = x.c.Id,
                 Poster = $"{_configuration["BackEndServer"]}/" +
                          $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                 Description = x.m.Description,
@@ -160,7 +160,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                 Id = x.m.Id,
                 Name = x.m.Name,
                 PublishDate = x.m.PublishDate,
-                Ban = x.c.Name,
+                Ban = x.c.Id,
                 Poster = $"{_configuration["BackEndServer"]}/" +
                          $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                 Description = x.m.Description,
@@ -183,7 +183,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                 Id = x.m.Id,
                 Name = x.m.Name,
                 PublishDate = x.m.PublishDate,
-                Ban = x.c.Name,
+                Ban = x.c.Id,
                 Poster = $"{_configuration["BackEndServer"]}/" +
                          $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                 Description = x.m.Description,
@@ -213,7 +213,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                     Id = x.m.Id,
                     Name = x.m.Name,
                     PublishDate = x.m.PublishDate,
-                    Ban = x.c.Name,
+                    Ban = x.c.Id,
                     Poster = $"{_configuration["BackEndServer"]}/" +
                              $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                     Description = x.m.Description,
@@ -281,7 +281,7 @@ namespace MovieTheater.Application.FilmServices.Movies
                     Length = x.m.Length,
                     Name = x.m.Name,
                     PublishDate = x.m.PublishDate,
-                    Ban = x.c.Name,
+                    Ban = x.c.Id,
                     Poster = $"{_configuration["BackEndServer"]}/" +
                              $"{FileStorageService.UserContentFolderName}/{x.m.Poster}",
                     Description = x.m.Description,
@@ -325,10 +325,7 @@ namespace MovieTheater.Application.FilmServices.Movies
 
         private List<string> GetGenres(string id)
         {
-            return _context.MovieInGenres.Where(x => x.MovieId == id).Join(_context.MovieGenres,
-                fig => fig.MovieId,
-                fg => fg.Id,
-                (fig, fg) => fg.Name).ToList();
+            return _context.MovieInGenres.Where(x => x.MovieId == id).Select(x => x.Genre.Name).ToList();
         }
 
     }

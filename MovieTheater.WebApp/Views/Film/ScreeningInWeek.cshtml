@@ -1,68 +1,41 @@
 ﻿@using MovieTheater.Models.Catalog.Screening
+@using Microsoft.AspNetCore.Html
+@using System.Globalization
 @model ScreeningOfFilmInWeekVMD
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container">
-    <div class="card" style="background-color: #18043d">
-        <div class="row">
-            <div class="col-3">
-                <img class="img-fluid" src="@Model.Movie.Poster"/>
-            </div>
-            <div class="col-9 style=" color:white"">
-                <h1 style="color: red">@Model.Movie.Name</h1>
-                <div class="row">
-
-                    <div class="col-11 text-justify">
-                        <p>@Model.Movie.Description</p>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="row">
-                        <p>Giới hạn: @Model.Movie.Ban</p>
-                        <div class="col-1"></div>
-
-                        <p>Thể loại:</p>
-                        <div class="col-3">
-                            @if (Model.Movie.Genres != null)
-                            {
-                                <p>@string.Join(" ", Model.Movie.Genres)</p>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="row">
-
-                        <p>Diễn viên:&nbsp;</p>
-
-                        @if (Model.Movie.Actors != null)
-                        {
-                            <p>@string.Join(" ", Model.Movie.Actors)</p>
-                        }
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="row">
-
-                        <p>Đạo diễn:&nbsp;</p>
-
-                        @if (Model.Movie.Genres != null)
-                        {
-                            <p>@string.Join(" ", Model.Movie.Directors)</p>
-                        }
-                    </div>
-                </div>
-            </div>
+    <div class="banner">
+        <img class="img-banner" src="@Model.Movie.Poster" title="poster"/>
+        <div class="overlay">
         </div>
+        <div class="text-wrapper">
+            <h1>@Model.Movie.Name</h1>
+            <h5>@string.Join(" ", Model.Movie.Genres)</h5>
+            <h5 style="display: flex; align-items: center">
+                <img src="https://img.icons8.com/ios/20/ffffff/clock--v1.png"/>
+                &nbsp;
+                @Model.Movie.Length phút  &nbsp;&nbsp;
+
+                <img src="https://img.icons8.com/external-those-icons-fill-those-icons/20/ffffff/external-Check-user-actions-those-icons-fill-those-icons.png"/>
+                &nbsp;
+                @Model.Movie.Ban
+            </h5>
+        </div>
+    </div>
+
+    <div class="d-flex caution">
+        Nhấn vào suất chiếu để tiến hành mua vé!
     </div>
     @for (int i = 0; i <= 6; i++)
     {
+        <br/>
         <div class="card">
             <div class="card-header">
+                @DateTime.Now.AddDays(i).ToString("ddd", new CultureInfo("vi-VN"))
+                &nbsp;
                 @DateTime.Now.AddDays(i).ToString("dd/MM/yyy")
             </div>
             <div class="card-body container-fluid">
@@ -70,14 +43,63 @@
                 {
                     if (screening.StartTime.AddMinutes(30) > DateTime.Now)
                     {
-                        <a class="btn  time mr-2" href="/ticket/chooseseat/@screening.Id">@screening.StartTime.ToString("HH:mm")</a>
+                        <a class="btn time mr-2" href="/ticket/chooseseat/@screening.Id">@screening.StartTime.ToString("HH:mm")</a>
                     }
                     else
                     {
-                        <a class="btn btn-secondary time mr-2" style="cursor: no-drop">@screening.StartTime.ToString("HH:mm")</a>
+                        <a class="btn time btn-secondary mr-2" style="cursor: no-drop">@screening.StartTime.ToString("HH:mm")</a>
                     }
                 }
             </div>
         </div>
     }
 </div>
+<style>
+    .custom {
+        width: 160px !important;
+        border-radius: 0px;
+    }
+
+    .time { border: 1px solid #c7d6ec !important; }
+
+    .caution {
+        background-color: #f6c343;
+        padding: 8px;
+        margin: 10px 0px 0px 0px;
+        color: #283e59;
+    }
+    .banner {
+        height: 200px;
+        position: relative;
+        overflow: hidden;
+
+    }
+    .overlay {
+        position: absolute;
+        right: 0px;
+        left: 0px;
+        top: 0px;
+        bottom: 0px;
+        background: rgba(0, 0, 0, 0.8);
+
+    }
+
+    .img-banner {
+        width: 100%;
+        height: auto;
+    }
+
+    .text-wrapper {
+        flex-direction: column;
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+
+    }
+    .custom:hover { background-color: #c7d6ec !important; }
+</style>

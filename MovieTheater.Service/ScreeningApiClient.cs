@@ -74,9 +74,10 @@ namespace MovieTheater.Api
                 $"{ApiConstant.ApiScreening}/{ApiConstant.ScreeningGetPaging}", request);
         }
 
-        public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListCreeningOfFilmInWeekAsync(int filmId)
+        public async Task<ApiResult<ScreeningOfFilmInWeekVMD>> GetListScreeningOfFilmInWeekAsync(string filmId)
         {
-            return await GetAsync<ScreeningOfFilmInWeekVMD>($"Api/Screening/GetListCreeningOfFilmInWeek/{filmId}");
+            return await GetAsync<ScreeningOfFilmInWeekVMD>($"{ApiConstant.ApiScreening}/" +
+                                                            $"{ApiConstant.ScreeningGetListOfFimInWeek}/{filmId}");
         }
     }
 }
