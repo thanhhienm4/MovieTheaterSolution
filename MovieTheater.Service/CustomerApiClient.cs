@@ -30,17 +30,13 @@ namespace MovieTheater.Api
 
         public async Task<ApiResult<bool>> UpdateCustomerAsync(UserUpdateRequest request)
         {
-            return await PutAsync<bool>("Api/User/UpdateCustomer", request);
+            return await PutAsync<bool>($"{ApiConstant.ApiCustomer}/{ApiConstant.CustomerUpdate}", request);
         }
 
-        public async Task<ApiResult<PageResult<UserVMD>>> GetUserPagingAsync(UserPagingRequest request)
-        {
-            return await PostAsync<PageResult<UserVMD>>("/api/User/GetUserPaging", request);
-        }
 
         public async Task<ApiResult<UserVMD>> GetCustomerByIdAsync(string id)
         {
-            return await GetAsync<UserVMD>($"Api/User/GetCustomerById/{id}");
+            return await GetAsync<UserVMD>($"{ApiConstant.ApiCustomer}/{ApiConstant.CustomerGetById}/{id}");
         }
 
         public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)

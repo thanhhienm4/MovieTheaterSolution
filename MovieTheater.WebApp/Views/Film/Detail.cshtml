@@ -9,34 +9,36 @@
 }
 
 <div class="banner">
-        <img class="img-banner" src="@Model.Poster" title="poster"/>
-        <div class="overlay">
-        </div>
-        <div class="container">
-            <div class="text-wrapper">
-                <h1>@Model.Name</h1>
-                <h5>@string.Join(" ", @Model.Genres)</h5>
-                <h5 style="display: flex; align-items: center">
-                    <img src="https://img.icons8.com/ios/20/ffffff/clock--v1.png"/>
-                    &nbsp;
-                    @Model.Length phút  &nbsp;&nbsp;
+    <img class="img-banner" src="@Model.Poster" title="poster"/>
+    <div class="overlay">
+    </div>
+    <div class="container">
+        <div class="text-wrapper">
+            <h1>@Model.Name</h1>
+            <h5>@string.Join(" ", @Model.Genres)</h5>
+            <h5 style="display: flex; align-items: center">
+                <img src="https://img.icons8.com/ios/20/ffffff/clock--v1.png"/>
+                &nbsp;
+                @Model.Length phút &nbsp;&nbsp;
 
-                    <img src="https://img.icons8.com/external-those-icons-fill-those-icons/20/ffffff/external-Check-user-actions-those-icons-fill-those-icons.png"/>
-                    &nbsp;
-                    @Model.Ban
-                </h5>
-                <p>
-                    @(new HtmlString(Model.Description))
-                </p>
-                <iframe width="100%" height="400px" src="@Model.TrailerURL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                <img src="https://img.icons8.com/external-those-icons-fill-those-icons/20/ffffff/external-Check-user-actions-those-icons-fill-those-icons.png"/>
+                &nbsp;
+                @Model.Ban
+            </h5>
+            <p>
+                @(new HtmlString(Model.Description))
+            </p>
+            <iframe width="100%" height="400px" src="@Model.TrailerURL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 
-                </iframe>
-                <a class="btn btn-danger w-100" style="margin: 20px"
-                   asp-controller="Film"
-                   asp-action="ScreeningInWeek" asp-route-id="@Model.Id">Đặt vé</a>
-            </div>
+            </iframe>
+            <a class="btn btn-danger w-100" style="margin: 20px"
+               asp-controller="Film"
+               asp-action="ScreeningInWeek" asp-route-id="@Model.Id">
+                Đặt vé
+            </a>
         </div>
-        </div>
+    </div>
+</div>
 <hr/>
 
 
@@ -84,12 +86,14 @@
         margin: 10px 0px 0px 0px;
         color: #283e59;
     }
+
     .banner {
         position: relative;
         overflow: hidden;
         flex-wrap: wrap;
         display: flex
     }
+
     .overlay {
         position: absolute;
         right: 0px;
@@ -97,7 +101,6 @@
         top: 0px;
         bottom: 0px;
         background: rgba(0, 0, 0, 0.85);
-
     }
 
     .img-banner {
@@ -118,7 +121,7 @@
         flex-wrap: wrap;
         margin: 50px auto !important;
         max-width: 720px;
-
     }
+
     .custom:hover { background-color: #c7d6ec !important; }
 </style>

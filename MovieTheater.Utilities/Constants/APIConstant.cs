@@ -29,6 +29,8 @@
         public const string CustomerTypeGetAll = "GetAllCustomerType";
         public const string CustomerForgotPassword = "ForgotPassword";
         public const string CustomerChangePassword = "ChangePassword";
+        public const string CustomerGetById = "GetById";
+        public const string CustomerUpdate = "Update";
 
         #endregion Customerr
 

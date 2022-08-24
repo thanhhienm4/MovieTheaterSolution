@@ -1,34 +1,47 @@
 ﻿@model MovieTheater.Models.User.UserUpdateRequest
-@using MovieTheater.Data.Enums
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-<div class="container">
-    <div class="breadcrumb mb-4 d-flex justify-content-center" style="color: red; font-weight: 700">THÔNG TIN CÁ NHÂN</div>
-</div>
-<div class="container">
-    <div id="btnEdit" class="p-2">
-        <a class="btn btn-success" href="javascript:enableElements()">Chỉnh sửa</a>
-    </div>
-</div>
-
-<div class="container">
-    <div class="card">
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            Thông tin cá nhân
+        </div>
+        <div id="btnEdit" class="p-2">
+            <a class="btn btn-success" href="javascript:enableElements()">Chỉnh sửa</a>
+        </div>
+        <div class="card">
         <div class="card-body">
             <form action="/User/Edit" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <input asp-for="UserName" class="form-control" hidden/>
+                    <input asp-for="UserName" class="form-control" hidden />
+                    <input asp-for="Email" class="form-control" hidden/>
                 </div>
-
+                <div class="form-row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input id="email" value="@Model.Email" class="form-control" disabled/>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label asp-for="Dob" class="control-label"></label>
+                            <input id="dob" asp-for="Dob" class="form-control" disabled type="date"/>
+                            <span asp-validation-for="Dob" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-row">
                     <div class="col-md">
                         <div class="form-group">
                             <label asp-for="LastName" class="control-label"></label>
-                            <input id="input1" asp-for="LastName" class="form-control" disabled/>
+                            <input id="lastName" asp-for="LastName" class="form-control" disabled/>
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                     </div>
@@ -36,54 +49,37 @@
                     <div class="col-md">
                         <div class="form-group">
                             <label asp-for="FirstName" class="control-label"></label>
-                            <input id="input2" asp-for="FirstName" class="form-control" disabled/>
+                            <input id="firstName" asp-for="FirstName" class="form-control" disabled/>
                             <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
                     </div>
-
-                    <div class="col-md">
-                        <div class="form-group">
-                            <label asp-for="Dob" class="control-label"></label>
-                            <input id="input3" asp-for="Dob" class="form-control" type="date" disabled/>
-                            <span asp-validation-for="Dob" class="text-danger"></span>
-                        </div>
-                    </div>
                 </div>
-
-
                 <div class="form-row">
                     <div class="col-md">
                         <div class="form-group">
-                            <label asp-for="Email" class="control-label"></label>
-                            <input id="input5" asp-for="Email" class="form-control" disabled/>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-md">
-                        <div class="form-group">
                             <label asp-for="PhoneNumber" class="control-label"></label>
-                            <input id="input6" asp-for="PhoneNumber" class="form-control" disabled/>
+                            <input id="phone" asp-for="PhoneNumber" class="form-control" disabled/>
                             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-
+                
                 <div id="btnSave" class="form-group d-flex justify-content-center invisible">
                     <input type="submit" value="Lưu thay đổi" class="btn btn-primary"/>
                 </div>
             </form>
         </div>
     </div>
+    </div>
 </div>
+
 <script>
     function enableElements() {
-        document.getElementById("input1").disabled = false;
-        document.getElementById("input2").disabled = false;
-        document.getElementById("input3").disabled = false;
+        document.getElementById("phone").disabled = false;
+        document.getElementById("dob").disabled = false;
 
-        document.getElementById("input5").disabled = false;
-        document.getElementById("input6").disabled = false;
+        document.getElementById("lastName").disabled = false;
+        document.getElementById("firstName").disabled = false;
         document.getElementById("btnEdit").style.display = 'none';
         document.getElementById("btnSave").className = "form-group d-flex justify-content-center visible";
     }

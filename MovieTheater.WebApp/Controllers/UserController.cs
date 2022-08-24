@@ -109,7 +109,7 @@ namespace MovieTheater.WebApp.Controllers
             var result = (await _customerApiClient.GetCustomerByIdAsync(id));
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
-            ViewBag.UserName = result.ResultObj.UserName;
+            ViewBag.UserName = result.ResultObj.Email;
             return View();
         }
 

@@ -13,29 +13,43 @@
             Chi tiết đặt hàng
         </div>
     </div>
-        <div class="container h-100">
+    <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-10">
                 <div class="card" style="border-radius: 10px;">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
-                                <p><span class="font-weight-bold">Mã đơn hàng:</span> @Model.Id</p>
-                                <p><span class="font-weight-bold">Tên phim:</span> @Model.MovieName</p>
-                                <p><span class="font-weight-bold">Thời gian bắt đầu:</span> @Model.StartTime.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")</p>
+                                <p>
+                                    <span class="font-weight-bold">Mã đơn hàng:</span> @Model.Id
+                                </p>
+                                <p>
+                                    <span class="font-weight-bold">Tên phim:</span> @Model.MovieName
+                                </p>
+                                <p>
+                                    <span class="font-weight-bold">Thời gian bắt đầu:</span> @Model.StartTime.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")
+                                </p>
 
                             </div>
                             <div class="col-6">
                                 @if (!string.IsNullOrEmpty(Model.Employee))
                                 {
-                                    <p><span class="font-weight-bold">Nhân viên:</span> @Model.EmployeeName</p>
+                                    <p>
+                                        <span class="font-weight-bold">Nhân viên:</span> @Model.EmployeeName
+                                    </p>
                                 }
                                 else
                                 {
-                                    <p><span class="font-weight-bold">Khách hàng:</span> @Model.CustomerName</p>
+                                    <p>
+                                        <span class="font-weight-bold">Khách hàng:</span> @Model.CustomerName
+                                    </p>
                                 }
-                                <p><span class="font-weight-bold">Thời gian đặt:</span> @Model.Time.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")</p>
-                                <p><span class="font-weight-bold">Định dạng:</span> @Model.AuditoriumFormatName</p>
+                                <p>
+                                    <span class="font-weight-bold">Thời gian đặt:</span> @Model.Time.ToString("HH:mm") @Model.StartTime.ToString("dd-MM-yyyy")
+                                </p>
+                                <p>
+                                    <span class="font-weight-bold">Định dạng:</span> @Model.AuditoriumFormatName
+                                </p>
                                 @*<p><span class="font-weight-bold">Mã đơn hàng:</span> @Model.Id</p>*@
                             </div>
                         </div>
@@ -57,11 +71,11 @@
                                     Giá vé
                                 </th>
                             </tr>
-                            @for (var i=0 ;i < Model.Tickets.Count; i++)
+                            @for (var i = 0; i < Model.Tickets.Count; i++)
                             {
                                 <tr>
                                     <td class="text-center">
-                                        @(i +1)
+                                        @(i + 1)
                                     </td>
                                     <td class="text-center">
                                         @Model.Tickets[i].Seat
@@ -78,7 +92,7 @@
                                 </tr>
                             }
                         </table>
-                      
+
 
                         <div class="d-flex justify-content-between pt-2">
                             <p class="fw-bold mb-0"></p>

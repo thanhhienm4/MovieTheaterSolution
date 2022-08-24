@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using MovieTheater.Common.Constants;
 using MovieTheater.Models.Common.ApiResult;
 using MovieTheater.Models.Common.Paging;
-using MovieTheater.Models.Identity.Role;
 using MovieTheater.Models.User;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -48,10 +47,6 @@ namespace MovieTheater.Api
             return await GetAsync<UserVMD>($"Api/User/GetUserById/{id}");
         }
 
-        public async Task<ApiResult<UserVMD>> GetCustomerByIdAsync(string id)
-        {
-            return await GetAsync<UserVMD>($"Api/User/GetCustomerById/{id}");
-        }
 
         public async Task<ApiResult<bool>> ChangePasswordAsync(ChangePwRequest request)
         {

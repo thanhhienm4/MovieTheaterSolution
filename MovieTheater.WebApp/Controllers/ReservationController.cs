@@ -92,7 +92,7 @@ namespace MovieTheater.WebApp.Controllers
                     });
                 }
                 else
-                    return View();
+                    return Redirect($"/Reservation/Detail/{rvId}");
             }
             else
             {

@@ -129,7 +129,7 @@
     .caution {
         background-color: #f6c343;
         padding: 8px;
-        margin: 10px 0px 0px 0px;
+        margin: 10px 0px 0px 0;
         color: #283e59;
     }
 
@@ -347,11 +347,8 @@
                                                     deleteTicket(data);
                                                     connection.invoke('enableSeat', @Model.ScreeningId, parseInt(data.SeatId));
                                                 }
-
                                                 checkExist();
                                                 callPrePrice();
-
-
                                             });
 
                                         }

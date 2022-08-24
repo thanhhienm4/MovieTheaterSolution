@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Application.CustomerServices;
 using MovieTheater.Application.UserServices;
@@ -8,7 +9,6 @@ using MovieTheater.Models.User;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MovieTheater.BackEnd.Controllers
 {
@@ -31,7 +31,7 @@ namespace MovieTheater.BackEnd.Controllers
         }
 
         [HttpPost(ApiConstant.CustomerRegister)]
-        public async Task<ApiResult<bool>> CreateStaffAsync([FromBody] UserRegisterRequest request)
+        public async Task<ApiResult<bool>> RegisterAsync([FromBody] UserRegisterRequest request)
         {
             var result = await _customerService.RegisterAsync(request);
             return result;
@@ -44,13 +44,12 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        //[Authorize(Roles = "Admin,EmployeeName")]
-        //[HttpPut("UpdateStaff")]
-        //public async Task<ApiResult<bool>> UpdateAsync([FromBody] UserUpdateRequest request)
-        //{
-        //    var result = await _customerService.UpdateAsync(request);
-        //    return result;
-        //}
+        [HttpPut(ApiConstant.CustomerUpdate)]
+        public async Task<ApiResult<bool>> UpdateAsync([FromBody] UserUpdateRequest request)
+        {
+            var result = await _customerService.UpdateAsync(request);
+            return result;
+        }
 
         //[HttpPost("CreateCustomer")]
         //public async Task<ApiResult<bool>> CreateCustomerAsync([FromBody] UserCreateRequest request)
@@ -91,22 +90,14 @@ namespace MovieTheater.BackEnd.Controllers
         //    return result;
         //}
 
-        //[Authorize]
-        //[HttpGet("GetUserById/{id}")]
-        //public async Task<ApiResult<UserVMD>> GetUserById(Guid id)
-        //{
-        //    var result = await _customerService.GetUserByIdAsync(id);
-        //    return result;
-        //}
 
-
-        //[Authorize]
-        //[HttpGet("GetCustomerById/{id}")]
-        //public async Task<ApiResult<UserVMD>> GetCustomerById(Guid id)
-        //{
-        //    var result = await _customerService.GetCustomerByIdAsync(id);
-        //    return result;
-        //}
+        [Authorize]
+        [HttpGet(ApiConstant.CustomerGetById + "/{id}")]
+        public async Task<ApiResult<CustomerVMD>> GetCustomerById(string id)
+        {
+            var result = await _customerService.GetById(id);
+            return result;
+        }
 
 
         [AllowAnonymous]
@@ -117,12 +108,5 @@ namespace MovieTheater.BackEnd.Controllers
             return result;
         }
 
-        //[AllowAnonymous]
-        //[HttpPost("ResetPassword")]
-        //public async Task<ApiResult<bool>> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
-        //{
-        //    var result = await _customerService.ResetPasswordAsync(request);
-        //    return result;
-        //}
     }
 }

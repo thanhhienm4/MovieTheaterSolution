@@ -68,11 +68,13 @@
                                         </div>
                                     </div>
 
-
                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                    <input type="submit" class="btn btn-primary w-100" value="Đăng nhập">
-                                      
-
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary w-100" value="Đăng nhập">
+                                    </div>
+                                    <div class="text-center form-group">
+                                        <a class="small" asp-controller="User" asp-action="Create">Đăng kí</a>
+                                    </div>
                                     <div style="padding-bottom: 7rem"></div>
 
                                     @section Scripts{

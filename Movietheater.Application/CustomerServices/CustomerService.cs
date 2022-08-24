@@ -108,7 +108,7 @@ namespace MovieTheater.Application.CustomerServices
 
         public async Task<ApiResult<bool>> UpdateAsync(UserUpdateRequest request)
         {
-            var customer = await _context.Customers.Where(x => x.Mail == request.UserName).FirstOrDefaultAsync();
+            var customer = await _context.Customers.Where(x => x.Mail == request.Email).FirstOrDefaultAsync();
             if (customer == null)
                 return new ApiErrorResult<bool>("Không tồn tại user");
             else

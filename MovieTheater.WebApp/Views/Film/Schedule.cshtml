@@ -27,7 +27,7 @@
                     dateChoose = DateTime.Parse(ViewContext.HttpContext.Request.Query["date"]);
                 if (date.Date == dateChoose.Date)
                 {
-                    <a class="btn custom" style="background-color: #c7d6ec !important;" href="/retail/index?date=@date.ToString("d")" data-date="@date">
+                    <a class="btn custom" style="background-color: #c7d6ec !important;" href="/film/schedule?date=@date.ToString("d")" data-date="@date">
                         @date.Day/@date.Month
                         <div class="row justify-content-center">
                             @date.ToString("ddd", new CultureInfo("vi-VN"))
