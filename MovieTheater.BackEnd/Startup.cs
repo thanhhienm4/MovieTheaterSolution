@@ -167,6 +167,7 @@ namespace MovieTheater.BackEnd
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ReservationHub>("/reservationHub");
+                endpoints.MapHub<CountAccessHub>("/countAccessHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
