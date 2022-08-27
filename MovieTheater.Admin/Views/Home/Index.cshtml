@@ -232,7 +232,10 @@
             success: function(res) {
 
                 var monthRevenue = document.getElementById("monthRevenue");
-                monthRevenue.innerHTML = res.toString();
+                monthRevenue.innerHTML = res.toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                });;
 
             }
         });
@@ -245,7 +248,10 @@
             success: function(res) {
 
                 var yearRevenue = document.getElementById("yearRevenue");
-                yearRevenue.innerHTML = res.toString();
+                yearRevenue.innerHTML = res.toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                });;
 
             }
         });

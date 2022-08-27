@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Api;
 using MovieTheater.Common.Constants;
@@ -15,20 +16,28 @@ namespace MovieTheater.WebApp.Controllers
     {
         private readonly TicketApiClient _ticketApiClient;
         private readonly ReservationApiClient _reservationApiClient;
+        private readonly ScreeningApiClient _screeningApiClient;
 
         public TicketController(ReservationApiClient reservationApiClient,
-            TicketApiClient ticketApiClient)
+            TicketApiClient ticketApiClient, ScreeningApiClient screeningApiClient)
         {
             _reservationApiClient = reservationApiClient;
             _ticketApiClient = ticketApiClient;
+            _screeningApiClient = screeningApiClient;
         }
 
         [AllowAnonymous]
-        public Task<IActionResult> ChooseSeat(int id)
+        public async Task<IActionResult> ChooseSeat(int id)
         {
             if (User.Identity!.IsAuthenticated == false)
             {
-                return Task.FromResult<IActionResult>(Redirect($"/login/Index?RedirectURL=/Ticket/ChooseSeat/{id}"));
+                return Redirect($"/login/Index?RedirectURL=/Ticket/ChooseSeat/{id}");
+            }
+
+            var screening = _screeningApiClient.GetScreeningMDByIdAsync(id).Result.ResultObj;
+            if (screening.StartTime.AddMinutes(GgTheaterConstant.MinuteLate) < DateTime.Now)
+            {
+                return RedirectToAction("Error", "Home");
             }
 
             var reservation = _reservationApiClient.CreateAsync(new ReservationCreateRequest()
@@ -41,7 +50,7 @@ namespace MovieTheater.WebApp.Controllers
                 ReservationTypeId = ReservationType.Online
             }).Result;
 
-            return Task.FromResult<IActionResult>(Redirect($"/Reservation/Create/{reservation.ResultObj}"));
+            return Redirect($"/Reservation/Create/{reservation.ResultObj}");
         }
 
         [Authorize]

@@ -9,17 +9,10 @@ namespace MovieTheater.WebApp.Controllers
     public class ScreeningController : Controller
     {
         private readonly SeatApiClient _seatApiClient;
-        private readonly ScreeningApiClient _screeningApiClient;
-        private readonly AuditoriumApiClient _roomApiClient;
-        private readonly MovieApiClient _filmApiClient;
 
-        public ScreeningController(SeatApiClient seatApiClient, ScreeningApiClient screeningApiClient,
-            AuditoriumApiClient roomApiClient, MovieApiClient filmApiClient)
+        public ScreeningController(SeatApiClient seatApiClient)
         {
             _seatApiClient = seatApiClient;
-            _screeningApiClient = screeningApiClient;
-            _roomApiClient = roomApiClient;
-            _filmApiClient = filmApiClient;
         }
 
         [HttpGet]

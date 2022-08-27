@@ -20,6 +20,6 @@ namespace MovieTheater.Application.SeatServices.Seats
 
         Task<ApiResult<bool>> UpdateInRoomAsync(SeatsInRoomUpdateRequest request);
 
-        Task<ApiResult<List<SeatModel>>> GetListReserved(int screeningId);
+        Task<ApiResult<List<SeatModel>>> GetListReserve(int screeningId);
     }
 }

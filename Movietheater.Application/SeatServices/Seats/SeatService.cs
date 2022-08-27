@@ -110,6 +110,11 @@ namespace MovieTheater.Application.SeatServices.Seats
             if (auditorium == null)
                 return new ApiErrorResult<bool>("Phòng chiếu không tồn tại");
 
+            if (_context.Reservations.Any(x => x.Screening.AuditoriumId == request.AuditoriumId))
+            {
+                return new ApiErrorResult<bool>("Không thể cập nhật");
+            }
+
             var seats = await _context.Seats.Where(x => x.AuditoriumId == request.AuditoriumId).ToListAsync();
 
             if (request.Seats == null)
@@ -134,8 +139,6 @@ namespace MovieTheater.Application.SeatServices.Seats
                 }
             }
 
-            _context.UpdateRange(seats);
-
             var newSeats = request.Seats.Where(x =>
                     !seats.Any(y => x.AuditoriumId == y.AuditoriumId && x.RowId == y.RowId && x.Number == y.Number))
                 .Select(x => new Seat()
@@ -147,21 +150,24 @@ namespace MovieTheater.Application.SeatServices.Seats
                     IsActive = true,
                 });
 
-            _context.AddRange(newSeats);
+            await using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                _context.UpdateRange(seats);
+                _context.AddRange(newSeats);
                 await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
             }
-            catch (DbUpdateException)
+            catch (Exception)
             {
+                await transaction.RollbackAsync();
                 return new ApiErrorResult<bool>(
-                    "phòng đã có suất chiếu, chỉ được thêm ghế, vui lòng kiểm tra lại thông tin");
+                    "Lỗi");
             }
-
-            return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
         }
 
-        public async Task<ApiResult<List<SeatModel>>> GetListReserved(int reservationId)
+        public async Task<ApiResult<List<SeatModel>>> GetListReserve(int reservationId)
         {
             var res = _context.SeatModel.FromSqlRaw("GetSeatInScreening {0}", reservationId).ToList();
             return new ApiSuccessResult<List<SeatModel>>(res);

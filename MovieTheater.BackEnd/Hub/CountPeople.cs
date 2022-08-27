@@ -8,7 +8,7 @@ namespace MovieTheater.BackEnd.Hub
     public class CountAccessHub : Microsoft.AspNetCore.SignalR.Hub
     {
         private const string Admin = "Admin";
-        private static readonly HashSet<string> _connections = new HashSet<string>();
+        private static readonly HashSet<string> Connections = new HashSet<string>();
 
         public CountAccessHub():base()
         {
@@ -17,28 +17,26 @@ namespace MovieTheater.BackEnd.Hub
 
         public override async Task OnConnectedAsync()
         {
-            _connections.Add(Context.ConnectionId);
-            Console.WriteLine(_connections.Count);
+            Connections.Add(Context.ConnectionId);
             UpdateAccess();
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            _connections.Remove(Context.ConnectionId);
-            Console.WriteLine(_connections.Count);
+            Connections.Remove(Context.ConnectionId);
             UpdateAccess();
         }
 
         public async Task AddToAdmin()
         {
             await Groups.AddToGroupAsync(Context.ConnectionId,Admin);
-            _connections.Remove(Context.ConnectionId);
+            Connections.Remove(Context.ConnectionId);
             UpdateAccess();
         }
 
         private void UpdateAccess()
         {
-            Clients.Group(Admin).SendAsync("updateAccess", _connections.Count);
+            Clients.Group(Admin).SendAsync("updateAccess", Connections.Count);
         }
     }
 }

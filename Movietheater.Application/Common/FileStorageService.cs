@@ -34,7 +34,7 @@ namespace MovieTheater.Application.Common
             var filePath = Path.Combine(_userContentFolder, fileName);
             if (File.Exists(filePath))
             {
-                await Task.Run(() => File.Delete(filePath));
+                File.Delete(filePath);
             }
         }
     }

@@ -19,6 +19,8 @@ namespace MovieTheater.WebApp.Controllers
         public async Task<IActionResult> Detail(string id)
         {
             var result = (await _filmApiClient.GetFilmVMDByIdAsync(id)).ResultObj;
+            if(result == null)
+                return NotFound();
             return View(result);
         }
 

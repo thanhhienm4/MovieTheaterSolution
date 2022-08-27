@@ -24,6 +24,10 @@ namespace MovieTheater.Admin.Controllers
         public async Task<IActionResult> ChooseSeat(int id)
         {
             var result = (await _screeningApiClient.GetScreeningMDByIdAsync(id));
+            if (result.ResultObj.StartTime.AddMinutes(GgTheaterConstant.MinuteLate) < DateTime.Now)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             if (result.IsReLogin == true)
                 return RedirectToAction("Index", "Login");
 

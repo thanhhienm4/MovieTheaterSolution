@@ -13,14 +13,12 @@ namespace MovieTheater.WebApp.Controllers
     public class RoomController : Controller
     {
         private readonly SeatApiClient _seatApiClient;
-        private readonly SeatRowApiClient _seatRowApiClient;
         private readonly AuditoriumApiClient _roomApiClient;
 
-        public RoomController(SeatApiClient seatApiClient, SeatRowApiClient seatRowApiClient,
+        public RoomController(SeatApiClient seatApiClient,
             AuditoriumApiClient roomApiClient)
         {
             _seatApiClient = seatApiClient;
-            _seatRowApiClient = seatRowApiClient;
             _roomApiClient = roomApiClient;
         }
 
@@ -29,36 +27,6 @@ namespace MovieTheater.WebApp.Controllers
         {
             var seats = (await _seatApiClient.GetSeatInRoomAsync(roomId)).ResultObj;
             return seats;
-        }
-
-        [HttpGet]
-        public IActionResult UpdateSeatInRoom(int roomId)
-        {
-            ViewBag.AuditoriumId = roomId;
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<ApiResult<bool>> UpdateSeatInRoom(SeatsInRoomUpdateRequest request)
-        {
-            var result = await _seatApiClient.UpdateSeatInRoomAsync(request);
-            if (result.IsSuccessed == true)
-            {
-                TempData["Result"] = result.Message;
-            }
-
-            return result;
-        }
-
-        private async Task SetViewBagAsync()
-        {
-            var roomFormats = (await _roomApiClient.GetAllRoomFormatAsync()).ResultObj;
-
-            ViewBag.RoomFormats = roomFormats.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            });
         }
 
         public async Task<ApiResult<RoomCoordinate>> GetCoordinate(string id)

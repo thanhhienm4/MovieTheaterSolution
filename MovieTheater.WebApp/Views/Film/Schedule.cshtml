@@ -1,5 +1,6 @@
 ﻿@using MovieTheater.Models.Catalog.Film;
 @using System.Globalization
+@using MovieTheater.Common.Constants
 @model List<MovieScreeningVMD>;
 @{
     ViewData["Title"] = "Index";
@@ -80,7 +81,7 @@
                                     {
                                         foreach (var screening in filmScreening.ListScreening)
                                         {
-                                            if (screening.StartTime.AddMinutes(30) > DateTime.Now)
+                                            if (screening.StartTime.AddMinutes(GgTheaterConstant.MinuteLate) > DateTime.Now)
                                             {
                                                 <a class="btn time mr-2" href="/ticket/chooseseat/@screening.Id">@screening.StartTime.ToString("HH:mm")</a>
                                             }
