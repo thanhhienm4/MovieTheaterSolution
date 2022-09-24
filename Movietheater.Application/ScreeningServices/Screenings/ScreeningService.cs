@@ -109,6 +109,7 @@ namespace MovieTheater.Application.ScreeningServices.Screenings
 
             if (request.Date != null)
                 query = query.Where(x => x.s.StartTime.Date == request.Date);
+            query = query.Where(x => x.s.Active == true);
 
             PageResult<ScreeningVMD> result = new PageResult<ScreeningVMD>();
             result.TotalRecord = await query.CountAsync();

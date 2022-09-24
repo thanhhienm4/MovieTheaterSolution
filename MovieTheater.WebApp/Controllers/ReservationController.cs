@@ -91,8 +91,8 @@ namespace MovieTheater.WebApp.Controllers
                         TransactionId = vnp_BankTranNo
                     });
                 }
-                else
-                    return Redirect($"/Reservation/Detail/{rvId}");
+                
+                return Redirect($"/Reservation/Detail/{rvId}");
             }
             else
             {

@@ -40,8 +40,8 @@ namespace MovieTheater.Application.UserServices
         {
             List<Claim> claims;
 
-            var staff = await _context.Staffs.Where(x => x.UserName == request.Email).FirstOrDefaultAsync() ??
-                        await _context.Staffs.Where(x => x.Mail == request.Email).FirstOrDefaultAsync();
+            var staff = await _context.Staffs.Where(x => x.UserName == request.Email && x.Active == true).FirstOrDefaultAsync() ??
+                        await _context.Staffs.Where(x => x.Mail == request.Email && x.Active == true).FirstOrDefaultAsync();
 
             if (staff == null)
                 return new ApiErrorResult<string>("Email không tồn tại trên hệ thống");

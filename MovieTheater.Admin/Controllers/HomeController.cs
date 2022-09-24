@@ -10,13 +10,6 @@ namespace MovieTheater.Admin.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly StatisticApiClient _statisticApiClient;
-
-        public HomeController(StatisticApiClient statisticApiClient)
-        {
-            _statisticApiClient = statisticApiClient;
-        }
-
         public async Task<IActionResult> Index()
         {
             if (!User.Claims.Any(x => x.Type == ClaimTypes.Role && x.Value == "Admin"))

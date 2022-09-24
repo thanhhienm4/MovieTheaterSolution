@@ -5,7 +5,6 @@ using MovieTheater.Api;
 using MovieTheater.Models.Catalog.Film;
 using MovieTheater.Models.Common;
 using MovieTheater.Models.Common.ApiResult;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -203,7 +202,7 @@ namespace MovieTheater.Admin.Controllers
             {
                 genreAssignRequest.Genres.Add(new SelectedItem()
                 {
-                    Id = genre.Id.ToString(),
+                    Id = genre.Id,
                     Name = genre.Name,
                     Selected = filmObject.ResultObj.Exists(x => x.Id == genre.Id)
                 });

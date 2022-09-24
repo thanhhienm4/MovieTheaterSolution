@@ -177,10 +177,7 @@
         $.ajax({
             type: "POST",
             url: "/Ticket/Create",
-            data: data,
-            error: function(msg) {
-                alert(msg);
-            }
+            data: data
         });
     }
 
@@ -188,10 +185,7 @@
         $.ajax({
             type: "POST",
             url: "/Ticket/Delete",
-            data: data,
-            error: function(msg) {
-                alert(msg);
-            }
+            data: data
         });
     }
 
@@ -336,16 +330,19 @@
                                             checkExist();
                                             callPrePrice();
                                             $('#place button.' + settings.seatCss).click(function() {
-                                                $(this).toggleClass(settings.selectingSeatCss);
 
                                                 //insert new ticket
                                                 var data = { ReservationId: @Model.Id, SeatId: $(this).attr('data-id'), ScreeningId: @Model.ScreeningId };
-                                                if ($(this).hasClass(settings.selectingSeatCss)) {
+                                                if (!$(this).hasClass(settings.selectingSeatCss)) {
                                                     addTicket(data);
                                                     connection.invoke('disableSeat', @Model.ScreeningId, parseInt(data.SeatId));
+                                                    $(this).toggleClass(settings.selectingSeatCss);
+
                                                 } else {
                                                     deleteTicket(data);
                                                     connection.invoke('enableSeat', @Model.ScreeningId, parseInt(data.SeatId));
+                                                    $(this).toggleClass(settings.selectingSeatCss);
+
                                                 }
                                                 checkExist();
                                                 callPrePrice();
